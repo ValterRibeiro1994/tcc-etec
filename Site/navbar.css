@@ -1,0 +1,36 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar{
+    display:flex; 
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:#ffe7c2;
+}
+
+.logo{
+    font-size: 2rem;
+    font-weight: 700;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 2px;
+    color: #000000;
+    
+}
+
+.menu{
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.menu a{
+    color: #000000;
+    text-decoration: none; 
+}
