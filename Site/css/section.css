@@ -1,0 +1,88 @@
+body{
+     background-color: #FAF6F0;
+}
+
+.btnCon{
+    padding: 5px 30px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+
+}
+
+.quem-somos{
+    font-family: "Space Grotesk", sans-serif;;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.quem-somos > div:first-child{
+    max-width: 550px;
+    width: 100%;
+}
+
+.prato{
+    max-width: 350px;
+    width: 100%;
+
+}
+
+.prato img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+}
+
+.planos{
+    width: 100%;
+    background-color: #FAF6F0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 50px 0;
+}
+
+.lista {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    list-style: none;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+}
+
+.lista li{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;     
+    text-align: center;
+}
+
+.lista li strong{
+    font-size: 2.5rem;      
+    font-weight: 700;
+    color: #2A583C;        
+    font-family: sans-serif; 
+    line-height: 1;
+    margin-bottom: 8px;  
+}
+
+.lista li small{
+    font-size: 11px;
+    font-weight: 400;
+    color: #555;             
+    letter-spacing: 1px;     
+    text-transform: uppercase;
+}
