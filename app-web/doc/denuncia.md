@@ -6,5 +6,8 @@
 - Terreno com mato alto e muito lixo
 - Sinalização e iluminação
 - Revitalização de espaços públicos
-
+- acessibilidade
+- segurança urbana
+- agua e saneamento
+ 
 
