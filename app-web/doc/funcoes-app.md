@@ -20,3 +20,32 @@
 [ ] O sistema deve informar quais são os órgãos responsaveis para suas denuncias.
     - O sistema deve manter esses dados.
     - O sistema deve indentificar o órgão pelo problema relatado
+    
+[ ] O usuário poderá deixar uma avaliação após resolução
+    - Exibir notas com estrelas
+    - permitir o envio de um feedback
+
+    
+# Lado Adm.
+
+[ ] Exibir estatísticas de desempenho
+    - Taxa de resolução
+    - Categorias mais frequentes
+    - Categorias mais frequentes
+    - Regiões com maior número de ocorrências
+
+[ ] Gestão do site
+    - Gerenciar Usuários(cadastrar/desativar/excluir)
+    - Gerenciar Cidades e bairros(cadastrar/editar/excluir)
+    - Gerenciar Denuncias(responder/editar/excluir)
+
+[ ] Comunicação 
+    - Receber e responder denuncias e feedbacks dos usuários
+    - Enviar e receber mensagens/e-mails dos órgãos públicos
+
+
+
+    
+
+    
+
