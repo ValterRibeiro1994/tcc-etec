@@ -1,1 +1,0 @@
-Seja bem vindo jovem, apague esse arquivo na sua casa
