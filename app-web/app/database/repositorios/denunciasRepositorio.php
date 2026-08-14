@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * CRUD para o controle de denuncias armazenadas no banco de dados
+ */
 class DenunciasRespositorio {
     private array $denunciasVetor;
     private PDO $conexão;
@@ -10,7 +12,7 @@ class DenunciasRespositorio {
         $this->conexão = $conexao;
     }
 
-    /*
+    /**
      * Método: salvarDenuncia.
      * Parâmetro: denunciaModel.
      * Retorno: Booleano (True em caso de sucesso, False em caso de falha).
@@ -20,7 +22,7 @@ class DenunciasRespositorio {
         return true;
     }
 
-    /*
+    /**
      * Método: buscarDenuncia.
      * Parâmetro: ID/CEP/denunciaModel.
      * Retorno: denunciaModel.
@@ -30,7 +32,7 @@ class DenunciasRespositorio {
 
     }
 
-    /*
+    /**
      * Método: editarDenuncia.
      * Parâmetro: denunciaModel.
      * Retorno: Booleano (True em caso de sucesso, False em caso de falha).
@@ -40,7 +42,7 @@ class DenunciasRespositorio {
         return true;
     }
 
-    /*
+    /**
      * Método: removerDenuncia.
      * Parâmetro: ID/denunciaModel.
      * Retorno: Booleano (True em caso de sucesso, False em caso de falha).
@@ -50,8 +52,4 @@ class DenunciasRespositorio {
         return true;
     }
 
-
 }
-
-
-
