@@ -1,1 +1,2 @@
-a
+Nesta pasta crie os arquivos CSS para estilização das paginas
+Lembre separe os arquivos CSS das cores, transições e tamanhos. 

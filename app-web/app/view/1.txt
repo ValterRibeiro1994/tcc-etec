@@ -1,1 +1,1 @@
-a
+no contexto geral, a ideia inicial é criar classes PHP para gerenciar as paginas e os templates.

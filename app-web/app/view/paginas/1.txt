@@ -1,1 +1,1 @@
-a
+As páginas HTML devem ser esboçadas nesta pasta.

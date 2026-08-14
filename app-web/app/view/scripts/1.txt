@@ -1,1 +1,1 @@
-a
+Scripts JavaScripts mantenham eles nessa pasta, se realizarem fetchs separe as pastas e os arquivos mantendo uma pasta para cada trabalho e um arquivo para cada função.
