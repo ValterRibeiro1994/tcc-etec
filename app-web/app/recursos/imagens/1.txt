@@ -1,0 +1,1 @@
+Nesta pasta adicione as imagens, e recursos externos (bootstrap ou outros frameworks se houver), crie pasta imagens, e para cada framework uma pasta diferente com o nome descritivo.
