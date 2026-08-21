@@ -1,0 +1,41 @@
+header{
+    width: 100%;
+
+}
+
+.navbar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a321b;
+    padding: 10px 30px;
+
+}
+.logo-relatesbc {
+    height: auto;
+    width: 240px;
+    margin-left: 200px;
+    margin-right: -400px;
+}
+
+/*Tabela onde ficam localizadas as paginas da navbar*/
+.tabela-de-links {
+    display: flex;
+    list-style: none;
+    gap: 45px;
+}
+/*Paginas da navbar*/
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 22px;
+    
+    
+}
+.nav-link-efeito{
+    color: white;
+    border-bottom: 3px solid #f4f4f4;
+    font-size: 22px;
+}
