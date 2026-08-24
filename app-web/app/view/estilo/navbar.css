@@ -10,6 +10,7 @@ header{
     justify-content: space-between;
     background-color: #1a321b;
     padding: 10px 30px;
+    box-sizing: border-box;
 
 }
 .logo-relatesbc {
