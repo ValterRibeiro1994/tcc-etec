@@ -1,0 +1,19 @@
+.cards-tela-inicial{
+    width: 300px;
+    height: 100px;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid;
+    border-color: rgb(0, 0, 0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.60); 
+
+}
+
+
+.conteiner-cards {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 60px !important;
+    justify-content: center;
+}
+    
