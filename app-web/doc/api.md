@@ -11,7 +11,7 @@
 /cadastrar/municipe
 /cadastrar/prefeitura
 /cadastrar/denuncia
-/denuncia/id/responder
+/denuncia/id/resposta
 
 # Metodos PUT
 /editar/municipe

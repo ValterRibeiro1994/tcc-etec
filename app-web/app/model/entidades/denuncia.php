@@ -1,7 +1,7 @@
 <?php
 
 class Denuncia {
-    private Municipe $municipe;
+    private Denunciante $denunciante;
     private Endereco $local_denuncia;
     private string $descricao;
     private string $titulo_problema;
