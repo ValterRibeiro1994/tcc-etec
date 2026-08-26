@@ -4,7 +4,20 @@ class Roteador {
     private array $requisicao_cliente;
     private array $resposta_servidor;
 
-    // private function 
+    public function __construct($requisicao)
+    {
+        if (!$this->validarRequisicao($requisicao)){
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        $this->chamarController($requisicao);
+
+    }
+    private function chamarController(array $requisicao){
+        // quebrar o URI em partes
+        $partes_uri = explode("/", $requisicao['uri']);
+        var_dump($partes_uri);
+    }
 
     private function validarRequisicao(array $requisicao){
         // contar o numero de chaves recebidas 
