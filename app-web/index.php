@@ -1,7 +1,10 @@
 <?php
+echo("<br>Iniciando index.php<br>");
 include_once("app/config.php");
 include_once("app/autoload.php");
 include_once("app/roteador.php");
+echo("<br> dependencias instaladas<br>");
+
 new AutoLoadFiles();
 
 // capturar a requisição recebida do cliente
@@ -28,14 +31,11 @@ $requisicao = [
     "metodo" => $tipo,
     "dados" =>$dados,
     ];  
-    
+
 // encaminhar a requisição recebida para o controller correspondente
 // -- criar um roteador para encaminhar as requisições
-    
-    
-var_dump($requisicao);
-$roteador = new Roteador($requisicao);
 
+$roteador = new Roteador($requisicao);
 // esperar a resposta do controller
 // enviar resposta para o cliente
 
