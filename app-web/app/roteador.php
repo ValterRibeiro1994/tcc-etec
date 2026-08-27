@@ -6,6 +6,7 @@ class Roteador {
 
     public function __construct($requisicao)
     {
+        echo("<br>Iniciando Roteador");
         if (!$this->validarRequisicao($requisicao)){
             throw new Exception("Error Processing Request", 1);
         }
@@ -14,9 +15,8 @@ class Roteador {
 
     }
     private function chamarController(array $requisicao){
-        // quebrar o URI em partes
-        $partes_uri = explode("/", $requisicao['uri']);
-        var_dump($partes_uri);
+        echo("<br> Exibindo requisição recebida: ");
+        
     }
 
     private function validarRequisicao(array $requisicao){

@@ -8,6 +8,7 @@ class AutoLoadFiles {
         ];
 
     public function __construct(){
+        echo("<br>Iniciando autoload");
         $n = count($this->pastas_acessiveis);
         for ($i=0; $i < $n; $i++) { 
             $pasta_de_arquivos = $GLOBALS['caminho_pasta_projeto'] . $this->pastas_acessiveis[$i];
