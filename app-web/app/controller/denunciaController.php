@@ -1,12 +1,13 @@
 <?php 
 
 class DenunciaController {
-    private DenunciasRespositorio $repositorio;
+    private string $repositorio;
     // private DenunciasTemplate $view;
     private Denuncia $model;
-
-
     
+    public function index(array $dados){
+        return ['resposta'=>true, 'mensagem'=>'controller iniciado com sucesso'];
+    }
 }
 
 

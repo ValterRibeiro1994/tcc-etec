@@ -35,7 +35,8 @@ $requisicao = [
 // encaminhar a requisição recebida para o controller correspondente
 // -- criar um roteador para encaminhar as requisições
 
-$roteador = new Roteador($requisicao);
-// esperar a resposta do controller
+// obter resposta do servidor
+$roteador = new Roteador();
+$resposta = $roteador->chamarController($requisicao);
 // enviar resposta para o cliente
 

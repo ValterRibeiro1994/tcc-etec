@@ -1,5 +1,8 @@
 RewriteEngine On
-RewriteBase /app-web
+
+// Remover essa linha quando subir para o infinity
+RewriteBase /app-web 
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

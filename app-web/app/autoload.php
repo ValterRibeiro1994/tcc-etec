@@ -1,29 +1,31 @@
-<?php 
+<?php
 
-class AutoLoadFiles {
+class AutoLoadFiles
+{
     private array $pastas_acessiveis = [
-        "controller/", 
-        "database/", "database/repositorios/", 
-        "model/", "model/entidades/", "model/objects-values/",       
-        ];
+        "controller/",
+        "database/",
+        "database/repositorios/",
+        "model/",
+        "model/entidades/",
+        "model/objects-values/",
+    ];
 
-    public function __construct(){
-        echo("<br>Iniciando autoload");
-        $n = count($this->pastas_acessiveis);
-        for ($i=0; $i < $n; $i++) { 
-            $pasta_de_arquivos = $GLOBALS['caminho_pasta_projeto'] . $this->pastas_acessiveis[$i];
-            $arquivos = scandir($pasta_de_arquivos);
-            foreach ($arquivos as $arquivo){
-                if (str_contains($arquivo, ".php")){
-                    $caminho_do_arquivo = $pasta_de_arquivos . $arquivo;
-                    if (file_exists($caminho_do_arquivo)){
-                        require_once($caminho_do_arquivo);
-                    } 
-                }
-            }
-        }
-
+    public function __construct()
+    {
+        spl_autoload_register([$this, 'carregarClasse']);
     }
 
-     
+    private function carregarClasse(string $classe): void
+    {
+        foreach ($this->pastas_acessiveis as $pasta) {
+
+            $arquivo = __DIR__ . "/" . $pasta . lcfirst($classe) . ".php";
+
+            if (is_file($arquivo)) {
+                require_once $arquivo;
+                return;
+            }
+        }
+    }
 }
