@@ -1,13 +1,14 @@
 <?php
-echo("<br>Iniciando index.php<br>");
+header('Content-Type: application/json; charset=utf-8');
 include_once("app/config.php");
 include_once("app/autoload.php");
 include_once("app/roteador.php");
-echo("<br> dependencias instaladas<br>");
 
 new AutoLoadFiles();
 
 // capturar a requisição recebida do cliente
+$dados = [];
+
 // verificar o recurso solicitado atraves do URI
 $uri = $_SERVER['REQUEST_URI'];
 
@@ -33,10 +34,13 @@ $requisicao = [
     ];  
 
 // encaminhar a requisição recebida para o controller correspondente
-// -- criar um roteador para encaminhar as requisições
+$roteador = new Roteador($requisicao);
 
-// obter resposta do servidor
-$roteador = new Roteador();
-$resposta = $roteador->chamarController($requisicao);
+// esperar a resposta do controller
+$resposta = $roteador->getResposta();
+
 // enviar resposta para o cliente
-
+echo json_encode(
+    $resposta,
+    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+);

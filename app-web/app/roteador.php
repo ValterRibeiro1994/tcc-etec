@@ -3,7 +3,16 @@
 class Roteador {
     private array $resposta_servidor;
 
-    public function chamarController(array $requisicao){
+    public function __construct(array $requisicao)
+    {
+        $this->resposta_servidor = $this->chamarController($requisicao);
+    }
+
+    public function getResposta(){
+        return $this->resposta_servidor;
+    }
+
+    private function chamarController(array $requisicao){
         // valida as chaves da requisição
         $validar_requisicao = $this->validarRequisicao($requisicao);
         if (!$validar_requisicao['resposta']){
@@ -33,6 +42,7 @@ class Roteador {
                 }
             }
         }
+        
         // chama o controller para obter o serviço solicitado
         $classe = ucfirst($classe);
         $classe .= "Controller";
@@ -43,7 +53,7 @@ class Roteador {
         // instancia o controller solicitado
         $controller = new $classe();
         if (!method_exists($controller, $metodo)){    
-            return ['resposta'=>false, 'mensagem'=>"Classe '$classe' não indentificada"];
+            return ['resposta'=>false, 'mensagem'=>"Metodo '$metodo' não indentificado"];
         }
 
         // chama o método solicitado
@@ -65,16 +75,20 @@ class Roteador {
 
         // compare as chaves registradas com as chaves recebidas
         foreach ($chaves_permitidas as $chave ) {
+            // verifica se existe as chaves determinadas no sistema
             if (!array_key_exists($chave, $requisicao)){
                 return ['resposta'=>false, 'mensagem'=> "Erro: Chave '$chave' não existe"];
             }
 
+            //captura a chave recebida do cliente
             $chave_cliente = $requisicao[$chave];
+            
             // dados é a unica variavel que pode vir vazia
-            if ($chave == "dados" || $chave_cliente == "dados"){
+            if ($chave == "dados"){
                 continue;
             }
 
+            // verifica se a chave não esta vazia
             if (empty($chave_cliente)){
                 return ['resposta'=>false, 'mensagem'=>"Erro: Chave '$chave' Vazia"];
             }

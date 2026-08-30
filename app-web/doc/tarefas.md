@@ -1,4 +1,4 @@
-# Tarefas iniciais
+# Tarefas iniciais backend
 - [ ] instalar recursos e dependencias externas
     - [X] bootstrap 5.3.8
 
@@ -16,5 +16,12 @@
     - [ ] criar a camada de visualização (estilos, paginas e script js)
 
 - [ ] Criar modelagem do banco de dados
+    - [ ] Relacionar e modelar os dados do sistema
+    - [ ] Criar banco de dados
 
 - [ ] Criar paginas de visualização (municipe/prefeitura/adm)
+
+- [ ] Criar API REST
+    - [ ] Criar mapa de API
+    - [ ] Criar roteador para requisições
+    - [ ] Criar classe para protocolo http
