@@ -27,7 +27,7 @@ class Roteador {
             
             // captura os dados da requisição
             $dados = $requisicao['dados'];
-            $url = $dados['url'];
+            $url = $dados['url'] ?? "";
             
             // define o controller e o método a ser chamado
             if (!empty($url)){
@@ -38,7 +38,10 @@ class Roteador {
                 // verifica se o metodo foi enviado
                 array_shift($partes_url); // remove o primeiro elemento do array
                 if (count($partes_url) > 0){
-                    $metodo = $partes_url[0];
+                    // verifica se foi passado classe e parametros sem o método
+                    if (!str_contains("?", $partes_url[0])){
+                        $metodo = $partes_url[0];
+                    } 
                 }
             }
         }

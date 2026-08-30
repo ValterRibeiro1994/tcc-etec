@@ -42,5 +42,5 @@ $resposta = $roteador->getResposta();
 // enviar resposta para o cliente
 echo json_encode(
     $resposta,
-    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
 );
