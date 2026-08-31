@@ -117,8 +117,11 @@ body {
 .input_field {
     display: flex;
     align-items: center;
+    position: relative;
 
     width: 100%;
+    min-width: 0;
+
     background-color: #ffffff;
 
     border-radius: 8px;
@@ -134,6 +137,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    
 
     width: 40px;
     color: #404044;
@@ -142,7 +150,10 @@ body {
 /* INPUT */
 .form_control {
     width: 100%;
+    min-width: 0;
+
     padding: 11px;
+    padding-right: 50px;
 
     border: none;
     outline: none;
@@ -208,15 +219,18 @@ input:-webkit-autofill {
 }
 
 /* RESPONSIVIDADE */
-@media (max-width: 600px) {
+@media screen and (max-width: 500px) {
 
     #form_container {
-        max-width: 100%;
-        padding: 20px;
+        width: 100%;
+        min-height: 100vh;
+        padding: 32px;
     }
 
     #input_container {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 38px;
     }
 
     #form_title {

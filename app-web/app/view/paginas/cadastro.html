@@ -1,121 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
+
     <link rel="stylesheet" href="../estilo/geral.css">
     <link rel="stylesheet" href="../estilo/cadastro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
 </head>
+
 <body>
 
     <main id="form_container">
 
-    
         <div class="form_header">
-        
+
             <H1 id="form_title">Cadastre-se</H1>
 
-        
-
-            <button class="btn_cad" onclick="login()"><i class="fa-solid fa-right-to-bracket"></i></button>
+            <button class="btn_cad" onclick="login()">
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
 
         </div>
 
-        <form action="" id="form"><div id="input_container">
-            <div id="input_box">
-                <label for="name" class="form_label">
-                    Primeiro nome
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="text"
-                    name="name"
-                    id="name"
-                    class="form_control"
-                    placeholder="Fulano">
-                    <i class="fa-solid fa-user"></i>
+        <form action="" id="formCadastro">
+
+            <div id="input_container">
+
+                <div id="input_box">
+                    <label for="name" class="form_label">
+                        Primeiro nome
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            class="form_control"
+                            placeholder="Nome"
+                            required>
+
+                        <i class="fa-solid fa-user"></i>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="input_box">
-                <label for="last_name" class="form_label">
-                    Ultimo nome
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="text"
-                    name="last_name"
-                    id="last_name"
-                    class="form_control"
-                    placeholder="de tal">
-                    <i class="fa-solid fa-user"></i>
+
+                <div id="input_box">
+                    <label for="last_name" class="form_label">
+                        Ultimo nome
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="text"
+                            name="last_name"
+                            id="last_name"
+                            class="form_control"
+                            placeholder="Sobrenome"
+                            required>
+
+                        <i class="fa-solid fa-user"></i>
+                    </div>
                 </div>
+
+                <div id="input_box">
+                    <label for="birthdate" class="form_label">
+                        Nascimento
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="date"
+                            name="birthdate"
+                            id="birthdate"
+                            class="form_control">
+                    </div>
+                </div>
+
+                <div id="input_box">
+                    <label for="email" class="form_label">
+                        E-mail
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            class="form_control"
+                            placeholder="exemplo@gmail.com"
+                            required>
+
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div id="input_box">
+                    <label for="password" class="form_label">
+                        Senha
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            class="form_control"
+                            placeholder="*******"
+                            minlength="8"
+                            required>
+
+                        <i class="fa-solid fa-eye-slash password-icon"></i>
+                    </div>
+                </div>
+
+                <div id="input_box">
+                    <label for="confirm-password" class="form_label">
+                        Confirmar Senha
+                    </label>
+
+                    <div class="input_field">
+                        <input
+                            type="password"
+                            name="confirm-password"
+                            id="confirm-password"
+                            class="form_control"
+                            placeholder="*******"
+                            minlength="8"
+                            required>
+
+                        <i class="fa-solid fa-eye-slash password-icon"></i>
+                    </div>
+                </div>
+
             </div>
 
-            <div id="input_box">
-                <label for="birthdate" class="form_label">
-                    Nascimento
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="date"
-                    name="birthdate"
-                    id="birthdate"
-                    class="form_control">
-                </div>
-            </div>
-
-            <div id="input_box">
-                <label for="email" class="form_label">
-                    E-mail
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="form_control"
-                    placeholder="exemplo@gmail.com">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-            </div>
-
-            <div id="input_box">
-                <label for="password" class="form_label">
-                    Senha
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="password"
-                    name="password"
-                    id="password"
-                    class="form_control"
-                    placeholder="*******">
-                    <i class="fa-solid fa-eye-slash password-icon"></i>
-                </div>
-            </div>
-
-            <div id="input_box">
-                <label for="confirm-password" class="form_label">
-                    Confirmar Senha
-                </label>
-                <div class="input_field">
-                    <input 
-                    type="password"
-                    name="confirm-password"
-                    id="confirm-password"
-                    class="form_control"
-                    placeholder="*******">
-                    <i class="fa-solid fa-eye-slash password-icon"></i>
-                </div>
-            </div>
-            </div>
             <br>
 
-            <button type="submit" class="btn_default"><i class="fa-solid fa-check"></i>Criar conta</button>
+            <button type="submit" class="btn_default">
+                <i class="fa-solid fa-check"></i>
+                Criar conta
+            </button>
+
         </form>
+
     </main>
+
+    <script src="../scripts/cadastro.js"></script>
+
 </body>
 </html>
