@@ -1,78 +1,27 @@
 
-.secao-conteiner {
-  background-color:#577559;
-  padding: 20px 2px;     
-  display: flex;
-  flex-direction: column;       
-}
-    
-.conteiner-cards {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 60px !important;
-    justify-content: center;
-}
-
-.cards-tela-inicial{
-    width: 300px;
-    height: 100px;
-    background-color: white;
-    border-radius: 12px;
-    border: 1px solid rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.60); 
-    
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 15px;
-    align-items: center;            
-    padding-right: 15px;      
-         
-}
-
-.secao-conteiner h2{
-    color: white;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    margin-top: 2px;
-}
-
-.icone-card{
-    width: 50px;
-    height: 50px;
-    background-color: #18db18;
-    margin-left: 20px;
-    border-radius: 8px;
-    grid-row: span 2; 
-}
-.conteudo-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 12px;
-
-}
-
-.titulo-card{
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+/*TAGS DE CADA PAGINA*/
+.tag-zeladoria {
+    position: absolute;
+    top: 50px;
+    left: 110px;
     font-size: 16px;
-    margin: 0;
-}
-.descricao-card{
-    text-align: left;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color: #555555;
-    margin: 0;
     line-height: 1.2;
+    background-color: rgba(36, 129, 44, 0.5); ;
+    border-radius: 11px;
+    padding: 3px 6px ;
+    font-weight: bold;
 }
-.icone-card i{
-    font-size: 30px;
-    color: white;
-    
+
+.tag-sobre {
+    position: absolute;
+    top: 800px;
+    left: 110px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.2;
+    background-color: rgba(36, 129, 44, 0.5); ;
+    border-radius: 11px;
+    padding: 3px 6px ;
+    font-weight: bold;
 }
