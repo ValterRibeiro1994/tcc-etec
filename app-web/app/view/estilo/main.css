@@ -18,14 +18,17 @@
     height: 100px;
     background-color: white;
     border-radius: 12px;
-    border: 1px solid;
+    border: 1px solid rgb(0, 0, 0);
     border-color: rgb(0, 0, 0);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.60); 
     
     display: grid;
     grid-template-columns: 80px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 15px;
     align-items: center;            
-    padding-right: 15px;           
+    padding-right: 15px;      
+         
 }
 
 .secao-conteiner h2{
@@ -44,6 +47,14 @@
     border-radius: 8px;
     grid-row: span 2; 
 }
+.conteudo-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+
+}
 
 .titulo-card{
     text-align: left;
@@ -51,12 +62,17 @@
     font-weight: bold;
     font-size: 16px;
     margin: 0;
-    margin-bottom: 4px; 
 }
 .descricao-card{
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     color: #555555;
     margin: 0;
+    line-height: 1.2;
+}
+.icone-card i{
+    font-size: 30px;
+    color: white;
+    
 }
