@@ -6,7 +6,7 @@ class DenunciaController {
     private Denuncia $model;
     
     public function index(array $dados){
-        return ['resposta'=>true, 'mensagem'=>'controller iniciado com sucesso', "dados"=>$dados];
+        return RespostaProcesso::respostaProcesso("Controller Denuncia iniciado com sucesso", true, $dados);
     }
 }
 
