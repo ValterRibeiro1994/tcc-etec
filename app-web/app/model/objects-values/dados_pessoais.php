@@ -1,16 +1,17 @@
 <?php
 
 class DadosPessoais {
-    private string $nome;
-    private string $sobrenome;
-    private string $email;
-    private string $cpf;
+    private Nome $nome;
+    private Sobrenome $sobrenome;
+    private Email $email;
+    private Cpf $cpf;
 
-    public function __construct(string $nome, string $sobrenome, string $email, string $cpf){
-        $cpf = new Cpf($cpf); // valida e limpa o cpf
-        $email; // criar classe para validação de email
-        // definir regras para o nome no banco
-        // definir regras para sobrenome
-        
+    public function __construct(Nome $nome, Sobrenome $sobrenome, Email $email, Cpf $cpf){
+        $this->nome = $nome;
+        $this->sobrenome = $sobrenome;
+        $this->email = $email;
+        $this->cpf = $cpf;
     }
+
+    
 }
