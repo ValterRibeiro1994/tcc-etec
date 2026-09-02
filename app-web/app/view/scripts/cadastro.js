@@ -4,6 +4,11 @@ const senha = document.getElementById("password");
 const confirmarsenha = document.getElementById("confirm-password");
 
 form.addEventListener("submit", function(event){
+    /** Fazer fetch para o servidor para receber o json
+     * tcc-etec.likesyou.org/usuario/criar/?nome=""&sobrenome=""&email=""=&senha=""&confirmar_senha="";
+     * 
+     */
+    
     if (senha.value !== confirmarsenha.value) {
         event.preventDefault();
         

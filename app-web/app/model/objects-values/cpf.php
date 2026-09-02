@@ -10,17 +10,17 @@ class Cpf {
         }
 
         $caracteres_repetidos = $this->validarCaracteresRepetidos($cpf);
-        if (!$caracteres_repetidos['status']){
+        if (!$caracteres_repetidos['resposta']){
             throw new Exception($caracteres_repetidos['mensagem']);
         }
 
         $primeiro_digito = $this->validarPrimeiroDigito($cpf);
-        if (!$primeiro_digito['status']){
+        if (!$primeiro_digito['resposta']){
             throw new Exception($primeiro_digito['mensagem']);
         }
 
         $segundo_digito = $this->validarSegundoDigito($cpf);
-        if (!$segundo_digito['status']){
+        if (!$segundo_digito['resposta']){
             throw new Exception($segundo_digito['mensagem']);
         }
 
