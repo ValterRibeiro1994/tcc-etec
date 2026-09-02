@@ -62,9 +62,8 @@ class Roteador {
         // chama o método solicitado
         return $controller->$metodo($dados);
         }
-
-
-    private function validarRequisicao(array $requisicao){
+    
+        private function validarRequisicao(array $requisicao){
         // contar o numero de chaves recebidas 
         $chaves_requisicao = count($requisicao);
 
