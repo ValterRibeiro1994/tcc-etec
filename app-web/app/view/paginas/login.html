@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../estilo/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    
+</head>
+<body>
+<main id="form_container">
+
+        <header class="login-header">
+            <h1>Login</h1>
+        </header>
+    
+       <form id="login-form" action="">
+            <div class="fields-group">
+                <label class="form-field">
+                    <span>E-mail</span>
+                    <input type="email" name="email" placeholder="exemplo@gmail.com" required>
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                </label>
+
+                <label class="form-field">
+                    <span>Senha</span>
+                    <input type="password" name="password" placeholder="******" minlength="8" required>
+                    <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                </label>
+            </div>  
+
+            <button type="submit" class="submit-btn">Entrar</button>
+        </form>
+
+        <script src="../scripts/login.js"></script>
+</main>
+</body>
+</html>

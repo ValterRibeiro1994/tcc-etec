@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 include_once("app/config.php");
 include_once("app/autoload.php");
 include_once("app/roteador.php");
@@ -39,8 +38,8 @@ $roteador = new Roteador($requisicao);
 // esperar a resposta do controller
 $resposta = $roteador->getResposta();
 
-// enviar resposta para o cliente
-echo json_encode(
-    $resposta['dados'],
-    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-);
+if ($resposta['dados']['formato'] == "html"){
+    include_once($resposta['dados']['pagina']);
+} else {
+    echo json_encode($resposta['dados']);
+}
