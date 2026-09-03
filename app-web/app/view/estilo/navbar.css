@@ -10,22 +10,22 @@ header{
     align-items: center;
     justify-content: space-between;
     background-color: #1a321b;
-    padding: 10px 30px;
+    padding: 0.70% 2%;
     box-sizing: border-box;
 }
 
 .logo-relatesbc {
     height: auto;
-    width: 240px;
-    margin-left: 200px;
-    margin-right: -400px;
+    width: 17%;
+    margin-left: 13.5%;
+    margin-right: -27.5%;
 }
 
 /*Guarda links que levam a outras paginas*/
 .tabela-de-links {
     display: flex;
     list-style: none;
-    gap: 45px;
+    gap: 30%;
 }
 
 .nav-link {
@@ -45,15 +45,14 @@ header{
     border: none;
     align-items: center;
     justify-content: center;
-    width: 180px;
+    width: 13%;
     height: 45px;
     font-size: 23px;
     font-weight: 600;
-    margin-right: 250px;
+    margin-right: 18.5%;
     background-color: #24812c;
     color: rgba(255, 255, 255, 0.788);
     border-radius: 10px;
-    padding: 10 14px;
     box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background-color .3s ease;

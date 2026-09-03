@@ -1,0 +1,17 @@
+GRUPO6 -3E -DS MODULAR
+
+HOST ftp.tcc3edsmodetecgrupo6.tecnologia.ws
+USUARIO FTP tcc3edsmodetecgr6
+PORTA 21
+SENHA FTP Tcc3eetecgrupo6t1#123#
+
+ENDERECO URL
+tcc3edsmodetecgr6.hospedagemdesites.ws
+https://tcc3edsmodetecgr6.websiteseguro.com
+
+SERVIDOR BANCO
+
+tcc_bd6.mysql.dbaas.com.br  
+USUARIO O BANCO tcc_bd6    
+NOME DO  BANCO tcc_bd6 
+SENHA  ROSA123456a#
