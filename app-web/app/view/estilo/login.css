@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* RESET */
+
 * {
     margin: 0;
     padding: 0;
@@ -9,178 +10,186 @@
 }
 
 /* PÁGINA */
+
 body {
     min-height: 100vh;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     background-color: darkseagreen;
+
     padding: 20px;
 }
 
 /* CONTAINER DO FORMULÁRIO */
+
 #form_container {
     width: 100%;
-    max-width: 450px; /* Ajustado para um formato de login mais elegante */
+    max-width: 450px;
+
     display: flex;
     flex-direction: column;
+
     gap: 32px;
 
     background-color: #f6f8ff;
+
     padding: 30px;
+
     border-radius: 12px;
 
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* CABEÇALHO */
-.form_header {
+
+.login-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 /* TÍTULO */
-#form_title {
+
+.login-header h1 {
     font-size: 28px;
     font-weight: 600;
+
     color: #272727;
+
     position: relative;
+
     padding-bottom: 8px;
 }
 
-#form_title::after {
+/* LINHA ABAIXO DO TÍTULO */
+
+.login-header h1::after {
     content: '';
+
     position: absolute;
+
     width: 80px;
     height: 3px;
+
     border-radius: 30px;
+
     background-color: #189c4f;
 
     left: 0;
     bottom: 0;
 }
 
-/* BOTÃO DO CABEÇALHO */
-.btn_cad {
-    background-color: darkolivegreen;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 40px;
-    height: 40px;
-
-    border: none;
-    border-radius: 8px;
-
-    color: white;
-    cursor: pointer;
-
-    transition: 0.3s ease;
-}
-
-.btn_cad:hover {
-    background-color: darkseagreen;
-}
-
 /* FORMULÁRIO */
-#formlogin {
+
+#login-form {
     display: flex;
     flex-direction: column;
+
     gap: 25px;
+
     width: 100%;
 }
 
-/* CONTAINER DOS INPUTS */
-#input_container {
+/* GRUPO DOS CAMPOS */
+
+.fields-group {
     display: grid;
+
     grid-template-columns: 1fr;
+
     gap: 18px;
 }
 
-/* CADA CAMPO */
-[id="input_box"] {
+/* CAMPO */
+
+.form-field {
+    position: relative;
+
     display: flex;
     flex-direction: column;
+
     gap: 6px;
 }
 
-/* LABEL */
-.form_label {
+/* TEXTO DO CAMPO */
+
+.form-field span {
     font-size: 13px;
+
     color: #404044;
+
     font-weight: 500;
 }
 
-/* CAMPO + ÍCONE */
-.input_field {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    width: 100%;
-    min-width: 0;
-
-    background-color: #ffffff;
-
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
-
-    transition: 0.2s ease;
-}
-
-/* ÍCONE */
-.input_field i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    
-
-    width: 40px;
-    color: #404044;
-}
-
 /* INPUT */
-.form_control {
+
+.form-field input {
     width: 100%;
     min-width: 0;
 
     padding: 11px;
     padding-right: 50px;
 
-    border: none;
+    border: 1px solid #e0e0e0;
     outline: none;
 
-    background: transparent;
+    background-color: #ffffff;
 
     border-radius: 8px;
 
     font-size: 14px;
+
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+
+    transition: 0.2s ease;
 }
 
-/* QUANDO CLICAR NO INPUT */
-.input_field:focus-within {
+/* ÍCONE DO CAMPO */
+
+.form-field > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+
+    right: 15px;
+    top: 45px;
+
+    transform: translateY(-10%);
+
+    width: 25px;
+
+    color: #404044;
+}
+
+/* FOCO NO INPUT */
+
+.form-field:focus-within input {
     outline: 2px solid #189c4f;
 }
 
 /* ÍCONE DA SENHA */
-.password-icon {
+
+.form-field .fa-eye-slash,
+.form-field .fa-eye {
     cursor: pointer;
+
     transition: 0.2s ease;
 }
 
-.password-icon:hover {
+
+.form-field .fa-eye-slash:hover,
+.form-field .fa-eye:hover {
     color: #189c4f;
 }
 
-.btn_default {
+/* BOTÃO ENTRAR */
+
+.submit-btn {
     background-color: darkolivegreen;
 
     display: flex;
@@ -190,6 +199,7 @@ body {
     border: none;
 
     padding: 12px 18px;
+
     border-radius: 8px;
 
     font-size: 15px;
@@ -198,6 +208,7 @@ body {
     color: #ffffff;
 
     cursor: pointer;
+
     gap: 8px;
 
     width: 100%;
@@ -207,31 +218,40 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.btn_default:hover {
+
+.submit-btn:hover {
     background-color: #189c4f;
 }
 
 /* AUTOCOMPLETE */
+
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
+
     -webkit-text-fill-color: #000 !important;
 }
 
 /* RESPONSIVIDADE */
+
 @media screen and (max-width: 500px) {
 
     #form_container {
         width: 100%;
+
         padding: 32px;
     }
 
-    #input_container {
+
+    .fields-group {
         display: flex;
+
         flex-direction: column;
+
         gap: 18px;
     }
 
-    #form_title {
+
+    .login-header h1 {
         font-size: 24px;
     }
 }
