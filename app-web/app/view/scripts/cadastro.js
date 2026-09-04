@@ -1,29 +1,43 @@
-const form = document.getElementById("formCadastro");
+const form = document.getElementById("cadastro-form");
 
-const senha = document.getElementById("password");
-const confirmarsenha = document.getElementById("confirm-password");
+const senha = document.querySelector('input[name="password"]');
+const confirmarSenha = document.querySelector('input[name="confirm-password"]');
 
-form.addEventListener("submit", function(event){
-    /** Fazer fetch para o servidor para receber o json
+form.addEventListener("submit", function(event) {
+
+     /** Fazer fetch para o servidor para receber o json
      * tcc-etec.likesyou.org/usuario/criar/?nome=""&sobrenome=""&email=""=&senha=""&confirmar_senha="";
      * 
      */
-    
-    if (senha.value !== confirmarsenha.value) {
+
+    if (senha.value !== confirmarSenha.value) {
         event.preventDefault();
-        
-        alert("As senha não são iguais!");
+
+        alert("As senhas não são iguais!");
     }
 });
 
-
-const passwordIcons = document.querySelectorAll('.password-icon');
+const passwordIcons = document.querySelectorAll('.form-field i');
 
 passwordIcons.forEach(icon => {
+
     icon.addEventListener('click', function () {
-        const input = this.parentElement.querySelector('.form_control');
-        input.type = input.type === 'password' ? 'text' : 'password';
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-    })
-})
+
+        const input = this.parentElement.querySelector('input');
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            this.classList.remove("fa-eye-slash");
+            this.classList.add("fa-eye");
+
+        } else {
+
+            input.type = "password";
+
+            this.classList.remove("fa-eye");
+            this.classList.add("fa-eye-slash");
+        }
+    });
+});
