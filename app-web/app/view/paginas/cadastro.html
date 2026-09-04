@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
 
-    <link rel="stylesheet" href="../estilo/geral.css">
-    <link rel="stylesheet" href="../estilo/cadastro.css">
-    <link rel="stylesheet" href="../../recursos/fontawesone/css/all.css">
+    <link rel="stylesheet" href="../app/view/estilo/geral.css">
+    <link rel="stylesheet" href="../app/view/estilo/cadastro.css">
+    <link rel="stylesheet" href="../app/recursos/fontawesone/css/all.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
         <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
     </header>
 
-    <form id="cadastro-form">
+   <form id="cadastro-form" action="?user=denunciante" method="post">
         <div class="fields-group">
             <label class="form-field">
                 <span>Primeiro Nome</span>
@@ -64,7 +64,7 @@
         </button>
     </form>
 
-    <script src="../scripts/cadastro.js"></script>
+    <script src="..app/view/scripts/cadastro.js"></script>
 </main>
 </body>
 </html>

@@ -12,58 +12,7 @@ class Roteador {
         return $this->resposta_servidor;
     }
 
-    private function chamarController(array $requisicao){
-        // valida as chaves da requisição
-        $validar_requisicao = $this->validarRequisicao($requisicao);
-        if (!$validar_requisicao['resposta']){
-            return $validar_requisicao;
-        }
-
-        // inicia as variaveis de iniciação
-        $classe = "home";
-        $metodo = "index";
-
-        if ($requisicao['metodo'] == "GET"){
-            
-            // captura os dados da requisição
-            $dados = $requisicao['dados'];
-            $url = $dados['url'] ?? "";
-            
-            // define o controller e o método a ser chamado
-            if (!empty($url)){
-                $partes_url = explode("/", $url);
-                // captura a classe
-                $classe = $partes_url[0];
-                
-                // verifica se o metodo foi enviado
-                array_shift($partes_url); // remove o primeiro elemento do array
-                if (count($partes_url) > 0){
-                    // verifica se foi passado classe e parametros sem o método
-                    if (!str_contains("?", $partes_url[0])){
-                        $metodo = $partes_url[0];
-                    } 
-                }
-            }
-        }
-        
-        // chama o controller para obter o serviço solicitado
-        $classe = ucfirst($classe);
-        $classe .= "Controller";
-        if (!class_exists($classe)) {
-            return RespostaProcesso::respostaProcesso("Classe '$classe' não indentificada");
-        }
-
-        // instancia o controller solicitado
-        $controller = new $classe();
-        if (!method_exists($controller, $metodo)){    
-            return RespostaProcesso::respostaProcesso("Metodo '$metodo' não indentificado");
-        }
-
-        // chama o método solicitado
-        return $controller->$metodo($dados);
-        }
-    
-        private function validarRequisicao(array $requisicao){
+    private function validarRequisicao(array $requisicao){
         // contar o numero de chaves recebidas 
         $chaves_requisicao = count($requisicao);
 
@@ -99,4 +48,63 @@ class Roteador {
 
         return RespostaProcesso::respostaProcesso("Requisição validada", true);
     }
-}
+
+    private function chamarController(array $requisicao){
+        // valida as chaves da requisição
+        $validar_requisicao = $this->validarRequisicao($requisicao);
+        if (!$validar_requisicao['resposta']){
+            return $validar_requisicao;
+        }
+
+        // inicia as variaveis de iniciação
+        $classe = "home";
+        $metodo = "index";
+
+        // captura os dados da requisição
+        $dados = $requisicao['dados'];
+        if ($requisicao['metodo'] == "GET"){
+            
+            
+            $url = $dados['url'] ?? "";
+            
+            // define o controller e o método a ser chamado
+            if (!empty($url)){
+                $partes_url = explode("/", $url);
+                // captura a classe
+                $classe = $partes_url[0];
+                
+                // verifica se o metodo foi enviado
+                array_shift($partes_url); // remove o primeiro elemento do array
+                if (count($partes_url) > 0){
+                    // verifica se foi passado classe e parametros sem o método
+                    if (!str_contains("?", $partes_url[0])){
+                        $metodo = $partes_url[0];
+                    } 
+                }
+            }
+        } else if ($requisicao['metodo'] == "POST"){
+            $uri = $requisicao['uri'];
+            return RespostaProcesso::respostaProcesso("Testando POST", dados: $requisicao);
+
+        }
+        
+        // chama o controller para obter o serviço solicitado
+        $classe = ucfirst($classe);
+        $classe .= "Controller";
+        if (!class_exists($classe)) {
+            return RespostaProcesso::respostaProcesso("Classe '$classe' não indentificada");
+        }
+
+        // instancia o controller solicitado
+        $controller = new $classe();
+        if (!method_exists($controller, $metodo)){    
+            return RespostaProcesso::respostaProcesso("Metodo '$metodo' não indentificado");
+        }
+
+        // chama o método solicitado
+        return $controller->$metodo($requisicao);
+        }
+    
+        
+
+    }
