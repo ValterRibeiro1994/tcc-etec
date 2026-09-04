@@ -8,8 +8,8 @@ class UserController {
         }
 
         // apenas exibe a pagina de cadastro
-        if ($requisicao['metodo'] == "GET"){
-            $pagina = "../app/view/paginas/cadastro.html";
+        if ($requisicao['metodo'] == "GET" && ($requisicao['dados']['user'] == "denunciante")){
+            $pagina = "./app/view/paginas/cadastro.html";
             $formato = "html";
             $dados = [
                 "pagina"=>$pagina,
@@ -17,6 +17,15 @@ class UserController {
             ];
             return RespostaProcesso::respostaProcesso("sucesso", true, $dados);
             
+        } else if ($requisicao['metodo'] == "GET" && ($requisicao['dados']['user']) == "prefeitura"){
+            $pagina = "./app/view/paginas/cadastroRepresentante.html";
+            $formato = "html";
+            $dados = [
+                "pagina"=> $pagina, 
+                "formato"=>$formato
+            ];
+            return RespostaProcesso::respostaProcesso("Sucesso", true, $dados);
+
         } else if ($requisicao['metodo'] == "POST"){
             // cadastra o usuario no banco
 
@@ -43,6 +52,14 @@ class UserController {
                 }
 
             }
+
+            // 4) captura os dados
+            $nome = new Nome($dados_requisicao['nome']);
+            $sobrenome = new Sobrenome($dados_requisicao['sobrenome']);
+            $email = new Email($dados_requisicao['email']);
+            $cpf = new Cpf($dados_requisicao['cpf']);
+            $senha = $dados_requisicao['senha'];
+            $confirmar_senha = $dados_requisicao['confirmar-senha'];
         }
 
 

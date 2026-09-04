@@ -32,14 +32,22 @@ $requisicao = [
     "dados" =>$dados,
     ];  
 
+try {
 // encaminhar a requisição recebida para o controller correspondente
 $roteador = new Roteador($requisicao);
 
 // esperar a resposta do controller
 $resposta = $roteador->getResposta();
+// var_dump($resposta);
 
 if ($resposta['dados']['formato'] == "html"){
-    include_once($resposta['dados']['pagina']);
-} else {
-    echo json_encode($resposta['dados']);
-}
+     include_once($resposta['dados']['pagina']);
+ } else {
+     echo json_encode($resposta, 
+     JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+  }
+
+ } catch (Exception $e){
+      echo($e->getMessage());
+ }
+

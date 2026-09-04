@@ -40,4 +40,4 @@ passwordIcons.forEach(icon => {
             this.classList.add("fa-eye-slash");
         }
     });
-});
+}); 
