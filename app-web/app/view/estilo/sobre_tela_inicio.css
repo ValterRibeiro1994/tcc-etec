@@ -65,6 +65,25 @@
 
 .icone-explicacao{
     border: solid 3px;
-    border-radius: 1vh;
+    border-radius: 50px;
     width: 50px;
 }
+.icone{
+    width: 150px;
+    height: 150px;
+    border-radius: 50px;
+    border: solid 1px;
+    background-color: blue;
+    
+
+    /*margin-left: 50%;*/
+    align-content: center;
+    justify-self: center;
+    border-radius: 100px;
+    
+}
+
+   
+    
+   
+    

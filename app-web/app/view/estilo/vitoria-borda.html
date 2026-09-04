@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>A Onda Perfeita Suprema</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: sans-serif;
+            display: flex;
+        }
+
+        .barra-lateral {
+            width: 160px;
+            height: 100vh;
+            background-color: #785ce7;
+            flex-shrink: 0;
+            
+            /* O RECORTE MÁGICO: Usa o desenho do SVG abaixo para cortar a barra perfeitamente */
+            clip-path: url(#onda-perfeita);
+        }
+
+        .conteudo {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. A barra lateral -->
+    <div class="barra-lateral"></div>
+
+    <!-- 2. O conteúdo da página -->
+    <div class="conteudo">
+        <h1>Conteúdo da Página</h1>
+        <p>Se as ondas estiverem lindas e gordinhas, o macaco quer a banana de volta!</p>
+    </div>
+
+    <!-- 3. O MOLDE DA ONDA: Esse código fica escondido e garante a curva lisa e perfeita -->
+        <!-- O MOLDE DA ONDA SUPREMA ULTRA SUAVE -->
+        <!-- O MOLDE DO QUASE-PERFEITO, MAS SEM AS PONTAS DE DENTRO -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <clipPath id="onda-perfeita" clipPathUnits="objectBoundingBox">
+                <!-- Macaco ajustou as curvas S para suavizar as emendas de dentro -->
+                <path d="M 0,0 
+                         L 0.95,0 
+                         S 0.82,0.06 0.9,0.1
+                         S 1.0,0.16 0.9,0.2 
+                         S 0.82,0.25 0.9,0.3 
+                         S 1.02,0.35 0.9,0.4 
+                         S 0.82,0.45 0.9,0.5 
+                         S 1.02,0.55 0.9,0.6 
+                         S 0.82,0.65 0.9,0.7 
+                         S 1.02,0.75 0.9,0.8 
+                         S 0.82,0.85 0.9,0.9 
+                         S 1.02,0.95 0.9,1 
+                         L 0,1 Z" />
+            </clipPath>
+        </defs>
+    </svg>
+
+
+
+</body>
+</html>
+
