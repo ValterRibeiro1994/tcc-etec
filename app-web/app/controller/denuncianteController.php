@@ -1,7 +1,7 @@
 <?php
 
 
-class UserController {
+class DenuncianteController {
     public function index(array $requisicao){
         if (!array_key_exists("metodo", $requisicao)){
             return RespostaProcesso::respostaProcesso("Método desconhecido", dados: $requisicao);
@@ -60,6 +60,8 @@ class UserController {
             $cpf = new Cpf($dados_requisicao['cpf']);
             $senha = $dados_requisicao['senha'];
             $confirmar_senha = $dados_requisicao['confirmar-senha'];
+
+            // 5) 
         }
 
 

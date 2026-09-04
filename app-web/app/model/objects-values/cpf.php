@@ -4,25 +4,25 @@ class Cpf {
     private string $cpf;
 
     public function __construct(string $cpf){
-        $cpf = $this->limparCaracteres($cpf);
-        if (strlen($cpf) != 11){
-            throw new Exception("CPF Invalido");
-        }
+        // $cpf = $this->limparCaracteres($cpf);
+        // if (strlen($cpf) != 11){
+        //     throw new Exception("CPF Invalido");
+        // }
 
-        $caracteres_repetidos = $this->validarCaracteresRepetidos($cpf);
-        if (!$caracteres_repetidos['resposta']){
-            throw new Exception($caracteres_repetidos['mensagem']);
-        }
+        // $caracteres_repetidos = $this->validarCaracteresRepetidos($cpf);
+        // if (!$caracteres_repetidos['resposta']){
+        //     throw new Exception($caracteres_repetidos['mensagem']);
+        // }
 
-        $primeiro_digito = $this->validarPrimeiroDigito($cpf);
-        if (!$primeiro_digito['resposta']){
-            throw new Exception($primeiro_digito['mensagem']);
-        }
+        // $primeiro_digito = $this->validarPrimeiroDigito($cpf);
+        // if (!$primeiro_digito['resposta']){
+        //     throw new Exception($primeiro_digito['mensagem']);
+        // }
 
-        $segundo_digito = $this->validarSegundoDigito($cpf);
-        if (!$segundo_digito['resposta']){
-            throw new Exception($segundo_digito['mensagem']);
-        }
+        // $segundo_digito = $this->validarSegundoDigito($cpf);
+        // if (!$segundo_digito['resposta']){
+        //     throw new Exception($segundo_digito['mensagem']);
+        // }
 
         $this->cpf = $cpf;
     }
