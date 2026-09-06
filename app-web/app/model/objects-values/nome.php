@@ -10,6 +10,10 @@ class Nome {
         }
         $this->nome = $nome;
     }
+
+    public function getNome() {
+        return $this->nome;
+    }
 }
 
 
@@ -22,5 +26,9 @@ class Sobrenome {
             throw new Exception("Sobrenome Invalido");
         }
         $this->sobrenome = $sobrenome;
+    }
+
+    public function getSobrenome() {
+        return $this->sobrenome;
     }
 }
