@@ -13,5 +13,19 @@ class DadosPessoais {
         $this->cpf = $cpf;
     }
 
-    
+    public function getNome() {
+        return $this->nome->getNome();
+    }
+
+    public function getSobrenome() {
+        return $this->sobrenome->getSobrenome();
+    }
+
+    public function getEmail() {
+        return $this->email->getEmail();
+    }
+
+    public function getCpf() {
+        return $this->cpf->getCpf();
+    } 
 }
