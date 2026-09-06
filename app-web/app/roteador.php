@@ -14,7 +14,7 @@ class Roteador {
             $this->resposta = $this->getProcess($_GET);
             
         } else if ($_SERVER['REQUEST_METHOD'] == "POST"){
-            $this->resposta = RespostaProcesso::respostaProcesso("Método POST em desenvolvimento", dados: $_POST);
+            $this->resposta = $this->postProcesso($_POST);
         } else {
             $this->resposta = RespostaProcesso::respostaProcesso("Requisição Invalida");
         }
@@ -59,6 +59,11 @@ class Roteador {
             return $this->chamarController();
         }
         
+    }
+
+    private function postProcesso(array $dados_post){
+        $dados_post['uri'] = $_SERVER['REQUEST_URI'];
+        return RespostaProcesso::respostaProcesso("Post em desenvolvimento -> ", dados:$dados_post);
     }
 
     private function chamarController(string $classe = "home", string $metodo = "index", array $requisicao = []): array {

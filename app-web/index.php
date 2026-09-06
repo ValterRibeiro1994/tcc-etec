@@ -7,10 +7,18 @@ new AutoLoadFiles();
 
 $rotas = new Roteador();
 $resposta_servidor = $rotas->getResposta();
+
 if ($resposta_servidor['resposta']){
-    echo("<br><h3>Comunicação realizada com sucesso</h3><br><hr>");
-    var_dump($resposta_servidor['dados']);
+    if ($resposta_servidor['dados']['tipo-resposta'] == "text/html"){
+        include_once($resposta_servidor['dados']['pagina']);
+        exit();
+    } else {
+        header("Content-Type: application/json; charset=utf-8");
+        echo json_encode($resposta_servidor['dados']);
+        exit();
+    }
 } else {
-    echo("<br><h3>Falha na comunicação com servidor</h3><br><hr>");
-    var_dump($resposta_servidor);
+    header("Content-Type: application/json; charset=utf-8");
+    echo json_encode($resposta_servidor);
+    exit();
 }
