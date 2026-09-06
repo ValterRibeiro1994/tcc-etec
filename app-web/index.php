@@ -14,11 +14,11 @@ if ($resposta_servidor['resposta']){
         exit();
     } else {
         header("Content-Type: application/json; charset=utf-8");
-        echo json_encode($resposta_servidor['dados']);
+        echo json_encode($resposta_servidor['dados']['resposta-processo'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         exit();
     }
 } else {
     header("Content-Type: application/json; charset=utf-8");
-    echo json_encode($resposta_servidor);
+    echo json_encode($resposta_servidor['dados']['resposta-processo'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit();
 }

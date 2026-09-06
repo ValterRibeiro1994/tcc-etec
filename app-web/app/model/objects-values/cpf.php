@@ -4,7 +4,7 @@ class Cpf {
     private string $cpf;
 
     public function __construct(string $cpf){
-        // $cpf = $this->limparCaracteres($cpf);
+        $cpf = $this->limparCaracteres($cpf);
         // if (strlen($cpf) != 11){
         //     throw new Exception("CPF Invalido");
         // }
