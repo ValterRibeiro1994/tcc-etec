@@ -11,4 +11,8 @@ class Email {
     private function validarEmail(string $email){
         return true;
     }
+
+    public function getEmail() {
+        return $this->email;
+    }
 }
