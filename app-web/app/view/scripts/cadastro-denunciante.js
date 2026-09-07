@@ -13,6 +13,10 @@ form.addEventListener("submit", async function (event) {
         });
         
         let resultado = await resposta.json();
+
+        let paragrafo = document.getElementById("respostaProcesso");
+        paragrafo.textContent = resultado.mensagem;
+        
         console.log("Status: " + resultado.resposta);
         console.log("Mensagem: " + resultado.mensagem);
         console.log("Dados recebido = { ");

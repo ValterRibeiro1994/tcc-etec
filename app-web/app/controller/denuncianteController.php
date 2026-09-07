@@ -68,8 +68,22 @@ class DenuncianteController {
             $email = new Email($dados['email']);
             $cpf = new Cpf($dados['cpf']);
 
-            // $dados_pessoais = new DadosPessoais($nome, $sobrenome, $email, $cpf);
-            return RespostaProcesso::respostaProcesso("Cadastro do denunciante em processo !!!", true, $dados);
+            // armazena os dados pessoais
+            $dados_pessoais = new DadosPessoais($nome, $sobrenome, $email, $cpf);
+
+            // compara as senhas recebidas
+            $senha = $dados['senha'];
+            $confirmar_senha = $dados['confirmar-senha'];
+            if ($senha !== $confirmar_senha){
+                return RespostaProcesso::respostaProcesso("Senhas diferentes");
+            }
+
+            // valida a senha recebida
+            $senha = new Senha($senha);
+
+            // cria o denunciante
+            $denunciante = new Denunciante($dados_pessoais, $senha);
+            return RespostaProcesso::respostaProcesso("Cadastro do denunciante em processo - criar BD !!!", true, $dados);
             
         } catch (Exception $error) {
             $mensagem = "Erro: " . $error->getMessage();
