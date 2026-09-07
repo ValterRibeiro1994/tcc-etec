@@ -18,9 +18,9 @@ form.addEventListener("submit", async function (event) {
         paragrafo.textContent = resultado.mensagem;
 
         if (resultado.resposta){
-            paragrafo.classList.add("bg-primary", "fs-3", "text-center", "p-1", "border", "border-dark", "rounded-pill");
+            paragrafo.classList.add("alert", "alert-success");
         } else {
-            paragrafo.classList.add("bg-danger", "text-white", "text-center", "border", "border-warning", "p-1", "fs-3", "rounded-pill");
+            paragrafo.classList.add("alert", "alert-warning");
         }
         
         console.log("Status: " + resultado.resposta);
