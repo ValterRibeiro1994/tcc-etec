@@ -16,6 +16,12 @@ form.addEventListener("submit", async function (event) {
 
         let paragrafo = document.getElementById("respostaProcesso");
         paragrafo.textContent = resultado.mensagem;
+
+        if (resultado.resposta){
+            paragrafo.classList.add("bg-primary", "fs-3", "text-center", "p-1", "border", "border-dark", "rounded-pill");
+        } else {
+            paragrafo.classList.add("bg-danger", "text-white", "text-center", "border", "border-warning", "p-1", "fs-3", "rounded-pill");
+        }
         
         console.log("Status: " + resultado.resposta);
         console.log("Mensagem: " + resultado.mensagem);
