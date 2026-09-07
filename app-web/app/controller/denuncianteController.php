@@ -11,7 +11,7 @@ class DenuncianteController {
         if ($requisicao['metodo'] == "GET"){
             // A página principal do denunciante deve ser chamada
             $dados = [
-                "pagina" => "/app/view/paginas/denunciante.html",
+                "pagina" => "app/view/paginas/home-denunciante.html",
                 "tipo-resposta"=>"text/html"
             ];
             return RespostaProcesso::respostaProcesso("Criar página principal para o denunciante", true, $dados);
