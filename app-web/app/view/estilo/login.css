@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 /* RESET */
-
 * {
     margin: 0;
     padding: 0;
@@ -9,178 +8,216 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* PÁGINA */
-
+/* ESTRUTURA GLOBAL DA PÁGINA */
 body {
     min-height: 100vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     background-color: darkseagreen;
-
-    padding: 20px;
-}
-
-/* CONTAINER DO FORMULÁRIO */
-
-#form_container {
-    width: 100%;
-    max-width: 450px;
-
     display: flex;
     flex-direction: column;
+}
 
-    gap: 32px;
+/* BOTÃO VOLTAR (TOPO) */
+.auth-header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
 
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    color: #ffffff;
+    background-color: darkolivegreen;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #189c4f;
+}
+
+/* CONTAINER PRINCIPAL SPLIT (2 COLUNAS) */
+.page-split-container {
+    width: 100%;
+    max-width: 1050px;
+    margin: auto;
+    padding: 20px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+/* SEÇÃO ESQUERDA - APRESENTAÇÃO */
+.brand-info {
+    color: #1b3d22;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.brand-title {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #143019;
+}
+
+.brand-description {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1d4223;
+}
+
+.brand-illustration {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.brand-illustration i {
+    font-size: 130px;
+    color: darkolivegreen;
+}
+
+/* CARD DO FORMULÁRIO (DIREITA) */
+.form-container {
     background-color: #f6f8ff;
-
-    padding: 30px;
-
-    border-radius: 12px;
-
+    padding: 35px;
+    border-radius: 16px;
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* CABEÇALHO */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
 
-.login-header {
+.form-header h2 {
+    font-family: 'Poppins', serif;
+    font-size: 30px;
+    color: #272727;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+/* LINHA VERDE DESTAQUE NO TÍTULO */
+.form-header h2::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 3px;
+    border-radius: 30px;
+    background-color: #189c4f;
+    left: 0;
+    bottom: 0;
+}
+
+.signup-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: darkolivegreen;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.signup-link:hover {
+    color: #189c4f;
+    text-decoration: underline;
+}
+
+/* ESTRUTURA DO FORMULÁRIO */
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.fields-group {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* CAMPOS E LABELS */
+.form-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label-with-link {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* TÍTULO */
-
-.login-header h1 {
-    font-size: 28px;
-    font-weight: 600;
-
-    color: #272727;
-
-    position: relative;
-
-    padding-bottom: 8px;
-}
-
-/* LINHA ABAIXO DO TÍTULO */
-
-.login-header h1::after {
-    content: '';
-
-    position: absolute;
-
-    width: 80px;
-    height: 3px;
-
-    border-radius: 30px;
-
-    background-color: #189c4f;
-
-    left: 0;
-    bottom: 0;
-}
-
-/* FORMULÁRIO */
-
-#login-form {
-    display: flex;
-    flex-direction: column;
-
-    gap: 25px;
-
-    width: 100%;
-}
-
-/* GRUPO DOS CAMPOS */
-
-.fields-group {
-    display: grid;
-
-    grid-template-columns: 1fr;
-
-    gap: 18px;
-}
-
-/* CAMPO */
-
-.form-field {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 6px;
-}
-
-/* TEXTO DO CAMPO */
-
 .form-field span {
     font-size: 13px;
-
     color: #404044;
-
     font-weight: 500;
 }
 
-/* INPUT */
+.forgot-password {
+    font-size: 12px;
+    font-weight: 500;
+    color: darkolivegreen;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
 
+.forgot-password:hover {
+    color: #189c4f;
+    text-decoration: underline;
+}
+
+/* INPUTS */
 .form-field input {
     width: 100%;
     min-width: 0;
-
     padding: 11px;
-    padding-right: 50px;
-
+    padding-right: 45px;
     border: 1px solid #e0e0e0;
     outline: none;
-
     background-color: #ffffff;
-
     border-radius: 8px;
-
     font-size: 14px;
-
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
-
     transition: 0.2s ease;
 }
-
-/* ÍCONE DO CAMPO */
-
-.form-field > i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: absolute;
-
-    right: 15px;
-    top: 45px;
-
-    transform: translateY(-10%);
-
-    width: 25px;
-
-    color: #404044;
-}
-
-/* FOCO NO INPUT */
 
 .form-field:focus-within input {
     outline: 2px solid #189c4f;
 }
 
-/* ÍCONE DA SENHA */
+/* ÍCONES INTERNOS DOS INPUTS */
+.form-field > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 14px;
+    top: 37px;
+    width: 20px;
+    color: #404044;
+}
 
 .form-field .fa-eye-slash,
 .form-field .fa-eye {
     cursor: pointer;
-
     transition: 0.2s ease;
 }
-
 
 .form-field .fa-eye-slash:hover,
 .form-field .fa-eye:hover {
@@ -188,70 +225,56 @@ body {
 }
 
 /* BOTÃO ENTRAR */
-
 .submit-btn {
     background-color: darkolivegreen;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: none;
-
     padding: 12px 18px;
-
     border-radius: 8px;
-
     font-size: 15px;
     font-weight: 500;
-
     color: #ffffff;
-
     cursor: pointer;
-
     gap: 8px;
-
     width: 100%;
-
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-
     transition: background-color 0.3s ease;
 }
-
 
 .submit-btn:hover {
     background-color: #189c4f;
 }
 
 /* AUTOCOMPLETE */
-
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
-
     -webkit-text-fill-color: #000 !important;
 }
 
 /* RESPONSIVIDADE */
+@media screen and (max-width: 850px) {
+    .page-split-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .brand-info {
+        text-align: center;
+    }
+
+    .brand-illustration {
+        display: none;
+    }
+}
 
 @media screen and (max-width: 500px) {
-
-    #form_container {
-        width: 100%;
-
-        padding: 32px;
+    .form-container {
+        padding: 24px;
     }
 
-
-    .fields-group {
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 18px;
-    }
-
-
-    .login-header h1 {
+    .form-header h2 {
         font-size: 24px;
     }
 }

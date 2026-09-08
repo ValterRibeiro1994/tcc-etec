@@ -1,59 +1,149 @@
+/* ==============================
+   NAVBAR
+   ============================== */
 
-/*CONFIGURAÇÕES DA NAVBAR*/
-header{
+.navbar-header {
     width: 100%;
 }
 
-.navbar{
+
+/* CONTAINER DA NAVBAR */
+
+.navbar {
     width: 100%;
+
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
     background-color: #1a321b;
-    padding: 0.70% 2%;
+
+    padding: 12px 5%;
+
     box-sizing: border-box;
 }
 
-.logo-relatesbc {
-    height: auto;
-    width: 17%;
-    margin-left: 13.5%;
-    margin-right: -27.5%;
+
+/* LOGO */
+
+.logo-link {
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
 }
 
-/*Guarda links que levam a outras paginas*/
+.logo-relatesbc {
+    width: 170px;
+    height: auto;
+}
+
+
+/* MENU */
+
 .tabela-de-links {
     display: flex;
+    align-items: center;
+
+    gap: 45px;
+
+    margin: 0 auto;
+    padding: 0;
+
     list-style: none;
-    gap: 30%;
 }
 
-.nav-link {
+
+/* LINKS */
+
+.nav-item a {
+    position: relative;
+
     text-decoration: none;
+
     color: white;
+
+    font-size: 20px;
     font-weight: 600;
-    font-size: 22px;
+
+    padding: 8px 0;
+
+    transition: color 0.3s ease;
 }
 
-.nav-link-efeito{
-    color: white;
-    border-bottom: 3px solid #f4f4f4;
-    font-size: 22px;
+
+/* EFEITO DOS LINKS */
+
+.nav-item a::after {
+    content: '';
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 3px;
+
+    border-radius: 10px;
+
+    background-color: #f4f4f4;
+
+    transition: width 0.3s ease;
 }
 
-.nav-btn{
-    border: none;
+
+/* HOVER */
+
+.nav-item a:hover {
+    color: #d9f5dc;
+}
+
+.nav-item a:hover::after {
+    width: 100%;
+}
+
+
+/* PÁGINA ATUAL */
+
+.nav-item.active a::after {
+    width: 100%;
+}
+
+
+/* BOTÃO CADASTRE-SE */
+
+.nav-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 13%;
+
+    width: 150px;
     height: 45px;
-    font-size: 23px;
-    font-weight: 600;
-    margin-right: 18.5%;
-    background-color: #24812c;
-    color: rgba(255, 255, 255, 0.788);
+
+    border: none;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+
+    background-color: #24812c;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 17px;
+    font-weight: 600;
+
     cursor: pointer;
-    transition: background-color .3s ease;
+
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+
+/* HOVER DO BOTÃO */
+
+.nav-btn:hover {
+    background-color: #189c4f;
+
+    transform: translateY(-2px);
 }

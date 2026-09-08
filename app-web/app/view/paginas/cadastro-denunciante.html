@@ -4,73 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="../app/view/estilo/geral.css">
-    <link rel="stylesheet" href="../app/view/estilo/cadastro.css">
-    <link rel="stylesheet" href="../app/recursos/fontawesone/css/all.css">
-    <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <title>Cadastro - RelateSBC</title>
+    <link rel="stylesheet" href="../estilo/geral.css">
+    <link rel="stylesheet" href="../estilo/cadastro.css">
+    <link rel="stylesheet" href="../../recursos/fontawesone/css/all.css">
 </head>
 
 <body>
-<!-- Esse formulario devia ter botão para voltar ? -->
 
-<main class="form-container">
-
-    <header class="form-header">
-        <h1>Cadastre-se</h1>
-        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+    <header class="auth-header">
+        <a href="index.html" class="btn-back" aria-label="Voltar para a página inicial">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            <span>Voltar ao início</span>
+        </a>
     </header>
 
-   <form id="form-cadastro-denunciante">
-        <div class="fields-group">
-            <label class="form-field">
-                <span>Nome</span>
-                <input type="text" value='teste' name="nome" placeholder="Nome" required>
-                <i class="fa-solid fa-user" aria-hidden="true"></i>
-            </label>
-            
-            <label class="form-field">
-                <span>Sobrenome</span>
-                <input type="text" value="teste" name="sobrenome" placeholder="Sobrenome" required>
-                <i class="fa-solid fa-user" aria-hidden="true"></i>
-            </label>
+    <main class="page-split-container">
+        
+        <!-- SEÇÃO ESQUERDA: APRESENTAÇÃO -->
+        <section class="brand-info">
+            <h1 class="brand-title">Ajude a melhorar nossa cidade.</h1>
+            <p class="brand-description">
+                Cadastre-se no RelateSBC para acompanhar suas denúncias e fazer a diferença na sua cidade.
+            </p>
+            <div class="brand-illustration">
+                <i class="fa-solid fa-tree"></i>
+            </div>
+        </section>
 
-            <label class="form-field">
-                <span>E-mail</span>
-                <input type="email" value="asd@gmail.com" name="email" placeholder="exemplo@gmail.com" required>
-                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-            </label>
-            
-            <label class="form-field">
-                <span>CPF</span>
-                <input type="text" value="1234567891" name="cpf" placeholder="123.123.456-14" required>
-                <i class="fa-solid fa-user" aria-hidden="true"></i>
-            </label>
+        <!-- SEÇÃO DIREITA: FORMULÁRIO COM TODOS OS CAMPOS -->
+        <section class="form-container">
+            <div class="form-header">
+                <h2>Cadastro</h2>
+                <a href="login.html" class="login-link">Já tem conta?</a>
+            </div>
 
-            <label class="form-field">
-                <span>Senha</span>
-                <input type="password" value="asdasdasd" name="senha" placeholder="******" minlength="8" required>
-                <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
-            </label>
+            <form id="form-cadastro-denunciante">
+                <div class="fields-group">
+                    <label class="form-field">
+                        <span>Nome</span>
+                        <input type="text" name="nome" placeholder="Seu nome" required>
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    </label>
 
-            <label class="form-field">
-                <span>Confirmar Senha</span>
-                <input type="password" value="asdasdasd" name="confirmar-senha" placeholder="******" minlength="8" required>
-                <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
-            </label>
-        </div>
+                    <label class="form-field">
+                        <span>Sobrenome</span>
+                        <input type="text" name="sobrenome" placeholder="Seu sobrenome" required>
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    </label>
 
-        <div>
-            <br>
-            <p id="respostaProcesso"></p>
-            <button type="submit" class="submit-btn">
-                Criar conta
-                <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </button>
-        </div>
-    </form> 
+                    <label class="form-field">
+                        <span>E-mail</span>
+                        <input type="email" name="email" placeholder="exemplo@gmail.com" required>
+                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    </label>
+
+                    <label class="form-field">
+                        <span>CPF</span>
+                        <input type="text" name="cpf" placeholder="000.000.000-00" required>
+                        <i class="fa-solid fa-id-card" aria-hidden="true"></i>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Senha</span>
+                        <input type="password" name="senha" placeholder="Sua senha" minlength="8" required>
+                        <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Confirmar Senha</span>
+                        <input type="password" name="confirmar-senha" placeholder="Confirme a senha" minlength="8" required>
+                        <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Criar conta</span>
+                    <i class="fa-solid fa-check" aria-hidden="true"></i>
+                </button>
+            </form>
+        </section>
+
+    </main>
 
     <script src="../app/view/scripts/cadastro-denunciante.js"></script>
-</main>
 </body>
 </html>

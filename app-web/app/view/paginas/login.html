@@ -1,39 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="app/view/estilo/login.css">
-    <link rel="stylesheet" href="app/recursos/fontawesone/css/all.css">
-    
+    <title>Login - RelateSBC</title>
+    <link rel="stylesheet" href="../estilo/geral.css">
+    <link rel="stylesheet" href="../estilo/login.css">
+    <link rel="stylesheet" href="../../recursos/fontawesone/css/all.css">
 </head>
+
 <body>
-<main id="form_container">
 
-        <header class="login-header">
-            <h1>Login</h1>
-        </header>
-    
-       <form id="login-form">
-            <div class="fields-group">
-                <label class="form-field">
-                    <span>E-mail</span>
-                    <input type="email" name="email" placeholder="exemplo@gmail.com" required>
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                </label>
+    <header class="auth-header">
+        <a href="index.html" class="btn-back" aria-label="Voltar para a página inicial">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            <span>Voltar ao início</span>
+        </a>
+    </header>
 
-                <label class="form-field">
-                    <span>Senha</span>
-                    <input type="password" name="password" placeholder="******" minlength="8" required>
-                    <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
-                </label>
-            </div>  
+    <main class="page-split-container">
+        
+        <!-- SEÇÃO ESQUERDA: APRESENTAÇÃO DA MARCA -->
+        <section class="brand-info">
+            <h1 class="brand-title">Que bom ver você de novo!</h1>
+            <p class="brand-description">
+                Acesse sua conta no RelateSBC para acompanhar o andamento das suas denúncias.
+            </p>
+            <div class="brand-illustration">
+                <i class="fa-solid fa-tree" aria-hidden="true"></i>
+            </div>
+        </section>
 
-            <button type="submit" class="submit-btn">Entrar</button>
-        </form>
+        <!-- SEÇÃO DIREITA: CARD DO FORMULÁRIO DE LOGIN -->
+        <section class="form-container">
+            <div class="form-header">
+                <h2>Login</h2>
+                <a href="cadastro-denunciante.html" class="signup-link">Criar conta</a>
+            </div>
 
-        <script src="app/view/scripts/login.js"></script>
-</main>
+            <form id="login-form">
+                <div class="fields-group">
+                    <label class="form-field">
+                        <span>E-mail</span>
+                        <input type="email" name="email" placeholder="exemplo@gmail.com" required>
+                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    </label>
+
+                    <label class="form-field">
+                        <div class="label-with-link">
+                            <span>Senha</span>
+                            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                        </div>
+                        <input type="password" name="password" placeholder="******" minlength="8" required>
+                        <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                    </label>
+                </div> 
+
+                <button type="submit" class="submit-btn">
+                    <span>Entrar</span>
+                    <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <script src="app/view/scripts/login.js"></script>
 </body>
 </html>
