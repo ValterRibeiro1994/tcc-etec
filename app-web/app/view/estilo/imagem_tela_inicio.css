@@ -3,6 +3,9 @@
 .fundo-img{
     position: relative;
     line-height: 0;
+
+    display: flex;
+    justify-content: flex-start;
 }
 
 .fundo-img img{
@@ -27,9 +30,7 @@
 
 
 /*CONFIGURAÇÕES DOS TEXTOS DA IMAGEM*/
-.denuncia-cor{
-    color: #24812c;
-}
+
 
 .fundo-img h2{
     position: absolute;

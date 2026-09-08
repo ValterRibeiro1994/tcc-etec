@@ -20,6 +20,8 @@
     flex-direction: row !important;
     gap: 4% !important;
     justify-content: center;
+    flex-wrap: wrap !important;
+    flex-shrink: 0;
 }
 
 

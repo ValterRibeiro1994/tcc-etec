@@ -5,20 +5,20 @@ header{
 }
 
 .navbar{
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #1a321b;
-    padding: 0.70% 2%;
     box-sizing: border-box;
+    width: auto;
 }
 
 .logo-relatesbc {
     height: auto;
     width: 17%;
-    margin-left: 13.5%;
-    margin-right: -27.5%;
+    min-width: 177px;
+    margin-left: 2%;
+    
 }
 
 /*Guarda links que levam a outras paginas*/
@@ -45,11 +45,10 @@ header{
     border: none;
     align-items: center;
     justify-content: center;
-    width: 13%;
+    width: fit-content;
     height: 45px;
     font-size: 23px;
     font-weight: 600;
-    margin-right: 18.5%;
     background-color: #24812c;
     color: rgba(255, 255, 255, 0.788);
     border-radius: 10px;

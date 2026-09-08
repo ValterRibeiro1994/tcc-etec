@@ -1,13 +1,18 @@
 
+:root {
+    --cor-cabecalho: #1a321b;
+}
+
 /*CONFIGURAÇÕES GERAIS*/
 html, body{
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
 
 }
 
-body{
+/*body{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
@@ -24,7 +29,53 @@ main{
 }
 footer{
     grid-area: footer;
+}*/
+@import "./sobre_tela_inicio.css";
+@import "./cards_tela_inicio.css";
+.denuncia-cor{
+    color: #24812c;;
 }
+
+@media (max-width: 1211px){
+    .sobre-relate h2{
+        font-size: 60px !important;
+        max-height: 300px;
+    }   
+}
+
+@media (max-width:550px){
+    .denuncia-cor{
+        font-size: 70%;
+        height: 100px;
+    }
+
+    .fundo-img h2 {
+        font-size: 20px;
+    }
+
+    .grid-container{
+        display: grid;
+        grid-template-columns: 100vh !important;    ;
+        grid-template-areas: 
+            "tag"
+            "h2"
+            "menor"
+            "img" !important;
+            align-items: start !important;
+            justify-items: start !important;
+    }
+
+    .img-celular-denuncia{
+        max-width: 490px !important;
+        justify-self: start !important;
+    }
+}
+
+@media (max-width: 1007px){
+    
+}
+
+
 
 
 
