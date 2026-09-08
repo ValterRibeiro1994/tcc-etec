@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../estilo/navbar.css">
-    <link rel="stylesheet" href="../estilo/geral.css">
-    <link rel="stylesheet" href="../estilo/imagem_tela_inicio.css">
-    <link rel="stylesheet" href="../estilo/cards_tela_inicio.css">
-    <link rel="stylesheet" href="../estilo/sobre_tela_inicio.css">
-    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="app/view/estilo/geral.css">
+    <link rel="stylesheet" href="app/view/estilo/imagem_tela_inicio.css">
+    <link rel="stylesheet" href="app/view/estilo/cards_tela_inicio.css">
+    <link rel="stylesheet" href="app/view/estilo/sobre_tela_inicio.css">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <title>RelateSBC</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
 
             <a href="#home" class="logo-link">
                 <img
-                    src="../../recursos/imagens/logo-relatesbc.png"
+                    src="app/recursos/imagens/logo-relatesbc.png"
                     alt="Logo RelateSBC"
                     class="logo-relatesbc"
                 >
@@ -28,7 +28,7 @@
             <ul class="tabela-de-links">
 
                 <li class="nav-item active">
-                    <a href="#home">Início</a>
+                    <a href="home">Início</a>
                 </li>
 
                 <li class="nav-item">
@@ -37,9 +37,9 @@
 
             </ul>
 
-            <button type="button" class="nav-btn" id="btn-cadastro">
+            <a href="denunciante/cadastrar" class="nav-btn" id="btn-cadastro">
                 Cadastre-se
-            </button>
+            </a>
 
         </nav>
 
@@ -48,7 +48,7 @@
     <!--Main: Conteúdo da pagina-->
     <main>
         <div class="fundo-img"> <!--imagem de fundo-->
-            <img src="../../recursos/imagens/IMG-20260824-WA0023.jpg" alt="">
+            <img src="app/recursos/imagens/IMG-20260824-WA0023.jpg" alt="">
             <p class="tag-zeladoria">Zeladoria Urbana</p> <br>
 
             <h2>MINHA<br>
@@ -127,7 +127,7 @@
                  tornando a comunicação <br>mais eficiente e as soluções mais rápidas.
             </texto-menor> 
 
-            <img class="img-celular-denuncia" src="../../recursos/imagens/celular-fundo04.jpg" alt="">
+            <img class="img-celular-denuncia" src="app/recursos/imagens/celular-fundo04.jpg" alt="">
         </div>
         <hr style="margin-left: 200px; margin-right: 200px;">
 
@@ -145,7 +145,7 @@
         
     </main>
 
-  <script src="../scripts/navbar.js" defer></script>
+  <script src="app/scripts/navbar.js" defer></script>
     
 </body>
 </html>
