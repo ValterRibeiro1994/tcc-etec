@@ -109,41 +109,49 @@
     width: 100%;
 }
 
-
-/* BOTÃO CADASTRE-SE */
-
-.nav-btn {
+/* CONTAINER DOS BOTÕES NA NAVBAR */
+.nav-actions {
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    width: 150px;
-    height: 45px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color: #24812c;
-
-    color: rgba(255, 255, 255, 0.9);
-
-    font-size: 17px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
-
-    transition:
-        background-color 0.3s ease,
-        transform 0.2s ease;
+    gap: 12px;
 }
 
+/* ESTILO BASE PARA AMBOS OS BOTÕES */
 
-/* HOVER DO BOTÃO */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    height: 42px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
 
-.nav-btn:hover {
+.nav-btn-secondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    color: #d9f5dc;
+    transform: translateY(-2px);
+}
+
+.nav-btn-primary {
+    background-color: #24812c;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn-primary:hover {
     background-color: #189c4f;
-
     transform: translateY(-2px);
 }
