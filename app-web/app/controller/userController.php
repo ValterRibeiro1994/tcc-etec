@@ -2,7 +2,7 @@
 
 class UserController {
     public function index(array $requisicao){
-        return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", true, formato: "text/html");
+        return RespostaProcesso::respostaProcesso("app/view/paginas/home-denuncias.html", true, formato: "text/html");
     }
 
     public function representante(array $requisicao){
