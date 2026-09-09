@@ -1,0 +1,9 @@
+.resposta-logado{
+    color: azure;
+    align-items: center;
+    gap: 15px;
+}
+
+.resposta-logado h3{
+    font-size: 30px;
+}

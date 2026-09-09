@@ -1,13 +1,26 @@
 <?php
 
 class CadastroController {
+    public function index(array $requisicao){
+        if (!array_key_exists("metodo", $requisicao)){
+            return RespostaProcesso::respostaProcesso("Requisição invalida");
+        }
+
+        if ($requisicao['metodo'] == "GET"){
+            return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "text/html");
+        } else if ($requisicao['metodo'] == "POST"){
+            return $this->cadastrarDenunciante($requisicao);
+        } else {
+            return RespostaProcesso::respostaProcesso("Requisiões indefinidas");
+        }
+    }    
     public function municipe(array $requisicao){
         if (!array_key_exists("metodo", $requisicao)){
             return RespostaProcesso::respostaProcesso("Requisição invalida");
         }
 
         if ($requisicao['metodo'] == "GET"){
-            return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "text/html");
+            return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "text/html");
         } else if ($requisicao['metodo'] == "POST"){
             return $this->cadastrarDenunciante($requisicao);
         } else {
