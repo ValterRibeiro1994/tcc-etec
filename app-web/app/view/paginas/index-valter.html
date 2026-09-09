@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
+    <!-- Classes personalizadas -->
+    <link rel="stylesheet" href="../../view/estilo/index-valter-cores.css">
+    <title>Home</title>
+</head>
+
+<body>
+
+    <header>
+        <!-- 
+            navbar: Define o componente de barra de navegação
+            navbar-expand-lg: Expande a barra (links visíveis) em telas grandes (>=992px) e recolhe em telas menores
+            navbar-dark: Ajusta o contraste do texto e ícones para fundos escuros
+            bg-dark: Aplica cor de fundo escura (tema dark)
+        -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+            <!-- container-fluid: Contêiner de largura total (100% da viewport) -->
+            <div class="container-fluid">
+
+                <!-- navbar-brand: Estilização reservada para marca/logo -->
+                <a href="#" class="navbar-brand">
+                    <!-- 
+                        img-fluid: Torna a imagem responsiva (max-width: 100%; height: auto)
+                        rounded-3: Aplica bordas arredondadas médias
+                    -->
+                    <img src="../../recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
+                </a>
+
+                <!-- 
+                    navbar-toggler: Botão "hambúrguer" exibido apenas em telas menores
+                -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menuNavegacao" aria-controls="menuNavegacao" aria-expanded="false" aria-label="Abrir menu">
+                    <!-- navbar-toggler-icon: Ícone do botão hambúrguer -->
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- 
+                    collapse: Esconde o conteúdo por padrão em telas pequenas
+                    navbar-collapse: Agrupa o conteúdo que será expandido/recolhido
+                -->
+                <div class="collapse navbar-collapse" id="menuNavegacao">
+
+                    <!-- 
+                        navbar-nav: Organiza os itens da lista de navegação
+                        me-auto: Margem direita automática (empurra os elementos seguintes para a direita)
+                        mb-3: Margem inferior de nível 3 (0.75rem em telas pequenas)
+                        mb-lg-0: Remove a margem inferior em telas grandes (>=992px)
+                    -->
+                    <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+
+                        <!-- nav-item: Item individual da lista de navegação -->
+                        <li class="nav-item">
+                            <!-- 
+                                nav-link: Estilização do link da barra de navegação
+                                fs-5: Tamanho da fonte nível 5 (1.25rem)
+                                text-white: Define a cor do texto como branco
+                            -->
+                            <a href="#" class="nav-link fs-5 text-white">Início</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fs-5 text-white">Sobre</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fs-5 text-white">Denúncias</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fs-5 text-white">Cadastre-se</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- 
+                        d-flex: Define display flexbox no elemento
+                        gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
+                    -->
+                    <form action="" method="post" class="d-flex gap-2">
+
+                        <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
+                        <input name="email" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
+
+                        <input name="senha" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
+
+                        <!-- 
+                            btn: Estilização base para botões
+                            btn-success: Estilo do botão na cor verde (sucesso/confirmação)
+                            text-nowrap: Impede que o texto do botão quebre em múltiplas linhas
+                        -->
+                        <button type="submit" class="btn btn-success text-nowrap">
+                            Conectar
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <main class="img-fundo">
+        <!-- Area principal de download do app -->
+        <!-- 
+            p-3: Padding de nível 3 (1rem) em todos os lados
+            container-fluid: Contêiner com largura de 100%
+        -->
+        <div class="p-3 container-fluid">
+            <!-- 
+                display-1: Título com tipografia extra grande estilo "Display"
+                text-dark: Define a cor do texto para escuro
+                p-3: Padding de nível 3 (1rem)
+            -->
+            <h1 class="display-1 text-dark p-3">MINHA DENÚNCIA</h1>
+            
+            <!-- 
+                display-6: Título "Display" de tamanho médio/pequeno
+                fw-semibold: Fonte com peso semi-negrito (font-weight: 600)
+                p-1: Padding de nível 1 (0.25rem)
+                me-3: Margem direita de nível 3 (1rem)
+            -->
+            <h5 class="display-6 text-dark fw-semibold p-1 me-3">Incluindo a todos para um bem maior</h5>
+            
+            <!-- 
+                fs-2: Tamanho da fonte nível 2 (2rem)
+                fw-light: Fonte com peso leve (font-weight: 300)
+                pt-2: Padding superior de nível 2 (0.5rem)
+                mb-0: Margem inferior zerada
+            -->
+            <p class="fs-2 text-dark fw-light pt-2 mb-0">Cidade limpa, segura e organizada é dever de todos.</p>
+            
+            <!-- 
+                pt-0: Padding superior zerado
+                mt-0: Margem superior zerada
+                pb-3: Padding inferior de nível 3 (1rem)
+            -->
+            <p class="fs-2 text-dark fw-light pt-0 mt-0 pb-3">Sua denuncia faz a diferença.</p>
+
+            <!-- 
+                m-5: Margem externa em todos os lados de nível 5 (3rem)
+                p-3: Padding interno de nível 3 (1rem)
+            -->
+            <a class="btn btn-success m-5 p-3">Download do APP</a>
+        </div>
+
+        <!-- Area dos cards -->
+        <!-- container: Contêiner com largura máxima fixa responsiva -->
+        <div class="container">
+            <!-- 
+                row: Cria uma linha flexbox para o sistema de grid
+                justify-content-center: Centraliza as colunas na horizontal
+                g-4: Define o espaçamento (gutter) de nível 4 (1.5rem) entre as colunas e linhas
+            -->
+            <div class="row justify-content-center g-4">
+
+                <!-- 
+                    col-12: Ocupa 12 colunas (100%) em telas extras pequenas (mobile)
+                    col-md-4: Ocupa 4 colunas (1/3 da tela) em dispositivos médios ou maiores (>=768px)
+                -->
+                <div class="col-12 col-md-4">
+                    <!-- 
+                        card: Estrutura base de um componente Card
+                        h-100: Força altura de 100% para alinhar todos os cards da linha
+                        border border-3 border-dark: Adiciona borda de largura 3 (3px) e cor escura
+                        shadow-lg: Aplica sombra projetada grande
+                        rounded-5: Bordas altamente arredondadas
+                        text-center: Alinha todo o texto no centro
+                        p-1: Padding interno de nível 1
+                    -->
+                    <div class="card h-100 border border-3 border-dark shadow-lg rounded-5 text-center p-1">
+                        <!-- 
+                            card-img-top: Estiliza a imagem ajustando ao topo do card
+                            d-block: Define o display como bloco
+                            mx-auto: Centraliza horizontalmente (margin-left e margin-right auto)
+                            rounded-2: Bordas levemente arredondadas
+                            w-50: Largura de 50% em relação ao pai
+                        -->
+                        <img src="../../recursos/imagens/icone-lixeira.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+
+                        <!-- card-body: Bloco de conteúdo principal dentro do card -->
+                        <div class="card-body">
+                            <!-- card-title: Estilo padronizado para o título do card -->
+                            <h5 class="card-title">Lixo e entulho</h5>
+                            <!-- card-text: Estilo padronizado para o texto descritivo do card -->
+                            <p class="card-text">Descarte irregular de lixo, entulho e materiais.</p>
+                            <a href="" class="btn btn-success">Denuncie aqui</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 border border-3 border-dark shadow-lg rounded-5 text-center p-1">
+                        <img src="../../recursos/imagens/icone-iluminacao.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Iluminação Pública</h5>
+                            <p class="card-text">Lâmpadas queimadas ou postes com problemas.</p>
+                            <a href="" class="btn btn-success">Denuncie aqui</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 border border-3 border-dark shadow-lg rounded-5 text-center p-1">
+                        <img src="../../recursos/imagens/icone-vias.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Buracos e Vias</h5>
+                            <p class="card-text">Buracos, asfalto danificado e calçadas quebradas.</p>
+                            <a href="" class="btn btn-success">Denuncie aqui</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="container-fluid p-3">
+        <img class="img-fluid" src="../../recursos/imagens/img.png" alt="">
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="../../recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts da aplicação -->
+    <script src="../../view/scripts/index.js"></script>
+
+</body>
+
+</html>

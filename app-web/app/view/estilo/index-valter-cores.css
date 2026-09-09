@@ -1,0 +1,31 @@
+:root {
+    --cor-cabecalho: rgb(64, 146, 71);
+}
+
+.navbar-nav .nav-link {
+    transition: 0.3s;
+}
+.navbar-nav .nav-link:hover {
+    color: var(--cor-cabecalho) !important;
+}
+
+.navbar-toggler:hover {
+    background-color: var(--cor-cabecalho);
+}
+
+.img-fundo {
+    background-image: url("../../recursos/imagens/background-index.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.493);
+    color: black;
+    font-weight: 600;
+}
+
+.card-title {
+    font-weight: 900;
+}
