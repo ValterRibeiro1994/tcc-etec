@@ -13,6 +13,16 @@ class LoginController {
         }
     }
 
-    private function logarUsuario(array $requisicao){
+    private function logar(array $requisicao){
+    }
+
+    private function status(array $requisicao){
+        if ($requisicao['metodo'] == "GET"){
+            if (SessaoController::usuarioAtivo()){
+                return RespostaProcesso::respostaProcesso("Sessão ativa", true, ['token'=>$_SESSION['token']]);
+            } else {
+                return RespostaProcesso::respostaProcesso("Sessão fechada", false);
+            }
+        }
     }
 }

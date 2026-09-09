@@ -4,26 +4,25 @@
 # Metodos GET
 /user/municipe
 /user/representante
+/user/denuncias
+/user/denuncia
 /denuncias <!-- pagina para todas as denuncias>
-/denuncia/id <!--  para para exibir denuncia separadamente -->
-/denuncia/id/respostas 
-/denuncia/id/resposta/id 
+/denuncias/filtrar
 
 # Metodos POST
-/cadastrar/municipe
-/cadastrar/prefeitura
-/cadastrar/denuncia
-/denuncia/id/resposta
+user/cadastrar/municipe
+user/cadastrar/representante
+user/cadastrar/denuncia
+user/cadastrar/denuncia
 
 # Metodos PUT
-/editar/municipe
-/editar/prefeitura
-/editar/denuncia/id
-/editar/denuncia/id/resposta
+user/editar/municipe
+user/editar/representante
+user/editar/resposta
 
 # Metodos DELETE
-/remover/municipe
-/remover/prefeitura
-/remover/denuncia/id
-/remover/denuncia/id/resposta
+user/remover/municipe
+user/remover/representante
+user/remover/denuncia
+user/remover/resposta
 
