@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
 
     <!-- Classes personalizadas -->
-    <link rel="stylesheet" href="../../view/estilo/index-valter-cores.css">
+    <link rel="stylesheet" href="app/view/estilo/index-valter-cores.css">
     <title>Home</title>
 </head>
 
@@ -33,7 +33,7 @@
                         img-fluid: Torna a imagem responsiva (max-width: 100%; height: auto)
                         rounded-3: Aplica bordas arredondadas médias
                     -->
-                    <img src="../../recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
+                    <img src="app/recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
                 </a>
 
                 <!-- 
@@ -77,7 +77,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link fs-5 text-white">Cadastre-se</a>
+                            <a href="denunciante/cadastrar" class="nav-link fs-5 text-white">Cadastre-se</a>
                         </li>
 
                     </ul>
@@ -86,12 +86,12 @@
                         d-flex: Define display flexbox no elemento
                         gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
                     -->
-                    <form action="" method="post" class="d-flex gap-2">
+                    <form action="login" method="post" class="d-flex gap-2">
 
                         <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
-                        <input name="email" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
+                        <input name="email" value="teste@email.com" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
 
-                        <input name="senha" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
+                        <input name="senha" value="senha01" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
 
                         <!-- 
                             btn: Estilização base para botões
@@ -188,7 +188,7 @@
                             rounded-2: Bordas levemente arredondadas
                             w-50: Largura de 50% em relação ao pai
                         -->
-                        <img src="../../recursos/imagens/icone-lixeira.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+                        <img src="app/recursos/imagens/icone-lixeira.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
 
                         <!-- card-body: Bloco de conteúdo principal dentro do card -->
                         <div class="card-body">
@@ -203,7 +203,7 @@
 
                 <div class="col-12 col-md-4">
                     <div class="card h-100 border border-3 border-dark shadow-lg rounded-5 text-center p-1">
-                        <img src="../../recursos/imagens/icone-iluminacao.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+                        <img src="app/recursos/imagens/icone-iluminacao.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
 
                         <div class="card-body">
                             <h5 class="card-title">Iluminação Pública</h5>
@@ -215,7 +215,7 @@
 
                 <div class="col-12 col-md-4">
                     <div class="card h-100 border border-3 border-dark shadow-lg rounded-5 text-center p-1">
-                        <img src="../../recursos/imagens/icone-vias.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
+                        <img src="app/recursos/imagens/icone-vias.png" alt="" class="card-img-top d-block mx-auto rounded-2 w-50">
 
                         <div class="card-body">
                             <h5 class="card-title">Buracos e Vias</h5>
@@ -230,14 +230,14 @@
     </main>
 
     <footer class="container-fluid p-3">
-        <img class="img-fluid" src="../../recursos/imagens/img.png" alt="">
+        <img class="img-fluid" src="app/recursos/imagens/img.png" alt="">
     </footer>
 
     <!-- Bootstrap JavaScript -->
-    <script src="../../recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Scripts da aplicação -->
-    <script src="../../view/scripts/index.js"></script>
+    <script src="app/view/scripts/index.js"></script>
 
 </body>
 

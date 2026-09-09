@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../app/view/estilo/geral.css">
+    <link rel="stylesheet" href="../app/view/estilo/cadastro.css">
+    <link rel="stylesheet" href="../app/recursos/fontawesone/css/all.css">
     <title>Cadastro - RelateSBC</title>
-    <link rel="stylesheet" href="../estilo/geral.css">
-    <link rel="stylesheet" href="../estilo/cadastro.css">
-    <link rel="stylesheet" href="../../recursos/fontawesone/css/all.css">
 </head>
 
-<body>
+<body> 
 
     <header class="auth-header">
-        <a href="index.html" class="btn-back" aria-label="Voltar para a página inicial">
+        <a href="../home" class="btn-back" aria-label="Voltar para a página inicial">
             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
             <span>Voltar ao início</span>
         </a>
@@ -36,47 +36,48 @@
         <section class="form-container">
             <div class="form-header">
                 <h2>Cadastro</h2>
-                <a href="login-denunciante.html" class="login-link">Já tem conta?</a>
+                <a href="login" class="login-link">Já tem conta?</a>
             </div>
 
             <form id="form-cadastro-denunciante">
                 <div class="fields-group">
                     <label class="form-field">
                         <span>Nome</span>
-                        <input type="text" name="nome" placeholder="Seu nome" required>
+                        <input type="text" value="teste" name="nome" placeholder="Seu nome" required>
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </label>
 
                     <label class="form-field">
                         <span>Sobrenome</span>
-                        <input type="text" name="sobrenome" placeholder="Seu sobrenome" required>
+                        <input type="text" value="treste" name="sobrenome" placeholder="Seu sobrenome" required>
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                     </label>
 
                     <label class="form-field">
                         <span>E-mail</span>
-                        <input type="email" name="email" placeholder="exemplo@gmail.com" required>
+                        <input type="email" value="teste@email.com" name="email" placeholder="exemplo@gmail.com" required>
                         <i class="fa-regular fa-envelope" aria-hidden="true"></i>
                     </label>
 
                     <label class="form-field">
                         <span>CPF</span>
-                        <input type="text" name="cpf" placeholder="000.000.000-00" required>
+                        <input type="text" value="12345678978" name="cpf" placeholder="000.000.000-00" required>
                         <i class="fa-solid fa-id-card" aria-hidden="true"></i>
                     </label>
 
                     <label class="form-field">
                         <span>Senha</span>
-                        <input type="password" name="senha" placeholder="Sua senha" minlength="8" required>
+                        <input type="password" value="asdasdasd" name="senha" placeholder="Sua senha" minlength="8" required>
                         <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
                     </label>
 
                     <label class="form-field">
                         <span>Confirmar Senha</span>
-                        <input type="password" name="confirmar-senha" placeholder="Confirme a senha" minlength="8" required>
+                        <input type="password" value="asdasdasd" name="confirmar-senha" placeholder="Confirme a senha" minlength="8" required>
                         <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
                     </label>
                 </div>
+                <p id="respostaProcesso"></p>
 
                 <button type="submit" class="submit-btn">
                     <span>Criar conta</span>

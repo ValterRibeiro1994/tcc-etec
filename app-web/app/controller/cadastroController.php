@@ -1,46 +1,22 @@
 <?php
 
-
-class DenuncianteController {
-    public function index(array $requisicao){
-        // garanta que o método tenha sido definido
+class CadastroController {
+    public function municipe(array $requisicao){
         if (!array_key_exists("metodo", $requisicao)){
-            return RespostaProcesso::respostaProcesso("Método não enviado", dados: $requisicao);
+            return RespostaProcesso::respostaProcesso("Requisição invalida");
         }
 
         if ($requisicao['metodo'] == "GET"){
-            // A página principal do denunciante deve ser chamada
-            $dados = [
-                "pagina" => "app/view/paginas/home-denunciante.html",
-                "tipo-resposta"=>"text/html"
-            ];
-            return RespostaProcesso::respostaProcesso("Criar página principal para o denunciante", true, $dados);
+            return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "text/html");
+        } else if ($requisicao['metodo'] == "POST"){
+            return $this->cadastrarDenunciante($requisicao);
+        } else {
+            return RespostaProcesso::respostaProcesso("Requisiões indefinidas");
         }
-
-        return RespostaProcesso::respostaProcesso("POST não esperado para essa função ", dados: $requisicao);
     }
 
-    public function cadastrar(array $requisicao){
-        if (!array_key_exists("metodo", $requisicao)){
-            return RespostaProcesso::respostaProcesso("Método não enviado", dados: $requisicao);
-        }
-
-        if ($requisicao['metodo'] == "GET"){
-            // a pagina para cadastrar o denunciante deve ser exibida
-            $dados = [
-                "pagina"=>"app/view/paginas/cadastro-denunciante.html",
-                "tipo-resposta"=> "text/html"
-            ];
-
-            return RespostaProcesso::respostaProcesso("Chamar cadastro denunciante...", true, $dados);
-        } else {
-            $dados = [
-                'tipo-resposta'=>"application/json",
-                'resposta-processo' => $this->cadastrarDenunciante($requisicao)
-            ];
-            return RespostaProcesso::respostaProcesso("Em andamento", true, $dados);
-        }
-
+    public function representante(array $requisicao){
+        return RespostaProcesso::respostaProcesso("Criar processo para cadastro de representante");
     }
 
     private function cadastrarDenunciante(array $dados){
