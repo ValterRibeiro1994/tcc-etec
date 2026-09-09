@@ -14,6 +14,7 @@ class Roteador {
             $this->resposta = $this->getProcess($_GET);
             
         } else if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $_POST['metodo'] = "POST";
             $this->resposta = $this->postProcesso($_POST);
         } else {
             $this->resposta = RespostaProcesso::respostaProcesso("Requisição Invalida");

@@ -5,6 +5,7 @@ class Denunciante {
     // para esses dados pessoais
     private DadosPessoais $dadosDenunciante;
     private Senha $senha;
+    private int $id;
 
     public function __construct(DadosPessoais $dadosDenunciante, Senha $senha) {
         $this->dadosDenunciante = $dadosDenunciante;
@@ -30,6 +31,11 @@ class Denunciante {
     public function getSenha() {
         return $this->senha->getSenha();
     }
+
+    public function setId(int $novo_id){
+        $this->id = $novo_id;
+    }
+
 
     
 }
