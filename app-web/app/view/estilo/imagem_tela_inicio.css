@@ -61,3 +61,42 @@
 }
 
 
+@media (max-width: 768px) {
+    
+    .fundo-img img {
+        height: 400px; 
+        object-fit: cover; 
+    }
+
+    .tag-zeladoria {
+        top: 5%;
+        left: 5%;
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+
+    .fundo-img h2 {
+        top: 15%;
+        left: 5%;
+        font-size: 42px; /* Metade do tamanho para caber no celular */
+        width: 90%;      /* Força o texto a quebrar linha se precisar */
+    }
+
+    .fundo-img p-maior {
+        top: 50%;
+        left: 5%;
+        font-size: 18px;
+        line-height: 1.4;
+        width: 90%;
+    }
+
+    .fundo-img p-menor {
+        top: 72%;
+        left: 5%;
+        font-size: 13px;
+        line-height: 1.3;
+        width: 60%; 
+    }
+}
+
+

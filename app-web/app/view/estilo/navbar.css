@@ -20,12 +20,13 @@
     padding: 12px 5%;
 
     box-sizing: border-box;
+
 }
 
 
 /* LOGO */
 
-.logo-link {
+.logo-item {
     display: flex;
     align-items: center;
 
@@ -154,4 +155,65 @@
 .nav-btn-primary:hover {
     background-color: #189c4f;
     transform: translateY(-2px);
+}
+
+
+/* RESPONSIVIDADE MOBILE */
+
+
+.mobile-menu-icon{
+    display: none;
+
+}
+
+.mobile-menu{
+    display: none;
+}
+
+@media screen and (max-width: 730px){
+    .navbar{
+        padding: 1.5rem;
+    }
+    
+    .nav-item{
+        display: none;
+    }
+
+    .nav-btn{
+        display: none;
+    }
+
+    .mobile-menu-icon{
+        display: block;
+    }
+
+    .mobile-menu-icon button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .mobile-menu ul{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 1rem;
+    }
+
+    .mobile-menu .nav-item {
+        display: block;
+        padding-top: 1.2rem;
+    }
+
+    .mobile-menu .nav-actions{
+        display: block;
+        padding: 1rem 2rem;
+    }
+    .mobile-menu .nav-actions button{
+        width: 100%;
+    }
+
+    .abrir{
+        display: block;
+    }
 }
