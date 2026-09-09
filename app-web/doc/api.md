@@ -2,6 +2,8 @@
 <!-- Esboço inicial  -->
 
 # Metodos GET
+/user/municipe
+/user/representante
 /denuncias <!-- pagina para todas as denuncias>
 /denuncia/id <!--  para para exibir denuncia separadamente -->
 /denuncia/id/respostas 

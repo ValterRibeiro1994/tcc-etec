@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <link rel="stylesheet" href="../estilo/selecionar-perfil.css">
+    <link rel="stylesheet" href="../../recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../recursos/fontawesone/css/all.css">
+    <link rel="stylesheet" href="../estilo/navbar.css"> -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
+    <!-- Classes personalizadas -->
+    <link rel="stylesheet" href="app/view/estilo/index-valter-cores.css">
+    <title>Escolha o tipo de cadastro - RelateSBC</title>
+</head>
+
+<body>
+
+    <header>
+        <!-- 
+            navbar: Define o componente de barra de navegação
+            navbar-expand-lg: Expande a barra (links visíveis) em telas grandes (>=992px) e recolhe em telas menores
+            navbar-dark: Ajusta o contraste do texto e ícones para fundos escuros
+            bg-dark: Aplica cor de fundo escura (tema dark)
+        -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+            <!-- container-fluid: Contêiner de largura total (100% da viewport) -->
+            <div class="container-fluid">
+
+                <!-- navbar-brand: Estilização reservada para marca/logo -->
+                <a href="#" class="navbar-brand">
+                    <!-- 
+                        img-fluid: Torna a imagem responsiva (max-width: 100%; height: auto)
+                        rounded-3: Aplica bordas arredondadas médias
+                    -->
+                    <img src="app/recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
+                </a>
+
+                <!-- 
+                    navbar-toggler: Botão "hambúrguer" exibido apenas em telas menores
+                -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menuNavegacao" aria-controls="menuNavegacao" aria-expanded="false" aria-label="Abrir menu">
+                    <!-- navbar-toggler-icon: Ícone do botão hambúrguer -->
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- 
+                    collapse: Esconde o conteúdo por padrão em telas pequenas
+                    navbar-collapse: Agrupa o conteúdo que será expandido/recolhido
+                -->
+                <div class="collapse navbar-collapse" id="menuNavegacao">
+
+                    <!-- 
+                        navbar-nav: Organiza os itens da lista de navegação
+                        me-auto: Margem direita automática (empurra os elementos seguintes para a direita)
+                        mb-3: Margem inferior de nível 3 (0.75rem em telas pequenas)
+                        mb-lg-0: Remove a margem inferior em telas grandes (>=992px)
+                    -->
+                    <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+
+                        <!-- nav-item: Item individual da lista de navegação -->
+                        <li class="nav-item">
+                            <!-- 
+                                nav-link: Estilização do link da barra de navegação
+                                fs-5: Tamanho da fonte nível 5 (1.25rem)
+                                text-white: Define a cor do texto como branco
+                            -->
+                            <a href="#" class="nav-link fs-5 text-white">Início</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fs-5 text-white">Sobre</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fs-5 text-white">Denúncias</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="" class="nav-link fs-5 text-white">Cadastre-se</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- 
+                        d-flex: Define display flexbox no elemento
+                        gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
+                    -->
+                    <form action="login" method="post" class="d-flex gap-2">
+
+                        <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
+                        <input name="email" value="teste@email.com" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
+
+                        <input name="senha" value="senha01" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
+
+                        <!-- 
+                            btn: Estilização base para botões
+                            btn-success: Estilo do botão na cor verde (sucesso/confirmação)
+                            text-nowrap: Impede que o texto do botão quebre em múltiplas linhas
+                        -->
+                        <button type="submit" class="btn btn-success text-nowrap">
+                            Conectar
+                        </button>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <main>
+        <div class="card">
+            
+        </div>
+    </main>
+
+        <!-- Bootstrap JavaScript -->
+    <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

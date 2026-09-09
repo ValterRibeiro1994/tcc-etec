@@ -15,7 +15,7 @@ if ($resposta_servidor['resposta']){
         exit();
     } else {
         header("Content-Type: application/json; charset=utf-8");
-        echo json_encode($resposta_servidor['dados'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        echo json_encode($resposta_servidor, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         exit();
     }
 } else {

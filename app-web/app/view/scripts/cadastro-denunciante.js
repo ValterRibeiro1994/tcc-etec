@@ -8,7 +8,7 @@ form.addEventListener("submit", async function (event) {
     dadosForm.append('metodo', 'POST');  
     
     try {
-        let resposta = await fetch("municipe", {
+        let resposta = await fetch("../cadastro/municipe", {
             method: 'POST',
             body: dadosForm
         });
