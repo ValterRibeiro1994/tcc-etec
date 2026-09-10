@@ -7,7 +7,7 @@ class HomeController {
         }
 
         if ($requisicao['metodo'] == "GET"){
-            return RespostaProcesso::respostaProcesso("app/view/paginas/seleciona-login.html", status: true, formato: "text/html");
+            return RespostaProcesso::respostaProcesso("app/view/paginas/home-denunciante.html", status: true, formato: "text/html");
         }
 
         return RespostaProcesso::respostaProcesso("Método invalido para home");
