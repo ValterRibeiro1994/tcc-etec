@@ -1,14 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="app/view/estilo/mural.css">
-    <title>Document</title>
+    <title>Home - Mural de denúncias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="mural.css">
 </head>
 <body>
-    
-    <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>   
+
+    <div class="d-flex">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="bi bi-shield-check"></i>
+                <span>Denúncia<br>Fácil</span>
+            </div>
+
+            <div class="menu">
+                <a href="#" class="menu-item ativo">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Início</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Histórico</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="bi bi-clipboard2-check"></i>
+                    <span>Acompanhamento</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="bi bi-person"></i>
+                    <span>Minhas denúncias</span>
+                </a>
+
+                <a href="#" class="menu-item denuncia-link">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    <span>Fazer denúncia</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="#" class="menu-item">
+                    <i class="bi bi-gear"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="conteudo flex-grow-1">
+            <div class="topo">
+                <div>
+                    <h1>Mural de denúncias</h1>
+                    <p>Veja o que os cidadãos já denunciaram e acompanhe as situações dos problemas na sua cidade.</p>
+                </div>
+
+                <button class="btn nova-denuncia">
+                    <i class="bi bi-plus-lg"></i>
+                    Nova denúncia
+                </button>
+            </div>
+
+            <div class="filtros">
+                <button class="filtro ativo-filtro">Todas</button>
+                <button class="filtro">Infraestrutura</button>
+                <button class="filtro">Saneamento</button>
+                <button class="filtro">Segurança</button>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-xl-6">
+                    <div class="card denuncia">
+                        <div class="imagem-box">
+                            <img src="../../recursos/imagens/tampa-bueiro.webp" alt="Bueiro"> <br>
+                            <span class="categoria">Saneamento</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Tampa de bueiro quebrada</h3>
+                            <p class="endereco"><i class="bi bi-geo-alt-fill"></i> Rua das Palmeiras, 245 - Centro</p>
+                            <div class="info">
+                                <span><i class="bi bi-clock"></i> Há 5 horas</span>
+                                <span class="status recebida">Recebida</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card denuncia">
+                        <div class="imagem-box">
+                            <img src="../../recursos/imagens/buraco-rua.webp" alt="Buraco na via"> <br>
+                            <span class="categoria">Infraestrutura</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Buraco na via</h3>
+                            <p class="endereco"><i class="bi bi-geo-alt-fill"></i> Av. Brasil, 890 - Vila Gonçalves</p>
+                            <div class="info">
+                                <span><i class="bi bi-clock"></i> Há 2 horas</span>
+                                <span class="status analise">Em análise</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card denuncia">
+                        <div class="imagem-box">
+                            <img src="../../recursos/imagens/poste-quebrado.webp" alt="Iluminação pública"> <br>
+                            <span class="categoria">Iluminação</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Poste sem iluminação</h3>
+                            <p class="endereco"><i class="bi bi-geo-alt-fill"></i> Rua das Flores, 120 - Jardim Novo</p>
+                            <div class="info">
+                                <span><i class="bi bi-clock"></i> Há 1 dia</span>
+                                <span class="status resolvida">Resolvida</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card denuncia">
+                        <div class="imagem-box">
+                            <img src="../../recursos/imagens/calcada-quebrada.webp" alt="Calçada"> <br>
+                            <span class="categoria">Mobilidade</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Calçada danificada</h3>
+                            <p class="endereco"><i class="bi bi-geo-alt-fill"></i> Rua São Paulo, 455 - Centro</p>
+                            <div class="info">
+                                <span><i class="bi bi-clock"></i> Há 2 dias</span>
+                                <span class="status recebida">Recebida</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>
