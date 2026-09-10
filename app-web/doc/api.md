@@ -6,8 +6,7 @@
 /user/representante
 /user/denuncias
 /user/denuncia
-/denuncias <!-- pagina para todas as denuncias>
-/denuncias/filtrar
+home/denuncias <!-- pagina para todas as denuncias>
 
 # Metodos POST
 user/cadastrar/municipe

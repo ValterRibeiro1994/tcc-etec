@@ -2,7 +2,7 @@
 
 class Nome {
     private string $nome;
-    public function __construct(string $nome, int $limite = 20){
+    public function __construct(string $nome, int $limite = 30){
         $nome = htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
         $n = strlen($nome);
         if ($n > $limite || $n < 3){

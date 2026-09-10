@@ -1,42 +1,34 @@
 <?php
 
-class Denunciante {
+class Denunciante extends Usuario {
     // para não ter muitos parametros se pode reduzir nome, sobrenome, email e cpf em uma classe
     // para esses dados pessoais
-    private DadosPessoais $dadosDenunciante;
     private Senha $senha;
-    private int $id;
 
     public function __construct(DadosPessoais $dadosDenunciante, Senha $senha) {
-        $this->dadosDenunciante = $dadosDenunciante;
+        parent::__construct($dadosDenunciante);
         $this->senha = $senha;
     }
 
     public function getNome() {
-        return $this->dadosDenunciante->getNome();
+        return $this->dados_pessoais->getNome();
     }
 
     public function getSobrenome() {
-        return $this->dadosDenunciante->getSobrenome();
+        return $this->dados_pessoais->getSobrenome();
     }
 
     public function getEmail() {
-        return $this->dadosDenunciante->getEmail();
+        return $this->dados_pessoais->getEmail();
     }
 
     public function getCpf() {
-        return $this->dadosDenunciante->getCpf();
+        return $this->dados_pessoais->getCpf();
     }
 
     public function getSenha() {
         return $this->senha->getSenha();
     }
-
-    public function setId(int $novo_id){
-        $this->id = $novo_id;
-    }
-
-
     
 }
 ?>

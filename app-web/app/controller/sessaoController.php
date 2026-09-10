@@ -8,33 +8,18 @@ class SessaoController {
         }
     }
 
-    public static function usuarioAtivo(){
+    public static function salvarUsuario(Usuario $usuario, bool $logado, bool $lembrar){
         self::iniciarSessao();
-        if (empty($_SESSION['token'])){
-            return false;
-        }
-        return true;
-    }
-
-    public static function salvarToken(string $token) {
-        self::iniciarSessao();
-        if (empty($_SESSION['token'])) {
-            $_SESSION['token'] = $token;
+        $_SESSION['nome'] = $usuario->getNome();
+        $_SESSION['sobrenome'] = $usuario->getSobrenome();
+        $_SESSION['logado'] = $logado;
+        $_SESSION['lembrar'] = $lembrar;
+        if ($lembrar){
+            $_SESSION['data-hora-entrada'] = new DateTime()->format("d/m/Y H:i");
         }
     }
 
-    public static function removerToken() {
-        self::iniciarSessao();
-        unset($_SESSION['token']); 
-    }
-
-    public static function salvarDenuncia(Denuncia $denuncia) {
-        self::iniciarSessao();
-        $_SESSION['denuncias'][] = $denuncia;
-    }
-
-    public static function obterDenuncias(): array {
-        self::iniciarSessao();
-        return $_SESSION['denuncias'] ?? null;
-    }
+    public static function armazenarToken(string $token){
+        $_SESSION['token'] = $token;
+    } 
 }
