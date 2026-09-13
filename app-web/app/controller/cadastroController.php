@@ -34,7 +34,11 @@ class CadastroController {
 
     private function cadastrarDenunciante(array $dados){
         // verifica a existencia e o envio dos atributos necessarios para o cadastro
-        $dados_esperado = ['nome', 'sobrenome', 'cpf', 'email', 'senha', 'confirmar-senha'];
+        $dados_esperado = [
+            'nome', 'sobrenome', 'cpf', 
+            'email', 'senha', 'confirmar-senha',
+            'cidade', 'estado', 'perfil', 'lembrar'
+            ];
         $n = count($dados_esperado);
         for ($i = 0; $i < $n; $i++){
             $atributo = $dados_esperado[$i];
