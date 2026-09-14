@@ -67,7 +67,7 @@ class AppTemplate {
 
     private function criarHead(string $titulo) {
         $estilos = $_SESSION['config']['estilos'];
-        include_once("../relate/app/paginas/headTemplate.php");
+        // include_once("../relate/app/paginas/headTemplate.php");
         
         $head = new HeadTemplate($titulo, $estilos);
         $this->head = $head->getTemplate();

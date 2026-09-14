@@ -16,6 +16,6 @@ class CadastroPagina {
     }
 
     private function criarLabel(){
-
+    
     }
 }

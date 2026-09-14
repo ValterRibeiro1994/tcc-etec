@@ -23,7 +23,7 @@ class Sessao {
         self::iniciarSessao();
         $_SESSION['config']['estilos'] = [
             "app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css",
-            "app/paginas/estilo/home.css"
+            "app/paginas/estilo/home.css",
         ];
     }
 
