@@ -7,7 +7,7 @@ class HomeController {
         }
 
         if ($requisicao['metodo'] == "GET"){
-            return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "text/html");
+            return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", status: true, formato: "text/html");
         }
 
         return RespostaProcesso::respostaProcesso("Método invalido para home");

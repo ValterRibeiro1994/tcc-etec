@@ -1,8 +1,9 @@
 
 /*SEÇÃO PARA ARMAZENAR OS CARDS*/
+
 .secao-conteiner {
   background-color:#577559;
-  padding: 1.5%;     
+  padding: 2rem 1.5%;     
   display: flex;
   flex-direction: column;       
 }
@@ -13,35 +14,41 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
     margin-top: 0.1%;
+    margin-bottom: 1.5rem;
 }
 
 .conteiner-cards {
     display: flex !important;
     flex-direction: row !important;
-    gap: 4% !important;
+    gap: 20px !important;
     justify-content: center;
+    flex-wrap: wrap !important; 
 }
 
 
 
-/*CRIANDO CARD*/
-.cards-tela-inicial{
-    width: 18.5%;
-    height: 100px;
+/* CRIANDO CARD */
+.cards-tela-inicial {
+    /* Força os cards a terem tamanho fixo em px e não em % */
+    flex: 1 1 240px !important; 
+    max-width: 280px !important; 
+    height: auto !important; 
+    min-height: 100px !important;
+    width: auto !important; /* Anula o width: 18.5% anterior */
+    
     background-color: white;
     border-radius: 12px;
     border: 1px solid rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.60); 
     
-    display: grid;
-    grid-template-columns: 26% 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 4%;
-    align-items: center;            
-    padding-right: 0.95%;         
+    display: grid !important;
+    grid-template-columns: 60px 1fr !important; /* Fixa o espaço do ícone */
+    grid-template-rows: auto auto !important;
+    column-gap: 10px !important;
+    align-items: center !important;            
+    padding: 12px !important;         
+    box-sizing: border-box !important;
 }
-
 
 /*CONTEUDO DO CARD*/
 .conteudo-card{

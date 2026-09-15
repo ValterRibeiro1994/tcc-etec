@@ -2,6 +2,7 @@
    NAVBAR
    ============================== */
 
+   
 .navbar-header {
     width: 100%;
 }
@@ -173,14 +174,18 @@
 @media screen and (max-width: 730px){
     .navbar{
         padding: 1.5rem;
+        justify-content: space-between;
     }
     
     .nav-item{
         display: none;
     }
 
-    .nav-btn{
-        display: none;
+    .nav-btn{    
+        display: inline-flex;
+        padding: 0 12px;
+        height: 36px;
+        font-size: 14px;
     }
 
     .mobile-menu-icon{
@@ -191,6 +196,12 @@
         background-color: transparent;
         border: none;
         cursor: pointer;
+        color: white;
+    }
+    .mobile-menu{
+        display: none;
+        background-color: #1a321b;
+        width: 100%;
     }
 
     .mobile-menu ul{
@@ -206,14 +217,22 @@
     }
 
     .mobile-menu .nav-actions{
-        display: block;
-        padding: 1rem 2rem;
+        display: flex;
+        padding: 1.5rem 2rem;
+        gap: 12px;
+        flex-direction: column;
     }
     .mobile-menu .nav-actions button{
+        display: none;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .abrir{
         display: block;
     }
 }
+
+
+
+

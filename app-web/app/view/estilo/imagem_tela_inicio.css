@@ -9,6 +9,7 @@
     width: 100%;
     max-width: 100%;
     height: 500px;
+    
 }
 
 
@@ -80,8 +81,8 @@
     .fundo-img h2 {
         top: 15%;
         left: 5%;
-        font-size: 42px; /* Metade do tamanho para caber no celular */
-        width: 90%;      /* Força o texto a quebrar linha se precisar */
+        font-size: 42px; 
+        width: 90%;      
     }
 
     .fundo-img p-maior {
