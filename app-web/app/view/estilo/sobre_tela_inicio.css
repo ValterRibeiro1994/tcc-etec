@@ -84,35 +84,92 @@
     
 }
 
-@media (max-width: 768px) {
-    
-
+@media (max-width: 1050px) {
 
     .tag-sobre {
-        top: 830px;
-        left: 5%;
-        font-size: 12px;
+        position: absolute; 
+        top: 950px;
+        left: 7.6%;
+        font-size: 16px;
         padding: 2px 8px;
     }
 
     .sobre-relate h2 {
-        top: 900px;
-        left: 5%;
-        font-size: 42px; 
+        position: absolute; 
+        top: 1000px;
+        left: 7%;
+        font-size: 65px; 
         width: 90%;      
     }
 
-
-
     .sobre-relate texto-menor {
-        top: 1180px;
-        left: 5%;
-        font-size: 13px;
+        position: absolute;
+        top: 1200px;
+        left: 8%;
+        font-size: 16px;
         line-height: 1.3;
         width: 60%; 
     }
+
+    .img-celular-denuncia{
+        float: right;
+        margin-left: 20px; 
+        margin-bottom: 10px;
+        height: 390px;
+        width: 43%;
+        margin-top: -18px;
+    }
+    .sobre-relate{
+        width: 100%;
+        height: 37%; 
+    }
 }
 
+
+   
+/*RESPONSIVIDADE MENOR DE 768PX*/
+   
+
+@media (max-width: 768px) {
+
+    .tag-sobre {
+        position: absolute; 
+        top: 850px;
+        left: 7.6%;
+        font-size: 14px;
+        padding: 2px 8px;
+    }
+
+    .sobre-relate h2 {
+        position: absolute; 
+        top: 900px;
+        left: 7%;
+        font-size: 60px; 
+        width: 90%;      
+    }
+
+    .sobre-relate texto-menor {
+        position: absolute;
+        top: 1100px;
+        left: 9%;
+        font-size: 15px;
+        line-height: 1.3;
+        width: 60%; 
+    }
+
+    .img-celular-denuncia{
+        float: right;
+        margin-left: 20px; 
+        margin-bottom: 10px;
+        height: 350px;
+        width: 43%;
+        margin-top: -18px;
+    }
+    .sobre-relate{
+        width: 100%;
+        height: 37%; 
+    }
+}
 
 
    
