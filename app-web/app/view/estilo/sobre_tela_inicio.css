@@ -526,4 +526,58 @@
         background-color: blue;
     }
 }
+
+
+@media (min-width: 1700px) {
+
+     .tag-sobre {
+        position: absolute; 
+        top: 1130px;
+        left: 20%;
+        font-size: 20px;
+        padding: 2px 8px;
+    }
+
+    .sobre-relate h2 {
+        position: absolute; 
+        top: 1190px;
+        left: 20%;
+        font-size: 130px; 
+        width: 50%;      
+    }
+
+    .sobre-relate texto-menor {
+        position: absolute;
+        top: 1600px;
+        left: 20%;
+        font-size: 28px;
+        line-height: 1.3;
+        width: 30%; 
+    }
+
+    .img-celular-denuncia{
+        float: right;
+        margin-left: 20px; 
+        margin-bottom: 10px;
+        height: 650px;
+        width: 40%;
+        margin-top: -18px;
+        margin-right: 300px;
+        
+        
+    }
+    .sobre-relate{
+        width: 100%;
+        height: 45%; 
+    }
+}
+
+@media (min-width: 1700px)  {
+    @media (max-width: 2500px) {
+        .img-celular-denuncia{
+        margin-right: 0px;
+    }
+    }
     
+}
+
