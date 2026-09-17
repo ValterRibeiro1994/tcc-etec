@@ -248,5 +248,19 @@
     }
  }
 
+ @media (max-width: 390px) {
+
+    .logo-relatesbc{
+        width: 120px;
+        height: auto;
+    }
+
+     .nav-btn{    
+        display: inline-flex;
+        padding: 0 10px;
+        height: 30px;
+        font-size: 10px;
+    }
+ }
 
 

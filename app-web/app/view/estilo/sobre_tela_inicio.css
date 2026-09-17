@@ -572,6 +572,59 @@
     }
 }
 
+@media screen and (max-width: 730px) {
+    
+    .sobre-relate {
+        width: 100% !important;
+        height: auto !important;     
+        padding: 20px !important; 
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: center !important;    
+        text-align: center !important;     
+    }
+
+    
+    .tag-sobre {
+        position: static !important; 
+        top: auto !important;        
+        left: auto !important;       
+        display: inline-block !important;
+        font-size: 14px !important;
+        padding: 4px 12px !important;
+        margin-bottom: 10px !important;
+    }
+
+  
+    .sobre-relate h2 {
+        position: static !important; 
+        top: auto !important;        
+        left: auto !important;       
+        width: 100% !important;      
+        font-size: 36px !important; 
+        line-height: 1.2 !important;
+        margin: 0 0 15px 0 !important; 
+    }
+
+    .sobre-relate texto-menor,
+    .texto-menor { 
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important; 
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 25px !important; 
+    }
+
+    
+    .img-celular-denuncia {
+        display: none;
+    }
+}
+
+
 @media (min-width: 1700px)  {
     @media (max-width: 2500px) {
         .img-celular-denuncia{
