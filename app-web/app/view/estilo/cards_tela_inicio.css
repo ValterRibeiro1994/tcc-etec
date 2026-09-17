@@ -31,8 +31,8 @@
 .cards-tela-inicial {
     /* Força os cards a terem tamanho fixo em px e não em % */
     flex: 1 1 240px !important; 
-    max-width: 280px !important; 
-    height: auto !important; 
+    max-width: 280px;
+    height: auto; 
     min-height: 100px !important;
     width: auto !important; /* Anula o width: 18.5% anterior */
     
@@ -77,7 +77,7 @@
 
 /*CAIXA PARA O ICONE*/
 .icone-card{
-    width: 64.19%;
+    width: 50px;
     height: 50px;
     background-color: #18db18;
     margin-left: 25.7%;
@@ -93,6 +93,34 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+}
+
+
+@media (min-width: 1700px) {
+    
+     .cards-tela-inicial {
+         max-width: 400px;
+         height: 150px !important;
+
+     }
+     .secao-conteiner h2{
+         font-size: 40px;
+         
+     }
+
+     .titulo-card{
+        font-size: 25px;
+        
+     }
+     .descricao-card{
+        font-size: 18px;
+        
+     }
+     .conteudo-card{
+        margin-left: 10px !important;
+     }
+     
+     
 }
 
 @media (max-width: 515px) {
