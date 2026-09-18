@@ -5,19 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - RelateSBC</title>
-    <link rel="stylesheet" href="/app/view/estilo/geral.css">
-    <link rel="stylesheet" href="/app/view/estilo/login-denunciante.css">
-    <link rel="stylesheet" href="/app/recursos/fontawesone/css/all.css">
-    <link rel="stylesheet" href="/app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/view/estilo/geral.css">
+    <link rel="stylesheet" href="app/view/estilo/login-img.css">
+    <link rel="stylesheet" href="app/view/estilo/login-denunciante.css">
+    <link rel="stylesheet" href="app/recursos/fontawesone/css/all.css">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
 </head>
 
 <body>
 
-    <header class="auth-header">
-
-           <header class="auth-header">
-
-        <header>
+    <header>
         <!-- 
             navbar: Define o componente de barra de navegação
             navbar-expand-lg: Expande a barra (links visíveis) em telas grandes (>=992px) e recolhe em telas menores
@@ -35,7 +32,7 @@
                         img-fluid: Torna a imagem responsiva (max-width: 100%; height: auto)
                         rounded-3: Aplica bordas arredondadas médias
                     -->
-                    <img src="/app/recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
+                    <img src="app/recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
                 </a>
 
                 <!-- 
@@ -78,7 +75,9 @@
                             <a href="#" class="nav-link fs-5 text-white">Denúncias</a>
                         </li>
 
-                     
+                        <li class="nav-item">
+                            <a href="" class="nav-link fs-5 text-white">Cadastre-se</a>
+                        </li>
 
                     </ul>
 
@@ -86,7 +85,13 @@
                         d-flex: Define display flexbox no elemento
                         gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
                     -->
-                   
+                    <form id="form-login" class="d-flex gap-2">
+
+                        <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
+                        <input name="email" value="teste@email.com" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
+
+                        <input name="senha" value="senha01" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
+
                         <!-- 
                             btn: Estilização base para botões
                             btn-success: Estilo do botão na cor verde (sucesso/confirmação)
@@ -97,7 +102,6 @@
                         </button>
 
                     </form>
-
                 </div>
 
             </div>
@@ -105,59 +109,41 @@
         </nav>
 
     </header>
-        <a href="home" class="btn btn-outline-dark" aria-label="Voltar para a página inicial">
-            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-            <span>Voltar ao início</span>
-        </a>
-    </header>
 
-    <main class="page-split-container">
-        
-        <!-- SEÇÃO ESQUERDA: APRESENTAÇÃO DA MARCA -->
-        <section class="brand-info">
-            <h1 class="brand-title">Que bom ver você de novo!</h1>
-            <p class="brand-description">
-                Acesse sua conta no RelateSBC para acompanhar o andamento das suas denúncias.
-            </p>
-            <div class="brand-illustration">
-                <i class="fa-solid fa-tree" aria-hidden="true"></i>
+    <main class="container py-auto px-3 my-3" >
+        <div class="row">
+            <div class="col">
+                <img class="w-100 h-100 rounded-4" src="app/recursos/imagens/img-teste-form.png" alt="">
             </div>
-        </section>
-
-        <!-- SEÇÃO DIREITA: CARD DO FORMULÁRIO DE LOGIN -->
-        <section class="form-container">
-            <div class="form-header">
-                <h2>Login</h2>
-                <a href="denunciante/cadastro" class="signup-link">Criar conta</a>
+            <div class="col border border-1 border-success rounded-4 ">
+                <header class="py-3">
+                    <h1 class="display-2 text-center">Conecte-se</h1>
+                    <h5 class="display-6 text-center">Cuide da sua cidade</h3>
+                </header>
+                <form id="form-login" class="py-5" >
+                    <label class="form-label">Email</label>
+                    <input name="email" type="email" class="form-control">
+                    
+                    <label class="form-label">Senha</label>
+                    <input name="senha" type="password"  class="form-control">
+                    
+                    <label class="form-check-label">
+                        <input name="lembrar" type="checkbox" class="form-check-input">
+                        Lembrar
+                    </label>
+                    
+                    <input type="submit" class="btn btn-outline-success d-block mt-3">
+                </form>
+                <footer class="py-5">
+                    <p class="text-center"> Se você ja tem uma conta <a href="cadastro">clique aqui !!!</a></p>
+                </footer>
             </div>
-
-            <form id="login-form">
-                <div class="fields-group">
-                    <label class="form-field">
-                        <span>E-mail</span>
-                        <input type="email" name="email" placeholder="exemplo@gmail.com" required>
-                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    </label>
-
-                    <label class="form-field">
-                        <div class="label-with-link">
-                            <span>Senha</span>
-                            <a href="#" class="forgot-password">Esqueceu a senha?</a>
-                        </div>
-                        <input type="password" name="senha" placeholder="******" minlength="8" required>
-                        <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
-                    </label>
-                </div> 
-
-                <button type="submit" class="submit-btn">
-                    <span>Entrar</span>
-                    <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                </button>
-            </form>
-        </section>
-
+        </div>
     </main>
 
-    <script src="/app/view/scripts/login.js"></script>
+
+
+    <script src="app/view/scripts/login.js"></script>
+    <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

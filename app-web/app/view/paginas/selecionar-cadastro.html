@@ -90,7 +90,7 @@
                         d-flex: Define display flexbox no elemento
                         gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
                     -->
-                    <form action="login" method="post" class="d-flex gap-2">
+                    <form id="form-login" class="d-flex gap-2">
 
                         <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
                         <input name="email" value="teste@email.com" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
@@ -117,7 +117,7 @@
 
     <main class="container-fluid bg-success p-1 ">
         <div class="container mt-2 ">
-            <h1  class="display-1 text-center  p-3 rounded-5">
+            <h1  class="display-1 text-center text-white p-3 rounded-5">
                 Cadastre-se
             </h1>
         </div>
@@ -130,7 +130,7 @@
                         <div class="card-body">
                             <h5 class="card-title fs-3 text-center">Denunciante</h5>
                             <p class="card-text">Cadastre-se e fortaleça sua comunidade</p>
-                            <a href="" class="btn btn-success">Cadastre-se</a>
+                            <a href="cadastro/municipe" class="btn btn-success">Cadastre-se</a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                         <div class="card-body">
                             <h5 class="card-title fs-3 text-center">Prefeitura</h5>
                             <p class="card-text">Mostre o trabalho feito para sua cidade.</p>
-                            <a href="" class="btn btn-success">Cadastre-se</a>
+                            <a href="cadastro/representante" class="btn btn-success">Cadastre-se</a>
                         </div>
                     </div>
                 </div>
@@ -151,6 +151,7 @@
 
         <!-- Bootstrap JavaScript -->
     <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app/view/scripts/login.js"></script>
 
 </body>
 </html>

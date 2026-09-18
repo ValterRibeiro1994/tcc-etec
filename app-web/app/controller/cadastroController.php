@@ -6,24 +6,30 @@ class CadastroController {
             return RespostaProcesso::respostaProcesso("Requisição invalida");
         }
 
+        // o index do cadastro não possui formulario na pagina.
         if ($requisicao['metodo'] == "GET"){
             return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "text/html");
-        } else if ($requisicao['metodo'] == "POST"){
-            return $this->cadastrarDenunciante($requisicao);
-        } else {
-            return RespostaProcesso::respostaProcesso("Requisiões indefinidas");
         }
+        
+        // envia json informando o erro para o front 
+        return RespostaProcesso::respostaProcesso("requisição invalida para o controle de cadastro");
+
     }    
     public function municipe(array $requisicao){
         if (!array_key_exists("metodo", $requisicao)){
             return RespostaProcesso::respostaProcesso("Requisição invalida");
         }
 
+        // o método get apenas exibe o formulario para o cadastro do denunciante
         if ($requisicao['metodo'] == "GET"){
-            return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "text/html");
-        } else if ($requisicao['metodo'] == "POST"){
+            return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "text/html");
+        } 
+        // o método post deve receber os dados preenchidos do formulario
+        else if ($requisicao['metodo'] == "POST"){
             return $this->cadastrarDenunciante($requisicao);
-        } else {
+        } 
+        // para o processo de cadastro deve existir apenas POST e GET
+        else {
             return RespostaProcesso::respostaProcesso("Requisiões indefinidas");
         }
     }
