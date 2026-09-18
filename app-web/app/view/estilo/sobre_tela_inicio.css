@@ -1,636 +1,104 @@
-
-/*CONTEUDO SOBRE*/
-.tag-sobre {
-    position: absolute;
-    top: 830px;
-    left: 7.6%;
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.2;
-    background-color: rgba(36, 129, 44, 0.5); 
-    border-radius: 11px;
-    padding: 0.2% 0.4% ;
-    font-weight: bold;
+body{
+    background-color: #f9f9f9;
 }
 
-.sobre-relate{
-    width: 100%;
-    height: 43%;
+/* Container Principal do Card */
+.card-sobre-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: clamp(20px, 4vw, 60px);
     
+    background-color: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    
+    max-width: 1300px;
+    width: calc(100% - 40px);
+    margin: 40px auto;
+    
+    
+    padding: clamp(30px, 3vw, 50px) clamp(40px, 6vw, 90px);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-.sobre-relate h2{
-    position: absolute;
-    top: 900px;
-    left: 7%;
-    font-size: 90px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1;
+/* Coluna de Texto */
+.sobre-conteudo {
+
+    flex: 0 1 auto;
+    max-width: 550px; 
+    padding-right: 0; 
+}
+
+.tag-sobre {
+    display: inline-block;
+    background-color: #24812c;
+    color: #ffffff;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: clamp(12px, 1.5vw, 20px);
+}
+
+.zelar-cuidar {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: clamp(32px, 3.2vw, 46px) !important;
+    font-weight: bold !important;
+    color: #1a1a1a;
+    line-height: 1.12;
+    margin-bottom: clamp(12px, 1.5vw, 20px) !important;
+}
+
+.denuncia-cor {
+    color: #24812c;
+}
+
+.texto-menor {
+    font-size: clamp(14px, 1.1vw, 16.5px);
+    color: #444444;
+    line-height: 1.5;
     margin: 0;
 }
 
-/*Texto menor*/
-.sobre-relate texto-menor{
-    position: absolute;
-    top: 1180px;
-    left: 8%;
-    font-size: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.2;
+/* Coluna de Imagem */
+.sobre-imagem {
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.como-funciona{
-    color: rgb(15, 15, 15);
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    margin-bottom: 0;
+.sobre-imagem img {
+    max-width: 100%;
+    max-height: clamp(230px, 22vw, 340px);
+    width: auto;
+    object-fit: contain;
 }
 
-.como-funciona h2{
-    margin-bottom: 0;
-}
-.como-funciona p{
-    margin-top: 0;
-    font-size: 20px;
-}
-
-.img-celular-denuncia{
-    float: right;
-    margin-left: 20px; 
-    margin-bottom: 10px;
-    height: 460px;
-    width: 43%;
-    margin-top: -18px;
-}
-
-.icone-explicacao{
-    border: solid 3px;
-    border-radius: 50px;
-    width: 50px;
-}
-.icone-como-funciona{
-    width: 150px;
-    height: 150px;
-    border-radius: 50px;
-    border: solid 1px;
-    background-color: blue;
-    
-
-    /*margin-left: 50%;*/
-    align-content: center;
-    justify-self: center;
-    border-radius: 100px;
-    
-}
-
-@media (max-width: 1050px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 950px;
-        left: 7.6%;
-        font-size: 16px;
-        padding: 2px 8px;
+@media (max-width: 992px) {
+    .card-sobre-container {
+        flex-direction: column;
+        padding: 30px;
+        margin: 20px;
     }
 
-    .sobre-relate h2 {
-        position: absolute; 
-        top: 1000px;
-        left: 7%;
-        font-size: 65px; 
-        width: 90%;      
+    .sobre-conteudo {
+        padding-right: 0;
+        margin-bottom: 30px;
     }
 
-    .sobre-relate texto-menor {
-        position: absolute;
-        top: 1200px;
-        left: 8%;
-        font-size: 16px;
-        line-height: 1.3;
-        width: 60%; 
+    .zelar-cuidar {
+        font-size: 32px !important;
     }
 
-    .img-celular-denuncia{
-        float: right;
-        margin-left: 20px; 
-        margin-bottom: 10px;
-        height: 390px;
-        width: 43%;
-        margin-top: -18px;
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 37%; 
-    }
-}
-
-
-   
-/*RESPONSIVIDADE MENOR DE 768PX*/
-   
-
-@media (max-width: 768px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 850px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
+    .sobre-imagem {
+        justify-content: center;
     }
 
-    .sobre-relate h2 {
-        position: absolute; 
-        top: 900px;
-        left: 7%;
-        font-size: 60px; 
-        width: 90%;      
-    }
-
-    .sobre-relate texto-menor {
-        position: absolute;
-        top: 1100px;
-        left: 9%;
-        font-size: 15px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-
-    .img-celular-denuncia{
-        float: right;
-        margin-left: 20px; 
-        margin-bottom: 10px;
-        height: 340px;
-        width: 43%;
-        margin-top: -18px;
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 37%; 
-    }
-}
-/*RESPONSIVIDADE MENOR DE 720PX*/
-@media (max-width: 720px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 850px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-
-    .sobre-relate h2 {
-        position: absolute; 
-        top: 900px;
-        left: 7%;
-        font-size: 45px; 
-        width: 90%;      
-    }
-
-    .sobre-relate texto-menor {
-        position: absolute;
-        top: 1050px;
-        left: 9%;
-        font-size: 15px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-
-    .img-celular-denuncia{
-        float: right;
-        margin-left: 20px; 
-        margin-bottom: 10px;
-        height: 300px;
-        width: 43%;
-        margin-top: -18px;
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 37%; 
-    }
-}
-
-   
-    
-   
-    
-/*RESPONSIVIDADE MENOR DE 690PX*/
-@media (max-width: 690px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 850px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 900px;
-        left: 22%;
-        font-size: 55px; 
-        width: 400px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1070px;
-        left: 24%;
-        font-size: 15px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-
-    .img-celular-denuncia{
-        float: right;
-        margin-left: 20px; 
-        margin-bottom: 10px;
-        height: 300px;
-        width: 43%;
-        margin-top: -18px;
+    .sobre-imagem{
         display: none;
     }
-    .sobre-relate{
-        width: 100%;
-        height: 30%; 
-    }
-}
-
-/*RESPONSIVIDADE MENOR DE 580PX*/
-@media (max-width: 580px) {
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 900px;
-        left: 22%;
-        font-size: 50px; 
-        width: 400px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1070px;
-        left: 23%;
-        font-size: 14px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-}
-/*RESPONSIVIDADE MENOR DE 517PX*/
-@media (max-width: 517px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 900px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 950px;
-        left: 22%;
-        font-size: 50px; 
-        width: 400px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1110px;
-        left: 23%;
-        font-size: 13px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-}
-   /*RESPONSIVIDADE MENOR DE 515PX*/
-    @media (max-width: 515px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 1110px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 1150px;
-        left: 22%;
-        font-size: 50px; 
-        width: 370px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1320px;
-        left: 23%;
-        font-size: 13px;
-        line-height: 1.3;
-        width: 60%; 
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 25%; 
-    }
-}
-   /*RESPONSIVIDADE MENOR DE 500PX*/
-     @media (max-width: 500px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 1100px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 1150px;
-        left: 17%;
-        font-size: 42px; 
-        width: 300px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1300px;
-        left: 15%;
-        font-size: 14px;
-        line-height: 1.3;
-        width: 78%; 
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 25%; 
-    }
-}
-   
-
-/*RESPONSIVIDADE MENOR DE 400PX*/
-     @media (max-width: 400px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 1100px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 1150px;
-        left: 22%;
-        font-size: 35px; 
-        width: 260px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1270px;
-        left: 18%;
-        font-size: 12px;
-        line-height: 1.3;
-        width: 75%; 
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 20%; 
-    }
-}
-
-/*RESPONSIVIDADE MENOR DE 370PX*/
-     @media (max-width: 370px) {
-
-    .tag-sobre {
-        position: absolute; 
-        top: 1100px;
-        left: 7.6%;
-        font-size: 14px;
-        padding: 2px 8px;
-    }
-    
-    .sobre-relate h2 {
-        display: inline-block;
-        position: absolute; 
-        top: 1150px;
-        left: 22%;
-        font-size: 32px; 
-        width: 230px;    
-          
-    }
-
-    .sobre-relate texto-menor {
-        
-        position: absolute;
-        top: 1270px;
-        left: 17%;
-        font-size: 11px;
-        line-height: 1.3;
-        width: 75%; 
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 20%; 
-    }
-}
-
-   @media (max-width: 500px) {
-
-    .como-funciona{
-        color: rgb(15, 15, 15);
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 25px;
-        margin-bottom: 0;
-    }
-
-    .como-funciona h2{
-        margin-bottom: 0;
-        font-size: 30px;
-    }
-    .como-funciona p{
-        margin-top: 0;
-        font-size: 15px;
-    }
-
-    .icone-como-funciona{
-        width: 120px;
-        height: 120px;
-        border-radius: 100px;
-        border: solid 1px;
-        background-color: blue;
-    }
-}
-
-@media (max-width: 370px) {
-
-    .como-funciona{
-        color: rgb(15, 15, 15);
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 25px;
-        margin-bottom: 0;
-    }
-
-    .como-funciona h2{
-        margin-bottom: 0;
-        font-size: 25px;
-        max-width: 80%;
-        display: inline-block;
-        left: 22%;
-        width: 230px;
-    }
-
-    .como-funciona p{
-        margin-top: 0;
-        font-size: 12px;
-        max-width: 80%;
-        margin-bottom: 0;
-        max-width: 80%;
-        display: inline-block;
-        left: 22%;
-        width: 230px;
-    }
-
-    .icone-como-funciona{
-        width: 110px;
-        height: 110px;
-        border-radius: 100px;
-        border: solid 1px;
-        background-color: blue;
-    }
-}
-
-
-@media (min-width: 1700px) {
-
-     .tag-sobre {
-        position: absolute; 
-        top: 1130px;
-        left: 20%;
-        font-size: 20px;
-        padding: 2px 8px;
-    }
-
-    .sobre-relate h2 {
-        position: absolute; 
-        top: 1190px;
-        left: 20%;
-        font-size: 130px; 
-        width: 50%;      
-    }
-
-    .sobre-relate texto-menor {
-        position: absolute;
-        top: 1600px;
-        left: 20%;
-        font-size: 28px;
-        line-height: 1.3;
-        width: 30%; 
-    }
-
-    .img-celular-denuncia{
-        float: right;
-        margin-left: 20px; 
-        margin-bottom: 10px;
-        height: 650px;
-        width: 40%;
-        margin-top: -18px;
-        margin-right: 300px;
-        
-        
-    }
-    .sobre-relate{
-        width: 100%;
-        height: 45%; 
-    }
-}
-
-@media screen and (max-width: 730px) {
-    
-    .sobre-relate {
-        width: 100% !important;
-        height: auto !important;     
-        padding: 20px !important; 
-        box-sizing: border-box !important;
-        display: flex !important;
-        flex-direction: column !important; 
-        align-items: center !important;    
-        text-align: center !important;     
-    }
-
-    
-    .tag-sobre {
-        position: static !important; 
-        top: auto !important;        
-        left: auto !important;       
-        display: inline-block !important;
-        font-size: 14px !important;
-        padding: 4px 12px !important;
-        margin-bottom: 10px !important;
-    }
-
-  
-    .sobre-relate h2 {
-        position: static !important; 
-        top: auto !important;        
-        left: auto !important;       
-        width: 100% !important;      
-        font-size: 36px !important; 
-        line-height: 1.2 !important;
-        margin: 0 0 15px 0 !important; 
-    }
-
-    .sobre-relate texto-menor,
-    .texto-menor { 
-        position: static !important;
-        top: auto !important;
-        left: auto !important;
-        width: 100% !important; 
-        font-size: 14px !important;
-        line-height: 1.5 !important;
-        margin-bottom: 25px !important; 
-    }
-
-    
-    .img-celular-denuncia {
-        display: none;
-    }
-}
-
-
-@media (min-width: 1700px)  {
-    @media (max-width: 2500px) {
-        .img-celular-denuncia{
-        margin-right: 0px;
-    }
-    }
-    
 }
 

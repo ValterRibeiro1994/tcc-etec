@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="app/view/estilo/navbar.css">
     <link rel="stylesheet" href="app/view/estilo/geral.css">
     <link rel="stylesheet" href="app/view/estilo/imagem_tela_inicio.css">
@@ -71,7 +72,7 @@
             <img src="app/recursos/imagens/background-index.jpg" alt="">
             <p class="tag-zeladoria">Zeladoria Urbana</p> <br>
 
-            <h2>MINHA<br>
+            <h2 class="minha-denuncia">MINHA<br>
             <span class="denuncia-cor">DENÚNCIA</span></h2>
 
             <p-maior><strong>Incluindo a todos para um bem maior</strong></p>
@@ -176,22 +177,30 @@
         </section>
         
         <!--CONTEUDO SOBRE-->
-        <div class="sobre-relate">
-            
-             <p class="tag-sobre">Sobre o RelateSBC</p> <br>
-            
-              <h2>Zelar, cuidar e<br>
-            <span class="denuncia-cor">transformar</span><br>
-              nossa cidade</h2>
+       <div class="card-sobre-container">
+           
+            <div class="sobre-conteudo">
+                <span class="tag-sobre">Sobre o RelateSBC</span>
 
-            <texto-menor>O RelateSBC nasceu para aproximar a população <br> dos órgãos responsáveis,
-                 tornando a comunicação <br>mais eficiente e as soluções mais rápidas.
-            </texto-menor> 
+                <h2 class="zelar-cuidar">
+                    Zelar, cuidar e<br>
+                    <span class="denuncia-cor">transformar</span><br>
+                    nossa cidade
+                </h2>
 
-            <img class="img-celular-denuncia" src="app/recursos/imagens/celular-fundo04.jpg" alt="">
+                <p class="texto-menor">
+                    O RelateSBC nasceu para aproximar a população dos órgãos responsáveis,
+                    tornando a comunicação mais eficiente e as soluções mais rápidas.
+                </p>
+            </div>
+
+            <div class="sobre-imagem">
+                <img src="app/recursos/imagens/celular-fundo04.jpg" alt="Pessoa a tirar foto a um buraco com o telemóvel">
+            </div>
         </div>
+        
         <hr style="margin-left: 200px; margin-right: 200px;">
-
+<!-- 
         <div class="como-funciona">
           <h2>Como funciona?</h2>
           <p>É simples, facil, rapido e transparente</p> <br>  <br>
@@ -208,12 +217,81 @@
            <div class="icone-como-funciona">
             <i class="bi bi-clipboard2-check"></i>
           </div>
-        </div>
-        
-
-        
+        </div> -->
         
     </main>
+
+     <footer class="bg-dark text-light">
+  <div class="container pt-5">
+    <div class="row">
+
+      <div class="col-md-4 mb-4">
+        <h5 style="font-weight: bold;">RelateSBC</h5>
+        <p class="text-secondary small mb-2">
+          Cidade limpa, segura e organizada é dever de todos: Sua denuncia faz diferença
+        </p>
+        <span class="small bg-warning text-dark" style=" padding: 5px; border-radius: 15px;">Denúncias públicas</span>
+      </div>
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">Para você</h5>
+        <ul class="list-unstyled">
+          <li><a href="seleciona-login.html" class="link-light small">Ja tem uma conta?
+          </a></li>
+          <li><a href="selecionar-cadastro.html" class="link-light small">Cadastre-se</a></li>
+        </ul>
+      </div>
+
+        <!-- Coloquei isso só para encher e ficar mais bonito, pq o modelo que eu segui tinha mais link  -->   
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">
+          Denuncias
+        </h5>
+        <ul class="list-unstyled">
+        <li>
+          <a href="home-denunciante.html" class="link-light small">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="home-denuncias.html" class="link-light small">
+            Mural de denuncias
+          </a>
+        </li>
+        </ul>
+      </div>
+
+      <div class="col-md-2">
+        <h5 style="font-weight: bold;">
+          Contato
+        </h5>
+        <ul class="list-unstyled">
+        <li>
+          <a href="#" class="link-light small">
+            Fale Conosco
+           
+          </a>
+        </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+         
+   
+  <hr>
+    <div class="container py-3 d-flex flex-wrap justify-content-between gap-2">
+      <span class="text-secondary small">
+        ©2026 RelateSBC
+      </span>
+      <div class="d-flex gap-3">
+        <a href="#" class="link-secondary small">
+          Privacidade e termos de uso
+        </a>
+      </div>
+    </div>
+</footer>
     
   <script src="app/view/scripts/navbar.js"></script>
     
