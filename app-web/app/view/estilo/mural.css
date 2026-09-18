@@ -1,6 +1,223 @@
-.denuncia-card img {
-  width: 100%;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+  .imagem-box img {
+
+ width: 900px;
   height: 200px;
   object-fit: cover;
   display: block;
+}
+
+body {
+    background-color: #f8f8f8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.navbar-relate {
+    background-color: #196b25;
+    min-height: 70px;
+    padding: 10px 25px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-nav {
+    gap: 15px;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.denuncia {
+    background-color: #72bd63;
+    border-radius: 8px;
+    padding: 8px 15px !important;
+}
+
+.usuario {
+    color: white;
+    font-size: 36px;
+}
+
+
+
+
+.sidebar {
+    min-height: calc(100vh - 70px);
+    background-color: #f4f4f4;
+    padding: 30px 20px;
+}
+
+.sidebar-item {
+    display: block;
+    text-decoration: none;
+    color: #155c22;
+    font-size: 20px;
+    font-weight: 600;
+
+    padding: 20px 15px;
+
+    border-bottom: 2px solid #333;
+}
+
+.sidebar-item:hover {
+    background-color: #e5e5e5;
+}
+
+.sidebar-item.ativo {
+    color: #194d25;
+}
+
+
+
+.conteudo {
+    padding: 45px;
+}
+
+.conteudo h1 {
+    color: #164f22;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.descricao {
+    font-size: 20px;
+    color: #333;
+    max-width: 850px;
+    margin-bottom: 35px;
+}
+
+
+
+.denuncia-card {
+    border: 2px solid #222;
+    border-radius: 10px;
+    overflow: hidden;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    height: 100%;
+}
+
+.denuncia-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.categoria {
+    display: inline-block;
+
+    background-color: #b8e8a9;
+    color: #166321;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    padding: 7px 14px;
+    border-radius: 10px;
+
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.endereco {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.endereco span {
+    margin-left: 23px;
+}
+
+
+
+.card-footer-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 20px;
+}
+
+.card-footer-custom small {
+    color: #555;
+    font-size: 15px;
+}
+
+
+
+.status {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.recebida {
+    background-color: #52a9e0;
+    color: #073c60;
+}
+
+.analise {
+    background-color: #e5c72b;
+    color: #5a4d00;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .conteudo {
+        padding: 25px 15px;
+    }
+
+    .conteudo h1 {
+        font-size: 32px;
+    }
+
+    .descricao {
+        font-size: 17px;
+    }
+
+    .sidebar {
+        min-height: auto;
+        padding: 10px;
+    }
+
+    .sidebar-item {
+        font-size: 17px;
+        padding: 12px;
+    }
+
+    .usuario {
+        display: none;
+    }
+
+  
 }
