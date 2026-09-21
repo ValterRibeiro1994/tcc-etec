@@ -13,6 +13,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.content.Intent
+import android.widget.Button
+import kotlin.jvm.java
 import com.example.tcc.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
