@@ -2,48 +2,49 @@
 
 
 class UsuarioRepositorio {
-    private PDO|null $conexao;
-    
-    private function salvarMunicipe(Usuario $usuario){
-        $nome = $usuario->getNome();
-        $sobrenome = $usuario->getSobrenome();
-        $email = $usuario->getEmail();
-        $cpf = $usuario->getCpf();
-        $senha = $usuario->getSenha();
-        $cidade = $usuario->getCidade();
-        $estado = $usuario->getEstado();
-        $perfil = $usuario->getPerfil();
 
+    public function salvarMunicipe(Municipe $municipe){
+        $nome = $municipe->getNome();
+        $sobrenome = $municipe->getSobrenome();
+        $email = $municipe->getEmail();
+        $cpf = $municipe->getCpf();
+        $senha = $municipe->getSenha();
+        
         try {
-            $tabela_usuario = $GLOBALS['tb_usuario'];
-            $comando_sql = "
-                insert into $tabela_usuario (
-                    NOME_USUARIO, SOBRENOME_USUARIO, 
-                    EMAIL_USUARIO, CPF_USUARIO, 
-                    SENHA_USUARIO, CIDADE_USUARIO,
-                    ESTADO_USUARIO, PERFIL_USUARIO
-                ) VALUES (
-                    :NOME_USUARIO, :SOBRENOME_USUARIO, 
-                    :EMAIL_USUARIO, :CPF_USUARIO, 
-                    :SENHA_USUARIO, :CIDADE_USUARIO,
-                    :ESTADO_USUARIO, :PERFIL_USUARIO
-                )
-            ";
+            $comando = "INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, senha_usuario) 
+            VALUES (:nome, :sobrenome, :email, :cpf, :senha)";
 
-            $sql = $this->conexao->prepare($comando_sql);
-            $sql->bindValue(":NOME_USUARIO", $nome);
-            $sql->bindValue(":SOBRENOME_USUARIO", $sobrenome);
-            $sql->bindValue(":EMAIL_USUARIO", $email);
-            $sql->bindValue(":CPF_USUARIO", $cpf);
-            $sql->bindValue(":SENHA_USUARIO", $senha);
-            $sql->bindValue(":CIDADE_USUARIO", $cidade);
-            $sql->bindValue(":ESTADO_USUARIO", $estado);
-            $sql->bindValue(":PERFIL_USUARIO", $perfil);
+            $conexao = new Conexao();
+            $conexao = $conexao->getConexao();
 
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":nome", $nome);
+            $sql->bindValue(":sobrenome", $sobrenome);
+            $sql->bindValue(":email", $email);
+            $sql->bindValue(":cpf", $cpf);
+            $sql->bindValue(":senha", $senha);
             $sql->execute();
-            return RespostaProcesso::respostaProcesso("Municipe registrado com sucesso", true);           
-        } catch (\Throwable $th) {
-            return RespostaProcesso::respostaProcesso($th->getMessage());
+
+            $comando = "INSERT INTO tb_municipe(id_usuario, cidade_municipe, estado_municipe)
+            VALUES (:id, :cidade, :estado)";
+
+            $id = $municipe->getId($conexao);
+            $estado = $municipe->getEstado();
+            $cidade = $municipe->getCidade();
+
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":id", $id);
+            $sql->bindValue(":estado", $estado);
+            $sql->bindValue(":cidade", $cidade);
+            $sql->execute();
+
+            return RespostaProcesso::respostaProcesso("Cadastro realizado com Sucesso", true);
+        } catch (Exception $erro) {
+            return RespostaProcesso::respostaProcesso($erro->getMessage());
+        } finally {
+            $conexao = null;
         }
+
     }
+        
 }

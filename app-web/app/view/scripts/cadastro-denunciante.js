@@ -1,4 +1,20 @@
-console.log("JS ok");
+/** 
+ * exemplo de função para obter as categorias registradas no sistema
+ * algumas partes do formulario de denuncia deve ser escritas com JS 
+ * 
+ window.addEventListener('load', async function (event) {
+    try {
+        let resposta = await fetch('../categoria/categorias', {
+            method: 'GET',
+        });
+        resultado = await resposta.json();
+    } catch (error) {
+        console.log(error);
+    }
+});
+ * 
+ */
+
 
 const form = document.getElementById("form-cadastro-denunciante");
 form.addEventListener("submit", async function (event) {

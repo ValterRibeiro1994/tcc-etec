@@ -5,14 +5,15 @@ $GLOBALS['caminho_raiz_projeto'] = "/app-web/";
 $GLOBALS['caminho_pasta_projeto'] = __DIR__ . "/app/";
 
 // dados de acesso ao banco de dados
-$GLOBALS['usuario_banco'] = "";
+$GLOBALS['usuario_banco'] = "root";
 $GLOBALS['senha_banco'] = "";
-$GLOBALS['host_banco'] = "";
-$GLOBALS['database_banco'] = "";
+$GLOBALS['host_banco'] = "localhost";
+$GLOBALS['database_banco'] = "relate_sbc";
 
 //tabelas do banco de dados
-$GLOBALS['tb_banco_denunciante'] = "";
-$GLOBALS['tb_banco_denuncia'] = "";
-$GLOBALS['tb_banco_prefeitura'] = "";
-$GLOBALS['tb_banco_representante_prefeitura'] = "";
-$GLOBALS['tb_banco_resposta'] = "";
+$GLOBALS['usuario'] = "tb_usuario";
+$GLOBALS['municipe'] = "tb_municipe";
+$GLOBALS['representante'] = "tb_representante";
+$GLOBALS['resposta'] = "tb_resposta";
+$GLOBALS['denuncia'] = "tb_denuncia";
+$GLOBALS['categorias'] = "tb_categoria";

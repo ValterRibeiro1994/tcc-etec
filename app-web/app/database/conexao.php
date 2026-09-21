@@ -1,5 +1,5 @@
 <?php 
-class ConexaoPDO { 
+class Conexao { 
     private string $usuario; 
     private string $senha; 
     private string $host; 

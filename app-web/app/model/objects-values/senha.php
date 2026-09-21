@@ -6,6 +6,7 @@ class Senha {
         if (!$this->validarSenha($senha)){
             throw new Exception("Senha invalida");
         }
+        $this->senha = $senha;
     }
 
     private function validarSenha(string $senha) {

@@ -43,7 +43,7 @@ class CadastroController {
         $dados_esperado = [
             'nome', 'sobrenome', 'cpf', 
             'email', 'senha', 'confirmar-senha',
-            'cidade', 'estado', 'perfil', 'lembrar'
+            'cidade', 'estado'
             ];
         $n = count($dados_esperado);
         for ($i = 0; $i < $n; $i++){
@@ -70,6 +70,11 @@ class CadastroController {
             // armazena os dados pessoais
             $dados_pessoais = new DadosPessoais($nome, $sobrenome, $email, $cpf);
 
+            // armazena o endereço recebido
+            $endereco = new Endereco();
+            $endereco->setCidade($dados['cidade']);
+            $endereco->setEstado($dados['estado']);
+
             // compara as senhas recebidas
             $senha = $dados['senha'];
             $confirmar_senha = $dados['confirmar-senha'];
@@ -79,9 +84,17 @@ class CadastroController {
 
             // valida a senha recebida
             $senha = new Senha($senha);
-
+            
             // cria o denunciante
-            $denunciante = new Denunciante($dados_pessoais, $senha);
+            $denunciante = new Municipe($dados_pessoais, $endereco, $senha);
+
+            // envia o denunciante para o banco de dados
+            $repositorio = new UsuarioRepositorio();
+            $resposta = $repositorio->salvarMunicipe($denunciante);
+            if (!$resposta['resposta']){
+                return $resposta;
+            }
+
             return RespostaProcesso::respostaProcesso("Cadastro do denunciante em processo - criar BD !!!", true, $dados);
             
         } catch (Exception $error) {
