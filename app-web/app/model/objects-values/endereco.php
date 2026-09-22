@@ -8,7 +8,6 @@ class Endereco {
     private string $estado;
     private string $cep;
     
-    // SETTERS
     public function setLogradouro(string $logradouro){
         $logradouro = trim($logradouro); // remove excesso de espaços em branco
         if (empty($logradouro)){
@@ -29,41 +28,36 @@ class Endereco {
 
     public function setNumero(string $numero){
         $numero = trim($numero);
-        if (empty($numero)){
-            throw new InvalidArgumentException("Numero Invalido");
-        }
-
+        if (empty($numero)) throw new InvalidArgumentException("Numero Invalido");
         $this->numero = $numero;
     }
 
-    public function setCidade(string $cidade){
-        $cidade = trim($cidade);
-        if (empty($cidade)){
-            throw new InvalidArgumentException("Cidade Invalida");
-        }
-
+    public function setCidade(string $cidade, int $limite = 50){
+        $cidade = strtoupper(trim($cidade));
+        if (empty($cidade)) throw new InvalidArgumentException("Cidade Não informada");
+        if (strlen($cidade) > $limite) throw new Exception("CIDADE: Limite de caracteres excedido");
         $this->cidade = $cidade;
     }
 
-    public function setEstado(string $estado){
-        $estado = trim($estado);
-        if (empty($estado)){
-            throw new InvalidArgumentException("Estado Invalido");
-        }
-
+    public function setEstado(string $estado, int $limite = 2){
+        $estado = strtoupper(trim($estado));
+        if (empty($estado)) throw new InvalidArgumentException("Estado Invalido");
+        if (strlen($estado) > $limite) throw new Exception("Limite de caracteres inválido");
         $this->estado = $estado;
     }
 
-    public function setCep(string $cep){
-        $cep = trim($cep);
-        if (empty($cep)){
-            throw new InvalidArgumentException("Cep Invalido");
+    public function setCep(string $cep, int $limite = 8){
+        $cep_limpo = "";
+        $cpf = trim($cep);
+        $n = strlen($cep);
+        for ($x = 0; $x < $n; $x++){
+            if (ctype_digit($cpf[$x])) $cep_limpo .= $cpf[$x];
         }
 
-        $this->cep = $cep;
+        if (strlen($cep_limpo) != $limite) throw new Exception("Limite de caracteres inválidos");
+        $this->cep = $cep_limpo;
     }
 
-    // GETTERS
     public function getLogradouro(): string {
         return $this->logradouro;
     }

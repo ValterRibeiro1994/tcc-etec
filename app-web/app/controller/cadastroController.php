@@ -110,4 +110,52 @@ class CadastroController {
             return RespostaProcesso::respostaProcesso($mensagem, dados:$erro);
         }
     }
+
+    private function cadastrarRepresentante(array $dados){
+        $dados_esperado = [
+        'nome', 'sobrenome', 'cpf', 
+        'email', 'senha', 'confirmar-senha',
+        'cidade', 'estado', 'nome-prefeitura',
+        'cargo-prefeitura'
+        ];
+
+        $n = count($dados_esperado);
+        for ($x = 0; $x < $n;) {
+            $entrada = $dados_esperado[$x];
+            if (!array_key_exists($entrada, $dados)){
+                return RespostaProcesso::respostaProcesso("Campo $entrada não enviado", dados: $dados);
+            }
+
+            if (empty($dados[$entrada])){
+                return RespostaProcesso::respostaProcesso("Campo $entrada vazio", dados: $dados);
+            }
+        }
+
+        try {
+            // valida os dados pessoais recebidos
+            $nome = new Nome($dados['nome']);
+            $sobrenome = new Sobrenome($dados['sobrenome']);
+            $cpf = new Cpf($dados['cpf']);
+            $email = new Email($dados['email']);
+
+            // valida a senha recebida
+            if ($dados['senha'] != $dados['confirmar-senha']){
+                return RespostaProcesso::respostaProcesso("Senhas não conferem", dados: $dados);
+            }
+            $senha = new Senha($dados['senha']);
+
+            // valida o endereço recebido
+            $endereco = new Endereco();
+            $endereco->setEstado($dados['estado']);
+            $endereco->setCidade($dados['cidade']);
+
+            // criar object-values para validação do orgão e do cargo do representante
+            // criar processo para armazenar o representante no banco
+
+
+        } catch (Exception $erro) {
+            return RespostaProcesso::respostaProcesso($erro->getMessage(), dados: array($erro));
+        }
+    }
+
 }

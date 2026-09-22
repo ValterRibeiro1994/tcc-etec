@@ -4,6 +4,7 @@ class Municipe extends Usuario {
     private DadosPessoais $dados_usuario;
     private Endereco $endereco;
     private Senha $senha;
+    private int $id;
 
     public function __construct(DadosPessoais $dados_usuario, Endereco $endereco, Senha $senha)
     {
@@ -15,6 +16,9 @@ class Municipe extends Usuario {
     #[Override]
     public function getId(PDO $conexao): int
     {
+        if (!empty($this->id)){
+            return $this->id;
+        }
         $tabela_usuario = $GLOBALS['usuario'];
         $email = $this->getEmail();
         if (empty($email)){
@@ -30,7 +34,8 @@ class Municipe extends Usuario {
             throw new  InvalidArgumentException("Municipe ERRO: Email não cadastrado no sistema");
         }
 
-        return (int) $resposta['id_usuario'];
+        $this->id = (int) $resposta['id_usuario'];
+        return $this->id;
     }
 
     #[Override]
