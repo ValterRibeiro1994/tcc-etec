@@ -6,4 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="56dp"
+            android:text="Main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnDenuncia"
+            android:layout_width="132dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="54dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginBottom="56dp"
+            android:text="Denúncia"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnUser"
+            app:layout_constraintStart_toEndOf="@+id/btnMain" />
+
+        <Button
+            android:id="@+id/btnUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="56dp"
+            android:text="User"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

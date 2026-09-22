@@ -35,5 +35,23 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val botaoHome = findViewById<Button>(R.id.btnMain)
+        botaoHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val botaoComplaint = findViewById<Button>(R.id.btnDenuncia)
+        botaoComplaint.setOnClickListener {
+            val intent = Intent(this, ComplaintScreen::class.java)
+            startActivity(intent)
+        }
+
+        val botaoUser = findViewById<Button>(R.id.btnUser)
+        botaoUser.setOnClickListener {
+            val intent = Intent(this, UsersScreen::class.java)
+            startActivity(intent)
+        }
     }
 }
