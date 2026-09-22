@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<header class="navbar-header fixed-top">
+<header class="navbar-header">
     <nav class="navbar">
         <a href="index.html" class="logo-link">
             <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
@@ -58,10 +58,99 @@
         </div>
 </header>
 
-    <main>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae doloribus provident Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aliquid fugit aperiam id voluptatem ad est velit obcaecati nisi. Alias fuga vitae, atque ex minima est voluptate cum sapiente soluta! itaque animi modi harum consequuntur veritatis voluptate recusandae quo debitis necessitatibus, nobis perspiciatis quae. Saepe asperiores vero minus alias.
-        
-    </main>
+<main class="container py-5 my-3">
+  <div class="card shadow border p-4">
+
+    <h2 class="fw-bold mb-4">Perfil</h2>
+
+    <div class="d-flex flex-wrap mb-4 gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <!-- não sei pelo que trocar o tamanho da imagem, ent vou deixar assim por enquanto -->
+        <span class="d-flex rounded-circle bg-secondary" style="width: 64px; height: 64px;">
+          <img src="" class="rounded-circle" style="width: 64px;" alt="">
+        </span>
+        <div>
+          <div class="d-flex gap-2">
+            <span class="fs-5 fw-bold">Felipe Rodrigo</span>
+            <span class="badge text-light rounded-pill border border-success align-self-center" style="background-color: rgb(64, 146, 71);">MUNÍCIPE</span>
+          </div>
+          <div class="text-muted small">Sitio bom Jesus/Bairro dos casa.</div>
+        </div>
+      </div>
+
+      
+
+      <div class="d-flex align-items-center gap-4 tgap">
+        <div class="form-check form-switch mb-0">
+          <input type="checkbox" class="form-check-input"> <!-- ativa e desaticva modo escuro, deixo para quem quiser fazer ai-->
+          <label for="modoEscuro">Modo Escuro</label>
+        </div>
+        <button type="button" class="btn btn-dark fw-bold btn-sm">
+          EDITAR PERFIL
+        </button>
+        <button type="button" class="btn btn-success fw-bold btn-sm">
+          CRIAR NOVA DENÚNCIA
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <label class="fw-semibold small">Pesquisar</label>
+        <input type="text" class="form-control" placeholder="Buscar denúncia...">
+      </div>
+      <div class="col-md-5">
+        <label class="fw-semibold small">Categorias</label>
+        <div class="d-flex gap-2">
+          <select class="form-select">
+            <option>Buracos</option>
+            <option>Iluminação</option>
+            <option>Lixo</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="fw-semibold small">Ordem por:</label>
+        <div class="d-flex gap-2">
+          <select class="form-select">
+            <option class="bg-dark">Data</option>
+          </select>
+          <select class="form-select">
+            <option>Status</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de denúncias -->
+    <ul class="list-group list-group-flush d-flex">
+
+      <li class="list-group-item d-flex flex-wrap align-items-center py-3">
+        <div>
+          <div class="fw-semibold">Buraco na Rua</div>
+          <div class="text-muted small">Buraco profundo perigoso</div>
+        </div>
+        <div class="text-muted small text-center" style="min-width:150px;">R. Braz, nº 67</div>
+        <div class="text-center" style="min-width:140px;">
+          <span class="badge bg-success rounded-pill">CONCLUÍDA</span>
+          <span class=" badge bg-warning rounded-pill">EM ANDAMENTO</span>
+          <span class="badge bg-primary rounded-pill">EM ANÁLISE</span>
+          <span class="badge bg-danger rounded-pill ">PENDENTE</span>
+        </div>
+        <div class="text-muted small text-center" style="min-width:90px;">21/02/2009</div>
+        <div class="d-flex gap-3">
+          <button class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
+          <button class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
+          <button class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</main>
 
 <footer class="bg-dark text-light">
   <div class="container pt-5">
