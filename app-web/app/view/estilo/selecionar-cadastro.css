@@ -1,15 +1,13 @@
-/* LARGURA MÁXIMA DA SEÇÃO DE CARDS */
-/* CONTAINER/SECÇÃO PRINCIPAL DA PÁGINA */
+
+
 .secao-card-escolha {
     max-width: 930px !important; 
-    
-    /* ESPAÇAMENTO SUPERIOR E INFERIOR */
     margin-top: 60px !important;    
     margin-bottom: 40px !important; 
     margin-left: auto !important;
     margin-right: auto !important;
     
-    /* RESPIRO LATERAL (Evita que encoste nas bordas da tela no mobile) */
+    
     padding-left: 20px !important;
     padding-right: 20px !important;
     box-sizing: border-box !important;
