@@ -1,0 +1,141 @@
+/* LARGURA MÁXIMA DA SEÇÃO DE CARDS */
+/* CONTAINER/SECÇÃO PRINCIPAL DA PÁGINA */
+.secao-card-escolha {
+    max-width: 930px !important; 
+    
+    /* ESPAÇAMENTO SUPERIOR E INFERIOR */
+    margin-top: 60px !important;    
+    margin-bottom: 40px !important; 
+    margin-left: auto !important;
+    margin-right: auto !important;
+    
+    /* RESPIRO LATERAL (Evita que encoste nas bordas da tela no mobile) */
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
+    
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    flex-wrap: wrap !important; 
+}
+
+/* CARDS */
+.card-escolha {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0; 
+    border-radius: 20px; 
+    padding: 24px; 
+        
+    width: 410px; 
+    max-width: 100%; 
+    height: auto;  
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    justify-content: space-between;
+    text-align: center; 
+    box-sizing: border-box;
+}
+
+/* ESTILO BASE DO CÍRCULO */
+.circulo-denunciante {
+    width: 90px;  
+    height: 90px;                 
+    border-radius: 50%;      
+    
+    display: flex;                
+    align-items: center;    
+    justify-content: center;     
+    
+    margin-bottom: 15px; 
+}
+
+.circulo-representante {
+    width: 90px;  
+    height: 90px;                 
+    border-radius: 50%;      
+    
+    display: flex;                
+    align-items: center;    
+    justify-content: center;     
+    
+    margin-bottom: 15px; 
+}
+
+/* CORES DOS CÍRCULOS E DOS ÍCONES */
+/* 1. Card Denunciante */
+.circulo-denunciante {
+    background-color: #dcfce7; 
+    color: #006633;    
+}
+
+/* 2. Card Representante */
+.circulo-representante {
+    background-color: #dbeafe; 
+    color: #155cea;         
+}
+
+
+/* BOTÕES */
+.btn-municipe {
+    background-color: #006633;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 44px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-representante {
+    background-color: #155cea;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 44px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.texto-escolha {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.tipo-escolha-d{
+    color: #006633;
+}
+.tipo-escolha-r{
+   color:#155cea; 
+}
+
+/* CONTAINER DO TEXTO DE LOGIN / CADASTRO */
+.texto-login-cadastro {
+    text-align: center;
+    margin-top: 35px;  
+    margin-bottom: 60px; 
+    font-size: 16px;
+    color: #4a5568;   
+}
+
+/* ESTILO DO LINK */
+.texto-login-cadastro a {
+    color: #006633;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* EFEITO AO PASSAR O MOUSE NO LINK */
+.texto-login-cadastro a:hover {
+    text-decoration: underline;
+    color: #004d26;
+}
