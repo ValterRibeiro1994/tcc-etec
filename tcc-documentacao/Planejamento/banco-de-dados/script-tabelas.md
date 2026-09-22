@@ -7,6 +7,7 @@ create table if not exists tb_usuario (
     sobrenome_usuario varchar(60) not null,
     email_usuario varchar(120) not null unique,
     cpf_usuario char(11) not null unique,
+    perfil_usuario enum('municipe', 'representante') not null,
     senha_usuario varchar(60) not null
 );
 

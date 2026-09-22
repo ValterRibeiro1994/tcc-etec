@@ -18,8 +18,31 @@ class LoginController {
             $email = new Email($requisicao['email']);
             $senha = new Senha($requisicao['senha']);
 
-            //verificar no banco
-            return RespostaProcesso::respostaProcesso("Criar processo para validar o acesso no banco", true);
+            //Captura a senha no banco
+            $conexao = new Conexao();
+            $conexao = $conexao->getConexao();
+            $comando = "SELECT perfil_usuario, senha_usuario FROM tb_usuario WHERE = :email";
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":email", $email->getEmail());
+            $sql->execute();
+            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
+            if (!$resposta) throw new Exception("ERRO LOGIN: Email não encontrado");
+            
+            // fecha a conexão
+            $sql = null;
+            $conexao = null;
+
+            // pega o hash do banco
+            $senha_banco = $resposta['senha_usuario'];
+
+            // compara as senha do usuario e a senha armazenada no banco
+            if (!password_verify($requisicao['senha'], $senha_banco)) throw new Exception("ERRO LOGIN: Senha invalida");
+
+            // pega o perfil do usuario
+            $perfil_usuario = $resposta['perfil_usuario'];
+            
+            // armazena a sessão do usuário
+            return RespostaProcesso::respostaProcesso("Criar processo para armazenar a sessão do usuario", true);
         } catch (Exception $erro){
             $mensagem = "ERRO PROCESSO LOGIN: " . $erro->getMessage();
             return RespostaProcesso::respostaProcesso($mensagem);

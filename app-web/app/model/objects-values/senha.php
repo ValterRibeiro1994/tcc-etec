@@ -40,7 +40,7 @@ class Senha {
 
     private function hashSenha(string $senha){
         // fator de custo menor para um processamento mais rapido
-        $options = ['cost' => 3];
+        $options = ['cost' => 10];
         return password_hash($senha, PASSWORD_BCRYPT, $options);
     }
 

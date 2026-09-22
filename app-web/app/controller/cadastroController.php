@@ -77,7 +77,7 @@ class CadastroController {
             $repositorio = new UsuarioRepositorio();
             $resposta = $repositorio->salvarMunicipe($denunciante);
             if (!$resposta['resposta']) return $resposta;
-            return RespostaProcesso::respostaProcesso("Cadastro do denunciante em processo - criar BD !!!", true, $dados);
+            return RespostaProcesso::respostaProcesso("Cadastro realizado com sucesso !!!", true, $dados);
             
         } catch (Exception $error) {
             $mensagem = "Erro: " . $error->getMessage();

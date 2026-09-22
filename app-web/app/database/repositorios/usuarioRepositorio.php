@@ -11,8 +11,8 @@ class UsuarioRepositorio {
         $senha = $municipe->getSenha();
         
         try {
-            $comando = "INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, senha_usuario) 
-            VALUES (:nome, :sobrenome, :email, :cpf, :senha)";
+            $comando = "INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, perfil_usuario, senha_usuario) 
+            VALUES (:nome, :sobrenome, :email, :cpf, :perfil, :senha)";
 
             $conexao = new Conexao();
             $conexao = $conexao->getConexao();
@@ -22,6 +22,7 @@ class UsuarioRepositorio {
             $sql->bindValue(":sobrenome", $sobrenome);
             $sql->bindValue(":email", $email);
             $sql->bindValue(":cpf", $cpf);
+            $sql->bindValue(":perfil", "municipe");
             $sql->bindValue(":senha", $senha);
             $sql->execute();
 
@@ -45,6 +46,10 @@ class UsuarioRepositorio {
             $conexao = null;
         }
 
+    }
+
+    public function obterSenha(Email $email){
+        
     }
         
 }
