@@ -3,29 +3,52 @@ package com.example.tcc
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tcc.databinding.ActivityLoginScreenBinding
 
 class LoginScreen : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login_screen)
+
+        binding = ActivityLoginScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val meuBotao = findViewById<Button>(R.id.btn)
-        meuBotao.setOnClickListener {
-            // Cria a Intent informando a tela atual e a tela de destino
+        val emailCadastrado = intent.getStringExtra("Key_Email") ?: "."
+        val senhaCadastrada = intent.getStringExtra("Key_Senha") ?: "."
+
+
+        binding.btn.setOnClickListener {
+            val emailLogin = binding.edtEmailLogin.text.toString()
+            val senhaLogin = binding.edtPasswordLogin.text.toString()
+
             val intent = Intent(this, MainActivity::class.java)
-            // Inicia a nova Activity
-            startActivity(intent)
-            finish()
+
+
+            if (emailLogin == emailCadastrado && senhaLogin == senhaCadastrada) {
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Senha ou Email estão errados", Toast.LENGTH_SHORT).show()
+            }
         }
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, RegisterScreen::class.java)
+            startActivity(intent)
+        }
+
     }
 }
