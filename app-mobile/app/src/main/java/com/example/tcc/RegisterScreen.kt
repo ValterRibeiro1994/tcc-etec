@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.widget.Toast
+import android.content.Context
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,12 +32,15 @@ class RegisterScreen : AppCompatActivity() {
             val Senha_atual = binding.edtPassword.text.toString()
 
             if (Email_atual.isNotEmpty() && Senha_atual.isNotEmpty()) {
+                val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
 
+                editor.putString("email_salvo", Email_atual)
                 val intent = Intent(this, LoginScreen::class.java).apply {
-                    putExtra("Key_Email", Email_atual)
                     putExtra("Key_Senha", Senha_atual)
                 }
 
+                editor.apply()
                 startActivity(intent)
                 finish()
 
