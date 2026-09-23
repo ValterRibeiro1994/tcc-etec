@@ -137,3 +137,73 @@
     text-decoration: underline;
     color: #004d26;
 }
+
+
+/*AUMENTA OS CARDS EM TELAS GRANDES*/
+
+@media (min-width: 2000px) {
+
+  .secao-card-escolha {
+    max-width: 1400px !important;
+    gap: 40px !important;
+    margin-top: 100px !important;
+  }
+
+
+  .card-escolha {
+    width: 600px;
+    min-height: 480px;
+    padding: 40px;
+    border-radius: 28px;
+  }
+
+
+  .circulo-denunciante,
+  .circulo-representante {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 25px;
+  }
+
+
+  .circulo-denunciante svg,
+  .circulo-representante svg,
+  .circulo-denunciante i,
+  .circulo-representante i {
+    transform: scale(1.4);
+  }
+
+ 
+  .card-escolha h2, 
+  .card-escolha h3,
+  .tipo-escolha-d,
+  .tipo-escolha-r {
+    font-size: 32px;
+  }
+
+  .card-escolha p {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  
+  .texto-escolha {
+    font-size: 38px;
+    margin-top: 60px;
+  }
+
+
+  .btn-municipe,
+  .btn-representante {
+    padding: 18px 60px;
+    font-size: 20px;
+    border-radius: 12px;
+  }
+
+ 
+  .texto-login-cadastro {
+    font-size: 22px;
+    margin-top: 50px;
+    margin-bottom: 90px;
+  }
+}
