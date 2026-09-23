@@ -1,36 +1,18 @@
-/** 
- * exemplo de função para obter as categorias registradas no sistema
- * algumas partes do formulario de denuncia deve ser escritas com JS 
- * 
- window.addEventListener('load', async function (event) {
-    try {
-        let resposta = await fetch('../categoria/categorias', {
-            method: 'GET',
-        });
-        resultado = await resposta.json();
-    } catch (error) {
-        console.log(error);
-    }
-});
- * 
- */
+// formulario do representante
+const form = document.getElementById("form-cadastro-representante");
 
-
-
-// formulario de cadastro
-const form = document.getElementById("form-cadastro-denunciante");
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
     
     let dadosForm = new FormData(form);
     dadosForm.append('metodo', 'POST');  
     
+    
     try {
-        let resposta = await fetch("../cadastro/municipe", {
+        let resposta = await fetch("../cadastro/representante", {
             method: 'POST',
             body: dadosForm
         });
-        
         let resultado = await resposta.json();
         console.log(resultado);
 
@@ -47,4 +29,3 @@ form.addEventListener("submit", async function (event) {
         console.error('Erro ao enviar', error);
     }
 })
-

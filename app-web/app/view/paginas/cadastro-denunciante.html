@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
+<!-- CABEÇALHO DA PÁGINA (META E LINKS) -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,220 +10,198 @@
     <title>Cadastro - RelateSBC</title>
 </head>
 
-<body> 
+ <body>
 
-<header class="navbar-header">
-    <nav class="navbar">
-        <a href="home" class="logo-link">
-            <img src="../app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
-        </a>
+    <!-- NAV/HEADER -->
+    <header class="navbar-header">
+        <nav class="navbar">
+            <a href="../home" class="logo-link">
+                <img src="../app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+            </a>
 
-        <ul class="tabela-de-links">
-            <li class="nav-item active"><a href="#">Início</a></li>
-            <li class="nav-item"><a href="#">Sobre</a></li>
-            <li class="nav-item"><a href="#">Dicas</a></li>
-        </ul>
+            <ul class="tabela-de-links">
+                <li class="nav-item active"><a href="#">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+            </ul>
 
-        <div class="nav-actions">
-            <button type="button" class="nav-btn nav-btn-secondary" id="btn-entrar">
-                Entrar
-            </button>
-            <button type="button" class="nav-btn nav-btn-primary" id="btn-cadastro">
-                Cadastre-se
-            </button>
+            <div class="nav-actions">
+                <a href="../login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="../cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+            </div>
+
+            <div class="mobile-menu-icon">
+                <button onclick="menuAbrir()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- MENU MOBILE -->
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item active"><a href="#">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="../login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="../cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+            </div>
         </div>
+    </header>
 
-        <div class="mobile-menu-icon">
-            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+    <!-- CONTEÚDO PRINCIPAL -->
 
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg></i></button>
-        </div>
-    </nav>
+    <main class="container-fluid min-vh-100 d-flex align-items-center py-5">
+        <div class="container">
+            <div class="row justify-content-center align-items-center g-5">
 
-    <!-- MENU MOBILE -->
+                <!-- APRESENTAÇÃO -->
+                <section class="col-12 col-lg-5 text-center text-lg-start">
+                    <h1 class="display-5 fw-bold">
+                        Ajude a melhorar nossa cidade.
+                    </h1>
 
-    <div class="mobile-menu">
-        <ul class="tabela-de-links">
-            <li class="nav-item active"><a href="#">Início</a></li>
-            <li class="nav-item"><a href="#">Sobre</a></li>
-            <li class="nav-item"><a href="#">Dicas</a></li>
-        </ul>
+                    <p class="lead text-secondary">
+                        Cadastre-se no RelateSBC para acompanhar suas denúncias e fazer a diferença na sua cidade.
+                    </p>
 
-        <div class="nav-actions">
-            <button type="button" class="nav-btn nav-btn-secondary" id="btn-entrar">
-                Entrar
-            </button>
-            <button type="button" class="nav-btn nav-btn-primary" id="btn-cadastro">
-                Cadastre-se
-            </button>
-        </div>
-    </div>
-</header>
-
-<main class="container-fluid min-vh-100 d-flex align-items-center py-5">
-    <div class="container">
-        <div class="row justify-content-center align-items-center g-5">
-
-            <!-- APRESENTAÇÃO -->
-            <section class="col-12 col-lg-5 text-center text-lg-start">
-                <h1 class="display-5 fw-bold">
-                    Ajude a melhorar nossa cidade.
-                </h1>
-
-                <p class="lead text-secondary">
-                    Cadastre-se no RelateSBC para acompanhar suas denúncias e fazer a diferença na sua cidade.
-                </p>
-
-                <div class="d-flex justify-content-center justify-content-lg-start mt-4">
-                    <div class="display-1 text-primary">
-                        <i class="fa-solid fa-tree"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FORMULÁRIO -->
-            <section class="col-12 col-md-10 col-lg-6 col-xl-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4 p-md-5">
-
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h2 class="h3 fw-bold mb-0">
-                                Cadastro
-                            </h2>
-
-                            <a href="../login" class="text-decoration-none">
-                                Já tem conta?
-                            </a>
+                    <div class="d-flex justify-content-center justify-content-lg-start mt-4">
+                        <div class="display-1 text-primary">
+                            <i class="fa-solid fa-tree"></i>
                         </div>
+                    </div>
+                </section>
 
-                        <form id="form-cadastro-denunciante">
+                <!-- FORMULÁRIO -->
+                <section class="col-12 col-md-10 col-lg-6 col-xl-5">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4 p-md-5">
 
-                            <div class="row g-3">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 class="h3 fw-bold mb-0">
+                                    Cadastro
+                                </h2>
 
-                                <!-- NOME -->
-                                <div class="col-12 col-md-6">
-                                    <label for="nome" class="form-label">
-                                        Nome
-                                    </label>
-
-                                    <input type="text" class="form-control" id="nome" name="nome" value="teste" placeholder="Seu nome" required>
-                                </div>
-
-                                <!-- SOBRENOME -->
-                                <div class="col-12 col-md-6">
-                                    <label for="sobrenome" class="form-label">
-                                        Sobrenome
-                                    </label>
-
-                                    <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="treste" placeholder="Seu sobrenome" required>
-                                </div>
-
-                                <!-- E-MAIL -->
-                                <div class="col-12">
-                                    <label for="email" class="form-label">
-                                        E-mail
-                                    </label>
-
-                                    <input type="email" class="form-control" id="email" name="email" value="teste@email.com" placeholder="exemplo@gmail.com" required>
-                                </div>
-
-                                <!-- CPF -->
-                                <div class="col-12 col-md-6">
-                                    <label for="cpf" class="form-label">
-                                        CPF
-                                    </label>
-
-                                    <input type="text" class="form-control" id="cpf" name="cpf" value="078.451.799-14" placeholder="000.000.000-00" required>
-                                </div>
-
-                                <!-- ESTADO -->
-                                <div class="col-12 col-md-6">
-                                    <label for="estado" class="form-label">
-                                        Estado
-                                    </label>
-
-                                    <select id="estado" name="estado" class="form-select" required>
-                                        <option selected disabled value="">Escolha um estado</option>
-                                        <option value="AC">Acre</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="AP">Amapá</option>
-                                        <option value="AM">Amazonas</option>
-                                        <option value="BA">Bahia</option>
-                                        <option value="CE">Ceará</option>
-                                        <option value="DF">Distrito Federal</option>
-                                        <option value="ES">Espírito Santo</option>
-                                        <option value="GO">Goiás</option>
-                                        <option value="MA">Maranhão</option>
-                                        <option value="MT">Mato Grosso</option>
-                                        <option value="MS">Mato Grosso do Sul</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="PA">Pará</option>
-                                        <option value="PB">Paraíba</option>
-                                        <option value="PR">Paraná</option>
-                                        <option value="PE">Pernambuco</option>
-                                        <option value="PI">Piauí</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="RN">Rio Grande do Norte</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                        <option value="RO">Rondônia</option>
-                                        <option value="RR">Roraima</option>
-                                        <option value="SC">Santa Catarina</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option>
-                                    </select>
-                                </div>
-
-                                <!-- CIDADE -->
-                                <div class="col-12">
-                                    <label for="cidade" class="form-label">
-                                        Cidade
-                                    </label>
-
-                                    <input type="text" class="form-control" id="cidade" name="cidade" value="nome da cidade" placeholder="Cidade de residência" required>
-                                </div>
-
-                                <!-- SENHA -->
-                                <div class="col-12 col-md-6">
-                                    <label for="senha" class="form-label">
-                                        Senha
-                                    </label>
-
-                                    <input type="password" class="form-control" id="senha" name="senha" value="@Ts123456" placeholder="Sua senha" minlength="8" required>
-                                </div>
-
-                                <!-- CONFIRMAR SENHA -->
-                                <div class="col-12 col-md-6">
-                                    <label for="confirmar-senha" class="form-label">
-                                        Confirmar Senha
-                                    </label>
-
-                                    <input type="password" class="form-control" id="confirmar-senha" name="confirmar-senha" value="@Ts123456" placeholder="Confirme a senha" minlength="8" required>
-                                </div>
-
+                                <a href="../login" class="text-decoration-none">
+                                    Já tem conta?
+                                </a>
                             </div>
 
-                            <!-- RESPOSTA DO PROCESSO -->
-                            <p id="respostaProcesso" class="mt-3 mb-0"></p>
+                            <form id="form-cadastro-denunciante">
+                                <div class="row g-3">
 
-                            <!-- BOTÃO -->
-                            <button type="submit" class="btn btn-primary w-100 mt-4 d-flex justify-content-center align-items-center gap-2">
-                                <span>Criar conta</span>
-                                <i class="fa-solid fa-check" aria-hidden="true"></i>
-                            </button>
+                                    <!-- NOME -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="nome" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="nome" name="nome" value="teste" placeholder="Seu nome" required>
+                                    </div>
 
-                        </form>
+                                    <!-- SOBRENOME -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="sobrenome" class="form-label">Sobrenome</label>
+                                        <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="treste" placeholder="Seu sobrenome" required>
+                                    </div>
 
+                                    <!-- E-MAIL -->
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">E-mail</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="teste@email.com" placeholder="exemplo@gmail.com" required>
+                                    </div>
+
+                                    <!-- CPF -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="cpf" class="form-label">CPF</label>
+                                        <input type="text" class="form-control" id="cpf" name="cpf" value="078.451.799-14" placeholder="000.000.000-00" required>
+                                    </div>
+
+                                    <!-- ESTADO -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="estado" class="form-label">Estado</label>
+                                        <select id="estado" name="estado" class="form-select" required>
+                                            <option selected disabled value="">Escolha um estado</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- CIDADE -->
+                                    <div class="col-12">
+                                        <label for="cidade" class="form-label">Cidade</label>
+                                        <input type="text" class="form-control" id="cidade" name="cidade" value="nome da cidade" placeholder="Cidade de residência" required>
+                                    </div>
+
+                                    <!-- SENHA -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="senha" class="form-label">Senha</label>
+                                        <input type="password" class="form-control" id="senha" name="senha" value="@Ts123456" placeholder="Sua senha" minlength="8" required>
+                                    </div>
+
+                                    <!-- CONFIRMAR SENHA -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="confirmar-senha" class="form-label">Confirmar Senha</label>
+                                        <input type="password" class="form-control" id="confirmar-senha" name="confirmar-senha" value="@Ts123456" placeholder="Confirme a senha" minlength="8" required>
+                                    </div>
+
+                                </div>
+
+                                <!-- RESPOSTA DO PROCESSO -->
+                                <p id="respostaProcesso" class="mt-3 mb-0"></p>
+
+                                <!-- BOTÃO -->
+                                <button type="submit" class="btn btn-primary w-100 mt-4 d-flex justify-content-center align-items-center gap-2">
+                                    <span>Criar conta</span>
+                                    <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                </button>
+                            </form>
+
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-
+    <!-- SCRIPTS -->
     <script src="../app/view/scripts/cadastro-denunciante.js"></script>
+    
 </body>
 </html>

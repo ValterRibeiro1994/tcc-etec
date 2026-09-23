@@ -21,7 +21,7 @@ class LoginController {
             //Captura a senha no banco
             $conexao = new Conexao();
             $conexao = $conexao->getConexao();
-            $comando = "SELECT perfil_usuario, senha_usuario FROM tb_usuario WHERE = :email";
+            $comando = "SELECT perfil_usuario, senha_usuario FROM tb_usuario WHERE email_usuario = :email";
             $sql = $conexao->prepare($comando);
             $sql->bindValue(":email", $email->getEmail());
             $sql->execute();

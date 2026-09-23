@@ -32,12 +32,4 @@ class SessaoController {
         ];
     }
 
-    public static function carregarScripts() {
-        self::iniciarSessao();
-        $_SESSION['config']['scripts'] = [
-            'app/paginas/scripts/login.js',
-            "app/paginas/scripts/navbar.js",
-            'app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js',
-        ];
-    }
 }

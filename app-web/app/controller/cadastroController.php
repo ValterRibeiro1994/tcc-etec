@@ -26,7 +26,10 @@ class CadastroController {
     }
 
     public function representante(array $requisicao){
-        return RespostaProcesso::respostaProcesso("Criar processo para cadastro de representante");
+        if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-representante.html", true, formato: "text/html");
+        if ($requisicao['metodo'] == "POST") return $this->cadastrarRepresentante($requisicao);
+        return RespostaProcesso::respostaProcesso("Requisição indefinida");
     }
 
     private function cadastrarDenunciante(array $dados){
@@ -102,7 +105,7 @@ class CadastroController {
         ];
 
         $n = count($dados_esperado);
-        for ($x = 0; $x < $n;) {
+        for ($x = 0; $x < $n; $x++) {
             $entrada = $dados_esperado[$x];
             if (!array_key_exists($entrada, $dados)) return RespostaProcesso::respostaProcesso("Campo $entrada não enviado", dados: $dados);
             if (empty($dados[$entrada])) return RespostaProcesso::respostaProcesso("Campo $entrada vazio", dados: $dados);
@@ -130,6 +133,7 @@ class CadastroController {
 
             // criar classe representante
             // criar processo para armazenar o representante no banco
+            return RespostaProcesso::respostaProcesso("Criar classe representante", true, $dados);
 
         } catch (Exception $erro) {
             return RespostaProcesso::respostaProcesso($erro->getMessage(), dados: array($erro));

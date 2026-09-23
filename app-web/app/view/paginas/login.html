@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - RelateSBC</title>
+    <link rel="stylesheet" href="app/view/estilo/navbar.css">
     <link rel="stylesheet" href="app/view/estilo/geral.css">
     <link rel="stylesheet" href="app/view/estilo/login-img.css">
     <link rel="stylesheet" href="app/view/estilo/login-denunciante.css">
@@ -14,102 +15,57 @@
 
 <body>
 
-    <header>
-        <!-- 
-            navbar: Define o componente de barra de navegação
-            navbar-expand-lg: Expande a barra (links visíveis) em telas grandes (>=992px) e recolhe em telas menores
-            navbar-dark: Ajusta o contraste do texto e ícones para fundos escuros
-            bg-dark: Aplica cor de fundo escura (tema dark)
-        -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        
+   <header class="navbar-header">
+    <nav class="navbar">
+        <a href="./home" class="logo-link">
+            <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
 
-            <!-- container-fluid: Contêiner de largura total (100% da viewport) -->
-            <div class="container-fluid">
+        <ul class="tabela-de-links">
+            <li class="nav-item active"><a href="#">Início</a></li>
+            <li class="nav-item"><a href="#">Sobre</a></li>
+            <li class="nav-item"><a href="#">Dicas</a></li>
+        </ul>
 
-                <!-- navbar-brand: Estilização reservada para marca/logo -->
-                <a href="#" class="navbar-brand">
-                    <!-- 
-                        img-fluid: Torna a imagem responsiva (max-width: 100%; height: auto)
-                        rounded-3: Aplica bordas arredondadas médias
-                    -->
-                    <img src="app/recursos/imagens/logo-site-pequeno.png" alt="Logo do site" class="img-fluid rounded-3">
-                </a>
+        <div class="nav-actions">
+            <a href="login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                Entrar
+            </a>
+            <a href="cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                Cadastre-se
+            </a>
+        </div>
 
-                <!-- 
-                    navbar-toggler: Botão "hambúrguer" exibido apenas em telas menores
-                -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menuNavegacao" aria-controls="menuNavegacao" aria-expanded="false" aria-label="Abrir menu">
-                    <!-- navbar-toggler-icon: Ícone do botão hambúrguer -->
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
 
-                <!-- 
-                    collapse: Esconde o conteúdo por padrão em telas pequenas
-                    navbar-collapse: Agrupa o conteúdo que será expandido/recolhido
-                -->
-                <div class="collapse navbar-collapse" id="menuNavegacao">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></i></button>
+        </div>
+    </nav>
 
-                    <!-- 
-                        navbar-nav: Organiza os itens da lista de navegação
-                        me-auto: Margem direita automática (empurra os elementos seguintes para a direita)
-                        mb-3: Margem inferior de nível 3 (0.75rem em telas pequenas)
-                        mb-lg-0: Remove a margem inferior em telas grandes (>=992px)
-                    -->
-                    <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+    <!-- MENU MOBILE -->
 
-                        <!-- nav-item: Item individual da lista de navegação -->
-                        <li class="nav-item">
-                            <!-- 
-                                nav-link: Estilização do link da barra de navegação
-                                fs-5: Tamanho da fonte nível 5 (1.25rem)
-                                text-white: Define a cor do texto como branco
-                            -->
-                            <a href="#" class="nav-link fs-5 text-white">Início</a>
-                        </li>
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item active"><a href="#">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+            </ul>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link fs-5 text-white">Sobre</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link fs-5 text-white">Denúncias</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link fs-5 text-white">Cadastre-se</a>
-                        </li>
-
-                    </ul>
-
-                    <!-- 
-                        d-flex: Define display flexbox no elemento
-                        gap-2: Espaçamento de nível 2 (0.5rem) entre os itens filhos
-                    -->
-                    <form id="form-login" class="d-flex gap-2">
-
-                        <!-- form-control: Estilização padrão do Bootstrap para campos de formulário -->
-                        <input name="email" value="teste@email.com" type="email" class="form-control" placeholder="Email" aria-label="Email" required>
-
-                        <input name="senha" value="senha01" type="password" class="form-control" placeholder="Senha" aria-label="Senha" required>
-
-                        <!-- 
-                            btn: Estilização base para botões
-                            btn-success: Estilo do botão na cor verde (sucesso/confirmação)
-                            text-nowrap: Impede que o texto do botão quebre em múltiplas linhas
-                        -->
-                        <button type="submit" class="btn btn-success text-nowrap">
-                            Conectar
-                        </button>
-
-                    </form>
-                </div>
-
+            <div class="nav-actions">
+              <a href="login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                  Entrar
+              </a>
+              <a href="cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                  Cadastre-se
+              </a>
             </div>
+        </div>
+  </header>
 
-        </nav>
-
-    </header>
-
+    
     <main class="container py-auto px-3 my-3" >
         <div class="row">
             <div class="col">
@@ -120,12 +76,12 @@
                     <h1 class="display-2 text-center">Conecte-se</h1>
                     <h5 class="display-6 text-center">Cuide da sua cidade</h3>
                 </header>
-                <form id="form-login" class="py-5" >
+                <form id="form-login-main" class="py-5" >
                     <label class="form-label">Email</label>
-                    <input name="email" type="email" class="form-control">
+                    <input name="email" value="teste@email.com" type="email" class="form-control">
                     
                     <label class="form-label">Senha</label>
-                    <input name="senha" type="password"  class="form-control">
+                    <input name="senha" value="@Ts123456" type="password"  class="form-control">
                     
                     <label class="form-check-label">
                         <input name="lembrar" type="checkbox" class="form-check-input">
@@ -135,7 +91,7 @@
                     <input type="submit" class="btn btn-outline-success d-block mt-3">
                 </form>
                 <footer class="py-5">
-                    <p class="text-center"> Se você ja tem uma conta <a href="cadastro">clique aqui !!!</a></p>
+                    <p class="text-center"> Se você ainda não tem uma conta <a href="cadastro">clique aqui !!!</a></p>
                 </footer>
             </div>
         </div>
@@ -144,6 +100,7 @@
 
 
     <script src="app/view/scripts/login.js"></script>
+    <script src="app/view/scripts/navbar.js"></script>
     <script src="app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
