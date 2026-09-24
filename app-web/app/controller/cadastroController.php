@@ -131,9 +131,10 @@ class CadastroController {
             // validar os dados da prefeitura sendo representada
             $prefeitura = new Prefeitura($dados['nome-prefeitura'], $dados['cargo-prefeitura']);
 
-            // criar classe representante
+            // armazena os dados do representante
+            $representante = new Representante($dados_pessoais, $endereco, $senha, $prefeitura);
             // criar processo para armazenar o representante no banco
-            return RespostaProcesso::respostaProcesso("Criar classe representante", true, $dados);
+            return RespostaProcesso::respostaProcesso("Criar o processo para armazenamento no banco", true, $dados);
 
         } catch (Exception $erro) {
             return RespostaProcesso::respostaProcesso($erro->getMessage(), dados: array($erro));
