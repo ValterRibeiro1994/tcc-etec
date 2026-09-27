@@ -12,6 +12,7 @@ class Representante extends Usuario {
         $this->dados_usuario = $dados_usuario;
         $this->endereco = $endereco;
         $this->senha = $senha;
+        $this->prefeitura = $prefeitura;
     }
 
     #[Override]

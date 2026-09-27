@@ -133,8 +133,11 @@ class CadastroController {
 
             // armazena os dados do representante
             $representante = new Representante($dados_pessoais, $endereco, $senha, $prefeitura);
+            
             // criar processo para armazenar o representante no banco
-            return RespostaProcesso::respostaProcesso("Criar o processo para armazenamento no banco", true, $dados);
+            $repositorio = new UsuarioRepositorio();
+            $resposta = $repositorio->salvarRepresentante($representante);
+            return $resposta;
 
         } catch (Exception $erro) {
             return RespostaProcesso::respostaProcesso($erro->getMessage(), dados: array($erro));
