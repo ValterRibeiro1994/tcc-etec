@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="app/view/estilo/geral.css">
+    <link rel="stylesheet" href="app/view/estilo/home-mural.css">
+  
+    
+    <title>RelateSBC</title>
+</head>
+<body>
+    
+   <header class="navbar-header">
+    <nav class="navbar">
+        <a href="./home" class="logo-link">
+            <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item active"><a href="#">Início</a></li>
+            <li class="nav-item"><a href="#">Sobre</a></li>
+            <li class="nav-item"><a href="#">Dicas</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                Entrar
+            </a>
+            <a href="cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                Cadastre-se
+            </a>
+        </div>
+
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></i></button>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE -->
+
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item active"><a href="#">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+            </ul>
+
+            <div class="nav-actions">
+              <a href="login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                  Entrar
+              </a>
+              <a href="cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                  Cadastre-se
+              </a>
+            </div>
+        </div>
+  </header>
+
+     <div class="main-container">
+        
+        <aside class="menu-lateral">
+            <button class="menu-lateral-btn-criar">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Nova denúncia
+            </button>
+            
+            <nav class="menu-lateral-navegacao">
+                <a href="#" class="menu-lateral-link ativo">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Mural de denúncias
+                </a>
+                <a href="#" class="menu-lateral-link">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Minhas denúncias
+                </a>
+                <a href="#" class="menu-lateral-link">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Acompanhamento
+                </a>
+                <a href="#" class="menu-lateral-link">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    Favoritos
+                </a>
+                <a href="#" class="menu-lateral-link">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    Histórico
+                </a>
+               
+                <a href="#" class="menu-lateral-link">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Configurações
+                </a>
+            </nav>
+
+            <div class="menu-lateral-card-informativo">
+                <strong>Participe da mudança!</strong>
+                <p>Sua denúncia ajuda a melhorar nossos bairros em SBC.</p>
+            </div>
+        </aside>
+
+        <main class="conteudo-principal" style="flex: 1; padding: 24px;">
+
+        <h1 class="mb-4">Mural de Denúncias</h1>
+
+      
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label class="fw-semibold small">Pesquisar</label>
+                <input type="text" class="form-control" placeholder="Buscar denúncia...">
+            </div>
+            <div class="col-md-5">
+                <label class="fw-semibold small">Categorias</label>
+                <div class="d-flex gap-2">
+                    <select class="form-select">
+                        <option>Buracos</option>
+                        <option>Iluminação</option>
+                        <option>Lixo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-semibold small">Ordem por:</label>
+                <div class="d-flex gap-2">
+                    <select class="form-select">
+                        <option class="bg-dark">Data</option>
+                    </select>
+                    <select class="form-select">
+                        <option>Status</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        
+
+    
+  <script src="app/view/scripts/navbar.js"></script>
+    
+</body>
+</html>

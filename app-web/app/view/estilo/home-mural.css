@@ -1,0 +1,98 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.main-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f8fafc;
+}
+
+
+.menu-lateral {
+    width: 260px;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.menu-lateral-btn-criar {
+    width: 100%;
+    padding: 10px;
+    background-color: #166534;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-lateral-btn-criar:hover {
+    background-color: #15803d;
+}
+
+.menu-lateral-navegacao {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-lateral-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.menu-lateral-link svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+}
+
+.menu-lateral-link:hover {
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+.menu-lateral-link.ativo {
+    background-color: #f0fdf4;
+    color: #166534;
+    font-weight: 600;
+}
+
+.menu-lateral-card-informativo {
+    margin-top: auto;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+
+.conteudo-principal {
+    flex: 1;
+    padding: 24px;
+    height: 200px;
+}
