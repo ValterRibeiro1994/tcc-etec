@@ -7,11 +7,11 @@ class SessaoController {
         }
     }
 
-    public static function salvarUsuario(string $nome, string $sobrenome, string $token): void {
+    public static function salvarUsuario(Usuario $usuario): void {
         self::iniciarSessao();
-        $_SESSION['user']['nome'] = $nome;
-        $_SESSION['user']['sobrenome'] = $sobrenome;
-        $_SESSION['user']['token'] = $token;
+        // $_SESSION['user']['nome'] = $nome;
+        // $_SESSION['user']['sobrenome'] = $sobrenome;
+        // $_SESSION['user']['token'] = $token;
     }
 
     public static function estaConectado(): bool {
@@ -19,17 +19,6 @@ class SessaoController {
         return array_key_exists("user", $_SESSION);
     }
 
-    public static function carregarEstilos() {
-        self::iniciarSessao();
-        $_SESSION['config']['estilos'] = [
-            "app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css",
-            "app/paginas/estilo/home.css",
-            "app/paginas/estilo/navbar.css",
-            "app/paginas/estilo/geral.css",
-            "app/paginas/estilo/imagem_tela_inicio.css",
-            "app/paginas/estilo/cards_tela_inicio.css",
-            "app/paginas/estilo/sobre_tela_inicio.css"
-        ];
-    }
+
 
 }

@@ -7,5 +7,6 @@ abstract class Usuario {
     abstract function getEmail();
     abstract function getCpf();
     abstract function getSenha();
+    abstract function getPerfil();
 
 }

@@ -34,8 +34,13 @@ class Senha {
         return ($maiuscula && $minuscula && $numero && $caracteres);
     }
 
+    public function limparSenha(){
+        $this->hash = "";
+    }
+
     public function getSenha() {
         return $this->hash;
+
     }
 
     private function hashSenha(string $senha){

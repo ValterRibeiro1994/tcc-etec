@@ -124,5 +124,10 @@ class UsuarioRepositorio {
         }
     }
 
+    public function obterRepresentante(int $id){
+        /**
+         * COMANDO para capturar o representante por um email
+         */
+    }
 
 }
