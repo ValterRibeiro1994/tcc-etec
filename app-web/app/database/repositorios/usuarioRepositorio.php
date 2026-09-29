@@ -6,23 +6,41 @@ class UsuarioRepositorio {
 
     public function cadastrarUsuario(Usuario $usuario): array {
         try {
-            if ($this->emailExiste($usuario->getEmail())['resposta']) throw new Exception("Email: Email já cadastrado");
+            if ($this->emailExiste($usuario->getEmail())['resposta']) throw new Exception("Email já cadastrado");
 
-            $conexao = new Conexao();
-            $conexao = $conexao->getConexao();
+            // armazena o perfil do usuario
+            $perfil = $usuario->getPerfil();
+            if (!($perfil == "representante" || $perfil == "municipe")) throw new Exception("Perfil: Perfil inválido");
+
+            // inicia a conexão com o banco
+            $conexao_obj = new Conexao();
+
+            // captura a conexão -> PDO
+            $conexao = $conexao_obj->getConexao();
+
+            // salva os atributos em comum no banco
             $this->salvarUsuario($usuario, $conexao);
-            if ($usuario->getPerfil() === "representante"){
-                $this->salvarRepresentante($usuario, $conexao);
-                $msg = "Cadastro para representante efetuado com sucesso";
-            } else if ($usuario->getPerfil() === "municipe"){
-                $this->salvarMunicipe($usuario, $conexao);
-                $msg = "Cadastro para municipe efetuado com sucesso";
+
+            // Encaminha o usuario para sua categoria (Representante, municipe)
+            if ($perfil === "representante"){ // se for representante
+
+                // salve os dados que falta para completar o perfil
+                $this->salvarRepresentante($usuario, $conexao); // salvando representante            
+
+            } else if ($perfil === "municipe"){ // se for municipe
+
+                // salve os dados que falta para completar o perfil
+                $this->salvarMunicipe($usuario, $conexao); // salvando municipe
+            
             } else {
+
+                // lança um erro acaso o perfil não tenha sido definido antes
                 throw new Exception("Perfil: Perfil de usuário inválido");
             }
-            return RespostaProcesso::respostaProcesso($msg, true);
+            return RespostaProcesso::respostaProcesso("Cadastro efetuado com sucesso", true);
             
         } catch(Exception $erro){
+            // devolve a mensagem para o front-end (formato: "json")
             return RespostaProcesso::respostaProcesso($erro->getMessage());
         } finally {
             $conexao = null;
@@ -82,22 +100,46 @@ class UsuarioRepositorio {
     }
 
     public function obterSenha(Email $email) {
+
+        // armazena o email (string)
         $email = $email->getEmail();
+
+        // Localiza o email
         $resposta = $this->emailExiste($email);
         if (!$resposta['resposta']) return $resposta;
 
-        $comando = "SELECT senha_usuario FROM tb_usuario WHERE email_usuario = :email;";
+        // comando SQL para recuperar o hash no banco
+        $comando = "
+                SELECT 
+                    senha_usuario 
+                FROM 
+                    tb_usuario 
+                WHERE 
+                    email_usuario = :email;
+            ";
+
+        // Executa o processo para resgatar o hash da senha
         try {
+            // inicia a classe de conexão
             $conexao = new Conexao();
+
+            // cria a conexão com o banco
             $conexao = $conexao->getConexao();
 
+            // prepara o comando a ser executado
             $sql = $conexao->prepare($comando);
+
+            // adicione o parametro email da consulta
             $sql->bindValue(":email", $email);
+
+            // executa o comando
             $sql->execute();
 
+            // armazena a resposta do banco
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
             if (!$resposta) return RespostaProcesso::respostaProcesso("ERRO: Senha não localizada");
 
+            // envia o hash da senha para o banco
             return RespostaProcesso::respostaProcesso($resposta['senha_usuario'], true);
         } catch (Exception $erro){
             $msg = $erro->getMessage();
@@ -106,6 +148,7 @@ class UsuarioRepositorio {
             $msg = $erro->getMessage();
             return RespostaProcesso::respostaProcesso("ERRO BANCO: $msg");
         } finally {
+            $sql = null;
             $conexao = null;
         }
     }
@@ -125,10 +168,10 @@ class UsuarioRepositorio {
             $sql->bindValue(":email", $email);
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if ($resposta != false  && count($resposta) > 0){
+            if ($resposta != false){
                 return RespostaProcesso::respostaProcesso("Email cadastrado", true);
             }
-            return RespostaProcesso::respostaProcesso("Email não existe no sistema", false);
+            return RespostaProcesso::respostaProcesso("Email não cadastrado", false);
 
         } catch (Exception $erro){
             return RespostaProcesso::respostaProcesso($erro->getMessage());
@@ -138,11 +181,102 @@ class UsuarioRepositorio {
         }
     }
 
-    public function obterUsuario(Email $email){
+    public function obterUsuario(Email $email): Usuario {
         $resposta = $this->emailExiste($email->getEmail());
-        if (!$resposta['resposta']) return $resposta;
+        if (!$resposta['resposta']) throw new Exception($resposta['mensagem']);
 
-        // continuar aqaui....
+        $comando = "
+            SELECT
+                id_usuario, nome_usuario, sobrenome_usuario, cpf_usuario, perfil_usuario
+            FROM
+                tb_usuario
+            WHERE 
+                email_usuario = :email
+        ";
+
+        try {
+            $conexao_obj = new Conexao();
+            $conexao = $conexao_obj->getConexao();
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":email", $email->getEmail());
+            $sql->execute();
+            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
+
+            if ($resposta == false) throw new Exception("Usuário não localizado em usuarios");
+
+            $usuario = new Usuario(
+                dados_usuario: new DadosPessoais(
+                    nome: new Nome($resposta['nome_usuario']),
+                    sobrenome: new Sobrenome($resposta['sobrenome_usuario']),
+                    cpf: new Cpf($resposta['cpf_usuario']),
+                    email: $email
+                )
+            );
+
+            $usuario->setPerfil($resposta['perfil_usuario']);
+            $usuario->setId((int)$resposta['id_usuario']);
+
+            if ($usuario->getPerfil() == "municipe"){
+                $comando = "
+                    SELECT 
+                        cidade_municipe AS cidade, 
+                        estado_municipe AS estado 
+                    FROM 
+                        tb_municipe 
+                    WHERE 
+                        id_usuario = :id
+                ";
+            } else if ($usuario->getPerfil() == "representante"){
+                $comando = "
+                    SELECT 
+                        cidade_representante AS cidade, 
+                        estado_representante AS estado, 
+                        orgao_representante AS orgao,
+                        cargo_representante AS cargo
+                    FROM 
+                        tb_representante 
+                    WHERE 
+                        id_usuario = :id
+                ";
+
+            } else {
+                throw new Exception("Perfil: Perfil invalido");
+            }
+
+            $conexao = $conexao_obj->getConexao();
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":id", $usuario->getId());
+            $sql->execute();
+
+            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
+ 
+            if ($resposta == false) throw new Exception("Usuario não localizado nas relações:\nID: {$usuario->getId()} \ncomando = $comando");
+
+            if ($usuario->getPerfil() == "representante"){
+                $usuario->setPrefeitura(
+                    new Prefeitura(
+                        $resposta['orgao'], 
+                        $resposta['cargo']
+                        )
+                    );
+            }
+
+            $usuario->setEndereco(
+                new Endereco(
+                    $resposta['cidade'],
+                    $resposta['estado']
+                )
+            );
+
+            return $usuario;
+
+        } catch (Exception $erro) {
+           throw $erro;
+        } finally {
+            $sql = null;
+            $conexao = null;
+            $conexao_obj = null;
+        }
     }
 
 }

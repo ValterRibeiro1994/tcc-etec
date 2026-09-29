@@ -21,7 +21,7 @@ class Usuario extends UsuarioInterface {
     // set Id
     #[Override]
     public function setId(int $id): void {
-        if (ctype_digit($id) && is_int($id)){
+        if (is_int($id)){
             $this->id = (int) $id;
             return;
         }
@@ -128,7 +128,7 @@ class Usuario extends UsuarioInterface {
     #[Override]
     public function getId(PDO $conexao = null): int
     {
-        if ($this->id !== null && ctype_digit($this->id) && is_int($this->id)){
+        if ($this->id !== null && is_int($this->id)){
             return $this->id;
         }
 
