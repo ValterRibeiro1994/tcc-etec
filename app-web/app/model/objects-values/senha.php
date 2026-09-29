@@ -2,9 +2,12 @@
 
 class Senha {
     private string $hash;
+    private string $senha;
+
     public function __construct(string $senha){
         if (!$this->validarSenha($senha)) throw new Exception("Senha invalida");
         $this->hash = $this->hashSenha($senha);
+        $this->senha = $senha;
     }
 
     private function validarSenha(string $senha) {
@@ -38,9 +41,12 @@ class Senha {
         $this->hash = "";
     }
 
-    public function getSenha() {
+    public function getSenhaHash() {
         return $this->hash;
+    }
 
+    public function getSenha() {
+        return $this->senha;
     }
 
     private function hashSenha(string $senha){

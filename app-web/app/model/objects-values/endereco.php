@@ -7,6 +7,18 @@ class Endereco {
     private string $cidade;
     private string $estado;
     private string $cep;
+
+    public function __construct(string $cidade = null, string $estado = null){
+        if ($cidade !== null){
+            $this->setCidade($cidade);
+        }
+
+        if ($estado !== null){
+            $this->setEstado($estado);
+        }
+
+    }
+    
     
     public function setLogradouro(string $logradouro){
         $logradouro = trim($logradouro); // remove excesso de espaços em branco
@@ -41,7 +53,7 @@ class Endereco {
 
     public function setEstado(string $estado, int $limite = 2){
         $estado = strtoupper(trim($estado));
-        if (empty($estado)) throw new InvalidArgumentException("Estado Invalido");
+        if (empty($estado)) throw new InvalidArgumentException("Estado não informado");
         if (strlen($estado) > $limite) throw new Exception("Limite de caracteres inválido");
         $this->estado = $estado;
     }

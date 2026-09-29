@@ -51,46 +51,39 @@ class CadastroController {
         }
 
         try {
-            // valida os dados pessoais do usuario
-            $nome = new Nome($dados['nome']);
-            $sobrenome = new Sobrenome($dados['sobrenome']);
-            $email = new Email($dados['email']);
-            $cpf = new Cpf($dados['cpf']);
+            // Compara a igualdade da senha
+            if ($dados['senha'] != $dados['confirmar-senha']) return RespostaProcesso::respostaProcesso("Senhas não conferem", dados: $dados);
 
-            // armazena os dados pessoais
-            $dados_pessoais = new DadosPessoais($nome, $sobrenome, $email, $cpf);
+            $usuario = new Usuario(
+                dados_usuario: new DadosPessoais(
+                    new Nome($dados['nome']),
+                    new Sobrenome($dados['sobrenome']),
+                    new Email($dados['email']),
+                    new Cpf($dados['cpf'])
+                ),
+                endereco: new Endereco(
+                    $dados['cidade'],
+                    $dados['estado']
+                ),
+                senha: new Senha(
+                    $dados['senha']
+                )
+            );
 
-            // armazena o endereço recebido
-            $endereco = new Endereco();
-            $endereco->setCidade($dados['cidade']);
-            $endereco->setEstado($dados['estado']);
-
-            // compara as senhas recebidas
-            $senha = $dados['senha'];
-            $confirmar_senha = $dados['confirmar-senha'];
-            if ($senha !== $confirmar_senha) return RespostaProcesso::respostaProcesso("Senhas diferentes");
-            
-            // valida a senha recebida
-            $senha = new Senha($senha);
-            
-            // cria o denunciante
-            $denunciante = new Municipe($dados_pessoais, $endereco, $senha);
+            // define o perfil do usuario
+            $usuario->setPerfil("municipe");
 
             // envia o denunciante para o banco de dados
             $repositorio = new UsuarioRepositorio();
-            $resposta = $repositorio->salvarMunicipe($denunciante);
-            if (!$resposta['resposta']) return $resposta;
-            return RespostaProcesso::respostaProcesso("Cadastro realizado com sucesso !!!", true, $dados);
+            $resposta = $repositorio->cadastrarUsuario($usuario);
+            return $resposta;
             
         } catch (Exception $error) {
             $mensagem = "Erro: " . $error->getMessage();
-            $arquivo = $error->getFile();
-            $codigo = $error->getCode();
-            $linha = $error->getLine();
             $erro = [
-                'arquivo'=>$arquivo,
-                "codigo"=>$codigo,
-                "linha"=>$linha
+                'arquivo'=> $error->getFile(),
+                "codigo"=> $error->getCode(),
+                "linha"=> $error->getLine()
             ];
             return RespostaProcesso::respostaProcesso($mensagem, dados:$erro);
         }
@@ -112,31 +105,45 @@ class CadastroController {
         }
 
         try {
-            // valida os dados pessoais recebidos
-            $nome = new Nome($dados['nome']);
-            $sobrenome = new Sobrenome($dados['sobrenome']);
-            $cpf = new Cpf($dados['cpf']);
-            $email = new Email($dados['email']);
-            $dados_pessoais = new DadosPessoais($nome, $sobrenome, $email, $cpf);
 
-            // valida a senha recebida
+            // Compara a igualdade da senha
             if ($dados['senha'] != $dados['confirmar-senha']) return RespostaProcesso::respostaProcesso("Senhas não conferem", dados: $dados);
-            $senha = new Senha($dados['senha']);
 
-            // valida o endereço recebido
-            $endereco = new Endereco();
-            $endereco->setEstado($dados['estado']);
-            $endereco->setCidade($dados['cidade']);
+            // cria o usuario
+            $usuario = new Usuario(
+                dados_usuario: new DadosPessoais(
+                    nome: new Nome($dados['nome']),
+                    sobrenome: new Sobrenome($dados['sobrenome']),
+                    email: new Email($dados['email']),
+                    cpf: new Cpf($dados['cpf'])
+                ),
+                
+                endereco: new Endereco(
+                    estado: $dados['estado'], 
+                    cidade: $dados['cidade']
+                    ),
+                
+                senha: new Senha(
+                    senha: $dados['senha']
+                    ),
 
-            // validar os dados da prefeitura sendo representada
-            $prefeitura = new Prefeitura($dados['nome-prefeitura'], $dados['cargo-prefeitura']);
+                prefeitura: new Prefeitura(
+                    orgao: $dados['nome-prefeitura'],
+                    cargo: $dados['cargo-prefeitura']
+                    ),
 
-            // armazena os dados do representante
-            $representante = new Representante($dados_pessoais, $endereco, $senha, $prefeitura);
-            
-            // criar processo para armazenar o representante no banco
+                );
+
+            // setta o perfil do usuario
+            $usuario->setPerfil("representante");
+
+            // inicia o repositorio 
             $repositorio = new UsuarioRepositorio();
-            $resposta = $repositorio->salvarRepresentante($representante);
+            
+            // salva o representante no banco
+            $resposta =  $repositorio->cadastrarUsuario($usuario);
+            
+            // envia o resultado do processo
             return $resposta;
 
         } catch (Exception $erro) {

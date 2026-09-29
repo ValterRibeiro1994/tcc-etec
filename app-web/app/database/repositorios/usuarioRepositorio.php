@@ -3,104 +3,89 @@
 
 class UsuarioRepositorio {
 
-    public function salvarMunicipe(Municipe $municipe){
-        $nome = $municipe->getNome();
-        $sobrenome = $municipe->getSobrenome();
-        $email = $municipe->getEmail();
-        $cpf = $municipe->getCpf();
-        $senha = $municipe->getSenha();
-        
+
+    public function cadastrarUsuario(Usuario $usuario): array {
         try {
-            $comando = "INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, perfil_usuario, senha_usuario) 
-            VALUES (:nome, :sobrenome, :email, :cpf, :perfil, :senha)";
+            if ($this->emailExiste($usuario->getEmail())['resposta']) throw new Exception("Email: Email já cadastrado");
 
             $conexao = new Conexao();
             $conexao = $conexao->getConexao();
-
-            $sql = $conexao->prepare($comando);
-            $sql->bindValue(":nome", $nome);
-            $sql->bindValue(":sobrenome", $sobrenome);
-            $sql->bindValue(":email", $email);
-            $sql->bindValue(":cpf", $cpf);
-            $sql->bindValue(":perfil", "municipe");
-            $sql->bindValue(":senha", $senha);
-            $sql->execute();
-
-            $comando = "INSERT INTO tb_municipe(id_usuario, cidade_municipe, estado_municipe)
-            VALUES (:id, :cidade, :estado)";
-
-            $id = $municipe->getId($conexao);
-            $estado = $municipe->getEstado();
-            $cidade = $municipe->getCidade();
-
-            $sql = $conexao->prepare($comando);
-            $sql->bindValue(":id", $id);
-            $sql->bindValue(":estado", $estado);
-            $sql->bindValue(":cidade", $cidade);
-            $sql->execute();
-
-            return RespostaProcesso::respostaProcesso("Cadastro realizado com Sucesso", true);
-        } catch (Exception $erro) {
+            $this->salvarUsuario($usuario, $conexao);
+            if ($usuario->getPerfil() === "representante"){
+                $this->salvarRepresentante($usuario, $conexao);
+                $msg = "Cadastro para representante efetuado com sucesso";
+            } else if ($usuario->getPerfil() === "municipe"){
+                $this->salvarMunicipe($usuario, $conexao);
+                $msg = "Cadastro para municipe efetuado com sucesso";
+            } else {
+                throw new Exception("Perfil: Perfil de usuário inválido");
+            }
+            return RespostaProcesso::respostaProcesso($msg, true);
+            
+        } catch(Exception $erro){
             return RespostaProcesso::respostaProcesso($erro->getMessage());
         } finally {
             $conexao = null;
         }
-
     }
 
-    public function salvarRepresentante(Representante $representante){
-        $nome = $representante->getNome();
-        $sobrenome = $representante->getSobrenome();
-        $email = $representante->getEmail();
-        $cpf = $representante->getCpf();
-        $estado = $representante->getEstado();
-        $cidade = $representante->getCidade();
-        $cargo = $representante->getCargo();
-        $prefeitura = $representante->getPrefeitura();
-        $senha = $representante->getSenha();
+    private function salvarUsuario(Usuario $usuario, PDO $conexao): void {
+        $comando = "
+            INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, perfil_usuario, senha_usuario) 
+            VALUES (:nome, :sobrenome, :email, :cpf, :perfil, :senha)
+        ";
 
-        $comando = "INSERT INTO tb_usuario(nome_usuario, sobrenome_usuario, email_usuario, cpf_usuario, perfil_usuario, senha_usuario) 
-        VALUES (:nome, :sobrenome, :email, :cpf, :perfil, :senha)";
-
-        try {
-            $conexao = new Conexao();
-            $conexao = $conexao->getConexao();
-
-            $sql = $conexao->prepare($comando);
-            $sql->bindValue(":nome", $nome);
-            $sql->bindValue(":sobrenome", $sobrenome);
-            $sql->bindValue(":email", $email);
-            $sql->bindValue(":cpf", $cpf);
-            $sql->bindValue(":perfil", "representante");
-            $sql->bindValue(":senha", $senha);
-            $sql->execute();
-
-            $id = $representante->getId($conexao);
-            $comando = "INSERT INTO tb_representante(id_usuario, cidade_representante, estado_representante, orgao_representante, cargo_representante)
-            VALUES (:id, :cidade, :estado, :orgao, :cargo)";
-            $sql = $conexao->prepare($comando);
-            $sql->bindValue(":id", $id);
-            $sql->bindValue(":cidade", $cidade);
-            $sql->bindValue(":estado", $estado);
-            $sql->bindValue(":orgao", $prefeitura);
-            $sql->bindValue(":cargo", $cargo);
-            $sql->execute();
-
-            return RespostaProcesso::respostaProcesso("Cadastro realizado com sucesso", true);
-
-        } catch (Exception $erro){
-            $msg = "ERRO CÓDIGO: " . $erro->getMessage();
-            return RespostaProcesso::respostaProcesso($msg);
-        } catch (PDOException $erro){
-            $msg = "ERRO BANCO: " . $erro->getMessage();
-            return RespostaProcesso::respostaProcesso($msg);
-        } finally {
-            $conexao = null;
-        }
+        $sql = $conexao->prepare($comando);
+        $sql->bindValue(":nome", $usuario->getNome());
+        $sql->bindValue(":sobrenome", $usuario->getSobrenome());
+        $sql->bindValue(":email", $usuario->getEmail());
+        $sql->bindValue(":cpf", $usuario->getCpf());
+        $sql->bindValue(":perfil", $usuario->getPerfil());
+        $sql->bindValue(":senha", $usuario->getSenhaHash());
+        $sql->execute();
+        $sql = null;
     }
 
-    public function obterSenha(Email $email){
+    private function salvarMunicipe(Usuario $usuario, PDO $conexao): void{
+            $comando = "
+                INSERT INTO 
+                    tb_municipe(id_usuario, cidade_municipe, estado_municipe)
+                VALUES 
+                    (:id, :cidade, :estado)
+                ";
+
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":id", $usuario->getId($conexao));
+            $sql->bindValue(":estado", $usuario->getEstado());
+            $sql->bindValue(":cidade",  $usuario->getCidade());
+            $sql->execute();
+            $sql = null;
+    }
+
+    private function salvarRepresentante(Usuario $representante, PDO $conexao): void{
+        
+        $comando = "
+        INSERT INTO 
+            tb_representante(id_usuario, cidade_representante, estado_representante, orgao_representante, cargo_representante)
+        VALUES 
+            (:id, :cidade, :estado, :orgao, :cargo)
+        ";
+
+        $sql = $conexao->prepare($comando);
+        $sql->bindValue(":id", $representante->getId($conexao));
+        $sql->bindValue(":cidade", $representante->getCidade());
+        $sql->bindValue(":estado", $representante->getEstado());
+        $sql->bindValue(":orgao", $representante->getOrgao());
+        $sql->bindValue(":cargo", $representante->getCargo());
+        $sql->execute();
+        $sql = null;
+    }
+
+    public function obterSenha(Email $email) {
         $email = $email->getEmail();
+        $resposta = $this->emailExiste($email);
+        if (!$resposta['resposta']) return $resposta;
+
         $comando = "SELECT senha_usuario FROM tb_usuario WHERE email_usuario = :email;";
         try {
             $conexao = new Conexao();
@@ -111,11 +96,12 @@ class UsuarioRepositorio {
             $sql->execute();
 
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if ($sql->rowCount() == 0 || !$resposta) throw new Exception("ERRO: Email não cadastrado");
-            return $resposta['senha_usuario'];
+            if (!$resposta) return RespostaProcesso::respostaProcesso("ERRO: Senha não localizada");
+
+            return RespostaProcesso::respostaProcesso($resposta['senha_usuario'], true);
         } catch (Exception $erro){
             $msg = $erro->getMessage();
-            return RespostaProcesso::respostaProcesso("ERRO CÓDIGO: $msg");
+            return RespostaProcesso::respostaProcesso($msg);
         } catch (PDOException $erro){
             $msg = $erro->getMessage();
             return RespostaProcesso::respostaProcesso("ERRO BANCO: $msg");
@@ -124,10 +110,39 @@ class UsuarioRepositorio {
         }
     }
 
-    public function obterRepresentante(int $id){
-        /**
-         * COMANDO para capturar o representante por um email
-         */
+    public function emailExiste(string $email) {
+        $comando = "
+                SELECT 
+                    email_usuario FROM tb_usuario 
+                WHERE 
+                    email_usuario = :email
+        ";
+
+        try {
+            $conexao = new Conexao();
+            $conexao = $conexao->getConexao();
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":email", $email);
+            $sql->execute();
+            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
+            if ($resposta != false  && count($resposta) > 0){
+                return RespostaProcesso::respostaProcesso("Email cadastrado", true);
+            }
+            return RespostaProcesso::respostaProcesso("Email não existe no sistema", false);
+
+        } catch (Exception $erro){
+            return RespostaProcesso::respostaProcesso($erro->getMessage());
+        } finally {
+            $sql = null;
+            $conexao = null;
+        }
+    }
+
+    public function obterUsuario(Email $email){
+        $resposta = $this->emailExiste($email->getEmail());
+        if (!$resposta['resposta']) return $resposta;
+
+        // continuar aqaui....
     }
 
 }

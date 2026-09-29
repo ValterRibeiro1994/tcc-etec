@@ -15,10 +15,27 @@ class LoginController {
         }
 
         try {
-
             // valida os dados recebidos pelo front-end
             $email = new Email($requisicao['email']);
             $senha = new Senha($requisicao['senha']);
+
+            // iniciar repositorio
+            $repositorio = new UsuarioRepositorio();
+
+            // verificar se o email existe
+            $resposta = $repositorio->emailExiste($requisicao['email']);
+            if ($resposta['resposta']) return $resposta;
+
+            // resgatar a senha armazenada no banco
+            $resposta = $repositorio->obterSenha($email);
+            if (!$resposta['resposta']) return $resposta;
+            $senha_banco = $resposta['mensagem']; // senha armazenada com hash
+
+            // comparar a senha recebida pela senha do banco
+            if (!password_verify($requisicao['senha'], $senha_banco)) return RespostaProcesso::respostaProcesso("Acesso Negado");
+
+            $usuario = $repositorio->obterUsuario($email);
+
 
             //Localizar o usuario dentro do banco
             $conexao = new Conexao(); // inicia o objeto conexão
@@ -27,11 +44,11 @@ class LoginController {
                         SELECT 
                             id_usuario AS id, 
                             perfil_usuario AS tipo_usuario, 
-                            senha_usuario AS senha,
-                            email_usuario AS email,
                             nome_usuario AS nome,
+                            sobrenome_usuario AS sobrenome,
+                            email_usuario AS email,
                             cpf_usuario AS cpf,
-                            sobrenome_usuario AS sobrenome
+                            senha_usuario AS senha
                         FROM 
                             tb_usuario 
                         WHERE 
@@ -49,26 +66,40 @@ class LoginController {
             $sql = null;
             $conexao = null;
             
-            // pega o hash do banco
+            // cria o usuario em etapas a partir daqui
+            $usuario = new Usuario();
+            $usuario->setId($resposta['id']);
+            $usuario->setPerfil($resposta['tipo_usuario']);
+            $usuario->setSenha($senha);
+            
+            // armazena os dados pessoais
+            $dados_pessoais = new DadosPessoais(
+                new Nome($resposta['nome']),
+                new Sobrenome($resposta['sobrenome']),
+                new Email($email->getEmail()),
+                new Cpf($resposta['cpf']),
+            );
+            $usuario->setDadosPessoais($dados_pessoais);
+
+            // guarda o hash armazenado no banco
             $senha_banco = $resposta['senha'];
             
+
             // compara as senha do usuario e a senha armazenada no banco
-            if (!password_verify($requisicao['senha'], $senha_banco)) throw new Exception("ERRO LOGIN: Senha invalida");
+            if (!password_verify(
+                $usuario->getSenha(), 
+                $senha_banco)) 
+                throw new Exception("ERRO LOGIN: Senha invalida");
 
             // a senha já foi conferida e pode ser apagada da memoria para evitar incidentes
-            // $senha = null; // senha do objeto manter para criar o usuario
+            $usuario->setSenha(limpar:true);
             $senha_banco = null;
             $resposta['senha'] = null;
             $requisicao['senha'] = null;
 
 
-            // pega o id do usuario
-            $id_usuario = $resposta['id'];
-
-            // pega o perfil do usuario
-            $perfil_usuario = $resposta['tipo_usuario'];
-
             // captura os dados complementares do usuario
+            $perfil_usuario = $usuario->getPerfil();
             if ($perfil_usuario === "municipe") {
                 $comando = "
                             SELECT 
@@ -95,28 +126,14 @@ class LoginController {
                 throw new Exception("PERFIL NÂO CADASTRADO");
             }
 
-
-            // pega os dados pessoais do usuario
-            $nome_usuario =  $resposta['nome'];
-            $sobrenome_usuario = $resposta['sobrenome'];
-            $email_usuario = $resposta['email'];
-            $cpf_usuario = $resposta['cpf'];
-           
-            $dados_pessoais = new DadosPessoais(
-                new Nome($nome_usuario),
-                new Sobrenome($sobrenome_usuario),
-                new Email($email_usuario),
-                new Cpf($cpf_usuario)
-            );
-
             $conexao = new Conexao();
             $conexao = $conexao->getConexao();
 
             $sql = $conexao->prepare($comando);
-            $sql->bindValue(":id", $id_usuario);
+            $sql->bindValue(":id", $usuario->getId());
             $sql->execute();
 
-            // captura os dados da resposta
+            // captura os dados do banco
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
 
             // verifica se não está vazio
@@ -126,41 +143,22 @@ class LoginController {
             $sql = null;
             $conexao = null;
 
-            // captura o endereço registrado
-            $cidade = $resposta['cidade'];
-            $estado = $resposta['estado'];
-
-            $endereco_usuario = new Endereco();
-            $endereco_usuario->setCidade($cidade);
-            $endereco_usuario->setEstado($estado);
-
-            // limpa a senha antes de armazenar na sessão
-            $senha->limparSenha();
+            // guarda o endereço registrado
+            $endereco = new Endereco();
+            $endereco->setCidade($resposta['cidade']);
+            $endereco->setEstado($resposta['estado']);
+            $usuario->setEndereco($endereco);
 
             if ($perfil_usuario == "representante"){
-                $orgao = $resposta['orgao'];
-                $cargo = $resposta['cargo'];
-
-                $usuario = new Representante(
-                    $dados_pessoais,
-                    $endereco_usuario,
-                    $senha,
-                    new Prefeitura($orgao, $cargo)
-                );
-            } else {
-                $usuario = new Municipe(
-                    $dados_pessoais,
-                    $endereco_usuario,
-                    $senha
-                );
+                $prefeitura = new Prefeitura($resposta['orgao'], $resposta['cargo']);
+                $usuario->setPrefeitura($prefeitura);
             }
-            
 
-            
-            // armazena a sessão do usuário
-            return RespostaProcesso::respostaProcesso("Criar processo para armazenar a sessão do usuario", true);
+            // cria a sessão do usuario 
+            SessaoController::salvarUsuario($usuario, $requisicao['lembrar']);
+            return RespostaProcesso::respostaProcesso("Acesso autorizado", true);
         } catch (Exception $erro){
-            $mensagem = "ERRO PROCESSO LOGIN: " . $erro->getMessage() . "\nLINHA: " . $erro->getLine()  . "\nCODIGO: " . $erro->getCode() . "\nArquivo: " . $erro->getFile();
+            $mensagem = $erro->getMessage() . "\nLINHA: " . $erro->getLine()  . "\nCODIGO: " . $erro->getCode() . "\nArquivo: " . $erro->getFile();
             return RespostaProcesso::respostaProcesso($mensagem);
         }
     }

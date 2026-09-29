@@ -7,7 +7,8 @@ class HomeController {
         }
 
         if ($requisicao['metodo'] == "GET"){
-            return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", status: true, formato: "text/html");
+            // provavelmente nesse ponto deve ser verificado se o usuario está ativo ou não
+            return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", status: true, formato: "text/html");
         }
 
         return RespostaProcesso::respostaProcesso("Método invalido para home");
