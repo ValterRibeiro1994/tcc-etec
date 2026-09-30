@@ -10,7 +10,7 @@ class UsuarioRepositorio {
 
             // armazena o perfil do usuario
             $perfil = $usuario->getPerfil();
-            if (!($perfil == "representante" || $perfil == "municipe")) throw new Exception("Perfil: Perfil inválido");
+            if (!($perfil == "representante" || $perfil == "municipe")) throw new Exception("Perfil inválido");
 
             // inicia a conexão com o banco
             $conexao_obj = new Conexao();
@@ -35,13 +35,13 @@ class UsuarioRepositorio {
             } else {
 
                 // lança um erro acaso o perfil não tenha sido definido antes
-                throw new Exception("Perfil: Perfil de usuário inválido");
+                throw new Exception("Perfil de usuário inválido");
             }
+
             return RespostaProcesso::respostaProcesso("Cadastro efetuado com sucesso", true);
             
         } catch(Exception $erro){
-            // devolve a mensagem para o front-end (formato: "json")
-            return RespostaProcesso::respostaProcesso($erro->getMessage());
+            throw $erro;
         } finally {
             $conexao = null;
         }
@@ -106,7 +106,7 @@ class UsuarioRepositorio {
 
         // Localiza o email
         $resposta = $this->emailExiste($email);
-        if (!$resposta['resposta']) return $resposta;
+        if (!$resposta['resposta']) throw new Exception("Email não cadastrado");
 
         // comando SQL para recuperar o hash no banco
         $comando = "
@@ -137,16 +137,12 @@ class UsuarioRepositorio {
 
             // armazena a resposta do banco
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if (!$resposta) return RespostaProcesso::respostaProcesso("ERRO: Senha não localizada");
+            if (!$resposta) throw new Exception("Usuario não indentificado");
 
-            // envia o hash da senha para o banco
+            // envia o hash da senha armazenada no banco
             return RespostaProcesso::respostaProcesso($resposta['senha_usuario'], true);
         } catch (Exception $erro){
-            $msg = $erro->getMessage();
-            return RespostaProcesso::respostaProcesso($msg);
-        } catch (PDOException $erro){
-            $msg = $erro->getMessage();
-            return RespostaProcesso::respostaProcesso("ERRO BANCO: $msg");
+            throw $erro;
         } finally {
             $sql = null;
             $conexao = null;
@@ -174,7 +170,7 @@ class UsuarioRepositorio {
             return RespostaProcesso::respostaProcesso("Email não cadastrado", false);
 
         } catch (Exception $erro){
-            return RespostaProcesso::respostaProcesso($erro->getMessage());
+            throw $erro;
         } finally {
             $sql = null;
             $conexao = null;
@@ -183,7 +179,7 @@ class UsuarioRepositorio {
 
     public function obterUsuario(Email $email): Usuario {
         $resposta = $this->emailExiste($email->getEmail());
-        if (!$resposta['resposta']) throw new Exception($resposta['mensagem']);
+        if (!$resposta['resposta']) throw new Exception("Email não cadastrado !!!");
 
         $comando = "
             SELECT

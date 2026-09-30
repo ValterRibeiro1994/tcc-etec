@@ -3,27 +3,18 @@
 class Cpf {
     private string $cpf;
 
-    public function __construct(string $cpf){
+    public function __construct(string $cpf) {
+
+        // limpar o cpf 
         $cpf = $this->limparCaracteres($cpf);
-        if (strlen($cpf) != 11){
-            throw new Exception("CPF Invalido");
-        }
+        
+        // validar o CPF
+        if (strlen($cpf) != 11) throw new Exception("CPF Invalido");
+        $this->validarCaracteresRepetidos($cpf);
+        $this->validarPrimeiroDigito($cpf);
+        $this->validarSegundoDigito($cpf);
 
-        $caracteres_repetidos = $this->validarCaracteresRepetidos($cpf);
-        if (!$caracteres_repetidos['resposta']){
-            throw new Exception($caracteres_repetidos['mensagem']);
-        }
-
-        $primeiro_digito = $this->validarPrimeiroDigito($cpf);
-        if (!$primeiro_digito['resposta']){
-            throw new Exception($primeiro_digito['mensagem']);
-        }
-
-        $segundo_digito = $this->validarSegundoDigito($cpf);
-        if (!$segundo_digito['resposta']){
-            throw new Exception($segundo_digito['mensagem']);
-        }
-
+        // salva o CPF
         $this->cpf = $cpf;
     }
 
@@ -31,14 +22,11 @@ class Cpf {
         return $this->cpf;
     }
 
-    private function validarCaracteresRepetidos(string $cpf){
-        if ($cpf === str_repeat($cpf[0], 11)){
-            return RespostaProcesso::respostaProcesso("CPF Invalido");
-        }
-        return RespostaProcesso::respostaProcesso("CPF Valido", true);
+    private function validarCaracteresRepetidos(string $cpf): void {
+        if ($cpf === str_repeat($cpf[0], 11)) throw new Exception("CPF Invalido");
     }
 
-    private function limparCaracteres(string $cpf){
+    private function limparCaracteres(string $cpf): string {
         $cpf_limpo = "";
         $n = strlen($cpf);
         for ($i=0; $i < $n; $i++) { 
@@ -50,7 +38,7 @@ class Cpf {
         return $cpf_limpo;
     }
 
-    private function validarPrimeiroDigito(string $cpf){
+    private function validarPrimeiroDigito(string $cpf): void{
 
         $soma = 0;
         for ($i = 0; $i < 9; $i++){
@@ -62,14 +50,10 @@ class Cpf {
             $resto = 0;
         }
 
-        if ($resto != $cpf[9]){
-            return RespostaProcesso::respostaProcesso("CPF Invalido");
-        }
-
-        return RespostaProcesso::respostaProcesso("1° Digito Válido", true);
+        if ($resto != $cpf[9]) throw new Exception("CPF Invalido");
     }
 
-    private function validarSegundoDigito(string $cpf){
+    private function validarSegundoDigito(string $cpf): void {
 
         $soma = 0;
         for ($i = 0; $i < 10; $i++){
@@ -81,10 +65,6 @@ class Cpf {
             $resto = 0;
         }
 
-        if ($resto != $cpf[10]){
-            return RespostaProcesso::respostaProcesso("CPF Invalido");
-        }
-
-        return RespostaProcesso::respostaProcesso("2° Digito Válido", true);
+        if ($resto != $cpf[10]) throw new Exception("CPF Invalido");
     }
 }

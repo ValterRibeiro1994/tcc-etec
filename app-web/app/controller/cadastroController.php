@@ -2,32 +2,27 @@
 
 class CadastroController {
     public function index(array $requisicao){
-        if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
-
         // o index do cadastro não possui formulario na pagina.
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "text/html");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "html");
         
         // envia json informando o erro para o front 
-        return RespostaProcesso::respostaProcesso("requisição invalida para o controle de cadastro");
+        throw new Exception("requisição invalida para cadastro");
 
     }
 
     public function municipe(array $requisicao){
-        if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
-
         // o método get apenas exibe o formulario para o cadastro do denunciante
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "text/html");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "html");
         
         // o método post deve receber os dados preenchidos do formulario
         if ($requisicao['metodo'] == "POST") return $this->cadastrarDenunciante($requisicao);
         
-        // para o processo de cadastro deve existir apenas POST e GET
-        return RespostaProcesso::respostaProcesso("Requisiões indefinidas");
+        throw new Exception("Requisição invalida para Cadastro");
     }
 
     public function representante(array $requisicao){
         if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-representante.html", true, formato: "text/html");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-representante.html", true, formato: "html");
         if ($requisicao['metodo'] == "POST") return $this->cadastrarRepresentante($requisicao);
         return RespostaProcesso::respostaProcesso("Requisição indefinida");
     }
@@ -43,16 +38,16 @@ class CadastroController {
         $n = count($dados_esperado);
         for ($i = 0; $i < $n; $i++){
             $atributo = $dados_esperado[$i];
-            if (!array_key_exists($atributo, $dados)) return RespostaProcesso::respostaProcesso("Atributo '$atributo' não enviado");
+            if (!array_key_exists($atributo, $dados)) throw new Exception("Atributo '$atributo' não enviado");
 
             // Remove espaços em branco antes de verificar se está vazio
             $dados[$atributo] = trim($dados[$atributo]);
-            if (empty($dados[$atributo])) return RespostaProcesso::respostaProcesso("Atributo '$atributo' não pode estar vazio");
+            if (empty($dados[$atributo])) throw new Exception("Atributo '$atributo' não pode estar vazio");
         }
 
         try {
             // Compara a igualdade da senha
-            if ($dados['senha'] != $dados['confirmar-senha']) return RespostaProcesso::respostaProcesso("Senhas não conferem", dados: $dados);
+            if ($dados['senha'] != $dados['confirmar-senha']) throw new Exception("Senhas não conferem");
 
             $usuario = new Usuario(
                 dados_usuario: new DadosPessoais(
@@ -79,13 +74,7 @@ class CadastroController {
             return $resposta;
             
         } catch (Exception $error) {
-            $mensagem = "Erro: " . $error->getMessage();
-            $erro = [
-                'arquivo'=> $error->getFile(),
-                "codigo"=> $error->getCode(),
-                "linha"=> $error->getLine()
-            ];
-            return RespostaProcesso::respostaProcesso($mensagem, dados:$erro);
+            throw $error;
         }
     }
 
@@ -100,14 +89,14 @@ class CadastroController {
         $n = count($dados_esperado);
         for ($x = 0; $x < $n; $x++) {
             $entrada = $dados_esperado[$x];
-            if (!array_key_exists($entrada, $dados)) return RespostaProcesso::respostaProcesso("Campo $entrada não enviado", dados: $dados);
-            if (empty($dados[$entrada])) return RespostaProcesso::respostaProcesso("Campo $entrada vazio", dados: $dados);
+            if (!array_key_exists($entrada, $dados)) throw new Exception("Campo $entrada não enviado");
+            if (empty($dados[$entrada])) throw new Exception("Campo $entrada vazio");
         }
 
         try {
 
             // Compara a igualdade da senha
-            if ($dados['senha'] != $dados['confirmar-senha']) return RespostaProcesso::respostaProcesso("Senhas não conferem", dados: $dados);
+            if ($dados['senha'] != $dados['confirmar-senha']) throw new Exception("Senhas não conferem");
 
             // cria o usuario
             $usuario = new Usuario(

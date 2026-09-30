@@ -64,4 +64,9 @@ class SessaoController {
         $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s");
         return true; 
     } 
+
+    public static function obterAtributoUsuario(string $atributo): string {
+        if (!array_key_exists($atributo, $_SESSION['user'])) throw new Exception("Atributo $atributo não armazenado em sessão");
+        return $_SESSION['user'][$atributo];
+    }
 }

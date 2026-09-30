@@ -17,7 +17,9 @@ class Senha {
         $minuscula = false;
         $numero = false;
         $caracteres = false;
-        for ($x = 0; $x < $n; $x++){
+        // enquanto as condições forem falsas e tiver letras para percorrer
+        while (!($maiuscula && $minuscula && $numero && $caracteres) || ($n >= 0)){
+            $x = ($n - 1); // se a senha tenho 8 digitos o array tem espaços de 0 a 7
             $letra = $senha[$x];
             if (ctype_digit($letra)) {
                 $numero = true;
@@ -31,14 +33,16 @@ class Senha {
             else if (ctype_punct($letra)){
                 $caracteres = true;
             } else {
-                throw new Exception("ERRO SENHA: Espaços em branco não permitidas");
+                throw new Exception("Senha inválida");
             }
+            $n -= 1;
         }
         return ($maiuscula && $minuscula && $numero && $caracteres);
     }
 
     public function limparSenha(){
         $this->hash = "";
+        $this->senha = "";
     }
 
     public function getSenhaHash() {

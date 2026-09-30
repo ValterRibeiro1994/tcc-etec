@@ -2,15 +2,7 @@
 
 class HomeController {
     public function index(array $requisicao) {
-        if (!array_key_exists("metodo", $requisicao)){
-            return RespostaProcesso::respostaProcesso("Método não enviado", dados: $requisicao);
-        }
-
-        if ($requisicao['metodo'] == "GET"){
-            // provavelmente nesse ponto deve ser verificado se o usuario está ativo ou não
-            return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", status: true, formato: "text/html");
-        }
-
-        return RespostaProcesso::respostaProcesso("Método invalido para home");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", status: true, formato: "html");
+        throw new Exception("Método invalido para Home");
     }
 }

@@ -4,24 +4,20 @@ class Roteador {
     private array $resposta;
     public function __construct(){
         
+        $metodo = $_SERVER['REQUEST_METHOD'];
+
         // verifica o método requisitado
-        if ($_SERVER['REQUEST_METHOD'] == "GET"){
+        if ($metodo == "GET"){
             
             // avisa o controller o método sendo chamado
             $_GET['metodo'] = "GET";
 
             // chama o processo GET 
             $this->resposta = $this->getProcess($_GET);
-            
-        } else if ($_SERVER['REQUEST_METHOD'] == "POST"){
-            // todos os métodos post deve ser enviado via javascript
-            if (!array_key_exists("metodo", $_POST)){
-                $this->resposta = RespostaProcesso::respostaProcesso("Método deve ser enviado para o roteador !!!", dados: $_POST);
-            } else {
-                $this->resposta = $this->resposta = $this->postProcesso($_POST);
-            }
+        } else if ($metodo == "POST"){
+            $this->resposta = $this->postProcesso($_POST);
         } else {
-            $this->resposta = RespostaProcesso::respostaProcesso("Requisição Invalida");
+            throw new Exception("Método $metodo inválido");
         }
     } 
 
@@ -29,40 +25,28 @@ class Roteador {
         $classe = "home";
         $metodo = "index";
 
-        if (!empty($dados_get)){
-            if (!array_key_exists("url", $dados_get)){
-                return $this->chamarController(requisicao: $dados_get);
-            }
+        if (empty($dados_get)) return $this->chamarController(requisicao: $dados_get);
+        if (!array_key_exists("url", $dados_get)) return $this->chamarController(requisicao: $dados_get);
 
-            $partes_url = explode("/", $dados_get['url']);
+        $partes_url = explode("/", $dados_get['url']);
 
-            // se não for requisitada nada depois do dominio, considere chamar a HomeController
-            if (count($partes_url) == 0){
-                return $this->chamarController(requisicao: $dados_get);
-            }
+        // se não for requisitada nada depois do dominio, considere chamar a HomeController
+        if (count($partes_url) == 0) return $this->chamarController(requisicao: $dados_get);
 
-            // se uma classe especifica foi definida, salva ela
-            $classe = $partes_url[0];
+        // se uma classe especifica foi definida, salva ela
+        $classe = $partes_url[0];
 
-            // remove a classe do array
-            array_shift($partes_url);
+        // remove a classe do array
+        array_shift($partes_url);
 
-            // verifica se foi especificado algum método
-            if (count($partes_url) == 0){
-                // se não foi considere o método index
-                return $this->chamarController($classe, requisicao: $dados_get);
-            }
+        // verifica se foi especificado algum método
+        if (count($partes_url) == 0) return $this->chamarController($classe, requisicao: $dados_get);
 
-            // se um método foi especificado, salve o método
-            $metodo = $partes_url[0];
+        // se um método foi especificado, salve o método
+        $metodo = $partes_url[0];
 
-            // chame o controller especificado
-            return $this->chamarController($classe, $metodo, $dados_get);
-
-        } else {
-            // se não teve nada requisitado, considere chamar homeController
-            return $this->chamarController();
-        }
+        // chame o controller especificado
+        return $this->chamarController($classe, $metodo, $dados_get);
         
     }
 
@@ -100,35 +84,19 @@ class Roteador {
     }
 
     private function chamarController(string $classe = "home", string $metodo = "index", array $requisicao = []): array {
-        try {
-            $classe = ucfirst($classe); // primeira letra maiuscula para chamar classe
-            $classe .= "Controller";
-            if (!class_exists($classe)){
-                    return RespostaProcesso::respostaProcesso("Classe '$classe' não indentificada");
-            }
+        $classe = ucfirst($classe); // primeira letra maiuscula para chamar classe
+        $classe .= "Controller";
 
-            // instancia o controller solicitado
-            $controller = new $classe();
-            if (!method_exists($controller, $metodo)){    
-                return RespostaProcesso::respostaProcesso("Metodo '$metodo' não indentificado");
-            }
+        if (!class_exists($classe)) throw new Exception("Classe '$classe' não indentificada no roteador");
 
-            return $controller->$metodo($requisicao);
-        } catch (Exception $error) {
-            $mensagem = "Erro: " . $error->getMessage();
-            $arquivo = $error->getFile();
-            $codigo = $error->getCode();
-            $linha = $error->getLine();
-            $erro = [
-                'arquivo'=>$arquivo,
-                "codigo"=>$codigo,
-                "linha"=>$linha
-            ];
+        // instancia o controller solicitado
+        $controller = new $classe();
 
-            return RespostaProcesso::respostaProcesso($mensagem, dados: $erro);
-        }
+        if (!method_exists($controller, $metodo)) throw new Exception("Metodo '$metodo' não indentificado para a Classe $classe no roteador");
+        return $controller->$metodo($requisicao);
 
     }
+
     public function getResposta(): array {
         return $this->resposta;
     }
