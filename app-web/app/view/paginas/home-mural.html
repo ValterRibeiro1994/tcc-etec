@@ -25,13 +25,17 @@
             <li class="nav-item"><a href="#">Dicas</a></li>
         </ul>
 
-        <div class="nav-actions">
+        <div class="nav-actions" id="convidado">
             <a href="login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
             <a href="cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
+        </div>
+
+        <div class="nav-actions" id="usuario-logado" style="display: none;">
+            <button id="logout-btn">Sair</button>
         </div>
 
         <div class="mobile-menu-icon">
@@ -152,7 +156,25 @@
 
         </div>
       </div>
-    </div>
+
+            <div class="grid-denuncias">
+                <div class="card" id="card-mural">
+                    <div class="card-img-wrapper">
+                            <div class="card-img text-center" style="background-image: url('https://unsplash.com');" id="img-card">Imagem</div>
+                    </div>
+                    <div class="card-body">
+                            <span class="tag-categoria" id="categoria-denuncia">Categoria</span>
+                            <h3 class="card-title" id="titulo-denuncia">titulo</h3>
+                            <div class="card-info">
+                                <span id="local-denuncia">Local</span>
+                                <span id="data-denuncia">Data</span>
+                            </div>
+                            <div class="card-pe" id="status-denuncia">
+                                <span class="badge rounded-pill text-bg-secondary">Status</span>
+                            </div>
+                     </div>
+                </div>
+            </div>
 
 </main>
     
