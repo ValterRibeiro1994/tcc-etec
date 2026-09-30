@@ -1,5 +1,5 @@
 # Tabelas salvas diretamente no infinity
-## por isso não a definição para o BD 
+## por isso não tem a definição para o BD 
 
 create table if not exists tb_usuario (
 	id_usuario int not null primary key auto_increment,
