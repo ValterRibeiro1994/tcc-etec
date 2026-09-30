@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         botaoHome.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val botaoComplaint = findViewById<Button>(R.id.btnDenuncia)
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         botaoUser.setOnClickListener {
             val intent = Intent(this, UsersScreen::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

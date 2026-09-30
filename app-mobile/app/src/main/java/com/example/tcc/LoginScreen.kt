@@ -30,7 +30,7 @@ class LoginScreen : AppCompatActivity() {
         val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
 
         val emailCadastrado = sharedPref.getString("email_salvo", "") ?: "."
-        val senhaCadastrada = intent.getStringExtra("Key_Senha") ?: "."
+        val senhaCadastrada = sharedPref.getString("senha_salva", "") ?: "."
 
 
         binding.btn.setOnClickListener {

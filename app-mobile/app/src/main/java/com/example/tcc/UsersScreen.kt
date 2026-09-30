@@ -1,6 +1,7 @@
 package com.example.tcc
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,8 +28,34 @@ class UsersScreen : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
 
+        val Nome = sharedPref.getString("Nome_salvo", "") ?: "."
         val email = sharedPref.getString("email_salvo", "") ?: "."
 
+        binding.txtName.text = Nome
         binding.txtEmail.text = "Email: " + email
+
+        binding.btnLogout.setOnClickListener {
+            val intent = Intent(this, LoginScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.btnMain2.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.btnDenuncia2.setOnClickListener {
+            val intent = Intent(this, ComplaintScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.btnUser2.setOnClickListener {
+            val intent = Intent(this, UsersScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

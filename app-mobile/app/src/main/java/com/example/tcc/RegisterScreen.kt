@@ -28,16 +28,18 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         binding.button.setOnClickListener {
+            val Nome_atual = binding.edtName.text.toString()
             val Email_atual = binding.edtEmail.text.toString()
             val Senha_atual = binding.edtPassword.text.toString()
 
-            if (Email_atual.isNotEmpty() && Senha_atual.isNotEmpty()) {
+            if (Nome_atual.isNotEmpty() && Email_atual.isNotEmpty() && Senha_atual.isNotEmpty()) {
                 val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
 
+                editor.putString("Nome_salvo", Nome_atual)
                 editor.putString("email_salvo", Email_atual)
                 val intent = Intent(this, LoginScreen::class.java).apply {
-                    putExtra("Key_Senha", Senha_atual)
+                    editor.putString("senha_salva", Senha_atual)
                 }
 
                 editor.apply()
