@@ -5,25 +5,38 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100vh;
+    overflow: hidden;
+}
 
 .main-container {
     display: flex;
     width: 100%;
     min-height: 100vh;
     background-color: #f8fafc;
+    overflow: hidden; /* impede a tela de rolar por fora */
 }
 
 
 .menu-lateral {
-    width: 260px;
+    width: 280px;
     background-color: #ffffff;
     border-right: 1px solid #e2e8f0;
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px; 
     flex-shrink: 0;
+
+ 
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto; 
 }
+
+
 
 .menu-lateral-btn-criar {
     width: 100%;
@@ -82,10 +95,11 @@
 }
 
 .menu-lateral-card-informativo {
-    margin-top: auto;
+    margin-top: auto; 
+    margin-bottom: 80px; 
     background-color: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 12px;
     font-size: 13px;
 }
@@ -95,4 +109,71 @@
     flex: 1;
     padding: 24px;
     height: 200px;
+    overflow-y: auto; 
+
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.mural-descricao h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cinza-texto);
+    letter-spacing: -0.5px;
+  
+}
+
+.mural-descricao p {
+    color: var(--cinza-subtexto);
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 30px;
+}
+
+
+
+.pesquisa-grupo:focus-within {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.pesquisa-grupo .form-control:focus {
+    box-shadow: none !important;
+}
+
+    
+.form-select:focus {
+    border-color: #dee2e6 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+   
+.btn-outline-secondary:focus {
+    border-color: #6c757d !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+    
+.btn-filtros {
+    background-color: white;
+    color: #6c757d;
+    border: 1px solid #dee2e6 !important;
+    box-shadow: none !important;
+}
+
+.btn-filtros:hover {
+    background-color: #24812c !important;
+    color: white !important;
+    border-color: #dee2e6 !important;
+}
+
+.btn-filtros:focus,
+.btn-filtros:active {
+    background-color: white !important;
+    color: #6c757d !important;
+    border-color: #dee2e6 !important;
+    box-shadow: none !important;
 }

@@ -104,41 +104,57 @@
             </div>
         </aside>
 
-        <main class="conteudo-principal" style="flex: 1; padding: 24px;">
+        <main class="conteudo-principal" style="flex: 1; padding: 40px;">
 
-        <h1 class="mb-4">Mural de Denúncias</h1>
-
-      
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <label class="fw-semibold small">Pesquisar</label>
-                <input type="text" class="form-control" placeholder="Buscar denúncia...">
+            <div class="mural-descricao">
+                    <h2>Mural de denúncias</h2>
+                    <p>Acompanhe e fiscalize em tempo real a situação dos problemas em São Bernardo.</p>
             </div>
+
+            <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
+            <div class="row g-2 align-items-center">
+            
             <div class="col-md-5">
-                <label class="fw-semibold small">Categorias</label>
-                <div class="d-flex gap-2">
-                    <select class="form-select">
-                        <option>Buracos</option>
-                        <option>Iluminação</option>
-                        <option>Lixo</option>
-                    </select>
+            
+                <div class="input-group pesquisa-grupo bg-light border rounded-3">
+                    <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input type="text" class="form-control bg-transparent border-0 shadow-none py-2" placeholder="Buscar por rua, problema ou palavra-chave...">
                 </div>
             </div>
+
             <div class="col-md-3">
-                <label class="fw-semibold small">Ordem por:</label>
-                <div class="d-flex gap-2">
-                    <select class="form-select">
-                        <option class="bg-dark">Data</option>
-                    </select>
-                    <select class="form-select">
-                        <option>Status</option>
-                    </select>
-                </div>
+                <select class="form-select rounded-3 py-2 text-secondary shadow-none">
+                    <option selected>Todas as categorias</option>
+                    <option>Infraestrutura</option>
+                    <option>Limpeza Urbana</option>
+                    <option>Iluminação Pública</option>
+                </select>
             </div>
+           
+            <div class="col-md-2">
+                <select class="form-select rounded-3 py-2 text-secondary shadow-none">
+                    <option selected>Todos os bairros</option>
+                    <option>Centro</option>
+                    <option>Vila Gonçalves</option>
+                    <option>Jardim do Lago</option>
+                    <option>Rudge Ramos</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-grid">
+               <button type="button" class="btn btn-filtros rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    Mais Filtros
+                </button>
+            </div>
+
         </div>
+      </div>
+    </div>
 
-        
-
+</main>
     
   <script src="app/view/scripts/navbar.js"></script>
     
