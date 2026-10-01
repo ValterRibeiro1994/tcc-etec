@@ -1,8 +1,11 @@
 <?php
 
 class DenunciasRepositorio {
-    public function salvarDenuncia(ConexaoPDO $conexao, Denunciante $denunciante, Denuncia $denuncia){
-        /** Escrever código para salvar a denuncia no banco */
+    public function salvarDenuncia(Conexao $conexao, Denuncia $denuncia){
+        $usuario = $denuncia->getUsuario();
+        $data = $denuncia->getData();
+        $titulo = $denuncia->getTitulo();
+        $texto = $denuncia->getTexto();
     }
 
     public function apagarDenuncia(){}

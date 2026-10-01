@@ -13,6 +13,12 @@ class SessaoController {
         } 
     } 
 
+    public static function obterUsuario(): Usuario {
+        $usuario = new Usuario();
+
+        return $usuario;
+    } 
+
     public static function salvarUsuario(Usuario $usuario, bool $lembrar): void { 
         self::iniciarSessao(); 
         
