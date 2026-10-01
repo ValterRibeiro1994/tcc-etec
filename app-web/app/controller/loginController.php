@@ -11,6 +11,8 @@ class LoginController {
             if ($this->logado()) return RespostaProcesso::respostaProcesso("Usuario já está logado");
             return $this->logar($requisicao);
         }
+
+        throw new Exception("Requisição não permitida");
     }
 
     private function logar(array $requisicao){
@@ -28,16 +30,12 @@ class LoginController {
         $repositorio = new UsuarioRepositorio();
         
         // resgatar a senha armazenada no banco
-        $resposta = $repositorio->obterSenha($email);
-        if (!$resposta['resposta']) throw new Exception($resposta['mensagem']);
-
-        $senha_banco = $resposta['mensagem']; // senha armazenada com hash
-
+        $hash_banco = $repositorio->obterSenha($email);
+        
         // comparar a senha recebida pela senha do banco
-        if (!password_verify($requisicao['senha'], $senha_banco)) throw new Exception("Acesso Negado");
+        if (!password_verify($requisicao['senha'], $hash_banco)) throw new Exception("Acesso Negado");
         
         $usuario = $repositorio->obterUsuario($email);
-
         SessaoController::salvarUsuario($usuario, $requisicao['lembrar']);
         return RespostaProcesso::respostaProcesso("Acesso autorizado", true);
     }

@@ -27,6 +27,22 @@ class CadastroController {
         return RespostaProcesso::respostaProcesso("Requisição indefinida");
     }
 
+    public function denuncia(array $requisicao){
+        if (!SessaoController::estaConectado()) throw new Exception("Usuario desconectado");
+        if ($_SERVER['REQUEST_METHOD'] != "POST") throw new Exception("Requisição inválida");
+        $metodo = $requisicao['metodo'];
+        if ($metodo == "GET") return RespostaProcesso::respostaProcesso("Criar Processo Get para criar denuncia");
+        if ($metodo == "POST") return RespostaProcesso::respostaProcesso("Criar Processo Post para criar denuncia");
+        if ($metodo == "PUT") return RespostaProcesso::respostaProcesso("Criar Processo Put para criar denuncia");
+        if ($metodo == "POST") return RespostaProcesso::respostaProcesso("Criar Processo Delete para criar denuncia");
+    }
+
+    public function cadastroDenuncia(array $requisicao){
+        $filtro = $requisicao['filtro'];
+        $quantidade = $requisicao['quantidade'];
+        $tipo_filtro = $requisicao['tipo-filtro'];
+    }
+
     private function cadastrarDenunciante(array $dados){
         // verifica a existencia e o envio dos atributos necessarios para o cadastro
         $dados_esperado = [

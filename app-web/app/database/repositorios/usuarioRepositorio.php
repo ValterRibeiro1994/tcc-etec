@@ -4,9 +4,9 @@
 class UsuarioRepositorio {
 
 
-    public function cadastrarUsuario(Usuario $usuario): array {
+    public function cadastrarUsuario(Usuario $usuario): void {
         try {
-            if ($this->emailExiste($usuario->getEmail())['resposta']) throw new Exception("Email já cadastrado");
+            if ($this->emailExiste($usuario->getEmail())) throw new Exception("Email cadastrado");
 
             // armazena o perfil do usuario
             $perfil = $usuario->getPerfil();
@@ -35,10 +35,8 @@ class UsuarioRepositorio {
             } else {
 
                 // lança um erro acaso o perfil não tenha sido definido antes
-                throw new Exception("Perfil de usuário inválido");
+                throw new Exception("Perfil inválido");
             }
-
-            return RespostaProcesso::respostaProcesso("Cadastro efetuado com sucesso", true);
             
         } catch(Exception $erro){
             throw $erro;
@@ -99,14 +97,12 @@ class UsuarioRepositorio {
         $sql = null;
     }
 
-    public function obterSenha(Email $email) {
+    public function obterSenha(Email $email): string {
 
         // armazena o email (string)
         $email = $email->getEmail();
 
-        // Localiza o email
-        $resposta = $this->emailExiste($email);
-        if (!$resposta['resposta']) throw new Exception("Email não cadastrado");
+        if (!$this->emailExiste($email)) throw new Exception("Email não cadastrado");
 
         // comando SQL para recuperar o hash no banco
         $comando = "
@@ -140,7 +136,8 @@ class UsuarioRepositorio {
             if (!$resposta) throw new Exception("Usuario não indentificado");
 
             // envia o hash da senha armazenada no banco
-            return RespostaProcesso::respostaProcesso($resposta['senha_usuario'], true);
+            return $resposta['senha_usuario'];
+
         } catch (Exception $erro){
             throw $erro;
         } finally {
@@ -149,7 +146,7 @@ class UsuarioRepositorio {
         }
     }
 
-    public function emailExiste(string $email) {
+    public function emailExiste(string $email): bool {
         $comando = "
                 SELECT 
                     email_usuario FROM tb_usuario 
@@ -164,10 +161,8 @@ class UsuarioRepositorio {
             $sql->bindValue(":email", $email);
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if ($resposta != false){
-                return RespostaProcesso::respostaProcesso("Email cadastrado", true);
-            }
-            return RespostaProcesso::respostaProcesso("Email não cadastrado", false);
+            if (!$resposta) false;
+            return true;
 
         } catch (Exception $erro){
             throw $erro;
@@ -178,8 +173,7 @@ class UsuarioRepositorio {
     }
 
     public function obterUsuario(Email $email): Usuario {
-        $resposta = $this->emailExiste($email->getEmail());
-        if (!$resposta['resposta']) throw new Exception("Email não cadastrado !!!");
+        if (!$this->emailExiste($email->getEmail())) throw new Exception("Email não cadastrado");
 
         $comando = "
             SELECT
@@ -198,8 +192,7 @@ class UsuarioRepositorio {
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
 
-            if ($resposta == false) throw new Exception("Usuário não localizado em usuarios");
-
+            if (!$resposta) throw new Exception("Usuario não cadastrado");
             $usuario = new Usuario(
                 dados_usuario: new DadosPessoais(
                     nome: new Nome($resposta['nome_usuario']),
@@ -236,7 +229,7 @@ class UsuarioRepositorio {
                 ";
 
             } else {
-                throw new Exception("Perfil: Perfil invalido");
+                throw new Exception("Perfil invalido");
             }
 
             $conexao = $conexao_obj->getConexao();
@@ -246,7 +239,7 @@ class UsuarioRepositorio {
 
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
  
-            if ($resposta == false) throw new Exception("Usuario não localizado nas relações:\nID: {$usuario->getId()} \ncomando = $comando");
+            if (!$resposta) throw new Exception("Usuario não localizado nas relações:\nID: {$usuario->getId()} \ncomando = $comando");
 
             if ($usuario->getPerfil() == "representante"){
                 $usuario->setPrefeitura(
