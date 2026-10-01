@@ -4,9 +4,9 @@
 class UsuarioRepositorio {
 
 
-    public function cadastrarUsuario(Usuario $usuario): void {
+    public function cadastrarUsuario(Usuario $usuario) {
         try {
-            if ($this->emailExiste($usuario->getEmail())) throw new Exception("Email cadastrado");
+           if ($this->emailExiste($usuario->getEmail())) throw new Exception("Email cadastrado");
 
             // armazena o perfil do usuario
             $perfil = $usuario->getPerfil();
@@ -38,6 +38,7 @@ class UsuarioRepositorio {
                 throw new Exception("Perfil inválido");
             }
             
+            return RespostaProcesso::respostaProcesso("Cadastro realizado com sucesso", true);
         } catch(Exception $erro){
             throw $erro;
         } finally {
@@ -162,6 +163,7 @@ class UsuarioRepositorio {
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
             if (!$resposta) false;
+            if (empty($resposta)) return false;
             return true;
 
         } catch (Exception $erro){

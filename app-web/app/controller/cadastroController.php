@@ -2,6 +2,7 @@
 
 class CadastroController {
     public function index(array $requisicao){
+        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/home-mural.html", true, formato: "html");
         // o index do cadastro não possui formulario na pagina.
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "html");
         
@@ -11,6 +12,8 @@ class CadastroController {
     }
 
     public function municipe(array $requisicao){
+        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
+        
         // o método get apenas exibe o formulario para o cadastro do denunciante
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "html");
         
@@ -21,6 +24,7 @@ class CadastroController {
     }
 
     public function representante(array $requisicao){
+        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
         if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-representante.html", true, formato: "html");
         if ($requisicao['metodo'] == "POST") return $this->cadastrarRepresentante($requisicao);
@@ -86,8 +90,8 @@ class CadastroController {
 
             // envia o denunciante para o banco de dados
             $repositorio = new UsuarioRepositorio();
-            $resposta = $repositorio->cadastrarUsuario($usuario);
-            return $resposta;
+            return $repositorio->cadastrarUsuario($usuario);
+            
             
         } catch (Exception $error) {
             throw $error;
@@ -106,7 +110,7 @@ class CadastroController {
         for ($x = 0; $x < $n; $x++) {
             $entrada = $dados_esperado[$x];
             if (!array_key_exists($entrada, $dados)) throw new Exception("Campo $entrada não enviado");
-            if (empty($dados[$entrada])) throw new Exception("Campo $entrada vazio");
+            if (empty(trim($dados[$entrada]))) throw new Exception("Campo $entrada vazio");
         }
 
         try {
@@ -128,10 +132,12 @@ class CadastroController {
                     cidade: $dados['cidade']
                     ),
                 
+                
                 senha: new Senha(
                     senha: $dados['senha']
                     ),
 
+               
                 prefeitura: new Prefeitura(
                     orgao: $dados['nome-prefeitura'],
                     cargo: $dados['cargo-prefeitura']
@@ -145,11 +151,10 @@ class CadastroController {
             // inicia o repositorio 
             $repositorio = new UsuarioRepositorio();
             
-            // salva o representante no banco
-            $resposta =  $repositorio->cadastrarUsuario($usuario);
+            
             
             // envia o resultado do processo
-            return $resposta;
+            return $repositorio->cadastrarUsuario($usuario);
 
         } catch (Exception $erro) {
             return RespostaProcesso::respostaProcesso($erro->getMessage(), dados: array($erro));
