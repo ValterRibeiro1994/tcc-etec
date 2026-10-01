@@ -47,7 +47,6 @@ class Usuario extends UsuarioInterface {
         $this->perfil = $perfil_novo;
     }
 
-
     // setters dados pessoais 
     #[Override]
     public function setDadosPessoais(DadosPessoais $dados_pessoais): void
@@ -153,7 +152,7 @@ class Usuario extends UsuarioInterface {
         // encerra o cursor do sql
         $sql = null;
 
-        return $this->id;
+        return $id_banco;
     }
 
     // getters para os dados pessoais

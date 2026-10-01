@@ -14,7 +14,29 @@ class SessaoController {
     } 
 
     public static function obterUsuario(): Usuario {
-        $usuario = new Usuario();
+        if (!SessaoController::estaConectado()) throw new Exception("Usuario desconectado");
+        
+        $usuario = new Usuario(
+            new DadosPessoais(
+                nome: $_SESSION['user']['nome'],
+                sobrenome: $_SESSION['user']['sobrenome'],
+            ),
+
+            new Endereco(
+                cidade: $_SESSION['user']['cidade'],
+                estado: $_SESSION['user']['estado']
+            )
+        );
+        $usuario->setId($_SESSION['user']['id']);
+        $usuario->setPerfil($_SESSION['user']['perfil']);
+        if ($_SESSION['user']['perfil'] == "representante"){
+            $usuario->setPrefeitura(
+                new Prefeitura(
+                    orgao: $_SESSION['user']['orgao'],
+                    cargo: $_SESSION['user']['cargo']
+                )
+            );
+        }
 
         return $usuario;
     } 
@@ -35,7 +57,7 @@ class SessaoController {
         } 
 
         $_SESSION['user']['lembrar'] = $lembrar; 
-        $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s"); // Mudado para controlar inatividade
+        $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s"); 
     } 
 
     public static function encerrarSessao(): void { 

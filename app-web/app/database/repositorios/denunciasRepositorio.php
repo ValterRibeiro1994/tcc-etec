@@ -6,6 +6,8 @@ class DenunciasRepositorio {
         $data = $denuncia->getData();
         $titulo = $denuncia->getTitulo();
         $texto = $denuncia->getTexto();
+        $imagem = $denuncia->getFoto();
+        
     }
 
     public function apagarDenuncia(){}
