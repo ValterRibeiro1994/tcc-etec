@@ -33,18 +33,74 @@ class CadastroController {
 
     public function denuncia(array $requisicao){
         if (!SessaoController::estaConectado()) throw new Exception("Usuario desconectado");
-        if ($_SERVER['REQUEST_METHOD'] != "POST") throw new Exception("Requisição inválida");
         $metodo = $requisicao['metodo'];
-        if ($metodo == "GET") return RespostaProcesso::respostaProcesso("Criar Processo Get para criar denuncia");
-        if ($metodo == "POST") return RespostaProcesso::respostaProcesso("Criar Processo Post para criar denuncia");
-        if ($metodo == "PUT") return RespostaProcesso::respostaProcesso("Criar Processo Put para criar denuncia");
-        if ($metodo == "POST") return RespostaProcesso::respostaProcesso("Criar Processo Delete para criar denuncia");
+        if ($metodo == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/criar-denuncia.html", formato: "html");
+        if ($metodo == "POST") return $this->cadastroDenuncia($requisicao);   
     }
 
-    public function cadastroDenuncia(array $requisicao){
-        $filtro = $requisicao['filtro'];
-        $quantidade = $requisicao['quantidade'];
-        $tipo_filtro = $requisicao['tipo-filtro'];
+    private function cadastroDenuncia(array $requisicao){
+        $dados_esperado = [
+            "id-usuario", "nome-usuario", "titulo-denuncia",
+            "data-denuncia", "descricao-denuncia", "imagem-denuncia",
+            "categoria-denuncia", "cidade-denuncia", "estado-denuncia",
+            "logradouro-denuncia", "numero-denuncia", "bairro-denuncia",
+            "cep-denuncia",
+        ];
+
+        $n = count($dados_esperado);
+        for ($x = 0; $x < $n; $x++){
+            $chave = $dados_esperado[$x];
+            if (!array_key_exists($chave, $requisicao)) throw new Exception("Chave $chave não enviada");
+            if (!empty($requisicao[$chave])) throw new Exception("Chave $chave vazia !!!");
+        }
+
+        $descricao = new Descricao(
+            titulo: $requisicao['titulo-denuncia'],
+            data: new Data($requisicao['data-denuncia']),
+            categoria: $requisicao['categoria-denuncia'],
+            texto: $requisicao['descricao-denuncia']
+        );
+
+        $endereco = new Endereco(
+            cidade: $requisicao['cidade-denuncia'],
+            estado: $requisicao['estado-denuncia']
+        );
+
+        // guarda o usuario que está online
+        $usuario_logado = SessaoController::obterUsuario();
+
+        // localiza o usuario no banco pelo id
+        $repositorio = new UsuarioRepositorio();
+        $usuario_registrado =  $repositorio->obterUsuario(id: $usuario_logado->getId());
+
+        // garanta que a sessão não foi alterada
+        if ($usuario_logado->getNome() != $usuario_registrado->getNome()) throw new Exception("Acessonão autorizado");
+        if ($usuario_logado->getEstado() != $usuario_registrado->getEstado()) throw new Exception("Acesso não autorizado");
+        if ($usuario_logado->getPerfil() != $usuario_registrado->getPerfil()) throw new Exception("Acesso não autorizado");
+        if ($usuario_logado->getPerfil() == "representante"){
+            if ($usuario_logado->getCargo() != $usuario_registrado->getCargo()) throw new Exception("Acesso não autorizado");
+        }
+
+        // o usuario não alterou a sessão - salvamos o usuario completo do banco,
+        $usuario_logado = $usuario_registrado;
+        $usuario_logado->setSenha(limpar: true);
+
+
+        $endereco->setLogradouro($requisicao['logradouro-denuncia']);
+        $endereco->setBairro($requisicao['bairro-denuncia']);
+        $endereco->setNumero($requisicao['numero-denuncia']);
+        $endereco->setCep($requisicao['cep-denuncia']);
+        
+        $denuncia = new Denuncia(
+            usuario: $usuario_logado,
+            endereco: $endereco,
+            descricao: $descricao,
+            imagem: new Imagem($requisicao['imagem-denuncia'])
+        );
+
+        $repositorio = new DenunciasRepositorio();
+        return $repositorio->salvarDenuncia($denuncia);
+
     }
 
     private function cadastrarDenunciante(array $dados){
@@ -91,8 +147,6 @@ class CadastroController {
             // envia o denunciante para o banco de dados
             $repositorio = new UsuarioRepositorio();
             return $repositorio->cadastrarUsuario($usuario);
-            
-            
         } catch (Exception $error) {
             throw $error;
         }
@@ -150,8 +204,6 @@ class CadastroController {
 
             // inicia o repositorio 
             $repositorio = new UsuarioRepositorio();
-            
-            
             
             // envia o resultado do processo
             return $repositorio->cadastrarUsuario($usuario);

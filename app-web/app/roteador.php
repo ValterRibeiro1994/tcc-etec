@@ -93,6 +93,7 @@ class Roteador {
         $controller = new $classe();
 
         if (!method_exists($controller, $metodo)) throw new Exception("Metodo '$metodo' não indentificado para a Classe $classe no roteador");
+        if (!array_key_exists("metodo", $requisicao)) throw new Exception("Chave para método não enviado para roteador");
         return $controller->$metodo($requisicao);
 
     }

@@ -174,23 +174,41 @@ class UsuarioRepositorio {
         }
     }
 
-    public function obterUsuario(Email $email): Usuario {
-        if (!$this->emailExiste($email->getEmail())) throw new Exception("Email não cadastrado");
+    public function obterUsuario(Email $email = null, int $id = null): Usuario {
+        
 
-        $comando = "
-            SELECT
-                id_usuario, nome_usuario, sobrenome_usuario, cpf_usuario, perfil_usuario
-            FROM
-                tb_usuario
-            WHERE 
-                email_usuario = :email
-        ";
+        if ($email != null){
+            if (!$this->emailExiste($email->getEmail())) throw new Exception("Email não cadastrado");
+            $comando = "
+                SELECT
+                    id_usuario, nome_usuario, sobrenome_usuario, cpf_usuario, perfil_usuario
+                FROM
+                    tb_usuario
+                WHERE 
+                    email_usuario = :email
+            ";
+            $parametro = ":email";
+            $valor = $email->getEmail();
+        } else {
+            $comando = "
+                SELECT
+                    id_usuario, nome_usuario, sobrenome_usuario, 
+                    cpf_usuario, perfil_usuario, email_usuario
+                FROM
+                    tb_usuario
+                WHERE 
+                    id_usuario = :email
+            ";
+            $parametro = ":id";
+            $valor = $id;
+    
+        }
 
         try {
             $conexao_obj = new Conexao();
             $conexao = $conexao_obj->getConexao();
             $sql = $conexao->prepare($comando);
-            $sql->bindValue(":email", $email->getEmail());
+            $sql->bindValue($parametro, $valor);
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -200,7 +218,7 @@ class UsuarioRepositorio {
                     nome: new Nome($resposta['nome_usuario']),
                     sobrenome: new Sobrenome($resposta['sobrenome_usuario']),
                     cpf: new Cpf($resposta['cpf_usuario']),
-                    email: $email
+                    email: new Email($resposta['email_usuario'])
                 )
             );
 
