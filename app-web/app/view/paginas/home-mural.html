@@ -26,17 +26,20 @@
         </ul>
 
         <div class="nav-actions" id="convidado">
-            <a href="login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+            <a href="login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
-            <a href="cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+            <a href="cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
+
+            
         </div>
 
-        <div class="nav-actions" id="usuario-logado" style="display: none;">
-            <button id="logout-btn">Sair</button>
+        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
         </div>
+        
 
         <div class="mobile-menu-icon">
             <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -62,8 +65,13 @@
               <a href="cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                   Cadastre-se
               </a>
+                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content; display: none;">
+                <a class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;" role="button">Sair</a>
+                </div>
             </div>
         </div>
+
+        
 
         <nav class="navbar-pagina-mobile">
             <button type="button" onclick="abrirSidebar()">

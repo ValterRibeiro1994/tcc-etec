@@ -1,5 +1,6 @@
 const btnCadastro = document.getElementById('btn-cadastro');
 const btnEntrar = document.getElementById('btn-entrar');
+const logoutbtn = document.getElementById('logout-btn');
 
 // BOTÃO CADASTRE-SE -> Vai para a escolha de CADASTRO
 if (btnCadastro) {
