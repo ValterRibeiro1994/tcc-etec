@@ -241,20 +241,40 @@
     }
  }
 
- @media (max-width: 390px) {
+@media (max-width: 390px) {
 
-    .logo-relatesbc{
+    .logo-relatesbc {
         width: 120px;
         height: auto;
     }
 
-     .nav-btn{    
-        display: inline-flex;
-        padding: 0 10px;
-        height: 30px;
-        font-size: 10px;
+    /* Esconde os botões da barra superior */
+    .navbar .nav-actions {
+        display: none;
     }
- }
+
+    .mobile-menu .nav-actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    
+    .mobile-menu .nav-actions .nav-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center; 
+        box-sizing: border-box;  
+    }
+
+}
+
+@media (min-width: 391px) {
+    .mobile-menu .nav-actions {
+        display: none;
+    }
+}
 
 
 /*FOOTER*/

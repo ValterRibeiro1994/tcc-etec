@@ -26,3 +26,16 @@ function menuAbrir() {
         menuMobile.classList.add('abrir');
     }
 }
+
+
+function abrirSidebar() {
+    const sidebar = document.querySelector('.menu-lateral');
+
+    sidebar.classList.add('aberta');
+}
+
+function fecharSidebar() {
+    const sidebar = document.querySelector('.menu-lateral');
+
+    sidebar.classList.remove('aberta');
+}

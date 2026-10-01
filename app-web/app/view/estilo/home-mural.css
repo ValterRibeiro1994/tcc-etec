@@ -253,3 +253,88 @@ html, body {
     gap: 28px;
     margin-bottom: 40px;
 }
+
+
+
+
+
+
+/* Segunda navbar*/
+.navbar-pagina-mobile {
+    display: none;
+}
+
+
+@media (max-width: 750px) {
+
+    .navbar-pagina-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+        width: 100%;
+        height: 60px;
+        padding: 0 20px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .navbar-pagina-mobile span {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .navbar-pagina-mobile button {
+        border: none;
+        background: transparent;
+        font-size: 24px;
+        color: #1e293b;
+        cursor: pointer;
+    }
+
+    .menu-lateral {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 9999;
+        transition: left 0.3s ease;
+    }
+
+    .menu-lateral.aberta {
+        left: 0;
+    }
+
+    .conteudo-principal {
+        width: 100%;
+    }
+
+    .btn-fechar-sidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    margin-left: auto;
+
+    border: none;
+    background: transparent;
+
+    font-size: 30px;
+    line-height: 1;
+
+    color: #64748b;
+
+    cursor: pointer;
+}
+
+.btn-fechar-sidebar:hover {
+    background-color: #f1f5f9;
+    border-radius: 8px;
+}
+}
