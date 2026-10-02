@@ -77,8 +77,8 @@ class SessaoController {
         $data_acesso = new DateTime($_SESSION['user']['ultimo_acesso']); 
         $data_atual = new DateTime(); 
         
-        // Se marcou "lembrar", a sessão dura 1 dia. Se não  expira em 5 minutos.
-        $tempo_expiracao = $_SESSION['user']['lembrar'] ? '+1 days' : '+5 minutes';
+        // se marcar lembrar a sessão se mantem por 1 hora, se não 10 minutos
+        $tempo_expiracao = $_SESSION['user']['lembrar'] ? '+1 hour' : '+10 minutes';
         
         $data_expira = clone $data_acesso; 
         $data_expira->modify($tempo_expiracao); 
@@ -88,7 +88,7 @@ class SessaoController {
             return false; 
         } 
 
-        // Atualiza o último acesso para renovar o tempo de atividade do usuário
+        // renova o horario
         $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s");
         return true; 
     } 

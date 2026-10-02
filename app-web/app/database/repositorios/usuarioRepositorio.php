@@ -181,7 +181,8 @@ class UsuarioRepositorio {
             if (!$this->emailExiste($email->getEmail())) throw new Exception("Email não cadastrado");
             $comando = "
                 SELECT
-                    id_usuario, nome_usuario, sobrenome_usuario, cpf_usuario, perfil_usuario
+                    id_usuario, nome_usuario, sobrenome_usuario, 
+                    cpf_usuario, perfil_usuario, email_usuario
                 FROM
                     tb_usuario
                 WHERE 
@@ -197,7 +198,7 @@ class UsuarioRepositorio {
                 FROM
                     tb_usuario
                 WHERE 
-                    id_usuario = :email
+                    id_usuario = :id
             ";
             $parametro = ":id";
             $valor = $id;

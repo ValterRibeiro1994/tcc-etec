@@ -21,6 +21,12 @@ class UserController {
         return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", true, formato: "text/html");
     }
 
+    public function logout(array $requisicao){
+        SessaoController::encerrarSessao();
+        return RespostaProcesso::respostaProcesso("Usuario desconectado", true, $requisicao);
+
+    }
+
     public function municipe(array $requisicao){
         if ($requisicao['metodo'] == "GET"){
             // enviar a página solicitada para o usuario (mural)

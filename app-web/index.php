@@ -31,14 +31,19 @@ try {
     exit();
 
 } catch (Exception $erro) {
+    
     $dados_erro = [
         "mensagem"=> "Erro: " . $erro->getMessage(),
         "arquivo"=>  "Arquivo: " . $erro->getFile(),
         "linha" => "Linha: " . $erro->getLine(),
-        "codigo"=> "Trecho Código: " . $erro->getCode(),
+        "codigo"=> "Código: " . $erro->getCode(),
     ];
     
-    $resposta = RespostaProcesso::respostaProcesso($dados_erro['mensagem'], false, $dados_erro);
+    $resposta = RespostaProcesso::erroProcesso(
+        $erro
+    );
+    $resposta['dados'] = $dados_erro;
+    // $resposta = RespostaProcesso::respostaProcesso($dados_erro['mensagem'], false, $dados_erro);
     header("Content-Type: application/json; charset=utf-8");
     echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 }

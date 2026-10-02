@@ -18,6 +18,25 @@ if (btnEntrar) {
     });
 }
 
+if (logoutbtn) {
+    logoutbtn.addEventListener("click", async function(event) {
+        event.preventDefault();
+        try {
+            let submit = await fetch("./user/logout", {
+            method: "GET",
+            })
+            let resposta = await submit.json();
+            if (resposta.resposta == true){
+                alert("Usuario Desconectado");
+                window.location.href = "./home";
+            } else {
+              console.log(JSON.stringify(resposta));  
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    })
+}
 
 
 function menuAbrir() {
