@@ -249,13 +249,42 @@ html, body {
 
 .grid-denuncias {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(3, 340px);
     gap: 28px;
     margin-bottom: 40px;
 }
 
+@media (min-width: 768px) {
 
+    .conteudo-principal .row.g-2 {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
+    /* Pesquisa */
+    .conteudo-principal .row.g-2 > .col-md-5 {
+        flex: 5 1 350px;
+        min-width: 350px;
+    }
+
+    /* Categoria */
+    .conteudo-principal .row.g-2 > .col-md-3 {
+        flex: 3 1 220px;
+        min-width: 220px;
+    }
+
+    /* Bairro */
+    .conteudo-principal .row.g-2 > .col-md-2 {
+        flex: 2 1 180px;
+        min-width: 180px;
+    }
+
+    /* Botão */
+    .conteudo-principal .row.g-2 > .col-md-2.d-grid {
+        flex: 2 1 180px;
+        min-width: 180px;
+    }
+}
 
 
 
@@ -342,5 +371,15 @@ html, body {
 @media (min-width: 750px){
     .btn-fechar-sidebar{
         display: none;
+    }
+}
+
+@media (max-width: 425px) {
+    .grid-denuncias {
+        grid-template-columns: 1fr;
+    }
+
+    #card-mural {
+        width: 100%;
     }
 }
