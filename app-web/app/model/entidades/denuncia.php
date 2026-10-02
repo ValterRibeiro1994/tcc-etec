@@ -7,11 +7,13 @@ class Denuncia {
     private Imagem|null $foto;
 
     public function __construct(Usuario $usuario = null, Endereco $endereco = null, Descricao $descricao = null, Imagem $imagem = null){
-        if ($usuario != null) $this->usuario = $usuario;
-        if ($endereco != null) $this->endereco = $endereco;
-        if ($descricao != null) $this->descricao = $descricao;
-        if ($imagem != null) $this->foto = $imagem;
+        $this->usuario = $usuario;
+        $this->endereco = $endereco;
+        $this->descricao = $descricao;
+        $this->foto = $imagem;
     }
+
+    
     
     public function getUsuario(): Usuario {
         if ($this->usuario == null) throw new Exception("Usuário não enviado");

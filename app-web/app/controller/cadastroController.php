@@ -39,12 +39,15 @@ class CadastroController {
     }
 
     private function cadastroDenuncia(array $requisicao){
+        /**
+         * VERIFICA QUE TODOS OS DADOS NECESSARIOS FORAM ENVIADOS
+         */
         $dados_esperado = [
             "id-usuario", "nome-usuario", "titulo-denuncia",
             "data-denuncia", "descricao-denuncia", "imagem-denuncia",
             "categoria-denuncia", "cidade-denuncia", "estado-denuncia",
             "logradouro-denuncia", "numero-denuncia", "bairro-denuncia",
-            "cep-denuncia",
+            "cep-denuncia", "status-denuncia", "perfil-usuario"
         ];
 
         $n = count($dados_esperado);
@@ -54,27 +57,24 @@ class CadastroController {
             if (!empty($requisicao[$chave])) throw new Exception("Chave $chave vazia !!!");
         }
 
-        $descricao = new Descricao(
-            titulo: $requisicao['titulo-denuncia'],
-            data: new Data($requisicao['data-denuncia']),
-            categoria: $requisicao['categoria-denuncia'],
-            texto: $requisicao['descricao-denuncia']
-        );
-
-        $endereco = new Endereco(
-            cidade: $requisicao['cidade-denuncia'],
-            estado: $requisicao['estado-denuncia']
-        );
+        /**
+         * VERIFICA SE O USUÁRIO É LÉGITIMO
+         */
 
         // guarda o usuario que está online
         $usuario_logado = SessaoController::obterUsuario();
+        
+        // compara o id e o nome recebido com o da sessão atual
+        if (strtolower($usuario_logado->getNome()) != strtolower($requisicao['nome-usuario'])) throw new Exception("Acesso não autorizado");
+        if ($usuario_logado->getId() != (int) $requisicao['id-usuario']) throw new Exception("Acesso não autorizado");
+
 
         // localiza o usuario no banco pelo id
         $repositorio = new UsuarioRepositorio();
         $usuario_registrado =  $repositorio->obterUsuario(id: $usuario_logado->getId());
 
         // garanta que a sessão não foi alterada
-        if ($usuario_logado->getNome() != $usuario_registrado->getNome()) throw new Exception("Acessonão autorizado");
+        if ($usuario_logado->getNome() != $usuario_registrado->getNome()) throw new Exception("Acesso não autorizado");
         if ($usuario_logado->getEstado() != $usuario_registrado->getEstado()) throw new Exception("Acesso não autorizado");
         if ($usuario_logado->getPerfil() != $usuario_registrado->getPerfil()) throw new Exception("Acesso não autorizado");
         if ($usuario_logado->getPerfil() == "representante"){
@@ -82,15 +82,35 @@ class CadastroController {
         }
 
         // o usuario não alterou a sessão - salvamos o usuario completo do banco,
+        $usuario_logado = null; // limpando o antigo objeto apenas por prevenção
         $usuario_logado = $usuario_registrado;
         $usuario_logado->setSenha(limpar: true);
 
+
+        /**
+         * ARMAZENA OS DADOS DA DENUNCIA
+         */
+
+        // guarda a descrição da denuncia
+        $descricao = new Descricao(
+            titulo: $requisicao['titulo-denuncia'],
+            data: new Data($requisicao['data-denuncia']),
+            categoria: $requisicao['categoria-denuncia'],
+            texto: $requisicao['descricao-denuncia']
+        );
+
+        // guarda o endereço da denuncia
+        $endereco = new Endereco(
+            cidade: $requisicao['cidade-denuncia'],
+            estado: $requisicao['estado-denuncia']
+        );
 
         $endereco->setLogradouro($requisicao['logradouro-denuncia']);
         $endereco->setBairro($requisicao['bairro-denuncia']);
         $endereco->setNumero($requisicao['numero-denuncia']);
         $endereco->setCep($requisicao['cep-denuncia']);
-        
+
+        // guarda a denuncia 
         $denuncia = new Denuncia(
             usuario: $usuario_logado,
             endereco: $endereco,
@@ -98,6 +118,7 @@ class CadastroController {
             imagem: new Imagem($requisicao['imagem-denuncia'])
         );
 
+        // salva os dados no banco
         $repositorio = new DenunciasRepositorio();
         return $repositorio->salvarDenuncia($denuncia);
 

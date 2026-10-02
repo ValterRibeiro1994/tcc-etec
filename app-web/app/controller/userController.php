@@ -18,7 +18,8 @@ class UserController {
     }
 
     public function representante(array $requisicao){
-        return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", true, formato: "text/html");
+        if ($requisicao['metodo'] == "GET") RespostaProcesso::respostaProcesso("app/view/paginas/home-representante.html", true, formato: "text/html");
+        return RespostaProcesso::respostaProcesso("Requisiçãoinválida para user/representante");
     }
 
     public function logout(array $requisicao){
@@ -30,7 +31,7 @@ class UserController {
     public function municipe(array $requisicao){
         if ($requisicao['metodo'] == "GET"){
             // enviar a página solicitada para o usuario (mural)
-            return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "text/html");
+            return RespostaProcesso::respostaProcesso("app/view/paginas/home-municipe.html", true, formato: "text/html");
         }
 
         if ($requisicao['metodo'] == "POST"){
@@ -39,6 +40,7 @@ class UserController {
 
         throw new Exception("Requisição inválida");
     }
+
 
     public function postProcessoMunicipe(array $requisicao){
         

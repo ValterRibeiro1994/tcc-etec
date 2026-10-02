@@ -18,7 +18,7 @@ class Senha {
         $numero = false;
         $caracteres = false;
         // enquanto as condições forem falsas e tiver letras para percorrer
-        while (!($maiuscula && $minuscula && $numero && $caracteres) || ($n >= 0)){
+        while (!($maiuscula && $minuscula && $numero && $caracteres) && ($n >= 0)){
             $x = ($n - 1); // se a senha tenho 8 digitos o array tem espaços de 0 a 7
             $letra = $senha[$x];
             if (ctype_digit($letra)) {

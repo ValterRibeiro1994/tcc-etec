@@ -84,6 +84,7 @@ class Roteador {
     }
 
     private function chamarController(string $classe = "home", string $metodo = "index", array $requisicao = []): array {
+        // salva a classe a ser chamada
         $classe = ucfirst($classe); // primeira letra maiuscula para chamar classe
         $classe .= "Controller";
 
