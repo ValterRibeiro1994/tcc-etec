@@ -16,10 +16,9 @@ class RespostaProcesso {
                 if (str_contains($mensagem, "EMAIL")) return RespostaProcesso::respostaProcesso("Email Já cadastrado");
                 return RespostaProcesso::respostaProcesso("Usuario já cadastrado: $mensagem");
             }
-
             return RespostaProcesso::respostaProcesso("Código desconhecido: " . $mensagem);
         } else {
-            return RespostaProcesso::respostaProcesso("Erro desconhecido: " . $mensagem);
+            return RespostaProcesso::respostaProcesso("ERRO:" . $mensagem);
         }
     }
 }

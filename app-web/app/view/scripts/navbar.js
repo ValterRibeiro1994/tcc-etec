@@ -1,6 +1,7 @@
 const btnCadastro = document.getElementById('btn-cadastro');
 const btnEntrar = document.getElementById('btn-entrar');
 const logoutbtn = document.getElementById('logout-btn');
+const logoutbtnMob = document.getElementById('logout-btn-mob');
 
 // BOTÃO CADASTRE-SE -> Vai para a escolha de CADASTRO
 if (btnCadastro) {
@@ -18,8 +19,14 @@ if (btnEntrar) {
     });
 }
 
-if (logoutbtn) {
-    logoutbtn.addEventListener("click", async function(event) {
+
+let botoes = [logoutbtn, logoutbtnMob];
+let n = botoes.length;
+
+for (let index = 0; index < n; index++) {
+    let btn = botoes[index]; 
+    if (btn) {
+    btn.addEventListener("click", async function(event) {
         event.preventDefault();
         try {
             let submit = await fetch("./user/logout", {
@@ -37,6 +44,10 @@ if (logoutbtn) {
         }
     })
 }
+    
+}
+
+
 
 
 function menuAbrir() {

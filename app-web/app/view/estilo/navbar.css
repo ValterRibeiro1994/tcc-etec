@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
 
-    gap: 45px;
+    gap: 20px;
 
     margin: 0 auto;
     padding: 0;
@@ -66,10 +66,12 @@
     font-size: 20px;
     font-weight: 600;
 
-    padding: 8px 0;
+    padding: 0 0;
 
     transition: color 0.3s ease;
 }
+
+
 
 
 /* EFEITO DOS LINKS */
@@ -169,7 +171,6 @@
 
 @media screen and (max-width: 730px){
     .navbar{
-        padding: 1.5rem;
         justify-content: space-between;
     }
     
@@ -211,18 +212,16 @@
 
     .mobile-menu .nav-item {
         display: block;
-        padding-top: 1.2rem;
     }
 
     .mobile-menu .nav-actions{
         display: flex;
-        padding: 1.5rem 2rem;
+        padding: 0.5rem 1rem;
         gap: 12px;
         flex-direction: column;
     }
     
     .mobile-menu .nav-actions button{
-        display: none;
         width: 100%;
         box-sizing: border-box;
     }

@@ -5,9 +5,6 @@ include_once("app/roteador.php");
 
 new AutoLoadFiles();
 
-$resposta = null;
-$header = null;
-
 try {
     $rotas = new Roteador();
     $resposta = $rotas->getResposta();
@@ -28,6 +25,7 @@ try {
         include_once($resposta['mensagem']);
         exit();
     }
+
     header($header);
     echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit();
@@ -41,11 +39,11 @@ try {
         "codigo"=> "Código: " . $erro->getCode(),
     ];
     
-    $resposta = RespostaProcesso::erroProcesso($erro);
+    $resposta = RespostaProcesso::erroProcesso(
+        $erro
+    );
     $resposta['dados'] = $dados_erro;
-    
+    // $resposta = RespostaProcesso::respostaProcesso($dados_erro['mensagem'], false, $dados_erro);
     header("Content-Type: application/json; charset=utf-8");
     echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    exit();
-    
 }
