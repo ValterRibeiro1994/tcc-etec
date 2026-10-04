@@ -4,7 +4,7 @@ class LoginController {
     public function index(array $requisicao){
         
         if ($requisicao['metodo'] == "GET") {
-            if ($this->logado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
+            if ($this->logado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
             return RespostaProcesso::respostaProcesso("app/view/paginas/login.html", true, formato: "html");
         }
         if ($requisicao['metodo'] == "POST") {
@@ -36,11 +36,25 @@ class LoginController {
         if (!password_verify($requisicao['senha'], $hash_banco)) throw new Exception("Acesso Negado");
         
         $usuario = $repositorio->obterUsuario($email);
-        SessaoController::salvarUsuario($usuario, $requisicao['lembrar']);
-        return RespostaProcesso::respostaProcesso("Acesso autorizado", true);
+        // enviar token para cliente
+        $token = new TokenController();
+        $dados = [
+            "token" => ""
+        ];
+
+        // checa o tempo de expiração
+        if ($requisicao['lembrar'] == false){
+            $dados['token'] = $token->gerarToken($usuario, (10 * 60)); // parametro deve ser passado em numero de segundos
+        } else {
+            $dados['token'] = $token->gerarToken($usuario, 86400); // dia em segundos
+        }
+        
+        SessaoController::salvarUsuario($usuario, $requisicao['lembrar']);        
+        return RespostaProcesso::respostaProcesso("Acesso autorizado", true, dados: $dados);
     }
 
     private function logado(){
+        // captura o cabeçalho de autenticação
         return SessaoController::estaConectado();
     }
 }

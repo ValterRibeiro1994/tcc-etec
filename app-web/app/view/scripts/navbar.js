@@ -26,30 +26,47 @@ let n = botoes.length;
 for (let index = 0; index < n; index++) {
     let btn = botoes[index]; 
     if (btn) {
-    btn.addEventListener("click", async function(event) {
-        event.preventDefault();
-        try {
-            let submit = await fetch("./user/logout", {
-            method: "GET",
-            })
-            let resposta = await submit.json();
-            if (resposta.resposta == true){
-                alert("Usuario Desconectado");
-                window.location.href = "./home";
-            } else {
-              console.log(JSON.stringify(resposta));  
-            }
-        } catch (error) {
-            console.log(error);
+        // checa se o usuario está on antes de adicionar logout
+        if (localStorage.getItem("token") !== null){
+            alert("Usuario não está conectado !!");
+            localStorage.clear();
+            window.location.href = "./login"; // redireciona para login
+            return;
         }
-    })
-}
+
+        btn.addEventListener("click", async function(event) {
+            event.preventDefault();
+            try {
+                let token = localStorage.getItem("token");
+                if (!token) {
+                    localStorage.clear();
+                    console.error("Não foi encontrado um token para encerrar a sessão.");
+                    return;
+                }
+
+                let submit = await fetch("./user/logout", {
+                    method: "GET",
+                    headers: {"Authorization": token}
+                });
+
+                let resposta = await submit.json();
+                if (resposta.resposta == true){
+                    localStorage.clear();
+                    alert("Usuario Desconectado");
+                    window.location.href = "./home";
+                } else {
+                    localStorage.clear()
+                    console.error(JSON.stringify(resposta));  
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        })
+    }
     
 }
 
-
-
-
+// funções
 function menuAbrir() {
     let menuMobile = document.querySelector('.mobile-menu');
     if (menuMobile.classList.contains('abrir')){

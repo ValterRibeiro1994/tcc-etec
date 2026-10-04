@@ -78,7 +78,7 @@ class SessaoController {
         $data_atual = new DateTime(); 
         
         // se marcar lembrar a sessão se mantem por 1 hora, se não 10 minutos
-        $tempo_expiracao = $_SESSION['user']['lembrar'] ? '+1 hour' : '+10 minutes';
+        $tempo_expiracao = $_SESSION['user']['lembrar'] ? '+1 day' : '+10 minutes';
         
         $data_expira = clone $data_acesso; 
         $data_expira->modify($tempo_expiracao); 

@@ -2,7 +2,7 @@
 
 class CadastroController {
     public function index(array $requisicao){
-        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/home-mural.html", true, formato: "html");
+        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/index.html", true, formato: "html");
         // o index do cadastro não possui formulario na pagina.
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "html");
         
@@ -12,7 +12,7 @@ class CadastroController {
     }
 
     public function municipe(array $requisicao){
-        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
+        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
         
         // o método get apenas exibe o formulario para o cadastro do denunciante
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "html");
@@ -44,7 +44,7 @@ class CadastroController {
             "data-denuncia", "descricao-denuncia", "imagem-denuncia",
             "categoria-denuncia", "cidade-denuncia", "estado-denuncia",
             "logradouro-denuncia", "numero-denuncia", "bairro-denuncia",
-            "cep-denuncia",
+            "cep-denuncia", "status-denuncia", "perfil-usuario"
         ];
 
         $n = count($dados_esperado);

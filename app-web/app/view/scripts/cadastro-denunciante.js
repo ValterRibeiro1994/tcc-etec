@@ -15,7 +15,10 @@
  * 
  */
 
-
+if (localStorage.getItem("ativo") == null || localStorage.getItem("token") == null){
+    // usuarios conectados não devem ter acesso a cadastro
+    window.location.href = "../home";
+}
 
 // formulario de cadastro
 const form = document.getElementById("form-cadastro-denunciante");

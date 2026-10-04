@@ -22,9 +22,24 @@ class UserController {
     }
 
     public function logout(array $requisicao){
-        SessaoController::encerrarSessao();
-        return RespostaProcesso::respostaProcesso("Usuario desconectado", true, $requisicao);
-
+        if ($requisicao['metodo'] === "GET"){
+            // existe uma sessão ?
+            if (SessaoController::estaConectado()){
+                // se esta conectado o campo token deve existir
+                $token = new TokenController();
+                $resposta = $token->validarToken();
+                if ($resposta['resposta']){
+                    SessaoController::encerrarSessao();
+                    return RespostaProcesso::respostaProcesso("Usuario desconectado", true);
+                } else {
+                    SessaoController::encerrarSessao();
+                    return $resposta;
+                }
+            } else {
+                return RespostaProcesso::respostaProcesso("Usuario desconectado", true);
+            }
+        }
+        throw new Exception("Requisição inválida");
     }
 
     public function municipe(array $requisicao){
@@ -40,7 +55,7 @@ class UserController {
         throw new Exception("Requisição inválida");
     }
 
-    public function postProcessoMunicipe(array $requisicao){
+    private function postProcessoMunicipe(array $requisicao){
         
         return RespostaProcesso::respostaProcesso("Criar processo POST para os dados a serem recebidos");
     }
