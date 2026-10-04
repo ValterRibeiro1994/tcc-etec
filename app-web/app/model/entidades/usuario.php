@@ -125,34 +125,39 @@ class Usuario extends UsuarioInterface {
 
     // getter para o ID
     #[Override]
-    public function getId(PDO $conexao = null): int
+    public function getId(PDO $conexao = null)
     {
-        if ($this->id !== null && is_int($this->id)){
+        // checa se o ID já foi salvo
+        if ($this->id !== null){ // se foi salvo
             return $this->id;
         }
 
-        if ($conexao === null) throw new Exception("ERRO: Conexão não enviada");
-
-        $tabela_usuario = $GLOBALS['usuario'];
         $email = $this->getEmail();
-        if ($email == null) throw new Exception("ERRO: Email não enviado");
+        if ($email == null) return RespostaProcesso::resposta("ERRO: Email não enviado");
+        if (empty($email)) return RespostaProcesso::resposta("ERRO: Email não enviado");
 
-        if (empty($email)) throw new InvalidArgumentException("ERRO: Email não enviado");
+        if ($conexao === null) {
+            $conexao = new Conexao();
+            $conexao = $conexao->getConexao();
+        };
 
-        $comando = "SELECT id_usuario FROM  $tabela_usuario WHERE email_usuario = :email";
-        $sql = $conexao->prepare($comando);
-        $sql->bindValue(":email", $email);
-        $sql->execute();
-        $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-        if ($sql->rowCount() == 0 || !$resposta) throw new  InvalidArgumentException("ERRO: Email não cadastrado no sistema");
-
-        $id_banco = (int) $resposta['id_usuario'];
-        $this->setId($id_banco);
-        
-        // encerra o cursor do sql
-        $sql = null;
-
-        return $id_banco;
+        try {
+            $comando = "SELECT id_usuario FROM  tb_usuario WHERE email_usuario = :email";
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(":email", $email);
+            $sql->execute();
+            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
+            if ($sql->rowCount() == 0 || !$resposta) return RespostaProcesso::resposta("ERRO: Email não cadastrado no sistema");
+            $id_banco = (int) $resposta['id_usuario'];
+            $this->setId($id_banco);
+            return RespostaProcesso::resposta($id_banco, true);
+        } catch (Exception $erro){
+            $dados = RespostaProcesso::salvarErro($erro);
+            return RespostaProcesso::resposta("Erro back-end: ", false, $dados);
+        } finally {
+            $conexao = null;
+            $sql = null;
+        }
     }
 
     // getters para os dados pessoais

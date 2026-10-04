@@ -98,12 +98,15 @@ class UsuarioRepositorio {
         $sql = null;
     }
 
-    public function obterSenha(Email $email): string {
+    public function obterSenha(Email $email) {
 
-        // armazena o email (string)
-        $email = $email->getEmail();
+        // busca o email no banco
+        $resposta = $this->emailExiste($email->getEmail());
 
-        if (!$this->emailExiste($email)) throw new Exception("Email não cadastrado");
+        // se o email não existe, senha tbm não
+        if (!$resposta['resposta']){
+            return $resposta;
+        }
 
         // comando SQL para recuperar o hash no banco
         $comando = "
@@ -134,27 +137,28 @@ class UsuarioRepositorio {
 
             // armazena a resposta do banco
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if (!$resposta) throw new Exception("Usuario não indentificado");
+            if (!$resposta) return RespostaProcesso::resposta("Usuario não localizado", false);
 
             // envia o hash da senha armazenada no banco
-            return $resposta['senha_usuario'];
+            return RespostaProcesso::resposta($resposta['senha_usuario'], true);
 
         } catch (Exception $erro){
-            throw $erro;
+            $dados = RespostaProcesso::salvarErro($erro);
+            return RespostaProcesso::resposta("Erro Back-end: ", false, dados: $dados);
+
         } finally {
             $sql = null;
             $conexao = null;
         }
     }
 
-    public function emailExiste(string $email): bool {
+    public function emailExiste(string $email) {
         $comando = "
                 SELECT 
                     email_usuario FROM tb_usuario 
                 WHERE 
                     email_usuario = :email
         ";
-
         try {
             $conexao = new Conexao();
             $conexao = $conexao->getConexao();
@@ -162,48 +166,65 @@ class UsuarioRepositorio {
             $sql->bindValue(":email", $email);
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if (!$resposta) false;
-            if (empty($resposta)) return false;
-            return true;
+            if (!$resposta) return RespostaProcesso::resposta("Email não cadastrado");
+            if (empty($resposta)) return RespostaProcesso::resposta("Email não cadastrado");
+            return RespostaProcesso::resposta("Email cadastrado", true);
 
         } catch (Exception $erro){
-            throw $erro;
+            $dados = RespostaProcesso::salvarErro($erro);
+            return RespostaProcesso::resposta("Erro Back-end", false, $dados);
         } finally {
             $sql = null;
             $conexao = null;
         }
     }
 
-    public function obterUsuario(Email $email = null, int $id = null): Usuario {
+    public function obterUsuario(Email $email = null, int $id = null) {
         
 
         if ($email != null){
-            if (!$this->emailExiste($email->getEmail())) throw new Exception("Email não cadastrado");
-            $comando = "
-                SELECT
-                    id_usuario, nome_usuario, sobrenome_usuario, 
-                    cpf_usuario, perfil_usuario, email_usuario
-                FROM
-                    tb_usuario
-                WHERE 
-                    email_usuario = :email
-            ";
-            $parametro = ":email";
-            $valor = $email->getEmail();
+            $resposta = $this->emailExiste($email->getEmail());
+            if ($resposta['resposta']){
+                // se o email existe considera ele para o sql
+                $comando = "
+                    SELECT
+                        id_usuario, nome_usuario, sobrenome_usuario, 
+                        cpf_usuario, perfil_usuario, email_usuario
+                    FROM
+                        tb_usuario
+                    WHERE 
+                        email_usuario = :email
+                ";
+                $parametro = ":email";
+                $valor = $email->getEmail();
+            } else {
+                // se não existe o email o usuario é falso
+                SessaoController::encerrarSessao();
+                return RespostaProcesso::resposta("Erro back-end: Email não registrado");
+            }
+
+        } else if ($id != null) {
+            if (ctype_digit($id) && is_integer($id) && (int) $id > 0){
+                $comando = "
+                    SELECT
+                        id_usuario, nome_usuario, sobrenome_usuario, 
+                        cpf_usuario, perfil_usuario, email_usuario
+                    FROM
+                        tb_usuario
+                    WHERE 
+                        id_usuario = :id
+                ";
+                $parametro = ":id";
+                $valor = $id;
+            } else {
+                // o id é um inteiro positivo > 0? não
+                return RespostaProcesso::resposta("Erro back-end: Id inválido");
+            }
+
         } else {
-            $comando = "
-                SELECT
-                    id_usuario, nome_usuario, sobrenome_usuario, 
-                    cpf_usuario, perfil_usuario, email_usuario
-                FROM
-                    tb_usuario
-                WHERE 
-                    id_usuario = :id
-            ";
-            $parametro = ":id";
-            $valor = $id;
-    
-        }
+            // os dois objetos são nulls, erro do back-end
+            return RespostaProcesso::resposta("Erro back-end: Deve ser passado pelo menos 1 parametro para a função");
+        }    
 
         try {
             $conexao_obj = new Conexao();
@@ -213,7 +234,7 @@ class UsuarioRepositorio {
             $sql->execute();
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
 
-            if (!$resposta) throw new Exception("Usuario não cadastrado");
+            if (!$resposta) return RespostaProcesso::resposta("Usuario não localizado");
             $usuario = new Usuario(
                 dados_usuario: new DadosPessoais(
                     nome: new Nome($resposta['nome_usuario']),
@@ -250,7 +271,7 @@ class UsuarioRepositorio {
                 ";
 
             } else {
-                throw new Exception("Perfil invalido");
+                return RespostaProcesso::resposta("Perfil não indentificado");
             }
 
             $conexao = $conexao_obj->getConexao();
@@ -260,7 +281,10 @@ class UsuarioRepositorio {
 
             $resposta = $sql->fetch(PDO::FETCH_ASSOC);
  
-            if (!$resposta) throw new Exception("Usuario não localizado nas relações:\nID: {$usuario->getId()} \ncomando = $comando");
+            if (!$resposta) {
+                // se não foi localizado nenhum ID
+
+                return RespostaProcesso::resposta("Id não localizado");}
 
             if ($usuario->getPerfil() == "representante"){
                 $usuario->setPrefeitura(
@@ -278,10 +302,12 @@ class UsuarioRepositorio {
                 )
             );
 
-            return $usuario;
+            return RespostaProcesso::resposta("Usuario criado com sucesso", true, dados: array($usuario));
 
         } catch (Exception $erro) {
-           throw $erro;
+           $dados = RespostaProcesso::salvarErro($erro);
+           $msg = $dados['mensagem'];
+           return RespostaProcesso::resposta("Erro back-end: $msg", false, dados: $dados);
         } finally {
             $sql = null;
             $conexao = null;

@@ -19,7 +19,7 @@ class LoginController {
         $campos = ['email', 'senha', 'lembrar'];
         for ($x = 0; $x < 2; $x++){
             $entrada = $campos[$x];
-            if (!array_key_exists($entrada, $requisicao)) throw new Exception("Campo '$entrada' não enviado");
+            if (!array_key_exists($entrada, $requisicao)) return RespostaProcesso::resposta("Campo '$entrada' não enviado", dados:$requisicao);
         }
 
         // valida os dados recebidos pelo front-end
@@ -30,31 +30,69 @@ class LoginController {
         $repositorio = new UsuarioRepositorio();
         
         // resgatar a senha armazenada no banco
-        $hash_banco = $repositorio->obterSenha($email);
-        
-        // comparar a senha recebida pela senha do banco
-        if (!password_verify($requisicao['senha'], $hash_banco)) throw new Exception("Acesso Negado");
-        
-        $usuario = $repositorio->obterUsuario($email);
-        // enviar token para cliente
-        $token = new TokenController();
-        $dados = [
-            "token" => ""
-        ];
-
-        // checa o tempo de expiração
-        if ($requisicao['lembrar'] == false){
-            $dados['token'] = $token->gerarToken($usuario, (10 * 60)); // parametro deve ser passado em numero de segundos
-        } else {
-            $dados['token'] = $token->gerarToken($usuario, 86400); // dia em segundos
+        $resposta = $repositorio->obterSenha($email);
+        if (!$resposta['resposta']){
+            return $resposta;
         }
+
+        // comparar a senha recebida pela senha do banco
+        $hash_banco = $resposta['mensagem'];
+        if (!password_verify($requisicao['senha'], $hash_banco)) return RespostaProcesso::resposta("Acesso Negado");
         
-        SessaoController::salvarUsuario($usuario, $requisicao['lembrar']);        
-        return RespostaProcesso::respostaProcesso("Acesso autorizado", true, dados: $dados);
+        
+        $resposta = $repositorio->obterUsuario($email);
+        if (!$resposta['resposta']){
+            return $resposta;
+        }
+
+        try {
+            $usuario = $resposta['dados'][0];
+            // limpar as senhas por garantia
+            $usuario->setSenha(limpar: true);
+
+            // verificar igualdade nos emails
+            if ($usuario->getEmail() != $requisicao['email']){
+                return RespostaProcesso::resposta("Erro usuário: Email invalido", false, array($usuario));
+            }
+
+            $token = new TokenController();
+            $dados = [
+                "token" => "",
+                "perfil" => $usuario->getPerfil(),
+                "nome" => $usuario->getNome(),
+                "sobrenome" => $usuario->getSobrenome(),
+                "email" => $usuario->getEmail()
+            ];
+    
+            // checa o tempo de expiração
+            if ($requisicao['lembrar'] == false){
+                $tempo = 600;               
+            } else {
+                $tempo = 86400;
+            }
+
+            // gera o token
+            $resposta = $token->gerarToken($usuario, $tempo);
+            if (!$resposta['resposta']){
+                return $resposta;
+            }
+
+            // guarda o token 
+            $token = $resposta['mensagem'];
+            $dados["token"] = $token;
+
+            // envie o resultado
+            return RespostaProcesso::resposta("Acesso liberado", true, array($dados));
+            
+        } catch (Exception $erro) {
+            SessaoController::encerrarSessao();
+            $dados = RespostaProcesso::salvarErro($erro);
+            return RespostaProcesso::resposta("Acesso não autorizado", false, dados: $dados);
+        }
     }
 
     private function logado(){
-        // captura o cabeçalho de autenticação
-        return SessaoController::estaConectado();
+        $resposta =  SessaoController::estaConectado();
+        return $resposta['resposta'];
     }
 }

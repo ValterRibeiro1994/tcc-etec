@@ -2,7 +2,7 @@
 
 abstract class UsuarioInterface {
     // getters
-    abstract function getId(PDO $conexao = null): int;
+    abstract function getId(PDO $conexao = null);
     abstract function getPerfil(): string;
     abstract function getSenha(): string;
 

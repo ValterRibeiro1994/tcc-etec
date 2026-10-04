@@ -31,7 +31,6 @@ for (let index = 0; index < n; index++) {
             alert("Usuario não está conectado !!");
             localStorage.clear();
             window.location.href = "./login"; // redireciona para login
-            return;
         }
 
         btn.addEventListener("click", async function(event) {

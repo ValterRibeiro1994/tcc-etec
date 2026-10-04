@@ -13,52 +13,119 @@ class SessaoController {
         } 
     } 
 
-    public static function obterUsuario(): Usuario {
-        if (!SessaoController::estaConectado()) throw new Exception("Usuario desconectado");
+    public static function obterUsuario() {
+        $resposta = SessaoController::estaConectado();
         
-        $usuario = new Usuario(
-            new DadosPessoais(
-                nome: $_SESSION['user']['nome'],
-                sobrenome: $_SESSION['user']['sobrenome'],
-            ),
+        // se não tem sessão aberta não tem usuario
+        if (!$resposta['resposta']) return $resposta;
 
-            new Endereco(
-                cidade: $_SESSION['user']['cidade'],
-                estado: $_SESSION['user']['estado']
-            )
-        );
-        $usuario->setId($_SESSION['user']['id']);
-        $usuario->setPerfil($_SESSION['user']['perfil']);
-        if ($_SESSION['user']['perfil'] == "representante"){
-            $usuario->setPrefeitura(
-                new Prefeitura(
-                    orgao: $_SESSION['user']['orgao'],
-                    cargo: $_SESSION['user']['cargo']
-                )
-            );
+        // tenta encontrar o perfil do usuario
+        $resposta = SessaoController::obterAtributoUsuario("perfil");
+        if (!$resposta['resposta']) return $resposta;
+        $perfil = $resposta['mensagem'];
+
+        // cria o usuario
+        $usuario = new Usuario();
+        if ($perfil == "visitante"){
+            $usuario->setNome(new Nome("visitante"));
+            $usuario->setEmail(new Email("visitante@gmail.com"));
+            $usuario->setPerfil("visitante");
+        } else {
+            $usuario->setPerfil($_SESSION['user']['perfil']);
+            $usuario->setNome(new Nome($_SESSION['user']['nome']));
+            $usuario->setEmail(new Email($_SESSION['user']['email']));
+        }
+        if ($usuario->getPerfil() == "visitante"){
+            return RespostaProcesso::resposta("Visitante criado com sucesso", true, $usuario);
         }
 
-        return $usuario;
+        $usuario->setCidade($_SESSION['user']['cidade']);
+        $usuario->setEstado($_SESSION['user']['estado']);
+
+        if ($usuario->getPerfil() == "municipe"){
+            // ele só é um municipe depois do login
+            $resposta = self::estaConectado();
+            if (!$resposta['resposta']){
+                self::encerrarSessao();
+                return RespostaProcesso::resposta("Usuario desconectado");
+            }
+
+            return RespostaProcesso::resposta("Municipe criado com sucesso", true, $usuario);
+        }
+
+        if ($usuario->getPerfil() == "representante"){
+            $usuario->setCargo($_SESSION['user']['cargo']);
+            $usuario->setOrgao($_SESSION['user']['orgao']);
+            return RespostaProcesso::resposta("Representante criado com sucesso", true, $usuario);
+        }
+        
+
+        self::encerrarSessao();
+        return RespostaProcesso::resposta("Perfil inválido: Usuario desconectado", false);
+        
     } 
 
-    public static function salvarUsuario(Usuario $usuario, bool $lembrar): void { 
-        self::iniciarSessao(); 
-        
-        $_SESSION['user']['id'] = $usuario->getId(); 
-        $_SESSION['user']['nome'] = $usuario->getNome(); 
-        $_SESSION['user']['sobrenome'] = $usuario->getSobrenome(); 
-        $_SESSION['user']['perfil'] = $usuario->getPerfil(); 
-        $_SESSION['user']['estado'] = $usuario->getEstado(); 
-        $_SESSION['user']['cidade'] = $usuario->getCidade(); 
 
-        if ($usuario->getPerfil() == "representante"){ 
-            $_SESSION['user']['orgao'] = $usuario->getOrgao(); 
-            $_SESSION['user']['cargo'] = $usuario->getCargo(); 
-        } 
+    public static function registrarSessao(Usuario $usuario = null, bool $lembrar){
+        try {
+            // validar token recebido
+            $jwt = new TokenController();
+            $resposta = $jwt->validarToken();
+            if (!$resposta['resposta']){
+                return $resposta;
+            }
+
+        } catch (Exception $erro) {
+            $dados = RespostaProcesso::salvarErro($erro);
+            return RespostaProcesso::resposta("Token Invalido");
+        }
+        
+        if ($usuario == null){
+            $_SESSION['user']['email'] = "visitante@gmail.com"; 
+            $_SESSION['user']['nome'] = "visitante"; 
+            $_SESSION['user']['sobrenome'] = "visitante"; 
+            $_SESSION['user']['perfil'] = "visitante";    
+        } else {
+            $_SESSION['user']['email'] = $usuario->getEmail(); 
+            $_SESSION['user']['nome'] = $usuario->getNome(); 
+            $_SESSION['user']['sobrenome'] = $usuario->getSobrenome(); 
+            $_SESSION['user']['perfil'] = $usuario->getPerfil();
+        }
 
         $_SESSION['user']['lembrar'] = $lembrar; 
         $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s"); 
-    } 
+        if ($_SESSION['user']['perfil'] == "visitante") return RespostaProcesso::resposta("Visitante registrado", true);
+        
+        $_SESSION['user']['estado'] = $usuario->getEstado(); 
+        $_SESSION['user']['cidade'] = $usuario->getCidade();
+        if ($_SESSION['user']['perfil'] == "municipe") return RespostaProcesso::resposta("Municipe registrado", true);
+        
+        if ($_SESSION['user']['perfil'] == "representante") {
+            $_SESSION['user']['orgao'] = $usuario->getOrgao(); 
+            $_SESSION['user']['cargo'] = $usuario->getCargo();
+            return RespostaProcesso::resposta("Representante registrado", true);
+        }
+
+        self::encerrarSessao();
+        return RespostaProcesso::resposta("Perfil invalido");
+    }
+
+    // public static function salvarUsuario(Usuario $usuario, bool $lembrar): void { 
+    //     self::iniciarSessao(); 
+        
+    //     $_SESSION['user']['email'] = $usuario->getEmail(); 
+    //     $_SESSION['user']['nome'] = $usuario->getNome(); 
+    //     $_SESSION['user']['sobrenome'] = $usuario->getSobrenome(); 
+    //     $_SESSION['user']['perfil'] = $usuario->getPerfil(); 
+    //     $_SESSION['user']['estado'] = $usuario->getEstado(); 
+    //     $_SESSION['user']['cidade'] = $usuario->getCidade(); 
+
+    //     if ($usuario->getPerfil() == "representante"){ 
+    //         $_SESSION['user']['orgao'] = $usuario->getOrgao(); 
+    //         $_SESSION['user']['cargo'] = $usuario->getCargo(); 
+    //     } 
+
+    // } 
 
     public static function encerrarSessao(): void { 
         self::iniciarSessao(); 
@@ -66,12 +133,12 @@ class SessaoController {
         session_destroy(); 
     } 
 
-    public static function estaConectado(): bool { 
+    public static function estaConectado() { 
         self::iniciarSessao(); 
 
         // Verifica se a sessão existe
-        if (!array_key_exists("user", $_SESSION) || !isset($_SESSION['user']['ultimo_acesso'])) {
-            return false; 
+        if (!array_key_exists("user", $_SESSION)) {
+            return RespostaProcesso::resposta("Usuario desconectado"); 
         }
 
         $data_acesso = new DateTime($_SESSION['user']['ultimo_acesso']); 
@@ -85,16 +152,17 @@ class SessaoController {
 
         if ($data_atual > $data_expira) { 
             self::encerrarSessao(); 
-            return false; 
+            return RespostaProcesso::resposta("Usuario desconectado"); 
         } 
 
         // renova o horario
         $_SESSION['user']['ultimo_acesso'] = date("Y-m-d H:i:s");
-        return true; 
+        return RespostaProcesso::resposta("Usuario conectado", true); 
     } 
 
-    public static function obterAtributoUsuario(string $atributo): string {
-        if (!array_key_exists($atributo, $_SESSION['user'])) throw new Exception("Atributo $atributo não armazenado em sessão");
-        return $_SESSION['user'][$atributo];
+    public static function obterAtributoUsuario(string $atributo) {
+        if (!array_key_exists($atributo, $_SESSION['user'])) 
+            return RespostaProcesso::resposta("Atributo $atributo não armazenado em sessão");
+        return RespostaProcesso::resposta($_SESSION['user'][$atributo], true);
     }
 }
