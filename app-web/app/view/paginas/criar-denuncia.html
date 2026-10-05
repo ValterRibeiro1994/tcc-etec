@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="app/view/estilo/geral.css">
+    <link rel="stylesheet" href="app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="app/view/estilo/criar-denuncia.css">
+  
+    
+    <title>RelateSBC</title>
+</head>
+<body>
+    
+   <header class="navbar-header">
+    <nav class="navbar">
+        <a href="home" class="logo-link">
+            <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item active"><a href="index.html">Início</a></li>
+            <li class="nav-item"><a href="#">Sobre</a></li>
+            <li class="nav-item"><a href="#">Dicas</a></li>
+            <li class="nav-item"><a href="#">Mural</a></li>
+        </ul>
+
+        <div class="nav-actions" id="convidado">
+            <a href="login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                Entrar
+            </a>
+            <a href="cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                Cadastre-se
+            </a>
+
+            
+        </div>
+
+        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+        </div>
+        
+
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></i></button>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE -->
+
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item active"><a href="index">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+                <li class="nav-item"><a href="#">Mural de denuncias</a></li>
+            </ul>
+
+            <div class="nav-actions">
+              <a href="login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                  Entrar
+              </a>
+              <a href="cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                  Cadastre-se
+              </a>
+                
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+            <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+        </div>
+                
+            </div>
+        </div>
+
+        
+
+        <nav class="navbar-pagina-mobile">
+            <button type="button" onclick="abrirSidebar()">
+                ☰
+            </button>
+            <span>Mural de denúncias</span>
+        </nav>
+  </header>
+
+<!--CONTEUDO-->
+  <main class="pagina-denuncia">
+
+    <section class="formulario-denuncia">
+
+        <div class="cabecalho-formulario">
+            <div class="icone-denuncia">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+            </div>
+
+            <div>
+                <h1>Registrar uma denúncia</h1>
+                <p>
+                    Informe os detalhes da ocorrência para que a equipe
+                    responsável possa analisar e tomar as providências necessárias.
+                </p>
+            </div>
+        </div>
+
+        <!--FORMULARIO-->
+        <form>
+
+            <!-- TÍTULO -->
+            <div class="campo-denuncia">
+                <label for="titulo-denuncia">Título</label>
+
+                <input  type="text"
+                        id="titulo-denuncia"
+                        name="titulo-denuncia"
+                        placeholder="Ex: Buraco na rua, poste caído, lixo acumulado..."
+                        required >
+            </div>
+
+
+            <!-- DESCRIÇÃO -->
+            <div class="campo-denuncia">
+                <label for="descricao-denuncia">Descrição</label>
+
+                <textarea
+                    id="descricao-denuncia"
+                    name="descricao-denuncia"
+                    placeholder="Descreva o que está acontecendo com mais detalhes..."
+                    required
+                ></textarea>
+            </div>
+
+
+            <!-- CATEGORIA E STATUS -->
+            <div class="linha">
+
+                <div class="campo-denuncia">
+                    <label for="categoria-denuncia">Categoria</label>
+
+                    <select id="categoria-denuncia" name="categoria-denuncia" required>
+                        <option value="" selected disabled>
+                            Selecione uma categoria
+                        </option>
+
+                        <option value="infraestrutura">
+                            Infraestrutura
+                        </option>
+
+                        <option value="limpeza">
+                            Limpeza Urbana
+                        </option>
+
+                        <option value="iluminacao">
+                            Iluminação Pública
+                        </option>
+
+                        <option value="saneamento">
+                            Saneamento
+                        </option>
+                    </select>
+                </div>
+
+
+                <div class="campo-denuncia">
+                    <label for="status-denuncia">Status</label>
+
+                    <select id="status-denuncia" name="status-denuncia">
+                        <option value="pendente">
+                            Pendente
+                        </option>
+
+                        <option value="em-analise">
+                            Em análise
+                        </option>
+
+                        <option value="resolvida">
+                            Resolvida
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- ENDEREÇO E DATA -->
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="estado-denuncia">Estado</label>
+
+                    <input
+                        type="text"
+                        id="estado-denuncia"
+                        name="estado-denuncia"
+                        placeholder="Digite o Estado do local.."
+                        required
+                    >
+                </div>
+            
+            
+                <div class="campo-denuncia">
+                    <label for="cidade-denuncia">Cidade</label>
+
+                    <input
+                        type="text"
+                        id="cidade-denuncia"
+                        name="cidade-denuncia"
+                        placeholder="Digite a cidade do local.."
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="bairro-denuncia">Bairro</label>
+
+                    <input
+                        type="text"
+                        id="bairro-denuncia"
+                        name="bairro-denuncia"
+                        placeholder="Digite o bairro do local.."
+                        required
+                    >
+                </div>
+            
+                <div class="campo-denuncia">
+                    <label for="numero-denuncia">Número</label>
+
+                    <input
+                        type="text"
+                        id="numero-denuncia"
+                        name="numero-denuncia"
+                        placeholder="Digite o numero do local.."
+                        required
+                    >
+                </div>
+            
+
+                <div class="campo-denuncia">
+                    <label for="cep-denuncia">CEP</label>
+
+                    <input
+                        type="text"
+                        id="cep-denuncia"
+                        name="cep-denuncia"
+                        placeholder="Digite o CEP do local.."
+                        required
+                    >
+                </div>
+            </div>
+
+                <div class="campo-denuncia">
+                    <label for="data-denuncia">Data da ocorrência</label>
+
+                    <input
+                        type="date"
+                        id="data-denuncia"
+                        name="data-denuncia"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <!-- FOTO -->
+            <div class="campo-denuncia">
+                <label for="foto">
+                    Foto
+                </label>
+
+                <div class="upload-foto">
+
+                    <input
+                        type="file"
+                        id="foto-denuncia"
+                        name="foto-denuncia"
+                        accept="image/png, image/jpeg"
+                    >
+
+                    <div class="upload-conteudo">
+                        <div class="icone-upload">↑</div>
+
+                        <div>
+                            <strong>
+                                Clique para selecionar uma imagem
+                            </strong>
+
+                            <small>
+                                JPG ou PNG — tamanho máximo de 5MB
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- BOTÃO -->
+            <div class="linha linha-botoes">
+                <button type="submit" class="btn-enviar">
+                    Enviar denúncia
+                </button>
+            
+                <button type="submit" class="btn-cancelar">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+
+    </section>
