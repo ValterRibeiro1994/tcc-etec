@@ -3,22 +3,22 @@
 abstract class UsuarioInterface {
     // getters
     abstract function getId(PDO $conexao = null);
-    abstract function getPerfil(): string;
-    abstract function getSenha(): string;
+    abstract function getPerfil(): string|null;
+    abstract function getSenha(): string|null;
 
     abstract function getDadosPessoais(): DadosPessoais;
-    abstract function getNome(): string;
-    abstract function getSobrenome(): string;
-    abstract function getEmail(): string;
-    abstract function getCpf(): string;
+    abstract function getNome(): string|null;
+    abstract function getSobrenome(): string|null;
+    abstract function getEmail(): string|null;
+    abstract function getCpf(): string|null;
 
     abstract function getEndereco(): Endereco;
-    abstract function getEstado(): string;
-    abstract function getCidade(): string;
+    abstract function getEstado(): string|null;
+    abstract function getCidade(): string|null;
 
     abstract function getPrefeitura(): Prefeitura;
-    abstract function getCargo(): string;
-    abstract function getOrgao(): string;
+    abstract function getCargo(): string|null;
+    abstract function getOrgao(): string|null;
     
     // setters
     abstract function setId(int $id): void;

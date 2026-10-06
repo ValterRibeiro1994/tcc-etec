@@ -93,7 +93,10 @@ class Roteador {
         $controller = new $classe();
 
         if (!method_exists($controller, $metodo)) throw new Exception("Metodo '$metodo' não indentificado para a Classe $classe no roteador");
-        if (!array_key_exists("metodo", $requisicao)) throw new Exception("Chave para método não enviado para roteador");
+        if (!array_key_exists("metodo", $requisicao)) {
+            return RespostaProcesso::resposta(mensagem: "Método de requisição não enviado", resposta: false,
+            dados: $requisicao, formato: "json");
+        };
         return $controller->$metodo($requisicao);
 
     }

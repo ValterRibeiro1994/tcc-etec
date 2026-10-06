@@ -67,11 +67,31 @@ class CadastroController {
         );
 
         // guarda o usuario que está online
-        $usuario_logado = SessaoController::obterUsuario();
+        $resposta = SessaoController::obterUsuario();
+        if (!$resposta['resposta']) {
+            // fecha a sessão em caso de erro
+            SessaoController::encerrarSessao();
+            return $resposta;
+        }
+
+        // cria o usuario que está ativo nessa sessão
+        $usuario_sessao = new Usuario();
+        $usuario_logado = $usuario_sessao->converterArrayParaUsuario($resposta['dados']);
 
         // localiza o usuario no banco pelo id
         $repositorio = new UsuarioRepositorio();
-        $usuario_registrado =  $repositorio->obterUsuario(id: $usuario_logado->getId());
+        $resposta =  $repositorio->obterUsuario(id: $usuario_logado->getId());
+        if (!$resposta['resposta']){
+            SessaoController::encerrarSessao();
+            return $resposta;
+        }
+
+        $usuario_banco = new Usuario();
+        $resposta = $usuario_banco->converterArrayParaUsuario($resposta['dados']);
+        if (is_array($resposta)){
+            return $resposta;
+        }
+        $usuario_registrado = $resposta;
 
         // garanta que a sessão não foi alterada
         if ($usuario_logado->getNome() != $usuario_registrado->getNome()) throw new Exception("Acessonão autorizado");

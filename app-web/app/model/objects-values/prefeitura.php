@@ -5,9 +5,9 @@ class Prefeitura {
     private string $cargo;
     private int $limite = 120;
 
-    public function __construct(string $orgao, string $cargo){
-        $this->setCargo($cargo);
-        $this->setOrgao($orgao);
+    public function __construct(string $orgao = null, string $cargo = null){
+        if ($orgao != null) $this->setCargo($cargo);
+        if ($cargo != null) $this->setOrgao($orgao);
 
     }
 

@@ -36,22 +36,27 @@ class TokenController {
             ];
 
             $jwt = JWT::encode($configuracao, $this->chave, $this->algoritmo);
+            $_SESSION['user']['seg']['token'] = $jwt;
             return RespostaProcesso::resposta($jwt, true);
         } catch(Exception $erro) {
             // qualquer erro o processo de login deve ser encerrado
             $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Erro: Não foi possivel gerar um token", false, $dados);
+            return RespostaProcesso::resposta($erro->getMessage(), false, $dados);
         }
     }
 
     public function validarToken(){
         try {
             $headers = getallheaders();
-            if (!isset($headers['Authorization'])){
+            if (isset($headers['Authorization'])){
+                $token_recebido = $headers['Authorization'];
+            } else if (isset($_SESSION['user']['seg']['token'])){
+                $token_recebido = $_SESSION['user']['seg']['token'];
+            } else {
                 return RespostaProcesso::resposta("Erro front-end: Token não foi enviado");
             }
 
-            $token = str_replace("Bearer ", "", $headers['Authorization']);
+            $token = str_replace("Bearer ", "", $token_recebido);
             $decodificar = JWT::decode($token, new Key($this->chave, $this->algoritmo));
             return RespostaProcesso::resposta("Token valido", true, dados: get_object_vars($decodificar));
         } catch (ExpiredException $erro){
@@ -63,9 +68,6 @@ class TokenController {
             return RespostaProcesso::resposta("Token está sendo usado antes do permitido", dados:RespostaProcesso::salvarErro($erro));
         } catch (Exception $erro){
             return RespostaProcesso::resposta("Erro desconhecido", dados:RespostaProcesso::salvarErro($erro));
-        } finally {
-            // qualquer erro no token é um erro de sessão
-            SessaoController::encerrarSessao();
         }
 
     }

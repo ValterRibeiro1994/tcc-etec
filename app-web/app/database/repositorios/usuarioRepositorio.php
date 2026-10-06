@@ -200,7 +200,7 @@ class UsuarioRepositorio {
             } else {
                 // se não existe o email o usuario é falso
                 SessaoController::encerrarSessao();
-                return RespostaProcesso::resposta("Erro back-end: Email não registrado");
+                return RespostaProcesso::resposta("Email não registrado");
             }
 
         } else if ($id != null) {
@@ -218,7 +218,7 @@ class UsuarioRepositorio {
                 $valor = $id;
             } else {
                 // o id é um inteiro positivo > 0? não
-                return RespostaProcesso::resposta("Erro back-end: Id inválido");
+                return RespostaProcesso::resposta("Id inválido");
             }
 
         } else {
@@ -302,7 +302,7 @@ class UsuarioRepositorio {
                 )
             );
 
-            return RespostaProcesso::resposta("Usuario criado com sucesso", true, dados: array($usuario));
+            return RespostaProcesso::resposta("Usuario criado com sucesso", true, dados: $usuario->getArray());
 
         } catch (Exception $erro) {
            $dados = RespostaProcesso::salvarErro($erro);
