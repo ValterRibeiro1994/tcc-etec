@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.Toast
 
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,27 +29,11 @@ class ComplaintScreen : AppCompatActivity() {
 
     private val selecionarFoto =
         registerForActivityResult(
-            ActivityResultContracts.OpenDocument()
+            ActivityResultContracts.PickVisualMedia()
         ) { uri ->
 
             if (uri != null) {
-
-                // Mantém acesso à foto mesmo depois
-                // que o aplicativo for fechado.
-
-                try {
-
-                    contentResolver.takePersistableUriPermission(
-                        uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-
-                } catch (_: SecurityException) {
-                }
-
                 fotoUri = uri
-
-                // Mostra a foto no formulário
                 imageFoto.setImageURI(uri)
             }
         }
@@ -100,14 +85,14 @@ class ComplaintScreen : AppCompatActivity() {
         configurarCategorias()
 
         val btnSelecionarFoto =
-            findViewById<Button>(
-                R.id.btnSelecionarFoto
-            )
+            findViewById<Button>(R.id.btnSelecionarFoto)
 
         btnSelecionarFoto.setOnClickListener {
 
             selecionarFoto.launch(
-                arrayOf("image/*")
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
             )
         }
 

@@ -11,10 +11,7 @@
     tools:context=".ComplaintScreen">
 
 
-    <!-- ===================================================== -->
-    <!-- CONTEÚDO COM SCROLL -->
-    <!-- ===================================================== -->
-
+    <!-- CONTEÚDO QUE PODE ROLAR -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
@@ -30,22 +27,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="30dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
 
 
-            <!-- ================================================= -->
             <!-- CABEÇALHO -->
-            <!-- ================================================= -->
-
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_header"
-                android:paddingStart="16dp"
-                android:paddingEnd="12dp">
+                android:paddingStart="14dp"
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/txtLogo"
@@ -53,38 +49,38 @@
                     android:layout_height="wrap_content"
                     android:text="RelateSBC"
                     android:textColor="#FFFFFF"
-                    android:textSize="26sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-                <!-- Você pode trocar por ImageView com sua árvore depois -->
-
                 <TextView
                     android:id="@+id/txtArvore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="5dp"
                     android:text="🌳"
-                    android:textSize="30sp"
+                    android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/txtLogo"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNovaDenuncia"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="42dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:text="+ Nova denúncia"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     android:textStyle="bold"
-                    android:backgroundTint="#87966C"
-                    app:cornerRadius="12dp"
+                    app:backgroundTint="#82936A"
+                    app:cornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -92,78 +88,68 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <!-- ================================================= -->
             <!-- TÍTULO -->
-            <!-- ================================================= -->
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="14dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
                 android:text="Nova denúncia"
                 android:textColor="#111111"
-                android:textSize="34sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
-
-
-            <!-- SUBTÍTULO -->
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="14dp"
-                android:text="Descreva o problema, adicione uma foto e marque a localização no mapa."
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:text="Descreva o problema, adicione uma foto e informe a localização."
                 android:textColor="#202020"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
 
-            <!-- ================================================= -->
-            <!-- CARD DO FORMULÁRIO -->
-            <!-- ================================================= -->
-
+            <!-- CARD FORMULÁRIO -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#202020"
+                app:strokeColor="#303030"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="18dp">
 
 
                     <!-- TÍTULO -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Título"
                         android:textColor="#111111"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="5dp"
                         app:boxBackgroundMode="outline"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
-                        app:boxCornerRadiusTopStart="10dp"
-                        app:boxStrokeColor="#222222">
+                        app:boxCornerRadiusTopStart="10dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTitulo"
@@ -171,33 +157,28 @@
                             android:layout_height="wrap_content"
                             android:hint="Ex: Poste queimado"
                             android:inputType="text"
-                            android:textColor="#111111"
-                            android:textColorHint="#777777"
-                            android:textSize="16sp" />
+                            android:maxLines="1" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
                     <!-- CATEGORIA -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="18dp"
                         android:text="Categoria"
                         android:textColor="#111111"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
-
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_marginTop="6dp"
-                        app:cardBackgroundColor="#FFFFFF"
+                        android:layout_marginTop="5dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#222222"
+                        app:strokeColor="#333333"
                         app:strokeWidth="1dp">
 
                         <Spinner
@@ -211,62 +192,54 @@
 
 
                     <!-- DESCRIÇÃO -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="18dp"
                         android:text="Descrição"
                         android:textColor="#111111"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="5dp"
                         app:boxBackgroundMode="outline"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusTopEnd="10dp"
-                        app:boxCornerRadiusTopStart="10dp"
-                        app:boxStrokeColor="#222222">
+                        app:boxCornerRadiusTopStart="10dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editDescricao"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="120dp"
                             android:gravity="top|start"
                             android:hint="Descreva o problema..."
                             android:inputType="textMultiLine"
-                            android:paddingTop="14dp"
-                            android:textColor="#111111"
-                            android:textColorHint="#777777"
-                            android:textSize="16sp" />
+                            android:paddingTop="12dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
                     <!-- FOTO -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="18dp"
                         android:text="Foto"
                         android:textColor="#111111"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
-
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="5dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#222222"
+                        app:strokeColor="#333333"
                         app:strokeWidth="1dp">
 
                         <ImageView
@@ -279,11 +252,10 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-
                     <Button
                         android:id="@+id/btnSelecionarFoto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="52dp"
                         android:layout_marginTop="8dp"
                         android:backgroundTint="#87966C"
                         android:text="Selecionar foto"
@@ -292,76 +264,46 @@
 
 
                     <!-- ENDEREÇO -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="18dp"
                         android:text="Endereço"
                         android:textColor="#111111"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
-
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="5dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp">
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editEndereco"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:boxBackgroundMode="outline"
-                            app:boxCornerRadiusBottomEnd="10dp"
-                            app:boxCornerRadiusBottomStart="10dp"
-                            app:boxCornerRadiusTopEnd="10dp"
-                            app:boxCornerRadiusTopStart="10dp"
-                            app:boxStrokeColor="#222222">
+                            android:hint="Rua e número"
+                            android:inputType="textPostalAddress" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editEndereco"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Rua e número"
-                                android:inputType="textPostalAddress"
-                                android:textColor="#111111"
-                                android:textColorHint="#777777" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <!-- BOTÃO PESQUISAR ENDEREÇO -->
-
-                        <ImageButton
-                            android:id="@+id/btnPesquisarEndereco"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/bg_search_button"
-                            android:contentDescription="Pesquisar endereço"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_search"
-                            app:tint="#111111" />
-
-                    </LinearLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
                     <!-- CADASTRAR -->
-
                     <Button
                         android:id="@+id/btnCadastrar"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="24dp"
                         android:backgroundTint="#264D26"
                         android:text="Cadastrar denúncia"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
-                        android:textSize="17sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         app:cornerRadius="12dp" />
 
@@ -374,25 +316,23 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <!-- ===================================================== -->
-    <!-- NAVEGAÇÃO FIXA -->
-    <!-- ===================================================== -->
-
+    <!-- BARRA INFERIOR FIXA -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
         android:layout_height="82dp"
-        android:background="#264D26"
+        android:background="#4D7048"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/btnMain"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:backgroundTint="#87966C"
             android:text="Main"
             android:textAllCaps="false"
@@ -400,15 +340,16 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnDenuncia"
-            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <Button
             android:id="@+id/btnDenuncia"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:backgroundTint="#A3B386"
             android:text="Denúncia"
             android:textAllCaps="false"
@@ -417,14 +358,16 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnUser"
+            app:layout_constraintHorizontal_weight="1.25"
             app:layout_constraintStart_toEndOf="@id/btnMain"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <Button
             android:id="@+id/btnUser"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="#87966C"
             android:text="User"
             android:textAllCaps="false"
@@ -432,6 +375,7 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/btnDenuncia"
             app:layout_constraintTop_toTopOf="parent" />
 

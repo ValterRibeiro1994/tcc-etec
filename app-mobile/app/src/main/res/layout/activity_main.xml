@@ -10,25 +10,23 @@
     android:background="#F7F7F7"
     tools:context=".MainActivity">
 
-
-    <!-- =============================== -->
     <!-- CABEÇALHO -->
-    <!-- =============================== -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="0dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/bg_header"
-        android:paddingStart="16dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="64dp"
 
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+
+        android:background="@drawable/bg_header"
+        android:paddingStart="14dp"
+        android:paddingEnd="8dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txtLogo"
@@ -36,78 +34,76 @@
             android:layout_height="wrap_content"
             android:text="RelateSBC"
             android:textColor="#FFFFFF"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/txtArvore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="5dp"
             android:text="🌳"
-            android:textSize="28sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@id/txtLogo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNovaDenuncia"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:backgroundTint="#87966C"
+            android:layout_height="42dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="+ Nova denúncia"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold"
-            app:cornerRadius="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:backgroundTint="#82936A"
+            app:cornerRadius="10dp"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!-- =============================== -->
-    <!-- ÁREA DO TÍTULO + FILTROS -->
-    <!-- =============================== -->
-
+    <!-- TÍTULO + FILTROS -->
     <LinearLayout
         android:id="@+id/areaFiltros"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:background="#E7ECE8"
         android:orientation="vertical"
         android:paddingStart="16dp"
-        android:paddingTop="16dp"
+        android:paddingTop="14dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header">
-
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mural de Denúncias"
             android:textColor="#111111"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
-
-        <!-- FILTROS -->
-
+        <!-- Pode rolar horizontalmente em celulares pequenos -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="12dp"
+            android:fillViewport="false"
             android:scrollbars="none">
 
             <LinearLayout
@@ -115,71 +111,67 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnTodos"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
+                    android:minWidth="0dp"
                     android:text="Todos"
                     android:textAllCaps="false"
                     android:textColor="#111111"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="#AAB590"
                     app:cornerRadius="14dp" />
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLixo"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="0dp"
                     android:text="Lixo"
                     android:textAllCaps="false"
                     android:textColor="#111111"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="#AAB590"
                     app:cornerRadius="14dp" />
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnIluminacao"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="0dp"
                     android:text="Iluminação"
                     android:textAllCaps="false"
                     android:textColor="#111111"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="#AAB590"
                     app:cornerRadius="14dp" />
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPavimentacao"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="0dp"
                     android:text="Pavimentação"
                     android:textAllCaps="false"
                     android:textColor="#111111"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="#AAB590"
                     app:cornerRadius="14dp" />
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnOutros"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:minWidth="0dp"
                     android:text="Outros"
                     android:textAllCaps="false"
                     android:textColor="#111111"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="#AAB590"
                     app:cornerRadius="14dp" />
@@ -191,36 +183,32 @@
     </LinearLayout>
 
 
-    <!-- =============================== -->
-    <!-- LISTA DE DENÚNCIAS -->
-    <!-- ESSA PARTE ROLA -->
-    <!-- =============================== -->
-
+    <!-- CARDS -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerItens"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingStart="16dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="20dp"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/areaFiltros"
         tools:listitem="@layout/item_card" />
 
-
-    <!-- Quando não tiver denúncia -->
-
     <TextView
         android:id="@+id/textSemResultados"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
         android:text="Nenhuma denúncia encontrada."
         android:textColor="#666666"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -228,10 +216,7 @@
         app:layout_constraintTop_toBottomOf="@id/areaFiltros" />
 
 
-    <!-- =============================== -->
-    <!-- BARRA INFERIOR FIXA -->
-    <!-- =============================== -->
-
+    <!-- BARRA INFERIOR -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
@@ -242,11 +227,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <Button
             android:id="@+id/btnMain"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:backgroundTint="#A3B386"
             android:text="Main"
             android:textAllCaps="false"
@@ -255,15 +241,16 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnDenuncia"
-            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <Button
             android:id="@+id/btnDenuncia"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:backgroundTint="#87966C"
             android:text="Denúncia"
             android:textAllCaps="false"
@@ -271,14 +258,16 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnUser"
+            app:layout_constraintHorizontal_weight="1.25"
             app:layout_constraintStart_toEndOf="@id/btnMain"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <Button
             android:id="@+id/btnUser"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="#87966C"
             android:text="User"
             android:textAllCaps="false"
@@ -286,6 +275,7 @@
             app:cornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/btnDenuncia"
             app:layout_constraintTop_toTopOf="parent" />
 
