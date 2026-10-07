@@ -1,86 +1,449 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAFAFA"
+
     tools:context=".UsersScreen">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <!-- ======================================= -->
+    <!-- FUNDO VERDE DO TOPO -->
+    <!-- ======================================= -->
+
+    <View
+        android:id="@+id/topBackground"
+        android:layout_width="0dp"
+        android:layout_height="280dp"
+        android:background="#264D26"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- ======================================= -->
+    <!-- FOTO / LETRA DO USUÁRIO -->
+    <!-- ======================================= -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardProfile"
+
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+
+        android:layout_marginTop="150dp"
+
+        app:cardBackgroundColor="#F3A24F"
+        app:cardCornerRadius="75dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#000000"
+        app:strokeWidth="4dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtInicial"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:gravity="center"
+
+            android:text="U"
+            android:textColor="#000000"
+            android:textSize="62sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <!-- ======================================= -->
+    <!-- NOME -->
+    <!-- ======================================= -->
+
+    <TextView
+        android:id="@+id/txtName"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="8dp"
+
+        android:text="Usuário"
+        android:textColor="#111111"
+        android:textSize="30sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardProfile" />
+
+
+    <!-- ======================================= -->
+    <!-- EMAIL -->
+    <!-- substitui "Meus dados" -->
+    <!-- ======================================= -->
+
+    <TextView
+        android:id="@+id/txtEmail"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="4dp"
+
+        android:text="usuario@email.com"
+        android:textColor="#555555"
+        android:textSize="16sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtName" />
+
+
+    <!-- ======================================= -->
+    <!-- ESTATÍSTICAS -->
+    <!-- ======================================= -->
+
+    <LinearLayout
+        android:id="@+id/layoutEstatisticas"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtEmail">
+
+
+        <!-- SOLICITAÇÕES -->
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="176dp"
-            android:layout_marginTop="208dp"
-            android:layout_marginEnd="177dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_weight="1"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+
+                android:background="@drawable/bg_circle_stat"
+
+                android:gravity="center"
+
+                android:text="☷"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+
+            <TextView
+                android:id="@+id/txtSolicitacoes"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+
+                android:text="5"
+                android:textColor="#111111"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Solicitações"
+                android:textColor="#222222"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <!-- RESOLVIDAS -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+
+                android:background="@drawable/bg_circle_stat"
+
+                android:gravity="center"
+
+                android:text="✓"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+
+            <TextView
+                android:id="@+id/txtResolvidas"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+
+                android:text="2"
+                android:textColor="#111111"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Resolvidas"
+                android:textColor="#222222"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <!-- EM ANDAMENTO -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+
+                android:background="@drawable/bg_circle_stat"
+
+                android:gravity="center"
+
+                android:text="◷"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+
+            <TextView
+                android:id="@+id/txtAndamento"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+
+                android:text="3"
+                android:textColor="#111111"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Andamento"
+                android:textColor="#222222"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- ======================================= -->
+    <!-- OPÇÕES -->
+    <!-- ======================================= -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOpcoes"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="20dp"
+
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#444444"
+        app:strokeWidth="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEstatisticas">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:padding="8dp">
+
+
+            <!-- MODO ESCURO -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDarkMode"
+
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+
+                android:text="☾   Modo escuro"
+                android:textAllCaps="false"
+                android:textColor="#111111"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="14dp"
+                app:strokeColor="#222222"
+                app:strokeWidth="2dp" />
+
+
+            <!-- SAIR -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogout"
+
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+
+                android:layout_marginTop="10dp"
+
+                android:text="→   Sair da conta"
+                android:textAllCaps="false"
+                android:textColor="#111111"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="14dp"
+                app:strokeColor="#222222"
+                app:strokeWidth="2dp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <!-- ======================================= -->
+    <!-- BARRA INFERIOR -->
+    <!-- ======================================= -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomNavigation"
+
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+
+        android:background="#4D7048"
+        android:elevation="10dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/btnMain"
+
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+
+            android:backgroundTint="#87966C"
+
+            android:text="Main"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+
+            app:cornerRadius="14dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDenuncia"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtEmail"
-            android:layout_width="363dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="47dp"
-            android:layout_marginBottom="412dp"
-            android:text="Email: "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="138dp"
-            android:layout_marginEnd="139dp"
-            android:layout_marginBottom="160dp"
-            android:text="Sair da Conta"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/btnDenuncia"
 
-        <Button
-            android:id="@+id/btnMain2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="56dp"
-            android:text="Main"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnDenuncia2"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnDenuncia2"
-            android:layout_width="132dp"
+            android:layout_width="120dp"
             android:layout_height="48dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="56dp"
+
+            android:backgroundTint="#87966C"
+
             android:text="Denúncia"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+
+            app:cornerRadius="14dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnUser2"
-            app:layout_constraintStart_toEndOf="@+id/btnMain2" />
+            app:layout_constraintEnd_toStartOf="@id/btnUser"
+            app:layout_constraintStart_toEndOf="@id/btnMain"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <Button
-            android:id="@+id/btnUser2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="56dp"
+            android:id="@+id/btnUser"
+
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+
+            android:backgroundTint="#A3B386"
+
             android:text="User"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+
+            app:cornerRadius="14dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnDenuncia2" />
+            app:layout_constraintStart_toEndOf="@id/btnDenuncia"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
