@@ -18,6 +18,10 @@ class User {
         $this->dados_usuario = $dados_usuario;
     }
 
+    public function setDadosPessoais(DadosPessoais $dados_usuario){
+        $this->dados_usuario = $dados_usuario;
+    }
+
     /**
      * PERFIL CONTROLA NIVEL DE ACESSO E PERMISSÕES
      * ELE É OBRIGATORIO
@@ -42,7 +46,6 @@ class User {
     public function getNome(): string {
         return $this->dados_usuario->getNome();
     }
-
 
     public function setSobrenome(Sobrenome|string $sobrenome){
         $this->dados_usuario->setSobrenome($sobrenome);
@@ -82,6 +85,25 @@ class User {
     public function obterHashSenha(): string {
         if ($this->senha == null) return "Hash da senha não informada";
         return $this->senha->getSenhaHash();
+    }
+
+    /**
+     * O CPF APENAS CONFIRMA QUE A PESSOA EXISTE NA VIDA REAL
+     * O CPF DEPOIS DE RECEBIDO NO CADASTRO NUNCA MAIS DEVE SER UTLIZADO
+     * OU TRANPORTADO ENTRE CLIENTE-SERVIDOR
+     * 
+     */
+    public function getCpf(){
+        if ($this->cpf == null) return "Cpf não informado";
+        return $this->cpf->getCpf();
+    }
+
+    public function setCpf(Cpf|string $cpf){
+        if (is_string($cpf)){
+            $cpf = new Cpf($cpf);
+        }
+
+        $this->cpf = $cpf;
     }
 
     /**
@@ -140,8 +162,6 @@ class User {
                 }
             }
         }
-
-
     }
 
     public function getEndereco(): Endereco {
@@ -167,11 +187,62 @@ class User {
         $this->endereco->setEstado($estado);
     }
 
+    /**
+     * APENAS O REPRESENTANTE POSSUI UM ORGÃO DE ATUAÇÃO E PODE RESPONDER AS DENUNCIAS
+     * A PREFEITURA POSSUI O CARGO DO REPRESENTANTE E O NOME DO ORGÃO
+     * 
+     */
+
+    public function getPrefeitura(): Prefeitura {
+        $perfis_autorizados = ['representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        }
+        return $this->prefeitura;
+    }
+
+    public function setPrefeitura(Prefeitura $prefeitura = null, string $orgao = null, string $cargo = null){
+        $perfis_autorizados = ['representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        }
+
+        if ($prefeitura == null){
+            if ($this->prefeitura == null){
+                $prefeitura = new Prefeitura();
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            } else {
+                $prefeitura = $this->prefeitura;
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            }
+        } else {
+            if ($orgao != null){
+                $prefeitura->setOrgao($orgao);
+            }
+
+            if ($cargo != null){
+                $prefeitura->setCargo($cargo);
+            }
+        }
+
+        $this->prefeitura = $prefeitura;
+    }
 
     /**
      * funções auxiliares
      */
-
     private function validarPerfil(array $perfis_permitido){
         foreach($perfis_permitido as $perfil){
             if ($perfil == $this->getPerfil()){
@@ -183,4 +254,34 @@ class User {
 
     }
 
+    public function converterParaArray(){
+        $perfis_autorizados = ['visitante', 'municipe', 'representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            throw new Exception($this->getPerfil() . " não tem permissão");
+        }
+        
+        if ($this->getPerfil() == "visitante" || $this->getPerfil() == "municipe" || $this->getPerfil() == "representante" ){
+            // padrão para o perfil de visitante
+            $dados_usuario = [
+                "nome"=>$this->getNome(),
+                "sobrenome"=>$this->getSobrenome(),
+                "email"=>$this->getEmail(),
+                "perfil"=>$this->getPerfil()
+            ];
+        }
+
+        if ($this->getPerfil() == "municipe" || $this->getPerfil() == "representante"){
+
+            // padrão para endereço representante e municipe
+            $dados_usuario['cidade'] = $this->getEndereco()->getCidade();
+            $dados_usuario['estado'] = $this->getEndereco()->getEstado();
+        }
+
+        if ($this->getPerfil() == "representante"){
+
+            $dados_usuario['cargo'] = $this->getPrefeitura()->getCargo();
+            $dados_usuario['orgao'] = $this->getPrefeitura()->getOrgao();
+        }
+        return $dados_usuario;
+    }
 }
