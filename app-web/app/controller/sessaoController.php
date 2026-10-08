@@ -101,23 +101,6 @@ class SessaoController {
         
     }
 
-    // public static function salvarUsuario(Usuario $usuario, bool $lembrar): void { 
-    //     self::iniciarSessao(); 
-        
-    //     $_SESSION['user']['email'] = $usuario->getEmail(); 
-    //     $_SESSION['user']['nome'] = $usuario->getNome(); 
-    //     $_SESSION['user']['sobrenome'] = $usuario->getSobrenome(); 
-    //     $_SESSION['user']['perfil'] = $usuario->getPerfil(); 
-    //     $_SESSION['user']['estado'] = $usuario->getEstado(); 
-    //     $_SESSION['user']['cidade'] = $usuario->getCidade(); 
-
-    //     if ($usuario->getPerfil() == "representante"){ 
-    //         $_SESSION['user']['orgao'] = $usuario->getOrgao(); 
-    //         $_SESSION['user']['cargo'] = $usuario->getCargo(); 
-    //     } 
-
-    // } 
-
     public static function encerrarSessao(): void { 
         self::iniciarSessao(); 
         session_unset(); 

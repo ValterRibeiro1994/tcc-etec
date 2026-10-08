@@ -32,7 +32,6 @@ class HomeController {
                 nome: new Nome("visitante"),
                 sobrenome: new Sobrenome("visitante"),
                 email: new Email("visitante@gmail.com"),
-                cpf: null
             )
         );
         $visitante->setPerfil("visitante");

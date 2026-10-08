@@ -262,25 +262,11 @@ class Usuario extends UsuarioInterface {
                 "sobrenome" => $this->getSobrenome(),
                 "email" => $this->getEmail()
             ];
-    
-            if ($this->perfil == "visitante"){
-                return RespostaProcesso::resposta("Visitante convertido para array", true, $dados);
-            }
-    
-            $dados['cidade'] = $this->getCidade();
-            $dados['estado'] = $this->getEstado();
-    
-            if ($this->perfil == "municipe") {
-                return RespostaProcesso::resposta("Municipe convertido para array", true, $dados);
-            }
-    
-            if ($this->perfil == "representante"){
-                $dados['orgao'] = $this->getOrgao();
-                $dados['cargo'] = $this->getCargo();
-                return RespostaProcesso::resposta("Representante convertido para array", true, $dados);
-            }
-    
-            return RespostaProcesso::resposta("Perfil invalido para usuário", false, $dados);
+
+            return RespostaProcesso::resposta(
+                mensagem: "Usuario convertido para array ", resposta: true,
+                dados: $dados
+            );
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);
             return RespostaProcesso::resposta("Não foi possivel converter o usuario para array", false, $dados);
