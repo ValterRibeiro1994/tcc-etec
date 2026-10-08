@@ -26,7 +26,7 @@ class DadosPessoais {
         if ($this->nome == null) {
             $this->setNome("Não informado");
         }
-        return $this->getNome();
+        return $this->nome->getNome();
     }
         
         public function getSobrenome(): string {

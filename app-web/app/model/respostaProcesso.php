@@ -5,7 +5,7 @@ class RespostaProcesso {
         return ['resposta'=>$status, "mensagem"=>$mensagem, "dados"=>$dados, "formato" => $formato];
     }
 
-    public static function resposta(string $mensagem, bool $resposta = false, array|object $dados = [], string $formato = "json", string $pagina = ""){
+    public static function resposta(string $mensagem, bool $resposta = false, array $dados = [], string $formato = "json", string $pagina = ""){
         return ['resposta' => $resposta, 'mensagem' => $mensagem, 'dados' => $dados, 'formato' => $formato, 'pagina' => $pagina];
     }
 

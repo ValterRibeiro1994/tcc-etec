@@ -1,7 +1,7 @@
 // Verifica se o usuário já está conectado e o redireciona
 if (localStorage.getItem("token") !== null || localStorage.getItem("ativo") !== null) {
     alert("Desconecte antes de cadastrar");
-    window.location.href = "./home";    
+    window.location.href = "./login";    
 }
 
 const form = window.document.getElementById("form-login-main");

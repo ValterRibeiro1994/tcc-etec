@@ -12,6 +12,7 @@ class AutoLoadFiles
         "recursos/jwt/",
         "recursos/jwt/php-jwt/",
         "recursos/jwt/php-jwt/src/",
+        "service/"
     ];
 
     public function __construct()

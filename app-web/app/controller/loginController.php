@@ -4,8 +4,15 @@ class LoginController {
     public function index(array $requisicao){
         
         if ($requisicao['metodo'] == "GET") {
-            if ($this->logado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
-            return RespostaProcesso::respostaProcesso("app/view/paginas/login.html", true, formato: "html");
+            if ($this->logado()) return RespostaProcesso::resposta(
+                mensagem: "Login usuario conectado",
+                pagina: "app/view/paginas/index.html", resposta: true, 
+                formato: "html");
+
+            return RespostaProcesso::resposta(
+                mensagem: "Usuario Precisa logar", formato: "html",
+                pagina: "app/view/paginas/login.html", resposta: true
+            );
         }
         if ($requisicao['metodo'] == "POST") {
             if ($this->logado()) return RespostaProcesso::respostaProcesso("Usuario já está logado");

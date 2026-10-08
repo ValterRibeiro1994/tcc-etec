@@ -32,12 +32,13 @@ class TokenService {
                 "perfil" => $usuario->getPerfil(),
                 'nome' => $usuario->getNome(),
                 'sobrenome' => $usuario->getSobrenome(),
-                "email" => $usuario->getPerfil()
+                "email" => $usuario->getEmail()
             ];
 
             $jwt = JWT::encode($configuracao, self::obterChave(), self::obterAlgoritmo());
             return RespostaProcesso::resposta(
-                mensagem: $jwt, resposta: true
+                mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), resposta: true,
+                dados: ["token"=>$jwt]
             );
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);

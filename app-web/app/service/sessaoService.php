@@ -49,7 +49,7 @@ class SessaoService {
             if (!$validar){
                 return RespostaProcesso::resposta(
                     mensagem: "Erro Perfil de usuario não permitido", resposta: false,
-                    dados: $usuario->getArray()
+                    dados: $usuario->getArray()['dados']
                 );
             }
 
@@ -73,7 +73,7 @@ class SessaoService {
             $_SESSION['user']['expira_em'] = $expira;
             $_SESSION['user']['ultimo_acesso'] = new DateTime();
             return RespostaProcesso::resposta(
-                mensagem: "Sessão registrada para " . $dados_usuario['nome'], resposta: false,
+                mensagem: "Sessão registrada para " . $dados_usuario['nome'], resposta: true,
                 dados: $dados_usuario
             );
 

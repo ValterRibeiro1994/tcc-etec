@@ -5,12 +5,12 @@ async function iniciarAplicacao() {
 
             const server = await fetch("./home", {
                 method: "POST",
-                body: new URLSearchParams({ metodo: "GET", perfil: "visitante", formato: "json" })
+                body: new URLSearchParams({ metodo: "GET", perfil: "visitante", token: "criar" })
             })
 
-            // if (!server.ok) {
-            //     throw new Error(`Erro HTTP: ${server.status}`);
-            // }
+            if (!server.ok) {
+                throw new Error(`Erro HTTP: ${server.status}`);
+            }
 
             const response = await server.json();
 
@@ -24,14 +24,16 @@ async function iniciarAplicacao() {
 
             const dados = response.dados;
 
-            localStorage.setItem("token", dados.token);
+            localStorage.setItem("token",   );
             localStorage.setItem("nome", dados.nome);
             localStorage.setItem("sobrenome", dados.sobrenome);
             localStorage.setItem("perfil", dados.perfil);
+            console.log("Salvando token", localStorage.getItem("token"));
 
             console.log("Sessão criada com sucesso.");
 
         } catch (error) {
+            
             console.error("Erro:", error);
         }
 

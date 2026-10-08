@@ -1,413 +1,342 @@
 <?php
 
-class Usuario extends UsuarioInterface {
-    private DadosPessoais|null $dados_usuario;
-    private Endereco|null $endereco;
-    private Senha|null $senha;
-    private Prefeitura|null $prefeitura;
-    private int|null $id;
-    private string|null $perfil;
+class Usuario {
+    private DadosPessoais $dados_usuario;
+    private Senha $senha;
+    private Cpf $cpf;
+    private Endereco $endereco;
+    private Prefeitura $prefeitura;
 
-    public function __construct(DadosPessoais $dados_usuario = null, Endereco $endereco = null, Senha $senha = null, Prefeitura $prefeitura = null)
+
+    /**
+     * O ID DO USUARIO DEVE SER ALCANÇADO APENAS PELO BANCO E PARA USOS ESPECIFICOS 
+     * 
+     */
+
+    public function getId(){
+        // o usuario deve ter seu email registrado em sessão
+        if (!SessaoService::estaOnline()) {
+            throw new Exception("Usuario Desconectado");
+        }
+
+        // o usuario não pode ter o perfil de visitante
+        $resposta = SessaoService::obterUsuario();
+        if (!$resposta['resposta']){
+            return RespostaProcesso::resposta(
+                mensagem: "Usuario Desconectado", resposta: false,
+                dados: $resposta['dados']
+            );
+        }
+
+        $usuario = $resposta['dados'];
+        $perfil = $usuario['perfil'];
+        if ($perfil == "visitante"){
+            throw new Exception("Visitante não possui Id registrado");
+        }
+
+        $conexao = new Conexao();
+        $conexao = $conexao->getConexao();
+
+        $comando_sql = "
+            SELECT 
+                id_usuario AS id,
+            FROM 
+                tb_usuario
+            WHERE
+                email_usuario = :email
+            ";
+        
+            $cursor = $conexao->prepare($comando_sql);
+            $cursor->bindValue(":email", $usuario['email']);
+            $cursor->execute();
+            $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
+            if (!$resposta){
+                return RespostaProcesso::resposta(
+                    mensagem: ""
+                );
+            }
+
+
+    }
+    /**
+     * OS DADOS PESSOAIS OBRIGATORIOS 
+     * SÃO APENAS OS QUE PODEM SER REPASSADO PARA O CLIENTE
+     * O PERFIL É OBRIGATORIO SER PASSADO EM TODAS AS ETAPAS
+     * ELE VAI SER USADO PARA CONTROLAR AS PERMISSÕES DE CADA USUARIO
+     */
+    public function __construct(DadosPessoais $dados_usuario)
     {
         $this->dados_usuario = $dados_usuario;
-        $this->endereco = $endereco;
-        $this->senha = $senha;
-        $this->prefeitura = $prefeitura;
-        $this->id = null;
-        $this->perfil = null;
-    }
-    
-    // set Id
-    #[Override]
-    public function setId(int $id): void {
-        if (is_int($id)){
-            $this->id = (int) $id;
-            return;
-        }
-
-        throw new Exception("ERRO: ID recebido é inválido");
     }
 
-    // setter senha
-    #[Override]
-    public function setSenha(Senha $senha = null, bool $limpar = false): void{
-        if ($limpar){
-            $this->senha = null;
-            return;
-        }
-        $this->senha = $senha;
+    public function setDadosPessoais(DadosPessoais $dados_usuario){
+        $this->dados_usuario = $dados_usuario;
     }
 
-    // setter para o perfil do usuario
-    #[Override]
-    public function setPerfil(string $perfil_novo): void
-    {
-        $perfil_novo = strtolower($perfil_novo);
-        $perfis = ['municipe', 'representante', 'visitante'];
-        $encontrado = false;
-
-        $n = count($perfis);
-        for($x = 0; $x < $n; $x++){
-            if ($perfil_novo == $perfis[$x]){
-                $encontrado = true;
-                break;
-            }
-        }
-
-        if (!$encontrado) throw new Exception("Perfil de usuário inválido para o sistema");
-        $this->perfil = $perfil_novo;
+    /**
+     * PERFIL CONTROLA NIVEL DE ACESSO E PERMISSÕES
+     * ELE É OBRIGATORIO
+     */
+    public function setPerfil(Perfil|string $perfil){
+        $this->dados_usuario->setPerfil($perfil);
     }
 
-    // setters dados pessoais 
-    #[Override]
-    public function setDadosPessoais(DadosPessoais $dados_pessoais): void
-    {
-        if ($dados_pessoais === null) throw new Exception("ERRO: Dados pessoais devem ser enviados");
-        $this->dados_usuario = $dados_pessoais;
+    public function getPerfil(){
+        return $this->dados_usuario->getPerfil();
     }
 
-    #[Override]
-    public function setNome(Nome|string $nome): void {
-        if (is_string($nome)){
-            $nome = new Nome($nome);
-        }
-        if ($this->dados_usuario === null) {
-            $this->dados_usuario = new DadosPessoais(nome: $nome);
-            return;
-        };
-        $this->dados_usuario->setNome($nome);
+    /**
+     * NOME, SOBRENOME E EMAIL TERÁ SEUS DADOS RECEBIDO PELO CLIENTE
+     * SERÃO ARMAZENADOS NO BANCO E ENQUANTO NÃO FIZEREM A AUTENTICAÇÃO
+     * TERÃO SEUS VALORES PADRONIZADOS ASSIM COMO O EMAIL 
+     */
+    public function setNome(Nome|string $nome){
+        $this->dados_usuario->getNome();
     }
 
-    #[Override]
-    public function setSobrenome(Sobrenome|string $sobrenome): void {
-        if (is_string($sobrenome)){
-            $sobrenome = new Sobrenome($sobrenome);
-        }
+    public function getNome(): string {
+        return $this->dados_usuario->getNome();
+    }
 
-        if ($this->dados_usuario === null) {
-            $this->dados_usuario = new DadosPessoais(sobrenome: $sobrenome);
-            return;
-        }
-
+    public function setSobrenome(Sobrenome|string $sobrenome){
         $this->dados_usuario->setSobrenome($sobrenome);
     }
 
-    #[Override]
-    public function setEmail(Email|string $email): void {
-        if (is_string($email)){
-            $email = new Email($email);
-        }
+    public function getSobrenome(): string {
+        return $this->dados_usuario->getSobrenome();
+    }
 
-        if ($this->dados_usuario === null) {
-            $this->dados_usuario = new DadosPessoais(email: $email);
-            return;
-        }
+    public function getEmail(): string {
+        return $this->dados_usuario->getEmail();
+    }
 
+    public function setEmail(Email|string $email){
         $this->dados_usuario->setEmail($email);
     }
 
-    #[Override]
-    public function setCpf(Cpf|string $cpf): void {
+    /**
+     * 
+     * SENHAS SÃO PASSADAS APENAS POR SETTERS 
+     * ELAS DEVEM SER COLETADAS APENAS NAS ETAPAS DE LOGIN E CADASTRO
+     * NUNCA DEVEM SER REENVIADAS PARA O CLIENTE
+     *      
+     **/
+    public function setSenha(Senha|string $senha){
+        if (is_string($senha)){
+            $senha = new Senha($senha);
+        }
+        $this->senha = $senha;
+    }
+
+    public function obterSenha(): string {
+        if ($this->senha == null) return "Senha não informada";
+        return $this->senha->getSenha();
+    }
+
+    public function obterHashSenha(): string {
+        if ($this->senha == null) return "Hash da senha não informada";
+        return $this->senha->getSenhaHash();
+    }
+
+    /**
+     * O CPF APENAS CONFIRMA QUE A PESSOA EXISTE NA VIDA REAL
+     * O CPF DEPOIS DE RECEBIDO NO CADASTRO NUNCA MAIS DEVE SER UTLIZADO
+     * OU TRANPORTADO ENTRE CLIENTE-SERVIDOR
+     * 
+     */
+    public function getCpf(){
+        if ($this->cpf == null) return "Cpf não informado";
+        return $this->cpf->getCpf();
+    }
+
+    public function setCpf(Cpf|string $cpf){
         if (is_string($cpf)){
             $cpf = new Cpf($cpf);
         }
 
-        if ($this->dados_usuario === null){
-            $this->dados_usuario = new DadosPessoais(cpf: $cpf);
-            return;
+        $this->cpf = $cpf;
+    }
+
+    /**
+     * AMBOS O MUNICIPE E O REPRESENTANTE POSSUEM ENDEREÇOS,
+     * OUTROS PERFIS NÃO POSSUEM ESSA NECESSIDADE,
+     * PARA OS USUARIOS APENAS CIDADE E ESTADO SÃO NECESSARIOS
+    */
+    public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
+        $perfis_com_endereco = ['municipe', 'representante'];
+        if (!$this->validarPerfil($perfis_com_endereco)) {
+            $perfil = $this->getPerfil();
+            throw new Exception("$perfil não tem acesso a essa funcionalidade");
         }
 
-        $this->dados_usuario->setCpf($cpf);
-    }
+        // o endereço foi criado?
+        if ($endereco != null){// sim
+            // o estado foi enviado?
+            if ($cidade != null){
+                $endereco->setCidade($cidade);
+            }
 
-    // setter endereços
-    #[Override]
-    public function setEndereco(Endereco $endereco): void
-    {
-        if ($endereco === null) throw new Exception("ERRO: Endereço não enviado");
-        $this->endereco = $endereco;
-    }
+            // a cidade foi enviada
+            if ($estado != null) {
+                $endereco->setEstado($estado);
+            }
 
-    #[Override]
-    public function setCidade(string $nome_cidade): void {
-        
-        if ($this->endereco === null) {
-            $this->endereco = new Endereco(cidade: $nome_cidade);
-            return;
-        };
-        $this->endereco->setCidade($nome_cidade);
-    }
+            // salva o endereço
+            $this->endereco = $endereco;
+        } else {// não
+            // ja temos um endereço salvo?
+            if (!$this->endereco == null){ // não
+                // cria um novo endereço
+                $endereco = new Endereco();
 
-    #[Override]
-    public function setEstado(string $estado): void {
-        if ($this->endereco === null) {
-            $this->endereco = new Endereco(estado: $estado);
-            return;
-        };
-        $this->endereco->setEstado($estado);
-    }
+                // a cidade foi enviada
+                if ($cidade != null){
+                    $endereco->setCidade($cidade);
+                }
 
+                // o estado foi enviado?
+                if ($estado != null){
+                    $endereco->setEstado($estado);
+                }
 
-    #[Override]
-    public function setPrefeitura(Prefeitura $prefeitura): void
-    {
-        if ($this->perfil === "municipe") throw new Exception("ERRO: Apenas Representantes podem ter prefeitura cadastrada");
-        $this->prefeitura = $prefeitura;
-    }
+                // salva o endereço
+                $this->endereco = $endereco;
+            } else {// sim
+                // a cidade foi enviada
+                if ($cidade != null){
+                    $this->endereco->setCidade($cidade);
+                }
 
-    // setter para o nome do orgão
-    #[Override]
-    public function setCargo(string $novo_cargo): void {
-        if ($this->perfil != "representante") throw new Exception("ERRO: Apenas representantes podem acessar a essa função.");
-        
-        if ($this->prefeitura === null){
-            $this->prefeitura = new Prefeitura(cargo: $novo_cargo);
-            return;
-        }
-        $this->prefeitura->setCargo($novo_cargo);
-    }
-
-    // setter para o orgão do representante
-    #[Override]
-    public function setOrgao(string $novo_orgao): void {
-        if ($this->perfil != "representante") throw new Exception("ERRO: Apenas representantes podem acessar a essa função.");
-        if ($this->prefeitura === null){
-            $this->prefeitura = new Prefeitura(orgao: $novo_orgao);
-            return;
-        };
-
-        $this->prefeitura->setOrgao($novo_orgao);
-    }
-
-    private function executarFuncoes(array $funcoes, array $parametros, Usuario $usuario){
-        try {
-            // a chave na função deve ser a mesma em parametros
-            $chaves = array_keys($funcoes);
-            $n = count($chaves);
-            for ($x = 0; $x < $n; $x++){
-                try {
-                    $chave = $chaves[$x];
-                    if (!array_key_exists($chave, $parametros)) return RespostaProcesso::resposta("Chave $chave não enviada como parametros", false, $parametros);
-                    $funcao = $funcoes[$chave];
-                    //code...
-                    $resposta = $usuario->$funcao($parametros[$chave]);
-                    if (!$resposta['resposta']) return $resposta;
-                    continue;
-
-                } catch (Exception $erro) {
-                    return RespostaProcesso::resposta("Erro:a" . $erro->getMessage(), false, RespostaProcesso::salvarErro($erro));
+                // o estado foi enviado?
+                if ($estado != null){
+                    $this->endereco->setEstado($estado);
                 }
             }
-    
-            return RespostaProcesso::resposta("Todas as funções foram executadas para esse usuario", true);
-
-        } catch (Exception $erro){
-            $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Falha na execução das funções", false, $dados);
-        }
-
-    }
-
-    public function converterArrayParaUsuario(array $dados) {
-        try {
-            // checa se o perfil de usuario foi enviado
-            if (!array_key_exists("perfil", $dados)) return RespostaProcesso::resposta("Perfil de usuario não enviado", false, $dados);
-            $usuario = new Usuario();
-            $usuario->setDadosPessoais(new DadosPessoais());
-
-            // vetor de funções para criação do usuario
-            $funcoes = [
-                "nome"=> 'setNome',
-                'sobrenome'=> "setSobrenome",
-                'email' => "setEmail",
-                "perfil"=>'setPerfil',
-            ];
-            
-            if ($dados['perfil'] == "visitante"){
-            } else if ($dados['perfil'] == "municipe"){
-                $usuario->setEndereco(new Endereco());
-                $funcoes['cidade'] = "setCidade";
-                $funcoes['estado'] = "setEstado";
-            } else if ($dados['perfil'] == "representante"){
-                $usuario->setEndereco(new Endereco());
-                $funcoes['cidade'] = "setCidade";
-                $funcoes['estado'] = "setEstado";
-
-                $usuario->setPrefeitura(new Prefeitura());
-                $funcoes['orgao'] = 'setOrgao';
-                $funcoes['cidade'] = "setCidade";
-            } else {
-                return RespostaProcesso::resposta("Perfil desconhecido para o sistema", dados:$dados);
-            }
-
-            $resposta = $this->executarFuncoes($funcoes, $dados, $usuario);
-            if (is_array($resposta)){
-                return $resposta;
-            }
-
-            return $usuario;
-        } catch (Exception $erro){
-            $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Não foi possivel converter o array em um usuario", false, $dados);
         }
     }
 
-
-    public function getArray() {
-        try {
-            $dados = [
-                "perfil" => $this->getPerfil(),
-                "nome" => $this->getNome(),
-                "sobrenome" => $this->getSobrenome(),
-                "email" => $this->getEmail()
-            ];
-
-            return RespostaProcesso::resposta(
-                mensagem: "Usuario convertido para array ", resposta: true,
-                dados: $dados
-            );
-        } catch (Exception $erro) {
-            $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Não foi possivel converter o usuario para array", false, $dados);
-        }
-    }
-
-    // getter para o ID
-    #[Override]
-    public function getId(PDO $conexao = null)
-    {
-        // checa se o ID já foi salvo
-        if ($this->id !== null){ // se foi salvo
-            return $this->id;
-        }
-
-        $email = $this->getEmail();
-        if ($email == null) return RespostaProcesso::resposta("ERRO: Email não enviado");
-        if (empty($email)) return RespostaProcesso::resposta("ERRO: Email não enviado");
-
-        
-        try {
-            if ($conexao === null) {
-                $conexao = new Conexao();
-                $conexao = $conexao->getConexao();
-            };
-
-            $comando = "SELECT id_usuario FROM  tb_usuario WHERE email_usuario = :email";
-            $sql = $conexao->prepare($comando);
-            $sql->bindValue(":email", $email);
-            $sql->execute();
-            $resposta = $sql->fetch(PDO::FETCH_ASSOC);
-            if ($sql->rowCount() == 0 || !$resposta) return RespostaProcesso::resposta("ERRO: Email não cadastrado no sistema");
-            $id_banco = (int) $resposta['id_usuario'];
-            $this->setId($id_banco);
-            return RespostaProcesso::resposta($id_banco, true);
-        } catch (Exception $erro){
-            $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Erro back-end: ", false, $dados);
-        } finally {
-            $conexao = null;
-            $sql = null;
-        }
-    }
-
-    // getters para os dados pessoais
-    #[Override]
-    public function getDadosPessoais() : DadosPessoais {
-        if ($this->dados_usuario === null) {
-            $this->dados_usuario = new DadosPessoais();
-        };
-        
-        return $this->dados_usuario;
-    }
-
-    #[Override]
-    public function getNome(): string {
-        if ($this->dados_usuario === null) $this->getDadosPessoais();
-        return $this->dados_usuario->getNome();
-    }
-
-    #[Override]
-    public function getSobrenome(): string|null {
-        if ($this->dados_usuario === null) $this->getDadosPessoais();
-        return $this->dados_usuario->getSobrenome();
-    }
-
-    #[Override]
-    public function getEmail(): string
-    {
-        if ($this->dados_usuario === null) $this->getDadosPessoais();
-        return $this->dados_usuario->getEmail();
-    }
-
-    #[Override]
-    public function getCpf(): string
-    {
-        if ($this->dados_usuario === null) $this->getDadosPessoais();
-        return $this->dados_usuario->getCpf();
-    }
-
-    // getters para endereço
-    #[Override]
     public function getEndereco(): Endereco {
-        if ($this->endereco === null) throw new Exception("ERRO: Endereço deve ser criado antes");
+        $perfis_com_endereco = ['municipe', 'representante'];
+        if (!$this->validarPerfil($perfis_com_endereco)) throw new Exception($this->getPerfil() . " Não tem acesso a essa funcionalidade");
         return $this->endereco;
     }
 
-    #[Override]
-    public function getEstado(): string {
-        if ($this->endereco === null) throw new Exception("ERRO: Endereço deve ser criado antes");
-        return $this->endereco->getEstado();
+    public function setCidade(string $cidade){
+        if ($this->endereco == null){
+            $this->endereco = new Endereco(cidade: $cidade);
+            return;
+        }
+
+        $this->endereco->setCidade($cidade);
     }
 
-    #[Override]
-    public function getCidade(): string
-    {
-        if ($this->endereco === null) throw new Exception("ERRO: Endereço deve ser criado antes");
-        return $this->endereco->getCidade();
+    public function setEstado(string $estado){
+        if ($this->endereco == null){
+            $this->endereco = new Endereco(estado: $estado);
+            return;
+        }
+        $this->endereco->setEstado($estado);
     }
 
-    // getter para a senha
-    #[Override]
-    public function getSenha(): string {
-        if ($this->senha === null) return "";
-        return $this->senha->getSenha();
-    }
-
-    public function getSenhaHash(): string {
-        if ($this->senha === null) return "";
-        return $this->senha->getSenhaHash();
-    }
-
-    // getter para o perfil
-    #[Override]
-    public function getPerfil(): string
-    {
-        if ($this->perfil === null) throw new Exception("Perfil de usuario desconhecido");
-        return $this->perfil;
-    }
-
-    // getter para o representante
-    #[Override]
+    /**
+     * APENAS O REPRESENTANTE POSSUI UM ORGÃO DE ATUAÇÃO E PODE RESPONDER AS DENUNCIAS
+     * A PREFEITURA POSSUI O CARGO DO REPRESENTANTE E O NOME DO ORGÃO
+     * 
+     */
     public function getPrefeitura(): Prefeitura {
-        if  ($this->prefeitura === null) throw new Exception("ERRO: Prefeitura deve ser enviada antes");
-        if ($this->perfil === null) throw new Exception("ERRO: Perfil deve ser enviado antes");
-        if ($this->perfil !== "representante") throw new Exception("ERRO: Apenas Representantes podem acessar essa página");
+        $perfis_autorizados = ['representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        }
         return $this->prefeitura;
     }
 
-    #[Override]
-    public function getOrgao(): string
-    {
-        if  ($this->prefeitura === null) throw new Exception("ERRO: Prefeitura deve ser enviada antes");
-        return $this->prefeitura->getOrgao();
+    public function setPrefeitura(Prefeitura $prefeitura = null, string $orgao = null, string $cargo = null){
+        $perfis_autorizados = ['representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        }
+
+        if ($prefeitura == null){
+            if ($this->prefeitura == null){
+                $prefeitura = new Prefeitura();
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            } else {
+                $prefeitura = $this->prefeitura;
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            }
+        } else {
+            if ($orgao != null){
+                $prefeitura->setOrgao($orgao);
+            }
+
+            if ($cargo != null){
+                $prefeitura->setCargo($cargo);
+            }
+        }
+
+        $this->prefeitura = $prefeitura;
     }
 
-    #[Override]
-    public function getCargo(): string
-    {
-        if  ($this->prefeitura === null) throw new Exception("ERRO: Prefeitura deve ser enviada antes");
-        return $this->prefeitura->getCargo();
+    /**
+     * funções auxiliares
+     */
+    private function validarPerfil(array $perfis_permitido){
+        foreach($perfis_permitido as $perfil){
+            if ($perfil == $this->getPerfil()){
+                return true;
+            }
+        }
+        return false;
+
+
     }
 
+    public function getArray(){
+        $perfis_autorizados = ['visitante', 'municipe', 'representante'];
+        if (!$this->validarPerfil($perfis_autorizados)){
+            return RespostaProcesso::resposta(
+                mensagem: "Perfil não autorizado para essa função", resposta: false
+            );
+        }
+        
+        if ($this->getPerfil() == "visitante" || $this->getPerfil() == "municipe" || $this->getPerfil() == "representante" ){
+            // padrão para o perfil de visitante
+            $dados_usuario = [
+                "nome"=>$this->getNome(),
+                "sobrenome"=>$this->getSobrenome(),
+                "email"=>$this->getEmail(),
+                "perfil"=>$this->getPerfil()
+            ];
+        }
+
+        if ($this->getPerfil() == "municipe" || $this->getPerfil() == "representante"){
+
+            // padrão para endereço representante e municipe
+            $dados_usuario['cidade'] = $this->getEndereco()->getCidade();
+            $dados_usuario['estado'] = $this->getEndereco()->getEstado();
+        }
+
+        if ($this->getPerfil() == "representante"){
+
+            $dados_usuario['cargo'] = $this->getPrefeitura()->getCargo();
+            $dados_usuario['orgao'] = $this->getPrefeitura()->getOrgao();
+        }
+        return RespostaProcesso::resposta(
+            mensagem: $this->getPerfil() ." convertido para array com sucesso", resposta: true,
+            dados: $dados_usuario
+        );
+    }
 }
