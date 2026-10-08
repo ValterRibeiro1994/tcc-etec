@@ -7,6 +7,25 @@ class User {
     private Endereco $endereco;
     private Prefeitura $prefeitura;
 
+
+    /**
+     * O ID DO USUARIO DEVE SER ALCANÇADO APENAS PELO BANCO E PARA USOS ESPECIFICOS 
+     * 
+     */
+
+    public function getId(){
+        // o usuario deve ter seu email registrado em sessão
+        if (!SessaoService::estaOnline()) {
+            throw new Exception("Usuario Desconectado");
+        }
+
+        // o usuario não pode ter o perfil de visitante
+        if (SessaoService::obterUsuario()){
+            
+        }
+        
+
+    }
     /**
      * OS DADOS PESSOAIS OBRIGATORIOS 
      * SÃO APENAS OS QUE PODEM SER REPASSADO PARA O CLIENTE

@@ -92,17 +92,33 @@ class SessaoService {
         session_destroy(); 
     } 
 
-    public static function obterUsuario() {
+    public static function obterUsuario(): array {
         try {
-            $usuario = new Usuario();
             $dados = [
                 "nome" => $_SESSION['user']['nome'],
                 "sobrenome" => $_SESSION['user']['sobrenome'],
                 "email" => $_SESSION['user']['email'],
                 "perfil" => $_SESSION['user']['perfil'],
             ];
-        } catch (\Throwable $th) {
-            //throw $th;
+
+            if ($_SESSION['user']['perfil'] == "municipe" || $_SESSION['user']['perfil'] == "representante"){
+                $dados['cargo'] = $_SESSION['user']['cargo'];
+                $dados['orgao'] = $_SESSION['user']['orgao'];
+           
+            }
+
+            return RespostaProcesso::resposta(
+                mensagem: "Usuario recuperado com sucesso", resposta: true,
+                dados: $dados
+                );
+
+
+
+        } catch (\Exception $erro) {
+            return RespostaProcesso::resposta(
+                mensagem: "Erro ao recuperar sessão de usuario ativo: " .  $erro->getMessage(), resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
         }
     }
 }
