@@ -26,12 +26,12 @@ let n = botoes.length;
 for (let index = 0; index < n; index++) {
     let btn = botoes[index]; 
     if (btn) {
-        // checa se o usuario está on antes de adicionar logout
-        if (localStorage.getItem("token") !== null){
-            alert("Usuario não está conectado !!");
-            localStorage.clear();
-            window.location.href = "./login"; // redireciona para login
-        }
+        // // checa se o usuario está on antes de adicionar logout
+        // if (localStorage.getItem("token") == null){
+        //     alert("Usuario não está conectado !!");
+        //     localStorage.clear();
+        //     window.location.href = "./login"; // redireciona para login
+        // }
 
         btn.addEventListener("click", async function(event) {
             event.preventDefault();

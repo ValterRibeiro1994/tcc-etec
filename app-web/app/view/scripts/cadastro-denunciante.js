@@ -15,7 +15,8 @@
  * 
  */
 
-if (localStorage.getItem("ativo") == null || localStorage.getItem("token") == null){
+localStorage.clear();
+if (localStorage.getItem("ativo") != null || localStorage.getItem("token") != null){
     // usuarios conectados não devem ter acesso a cadastro
     window.location.href = "../home";
 }
