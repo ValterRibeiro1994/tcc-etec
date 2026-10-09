@@ -23,6 +23,15 @@ class HomeController {
                 }
             }
 
+            // validar os valores dentro da token
+            if ($requisicao['token'] !== "criar" && $requisicao['token'] !== "validar"){
+                    return RespostaProcesso::resposta(
+                        mensagem: "Função não conhecida para token", resposta: false,
+                        dados: $requisicao, formato: "json"
+                    );
+            }
+            }
+
             if ($requisicao['perfil'] == "visitante"){
 
                 // criar um novo token (chave token se refere a função, se não existir um token envia 'criar')
@@ -78,15 +87,16 @@ class HomeController {
                     }
 
                     return RespostaProcesso::resposta(
-                        mensagem: "Token validado com sucesso", resposta: false,
+                        mensagem: "Token validado com sucesso", resposta: true,
                         dados: $resposta['dados'], formato: "json"
                     );
                     
                 }
+            } else {
+                return RespostaProcesso::resposta("Perfil desconhecido", resposta: false, dados: $requisicao);
             }
 
 
 
         }
     }
-}
