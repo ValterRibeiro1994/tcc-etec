@@ -2,9 +2,12 @@
 
 class CadastroController {
     public function index(array $requisicao){
-        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/index.html", true, formato: "html");
+        // if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/index.html", true, formato: "html");
         // o index do cadastro não possui formulario na pagina.
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/selecionar-cadastro.html", status: true, formato: "html");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::resposta(
+            mensagem:"Get realizado com sucesso", resposta: true, 
+            formato: "html", 
+            pagina: "app/view/paginas/selecionar-cadastro.html");
         
         // envia json informando o erro para o front 
         throw new Exception("requisição invalida para cadastro");
@@ -12,10 +15,13 @@ class CadastroController {
     }
 
     public function municipe(array $requisicao){
-        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
+       // if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
         
         // o método get apenas exibe o formulario para o cadastro do denunciante
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", status: true, formato: "html");
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::resposta(
+            mensagem:"Get realizado com sucesso para municipe", resposta:true,
+            formato:"html",
+            pagina: "app/view/paginas/cadastro-denunciante.html");
         
         // o método post deve receber os dados preenchidos do formulario
         if ($requisicao['metodo'] == "POST") return $this->cadastrarDenunciante($requisicao);
@@ -24,9 +30,14 @@ class CadastroController {
     }
 
     public function representante(array $requisicao){
-        if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
+       // if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
         if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-representante.html", true, formato: "html");
+
+        if ($requisicao['metodo'] == "GET") return RespostaProcesso::resposta(
+        mensagem:"Get realizado com sucesso para representante", resposta:true,
+        formato:"html",
+        pagina:  "app/view/paginas/cadastro-representante.html");
+
         if ($requisicao['metodo'] == "POST") return $this->cadastrarRepresentante($requisicao);
         return RespostaProcesso::respostaProcesso("Requisição indefinida");
     }
