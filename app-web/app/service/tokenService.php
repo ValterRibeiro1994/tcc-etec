@@ -37,7 +37,8 @@ class TokenService {
 
             $jwt = JWT::encode($configuracao, self::obterChave(), self::obterAlgoritmo());
             return RespostaProcesso::resposta(
-                mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), resposta: true,
+                mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), 
+                resposta: true,
                 dados: [
                     "token"=>$jwt,
                     "perfil" => $usuario->getPerfil(),

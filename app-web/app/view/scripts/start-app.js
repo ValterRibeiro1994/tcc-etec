@@ -42,15 +42,38 @@ async function iniciarAplicacao() {
     } else {
         try {
 
-            // armazena o token 
+            // recupera o token 
             const token = localStorage.getItem("token");
+
+            // recupera os dados do usuario
+            const perfil = localStorage.getItem("perfil");
+            const nome = localStorage.getItem("nome");
+            const sobrenome = localStorage.getItem("sobrenome");
+            const email = localStorage.getItem("email");
+
+            // prepara os dados para o servidor
+            const dados = new URLSearchParams(
+                {
+                    'metodo': "GET",
+                    'token': "validar",
+                    'token-valor': token,
+                    'perfil': perfil,
+                    'nome': nome,
+                    'sobrenome': sobrenome,
+                    'email': email
+                }
+            );
+
+            // prepara o cabeçalho da requisição
+            let header = new Headers({
+                'Authorization': token
+            });
+
             // envia o token para validação
             console.log("Enviando token para validação");
-            let perfil = localStorage.getItem("perfil");
-            let dados =  new URLSearchParams({metodo: "GET", token: "validar", 'token-valor': token, 'perfil': perfil});
             let server  = await fetch("./home", {
                 method: "POST",
-                headers: {"Authorization": token},
+                headers: header,
                 body: dados
             });
 
@@ -59,8 +82,7 @@ async function iniciarAplicacao() {
                 console.log("Servidor respondeu com TRUE o token é valido");
                 console.log(JSON.stringify(response))
             } else {
-                console.log("Servidor respondeu com false")
-               console.log(JSON.stringify(response))
+                console.log("Servidor respondeu com false");
             }
             
         } catch (error){
