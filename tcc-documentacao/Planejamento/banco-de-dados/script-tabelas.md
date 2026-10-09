@@ -37,11 +37,22 @@ create table if not exists tb_representante (
 create table if not exists tb_denuncia (
 	id_denuncia int not null primary key auto_increment,
     id_usuario int not null,
-    nome_categoria varchar(30) not null,
     titulo_denuncia varchar(60) not null,
+    data_denuncia datetime not null,
     descricao_denuncia text not null,
-    imagem_denuncia blob not null,
-    criada_em datetime not null,
+    imagem_denuncia blob,
+    nome_categoria varchar(30) not null,
+    cidade_denuncia varchar(50) not null,
+    estado_denuncia char(2) not null,
+    logradouro_denuncia varchar(150) not null,
+    numero_denuncia vsrchar(30),
+    bairro_denuncia varchar(80) not null,
+    cep_denuncia cahr(8) not null,
+    status_denuncia enum('em andamento','concluida','em analise', 'pendente') default 'pendente' not null,
+    perfil_usuario enum('municipe', 'representante') not null,
+    complemento_denuncia varchar(100),
+    
+    
     
     foreign key (id_usuario) references tb_usuario(id_usuario),
     foreign key (nome_categoria) references tb_categoria (nome_categoria)
