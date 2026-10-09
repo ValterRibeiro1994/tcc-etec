@@ -36,17 +36,8 @@ class SessaoService {
             $perfis_autorizados = [
                 "visitante", "municipe", "representante"
             ];
-            $n = count($perfis_autorizados);
-            $validar = false;
-            for ($x = 0; $x < $n; $x++){
-                $perfil_usuario = $perfis_autorizados[$x];
-                if ($perfil_usuario === $usuario->getPerfil()){
-                    $validar = true;
-                    break;
-                }
-            }
-
-            if (!$validar){
+            
+            if (!UtilService::validarPerfil($perfis_autorizados, $usuario->getPerfil())){
                 return RespostaProcesso::resposta(
                     mensagem: "Erro Perfil de usuario não permitido", resposta: false,
                     dados: $usuario->getArray()['dados']
@@ -102,9 +93,14 @@ class SessaoService {
             ];
 
             if ($_SESSION['user']['perfil'] == "municipe" || $_SESSION['user']['perfil'] == "representante"){
+                $dados['cidade'] = $_SESSION['user']['cidade'];
+                $dados['estado'] = $_SESSION['user']['estado'];
+           
+            }
+
+            if ($_SESSION['user']['perfil'] == "representante"){
                 $dados['cargo'] = $_SESSION['user']['cargo'];
                 $dados['orgao'] = $_SESSION['user']['orgao'];
-           
             }
 
             return RespostaProcesso::resposta(
@@ -114,7 +110,7 @@ class SessaoService {
 
 
 
-        } catch (\Exception $erro) {
+        } catch (Exception $erro) {
             return RespostaProcesso::resposta(
                 mensagem: "Erro ao recuperar sessão de usuario ativo: " .  $erro->getMessage(), resposta: false,
                 dados: RespostaProcesso::salvarErro($erro)

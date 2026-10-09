@@ -92,8 +92,15 @@ class HomeController {
                     );
                     
                 }
-            } else {
-                return RespostaProcesso::resposta("Perfil desconhecido", resposta: false, dados: $requisicao);
+            }
+
+            if ($requisicao['perfil'] == "municipe"){
+                if ($requisicao['token'] == "criar"){
+                    $dados_necessarios = ['nome', 'sobrenome', 'email'];
+                    foreach($dados_necessarios as $chave){
+                        
+                    }
+                }   
             }
 
 

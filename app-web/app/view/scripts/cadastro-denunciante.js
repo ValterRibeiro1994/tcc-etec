@@ -15,10 +15,10 @@
  * 
  */
 
-if (localStorage.getItem("ativo") == null || localStorage.getItem("token") == null){
-    // usuarios conectados não devem ter acesso a cadastro
-    window.location.href = "../home";
-}
+// if (localStorage.getItem("token") !== null){
+//     // usuarios conectados não devem ter acesso a cadastro
+//     window.location.href = "../home";
+// }
 
 // formulario de cadastro
 const form = document.getElementById("form-cadastro-denunciante");
@@ -29,7 +29,7 @@ form.addEventListener("submit", async function (event) {
     dadosForm.append('metodo', 'POST');  
     
     try {
-        let resposta = await fetch("../cadastro/municipe", {
+        let resposta = await fetch("../teste/cadastromunicipe", {
             method: 'POST',
             body: dadosForm
         });
@@ -37,14 +37,15 @@ form.addEventListener("submit", async function (event) {
         let resultado = await resposta.json();
         console.log(resultado);
 
-        let paragrafo = document.getElementById("respostaProcesso");
-        paragrafo.textContent = resultado.mensagem;
+        window.location.href ="../" + resultado.pagina;
+        // let paragrafo = document.getElementById("respostaProcesso");
+        // paragrafo.textContent = resultado.mensagem;
 
-        if (resultado.resposta){
-            paragrafo.classList.add("alert", "alert-success");
-        } else {
-            paragrafo.classList.add("alert", "alert-warning");
-        }
+        // if (resultado.resposta){
+        //     paragrafo.classList.add("alert", "alert-success");
+        // } else {
+        //     paragrafo.classList.add("alert", "alert-warning");
+        // }
 
     } catch (error) {
         console.error('Erro ao enviar', error);
