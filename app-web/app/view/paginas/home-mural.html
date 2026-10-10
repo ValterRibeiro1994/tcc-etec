@@ -130,7 +130,7 @@
                     Configurações
                 </a>
 
-                <a href="../app/view/paginas/perfil" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     perfil
                 </a>
@@ -193,11 +193,15 @@
 
         </div>
       </div>
-        <!--CARD-->
-            <div class="grid-denuncias">
+         <!--CARD-->
+            <!-- ALTERADO: o card abaixo agora é só um MODELO. O mural.js copia este card para cada denúncia
+                 e depois remove o exemplo. Os ids (card-mural, img-card, categoria-denuncia, titulo-denuncia,
+                 local-denuncia, data-denuncia, status-denuncia) são usados pelo script, não remova. -->
+            <!-- ALTERADO: adicionado id="grid-denuncias" (o mural.js insere aqui um card para cada denúncia do banco) -->
+            <div class="grid-denuncias" id="grid-denuncias">
                 <div class="card" id="card-mural">
                     <div class="card-img-wrapper">
-                            <div class="card-img text-center" style="background-image: url('https://unsplash.com');" id="img-card">Imagem</div>
+                            <div class="card-img text-center" id="img-card">Imagem</div> <!-- ALTERADO: removido o background-image de exemplo (a imagem real vem do banco via mural.js) -->
                     </div>
                     <div class="card-body">
                             <span class="tag-categoria" id="categoria-denuncia">Categoria</span>
@@ -212,7 +216,9 @@
                      </div>
                 </div>
             </div>
-        </section>
+
+            <!-- ADICIONADO: mensagem exibida pelo mural.js ("Carregando...", "Nenhuma denúncia registrada", erro) -->
+            <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
         
         <!-- MINHAS DENÚNCIAS -->
     
@@ -355,7 +361,8 @@
 
 </main>
     
-  <script src="../app/view/scripts/navbar.js"></script>
+   <script src="../app/view/scripts/navbar.js"></script>
+  <!-- ADICIONADO: busca as denúncias no banco e monta os cards do mural -->
   <script src="../app/view/scripts/mural.js"></script>
     
 </body>
