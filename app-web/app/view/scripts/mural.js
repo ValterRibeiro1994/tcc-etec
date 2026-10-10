@@ -3,6 +3,19 @@ const telas = document.querySelectorAll(".conteudo-principal .tela");
 const botaoCriar = document.querySelector(".menu-lateral-btn-criar");
 
 function mostrarPagina(pagina) {
+    if (pagina == "criar-denuncia")
+    {
+        const propriedadesTelinha = "width=500,height=400,left=200,top=100,resizable=yes,scrollbars=yes";
+        const popup = window.open('criardenuncia', "popupWindow", propriedadesTelinha);
+
+                // Verifica se o popup foi bloqueado pelo navegador
+                if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                    alert("O popup foi bloqueado pelo navegador. Habilite popups para este site.");
+                }
+    }
+     if ( pagina == "perfil") {
+        window.location.href = 'localhost/app/teste/perfil'
+    }
     const telaSelecionada = document.querySelector("#tela-" + pagina);
 
     // Se a tela não existe, não mexe em nada
@@ -31,12 +44,13 @@ const paginas = [
     "acompanhamento",
     "favoritos",
     "historico",
-    "configuracoes"
+    "configuracoes",
+    "perfil"
 ];
 
 links.forEach(function (link, indice) {
     link.dataset.pagina = paginas[indice];
-
+    
     link.addEventListener("click", function (event) {
         event.preventDefault();
         mostrarPagina(link.dataset.pagina);
@@ -44,7 +58,7 @@ links.forEach(function (link, indice) {
 });
 
 botaoCriar.addEventListener("click", function () {
-    mostrarPagina("nova-denuncia");
+    mostrarPagina("criar-denuncia");
 });
 
 mostrarPagina("mural");
