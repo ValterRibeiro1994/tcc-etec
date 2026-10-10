@@ -254,6 +254,230 @@ html, body {
     margin-bottom: 40px;
 }
 
+ /*CONFIGURA AS PAGINAS DA SIDEBAR*/
+.tela {
+    display: none;
+}
+
+.tela.ativa {
+    display: block;
+}
+
+/* ===== MINHAS DENÚNCIAS ===== */
+
+/* Resumo */
+.resumo-denuncias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.resumo-item {
+    --cor: #64748b;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid var(--cor);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.resumo-item strong {
+    font-size: 28px;
+    line-height: 1.1;
+    color: var(--cor);
+}
+
+.resumo-item span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.resumo-item[data-cor="verde"]    { --cor: #16a34a; }
+.resumo-item[data-cor="amarelo"]  { --cor: #d97706; }
+.resumo-item[data-cor="azul"]     { --cor: #2563eb; }
+.resumo-item[data-cor="vermelho"] { --cor: #dc2626; }
+
+/* Filtros */
+.filtro-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filtro-chip {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filtro-chip:hover {
+    border-color: #166534;
+    color: #166534;
+}
+
+.filtro-chip.ativo {
+    background: #166534;
+    border-color: #166534;
+    color: #fff;
+}
+
+/* Lista */
+.lista-denuncias {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 40px;
+}
+
+.denuncia-item {
+    --cor: #64748b;
+    --cor-fundo: #f1f5f9;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) auto auto;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid var(--cor);
+    border-radius: 14px;
+    padding: 18px 22px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.denuncia-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
+}
+
+.denuncia-item[data-status="concluida"] { --cor: #16a34a; --cor-fundo: #dcfce7; }
+.denuncia-item[data-status="andamento"] { --cor: #d97706; --cor-fundo: #fef3c7; }
+.denuncia-item[data-status="analise"]   { --cor: #2563eb; --cor-fundo: #dbeafe; }
+.denuncia-item[data-status="pendente"]  { --cor: #dc2626; --cor-fundo: #fee2e2; }
+
+.denuncia-principal h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.denuncia-principal p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.denuncia-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.meta-linha {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.meta-linha svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #94a3b8;
+    stroke-width: 2;
+    flex-shrink: 0;
+}
+
+.status-badge {
+    background: var(--cor-fundo);
+    color: var(--cor);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.denuncia-acoes {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-acao {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-acao:hover {
+    background: #f1f5f9;
+}
+
+.btn-acao-principal {
+    background: #166534;
+    border-color: #166534;
+    color: #fff;
+}
+
+.btn-acao-principal:hover {
+    background: #15803d;
+}
+
+.btn-acao-perigo {
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.btn-acao-perigo:hover {
+    background: #fee2e2;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+    .denuncia-item {
+        grid-template-columns: 1fr auto;
+    }
+    .denuncia-acoes {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .denuncia-item {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+    .status-badge {
+        justify-self: start;
+    }
+    .denuncia-acoes .btn-acao {
+        flex: 1;
+    }
+}
+
 @media (min-width: 768px) {
 
     .conteudo-principal .row.g-2 {

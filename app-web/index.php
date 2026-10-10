@@ -12,7 +12,7 @@ try {
         $header ="Content-type: text/html; charset=utf-8";
         header($header);
         $pagina = $resposta['pagina'];
-        var_dump($resposta);
+        //var_dump($resposta);
         include_once($pagina);
         exit();
     }
