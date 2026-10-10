@@ -133,7 +133,9 @@
         </aside>
         
         <!--CONTEUDO DA PAGINA-->
+    
         <main class="conteudo-principal" style="flex: 1; padding: 40px;">
+            <section id="tela-mural" class="tela ativa">
 
             <div class="mural-descricao">
                     <h2>Mural de denúncias</h2>
@@ -200,10 +202,151 @@
                      </div>
                 </div>
             </div>
+        </section>
+        
+        <!-- MINHAS DENÚNCIAS -->
+    
+    <section id="tela-denuncias" class="tela">
+
+    <div class="mural-descricao">
+        <h2>Minhas denúncias</h2>
+        <p>Acompanhe o andamento de tudo o que você já registrou.</p>
+    </div>
+
+    <!-- RESUMO -->
+    <div class="resumo-denuncias">
+        <div class="resumo-item" data-cor="verde">
+            <strong>1</strong><span>Concluídas</span>
+        </div>
+        <div class="resumo-item" data-cor="amarelo">
+            <strong>1</strong><span>Em andamento</span>
+        </div>
+        <div class="resumo-item" data-cor="azul">
+            <strong>1</strong><span>Em análise</span>
+        </div>
+        <div class="resumo-item" data-cor="vermelho">
+            <strong>1</strong><span>Pendentes</span>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtro-status">
+        <button class="filtro-chip ativo" data-filtro="todas">Todas</button>
+        <button class="filtro-chip" data-filtro="concluida">Concluídas</button>
+        <button class="filtro-chip" data-filtro="andamento">Em andamento</button>
+        <button class="filtro-chip" data-filtro="analise">Em análise</button>
+        <button class="filtro-chip" data-filtro="pendente">Pendentes</button>
+    </div>
+
+    <!-- LISTA -->
+    <div class="lista-denuncias">
+
+        <article class="denuncia-item" data-status="concluida">
+            <div class="denuncia-principal">
+                <h3>Buraco na rua</h3>
+                <p>Buraco profundo e perigoso em frente ao número 67.</p>
+            </div>
+            <div class="denuncia-meta">
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    R. Braz, nº 67
+                </span>
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    21/02/2009
+                </span>
+            </div>
+            <span class="status-badge">Concluída</span>
+            <div class="denuncia-acoes">
+                <button class="btn-acao btn-acao-principal">Ver mais</button>
+                <button class="btn-acao">Editar</button>
+                <button class="btn-acao btn-acao-perigo">Remover</button>
+            </div>
+        </article>
+
+        <article class="denuncia-item" data-status="andamento">
+            <div class="denuncia-principal">
+                <h3>Poste sem iluminação</h3>
+                <p>Poste apagado há mais de uma semana, rua muito escura à noite.</p>
+            </div>
+            <div class="denuncia-meta">
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Av. Kennedy, nº 120
+                </span>
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    05/03/2025
+                </span>
+            </div>
+            <span class="status-badge">Em andamento</span>
+            <div class="denuncia-acoes">
+                <button class="btn-acao btn-acao-principal">Ver mais</button>
+                <button class="btn-acao">Editar</button>
+                <button class="btn-acao btn-acao-perigo">Remover</button>
+            </div>
+        </article>
+
+        <article class="denuncia-item" data-status="analise">
+            <div class="denuncia-principal">
+                <h3>Lixo acumulado na calçada</h3>
+                <p>Entulho descartado irregularmente na esquina.</p>
+            </div>
+            <div class="denuncia-meta">
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    R. Marechal, nº 45
+                </span>
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    12/04/2025
+                </span>
+            </div>
+            <span class="status-badge">Em análise</span>
+            <div class="denuncia-acoes">
+                <button class="btn-acao btn-acao-principal">Ver mais</button>
+                <button class="btn-acao">Editar</button>
+                <button class="btn-acao btn-acao-perigo">Remover</button>
+            </div>
+        </article>
+
+        <article class="denuncia-item" data-status="pendente">
+            <div class="denuncia-principal">
+                <h3>Bueiro entupido</h3>
+                <p>Água acumulando na rua quando chove.</p>
+            </div>
+            <div class="denuncia-meta">
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    R. das Flores, nº 300
+                </span>
+                <span class="meta-linha">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    28/04/2025
+                </span>
+            </div>
+            <span class="status-badge">Pendente</span>
+            <div class="denuncia-acoes">
+                <button class="btn-acao btn-acao-principal">Ver mais</button>
+                <button class="btn-acao">Editar</button>
+                <button class="btn-acao btn-acao-perigo">Remover</button>
+            </div>
+        </article>
+
+    </div>
+</section>
+        <!-- Conteúdo desta tela -->
+    
+
+        
+
+
+
 
 </main>
     
   <script src="app/view/scripts/navbar.js"></script>
+  <script src="app/view/scripts/mural.js"></script>
     
 </body>
 </html>
