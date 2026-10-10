@@ -230,6 +230,14 @@ class Usuario {
         $this->endereco->setCidade($cidade);
     }
 
+    public function getCidade(): string {
+        if ($this->endereco == null){
+            return "Endereço não informado";
+        }
+
+        return $this->endereco->getCidade();
+    }
+
     public function setEstado(string $estado){
         if ($this->endereco == null){
             $this->endereco = new Endereco(estado: $estado);
@@ -238,6 +246,10 @@ class Usuario {
         $this->endereco->setEstado($estado);
     }
 
+    public function getEstado(): string {
+        if ($this->endereco == null) return "Estado não informado";
+        return strtoupper($this->endereco->getEstado());
+    }
     /**
      * APENAS O REPRESENTANTE POSSUI UM ORGÃO DE ATUAÇÃO E PODE RESPONDER AS DENUNCIAS
      * A PREFEITURA POSSUI O CARGO DO REPRESENTANTE E O NOME DO ORGÃO

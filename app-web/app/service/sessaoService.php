@@ -83,7 +83,7 @@ class SessaoService {
         session_destroy(); 
     } 
 
-    public static function obterUsuario(): array {
+    public static function obterUsuario() {
         try {
             $dados = [
                 "nome" => $_SESSION['user']['nome'],

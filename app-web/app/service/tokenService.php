@@ -24,6 +24,13 @@ class TokenService {
 
     public static function criarToken(Usuario $usuario, int $expira = 86400){
         try {
+            $dados = [
+                "perfil" => $usuario->getPerfil(),
+                'nome' => $usuario->getNome(),
+                'sobrenome' => $usuario->getSobrenome(),
+                "email" => $usuario->getEmail()
+            ];
+
             $configuracao = [
                 "iss" => "localhost",
                 "aud" => "localhost",
@@ -35,18 +42,26 @@ class TokenService {
                 "email" => $usuario->getEmail()
             ];
 
+            if ($usuario->getPerfil() != "visitante"){
+                $configuracao['cidade'] = $usuario->getCidade();
+                $dados['cidade'] = $usuario->getCidade();
+                $configuracao['estado'] = $usuario->getEstado();
+                $dados['estado'] = $usuario->getEstado();
+            }
+
+            if ($usuario->getPerfil() == "representante"){
+                $configuracao['orgao'] = $usuario->getPrefeitura()->getOrgao();
+                $dados['orgao'] = $usuario->getPrefeitura()->getOrgao();
+                $configuracao['cargo'] = $usuario->getPrefeitura()->getCargo();
+                $dados['cargo'] = $usuario->getPrefeitura()->getCargo();
+            }
+
             $jwt = JWT::encode($configuracao, self::obterChave(), self::obterAlgoritmo());
+            $dados['token'] = $jwt;
             return RespostaProcesso::resposta(
                 mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), 
                 resposta: true,
-                dados: [
-                    "token"=>$jwt,
-                    "perfil" => $usuario->getPerfil(),
-                    'nome' => $usuario->getNome(),
-                    'sobrenome' => $usuario->getSobrenome(),
-                    "email" => $usuario->getEmail()
-                    ]
-            );
+                dados: $dados
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);
             return RespostaProcesso::resposta(
