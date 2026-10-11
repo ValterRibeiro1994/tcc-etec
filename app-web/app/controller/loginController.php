@@ -35,67 +35,10 @@ class LoginController {
 
         // iniciar repositorio
         $repositorio = new UsuarioRepositorio();
-        
-        // resgatar a senha armazenada no banco
-        $resposta = $repositorio->obterSenha($email);
-        if (!$resposta['resposta']){
-            return $resposta;
-        }
 
-        // comparar a senha recebida pela senha do banco
-        $hash_banco = $resposta['mensagem'];
-        if (!password_verify($requisicao['senha'], $hash_banco)) return RespostaProcesso::resposta("Acesso Negado");
         
         
-        $resposta = $repositorio->obterUsuario($email);
-        if (!$resposta['resposta']){
-            return $resposta;
-        }
-
-        try {
-            $usuario = $resposta['dados'][0];
-            // limpar as senhas por garantia
-            $usuario->setSenha(limpar: true);
-
-            // verificar igualdade nos emails
-            if ($usuario->getEmail() != $requisicao['email']){
-                return RespostaProcesso::resposta("Erro usuário: Email invalido", false, array($usuario));
-            }
-
-            $token = new TokenController();
-            $dados = [
-                "token" => "",
-                "perfil" => $usuario->getPerfil(),
-                "nome" => $usuario->getNome(),
-                "sobrenome" => $usuario->getSobrenome(),
-                "email" => $usuario->getEmail()
-            ];
-    
-            // checa o tempo de expiração
-            if ($requisicao['lembrar'] == false){
-                $tempo = 600;               
-            } else {
-                $tempo = 86400;
-            }
-
-            // gera o token
-            $resposta = $token->gerarToken($usuario, $tempo);
-            if (!$resposta['resposta']){
-                return $resposta;
-            }
-
-            // guarda o token 
-            $token = $resposta['mensagem'];
-            $dados["token"] = $token;
-
-            // envie o resultado
-            return RespostaProcesso::resposta("Acesso liberado", true, array($dados));
-            
-        } catch (Exception $erro) {
-            SessaoController::encerrarSessao();
-            $dados = RespostaProcesso::salvarErro($erro);
-            return RespostaProcesso::resposta("Acesso não autorizado", false, dados: $dados);
-        }
+    }
     }
 
     private function logado(){

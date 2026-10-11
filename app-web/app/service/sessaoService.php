@@ -117,4 +117,15 @@ class SessaoService {
             );
         }
     }
+
+    public static function obterTentativasLogin() {
+        if (!array_key_exists("contar-login", $_SESSION['user'])){
+            $_SESSION['user']['contar-login'] = 0;
+            return $_SESSION['user']['contar-login'];
+        }
+
+        return $_SESSION['user']['contar-login'];
+
+
+    }
 }
