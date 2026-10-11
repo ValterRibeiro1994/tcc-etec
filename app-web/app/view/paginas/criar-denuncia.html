@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ALTERADO: caminhos com ../ porque a página agora é aberta em ./denuncia/criar (mesmo padrão das outras páginas) -->
     <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../app/view/estilo/navbar.css">
     <link rel="stylesheet" href="../app/view/estilo/geral.css">
@@ -107,7 +108,8 @@
         </div>
 
         <!--FORMULARIO-->
-        <form>
+        <!-- ALTERADO: adicionado id="form-denuncia" e enctype (necessário para enviar a foto). O envio é feito pelo criar-denuncia.js -->
+        <form id="form-denuncia" enctype="multipart/form-data">
 
             <!-- TÍTULO -->
             <div class="campo-denuncia">
@@ -134,7 +136,11 @@
             </div>
 
 
-            <!-- CATEGORIA E STATUS -->
+            <!-- ALTERADO: antes era "CATEGORIA E STATUS".
+                 - As categorias agora vêm da tabela tb_categoria (o criar-denuncia.js preenche o select),
+                   pois o valor enviado precisa ser igual a nome_categoria (chave estrangeira).
+                 - O campo STATUS foi removido: toda denúncia nova nasce como "pendente" (padrão do banco).
+                 - O campo "Data da ocorrência" foi movido para esta linha. -->
             <div class="linha">
 
                 <div class="campo-denuncia">
@@ -142,116 +148,10 @@
 
                     <select id="categoria-denuncia" name="categoria-denuncia" required>
                         <option value="" selected disabled>
-                            Selecione uma categoria
-                        </option>
-
-                        <option value="infraestrutura">
-                            Infraestrutura
-                        </option>
-
-                        <option value="limpeza">
-                            Limpeza Urbana
-                        </option>
-
-                        <option value="iluminacao">
-                            Iluminação Pública
-                        </option>
-
-                        <option value="saneamento">
-                            Saneamento
+                            Carregando categorias...
                         </option>
                     </select>
                 </div>
-
-
-                <div class="campo-denuncia">
-                    <label for="status-denuncia">Status</label>
-
-                    <select id="status-denuncia" name="status-denuncia">
-                        <option value="pendente">
-                            Pendente
-                        </option>
-
-                        <option value="em-analise">
-                            Em análise
-                        </option>
-
-                        <option value="resolvida">
-                            Resolvida
-                        </option>
-                    </select>
-                </div>
-
-            </div>
-
-
-            <!-- ENDEREÇO E DATA -->
-
-            <div class="linha">
-                <div class="campo-denuncia">
-                    <label for="estado-denuncia">Estado</label>
-
-                    <input
-                        type="text"
-                        id="estado-denuncia"
-                        name="estado-denuncia"
-                        placeholder="Digite o Estado do local.."
-                        required
-                    >
-                </div>
-            
-            
-                <div class="campo-denuncia">
-                    <label for="cidade-denuncia">Cidade</label>
-
-                    <input
-                        type="text"
-                        id="cidade-denuncia"
-                        name="cidade-denuncia"
-                        placeholder="Digite a cidade do local.."
-                        required
-                    >
-                </div>
-            </div>
-
-            <div class="linha">
-                <div class="campo-denuncia">
-                    <label for="bairro-denuncia">Bairro</label>
-
-                    <input
-                        type="text"
-                        id="bairro-denuncia"
-                        name="bairro-denuncia"
-                        placeholder="Digite o bairro do local.."
-                        required
-                    >
-                </div>
-            
-                <div class="campo-denuncia">
-                    <label for="numero-denuncia">Número</label>
-
-                    <input
-                        type="text"
-                        id="numero-denuncia"
-                        name="numero-denuncia"
-                        placeholder="Digite o numero do local.."
-                        required
-                    >
-                </div>
-            
-
-                <div class="campo-denuncia">
-                    <label for="cep-denuncia">CEP</label>
-
-                    <input
-                        type="text"
-                        id="cep-denuncia"
-                        name="cep-denuncia"
-                        placeholder="Digite o CEP do local.."
-                        required
-                    >
-                </div>
-            </div>
 
                 <div class="campo-denuncia">
                     <label for="data-denuncia">Data da ocorrência</label>
@@ -266,9 +166,125 @@
 
             </div>
 
+
+            <!-- ENDEREÇO -->
+            <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
+                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
+                 Campos novos: rua-denuncia e complemento-denuncia. -->
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="estado-denuncia">Estado (UF)</label>
+
+                    <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
+                    <input
+                        type="text"
+                        id="estado-denuncia"
+                        name="estado-denuncia"
+                        placeholder="Ex: SP"
+                        maxlength="2"
+                        pattern="[A-Za-z]{2}"
+                        title="Informe a sigla do estado com 2 letras, por exemplo SP"
+                        required
+                    >
+                </div>
+            
+            
+                <div class="campo-denuncia">
+                    <label for="cidade-denuncia">Cidade</label>
+
+                    <input
+                        type="text"
+                        id="cidade-denuncia"
+                        name="cidade-denuncia"
+                        placeholder="Digite a cidade do local.."
+                        maxlength="50"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- ADICIONADO: rua (parte do logradouro) -->
+            <div class="campo-denuncia">
+                <label for="rua-denuncia">Rua / Avenida</label>
+
+                <input
+                    type="text"
+                    id="rua-denuncia"
+                    name="rua-denuncia"
+                    placeholder="Ex: Rua das Flores"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="numero-denuncia">Número</label>
+
+                    <input
+                        type="text"
+                        id="numero-denuncia"
+                        name="numero-denuncia"
+                        placeholder="Número do local (ou S/N)"
+                        maxlength="30"
+                        required
+                    >
+                </div>
+
+                <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
+                <div class="campo-denuncia">
+                    <label for="complemento-denuncia">Complemento (opcional)</label>
+
+                    <input
+                        type="text"
+                        id="complemento-denuncia"
+                        name="complemento-denuncia"
+                        placeholder="Ex: Apto 4, em frente ao mercado.."
+                        maxlength="100"
+                    >
+                </div>
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="bairro-denuncia">Bairro</label>
+
+                    <input
+                        type="text"
+                        id="bairro-denuncia"
+                        name="bairro-denuncia"
+                        placeholder="Digite o bairro do local.."
+                        maxlength="80"
+                        required
+                    >
+                </div>
+
+                <div class="campo-denuncia">
+                    <label for="cep-denuncia">CEP</label>
+
+                    <input
+                        type="text"
+                        id="cep-denuncia"
+                        name="cep-denuncia"
+                        placeholder="00000-000"
+                        maxlength="9"
+                        inputmode="numeric"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo criar-denuncia.js, só para conferência) -->
+            <div class="campo-denuncia">
+                <small style="color: #5b6b62;">
+                    Logradouro registrado:
+                    <strong id="previa-logradouro">preencha rua, número e bairro</strong>
+                </small>
+            </div>
+
             <!-- FOTO -->
             <div class="campo-denuncia">
-                <label for="foto">
+                <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
                     Foto
                 </label>
 
@@ -289,7 +305,8 @@
                                 Clique para selecionar uma imagem
                             </strong>
 
-                            <small>
+                            <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
+                            <small id="foto-info">
                                 JPG ou PNG — tamanho máximo de 5MB
                             </small>
                         </div>
@@ -299,16 +316,29 @@
             </div>
 
 
+            <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
+            <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
+
             <!-- BOTÃO -->
+            <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
             <div class="linha linha-botoes">
-                <button type="submit" class="btn-enviar">
+                <button type="submit" class="btn-enviar" id="btn-enviar">
                     Enviar denúncia
                 </button>
             
-                <button type="submit" class="btn-cancelar">
+                <button type="button" class="btn-cancelar" id="btn-cancelar">
                     Cancelar
                 </button>
             </div>
         </form>
 
     </section>
+
+  </main>
+
+  <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
+  <script src="../app/view/scripts/navbar.js"></script>
+  <script src="../app/view/scripts/criar-denuncia.js"></script>
+
+</body>
+</html>
