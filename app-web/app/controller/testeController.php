@@ -65,5 +65,23 @@ class TesteController {
         );
     }
 
-    
+    // TEMPORÁRIO: APAGAR antes de publicar o site. Gera token sem exigir senha.
+public function gerartoken(array $requisicao){
+    // só funciona no seu computador (localhost)
+    if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
+        return RespostaProcesso::resposta("Disponível apenas em localhost");
+    }
+
+    $usuario = new Usuario(new DadosPessoais(
+        perfil: new Perfil("municipe"),
+        nome: new Nome("Teste"),
+        sobrenome: new Sobrenome("Usuario"),
+        email: new Email("teste@relatesbc.com")
+    ));
+
+    // ADICIONADO: o TokenService agora grava cidade e estado no token dos usuários logados
+    $usuario->setEndereco(new Endereco("SAO BERNARDO DO CAMPO", "SP"));
+
+    return TokenService::criarToken($usuario, 3600); // vale por 1 hora
+}
 }

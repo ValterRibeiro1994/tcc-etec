@@ -39,7 +39,6 @@ class LoginController {
         
         
     }
-    }
 
     private function logado(){
         $resposta =  SessaoController::estaConectado();

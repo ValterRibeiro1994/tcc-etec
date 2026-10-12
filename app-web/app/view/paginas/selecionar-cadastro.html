@@ -1,3 +1,10 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['caminho_raiz_projeto'];
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,22 +24,23 @@
     
    <header class="navbar-header">
     <nav class="navbar">
-        <a href="./home" class="logo-link">
+        <a href="<?= $raiz ?>home" class="logo-link">
             <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
         </a>
 
+        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
-            <li class="nav-item active"><a href="index">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
             <li class="nav-item"><a href="#">Sobre</a></li>
             <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item"><a href="home-mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
         </ul>
 
         <div class="nav-actions">
-            <a href="login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
-            <a href="cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
         </div>
@@ -48,18 +56,19 @@
     <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
-                <li class="nav-item active"><a href="index">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="#">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="home-mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             </ul>
 
             <div class="nav-actions">
-              <a href="teste/login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+              <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
               </a>
-              <a href="teste/cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+              <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                   Cadastre-se
               </a>
             </div>
@@ -83,7 +92,7 @@
                     </div>
                     <h2 class="tipo-escolha-d">Denunciante</h2>
                     <p class="descricao-escolha">Cadastre-se para realizar denuncias e ficar por dentro dos problemas em sua cidade</p>
-                     <a href="./cadastro/municipe" class="btn-municipe">Cadastre-se</a>
+                     <a href="<?= $raiz ?>cadastro/municipe" class="btn-municipe">Cadastre-se</a>
                 </div>
                 <!--CARD 2-->
                 <div class="card-escolha">
@@ -94,17 +103,18 @@
                     </div>
                     <h2 class="tipo-escolha-r">Representante</h2>
                     <p class="descricao-escolha">Cadastre-se para responder a reclamações e ficar por dentro dos problemas ocorridos</p>
-                    <a href="./cadastro/representante" class="btn-representante">Cadastre-se</a>
+                    <a href="<?= $raiz ?>cadastro/representante" class="btn-representante">Cadastre-se</a>
 
                 </div>
             </div>
             <div class="texto-login-cadastro">
-                <p>Já tem uma conta? <a href="login">Entrar</a></p>
+                <p>Já tem uma conta? <a href="<?= $raiz ?>login">Entrar</a></p>
             </div>
         </div>
   </main>
 
   
+<!-- ALTERADO: links do rodapé completos (todas as páginas, menos home-denuncias) e com as rotas reais -->
 <footer class="text-light" style="background-color: #354b37;">
   <div class="container pt-5">
     <div class="row">
@@ -122,38 +132,21 @@
       <div class="col-md-3">
         <h5 style="font-weight: bold;">Para você</h5>
         <ul class="list-unstyled">
-          <li><a href="login" class="link-light small">Ja tem uma conta?
-          </a></li>
-          <li><a href="cadastro" class="link-light small">Cadastre-se</a></li>
-          <li>
-            <a href="cadastro/denunciante" class="link-light small">
-              Sou um denunciante       
-            </a>
-          </li>
-          <li>
-            <a href="cadastro/representante" class="link-light small">
-              Sou um representante       
-            </a>
-          </li>    
+          <li><a href="<?= $raiz ?>login" class="link-light small">Já tem uma conta?</a></li>
+          <li><a href="<?= $raiz ?>cadastro" class="link-light small">Cadastre-se</a></li>
+          <li><a href="<?= $raiz ?>cadastro/municipe" class="link-light small">Sou um denunciante</a></li>
+          <li><a href="<?= $raiz ?>cadastro/representante" class="link-light small">Sou um representante</a></li>
         </ul>
       </div>
 
 
       <div class="col-md-3">
-        <h5 style="font-weight: bold;">
-          Denuncias
-        </h5>
+        <h5 style="font-weight: bold;">Denúncias</h5>
         <ul class="list-unstyled">
-        <li>
-          <a href="home" class="link-light small">
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="denuncias" class="link-light small">
-            Mural de denuncias
-          </a>
-        </li>
+          <li><a href="<?= $raiz ?>home" class="link-light small">Início</a></li>
+          <li><a href="<?= $raiz ?>denuncia/mural" class="link-light small">Mural de denúncias</a></li>
+          <li><a href="<?= $raiz ?>denuncia/criar" class="link-light small">Registrar denúncia</a></li>
+          <li><a href="<?= $raiz ?>user/perfil" class="link-light small">Meu perfil</a></li>
         </ul>
       </div>
 
@@ -187,5 +180,5 @@
 </footer>
 </body>
     
-  <script src="/app/view/scripts/navbar.js"></script>
+  <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
 </html>

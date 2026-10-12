@@ -13,7 +13,8 @@
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
     // Página para onde o usuário vai depois de enviar (ou cancelar)
-    const PAGINA_MURAL = 'teste/homemural';
+    // ALTERADO: rota oficial do mural (antes 'teste/homemural')
+    const PAGINA_MURAL = 'denuncia/mural';
     const PAGINA_LOGIN = 'login';
 
     const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024; // 5 MB
@@ -208,7 +209,18 @@
                 body: dados
             });
 
-            const json = await resposta.json();
+            // Lê como texto primeiro: se o PHP devolver um erro em HTML (e não JSON),
+            // mostramos o que o servidor respondeu em vez de um erro genérico.
+            const texto = await resposta.text();
+            let json;
+            try {
+                json = JSON.parse(texto);
+            } catch (erroJson) {
+                console.error('Resposta do servidor (não é JSON):', texto);
+                const semTags = texto.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                mostrarMensagem('Erro no servidor: ' + semTags.slice(0, 300), 'danger');
+                return;
+            }
 
             if (!json.resposta) {
                 mostrarMensagem(json.mensagem || 'Não foi possível registrar a denúncia.', 'danger');
@@ -218,6 +230,14 @@
             enviado = true;
             mostrarMensagem('Denúncia registrada com sucesso! Redirecionando para o mural...', 'success');
             setTimeout(function () {
+                // ALTERADO: se o formulário foi aberto em popup pelo mural, atualiza o mural e fecha o popup
+                try {
+                    if (window.opener && !window.opener.closed) {
+                        window.opener.location.reload();
+                        window.close();
+                        return;
+                    }
+                } catch (erroOpener) { /* sem acesso à janela de origem: segue para o redirecionamento */ }
                 window.location.href = urlApp(PAGINA_MURAL);
             }, 1500);
         } catch (erro) {
@@ -232,6 +252,11 @@
     });
 
     btnCancelar.addEventListener('click', function () {
+        // ALTERADO: em popup, apenas fecha; fora dele, volta para o mural
+        if (window.opener && !window.opener.closed) {
+            window.close();
+            return;
+        }
         window.location.href = urlApp(PAGINA_MURAL);
     });
 

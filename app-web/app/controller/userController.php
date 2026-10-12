@@ -59,4 +59,26 @@ class UserController {
         
         return RespostaProcesso::respostaProcesso("Criar processo POST para os dados a serem recebidos");
     }
+
+    // ADICIONADO: rota oficial da página de perfil -> ./user/perfil
+    // (quem confere o login é o perfil.js e a rota user/dados, que exige o token)
+    public function perfil(array $requisicao){
+        return RespostaProcesso::resposta(
+            mensagem: "Página de perfil", resposta: true,
+            formato: "html", pagina: "app/view/paginas/perfil.html"
+        );
+    }
+
+    // ADICIONADO: ./user/dados -> JSON com os dados do usuário logado, vindos do banco
+    public function dados(array $requisicao){
+        if ($requisicao['metodo'] !== "GET") {
+            return RespostaProcesso::resposta("Requisição inválida para obter os dados do perfil");
+        }
+
+        $resposta = UsuarioLogadoService::obter();
+        if (!$resposta['resposta']) return $resposta;
+
+        $repositorio = new PerfilRepositorio();
+        return $repositorio->obterDadosPerfil($resposta['dados']['email']);
+    }
 }

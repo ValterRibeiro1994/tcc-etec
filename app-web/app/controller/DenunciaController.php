@@ -1,10 +1,20 @@
 <?php
 
 // Rotas:
-//   GET  ./denuncia/listar  ->  JSON com as denúncias do mural
+//   GET  ./denuncia/mural   ->  página do mural (home-mural.html)
+//   GET  ./denuncia/listar  ->  JSON com TODAS as denúncias do mural (inclui o nome de quem denunciou)
+//   GET  ./denuncia/minhas  ->  JSON só com as denúncias do usuário logado (token no cabeçalho Authorization)
 //   GET  ./denuncia/criar   ->  página do formulário "Registrar uma denúncia"
-//   POST ./denuncia/criar   ->  grava a denúncia (exige usuário logado, token no cabeçalho Authorization)
+//   POST ./denuncia/criar   ->  grava a denúncia (exige usuário logado)
 class DenunciaController {
+
+    // ADICIONADO: rota oficial da página do mural (antes só existia ./teste/homemural)
+    public function mural(array $requisicao){
+        return RespostaProcesso::resposta(
+            mensagem: "Mural de denúncias", resposta: true,
+            formato: "html", pagina: "app/view/paginas/home-mural.html"
+        );
+    }
 
     public function listar(array $requisicao){
         if ($requisicao['metodo'] !== "GET") {
@@ -15,6 +25,20 @@ class DenunciaController {
         return $repositorio->listarDenuncias();
     }
 
+    // ADICIONADO: denúncias do próprio usuário (usadas em "Minhas denúncias" e no perfil)
+    public function minhas(array $requisicao){
+        if ($requisicao['metodo'] !== "GET") {
+            return RespostaProcesso::resposta("Requisição inválida para listar suas denúncias");
+        }
+
+        // quem está pedindo? vem do token validado pelo servidor
+        $resposta = UsuarioLogadoService::obter();
+        if (!$resposta['resposta']) return $resposta;
+
+        $repositorio = new DenunciasRepositorio();
+        return $repositorio->listarDenunciasDoUsuario($resposta['dados']['email']);
+    }
+
     public function criar(array $requisicao){
         if ($requisicao['metodo'] === "GET") {
             return RespostaProcesso::resposta(
@@ -23,7 +47,18 @@ class DenunciaController {
             );
         }
 
-        if ($requisicao['metodo'] === "POST") return $this->salvar($requisicao);
+        if ($requisicao['metodo'] === "POST") {
+            // Throwable pega também erros fatais (ex.: método inexistente) e devolve JSON.
+            // ATENÇÃO: em produção, remova o arquivo/linha da mensagem.
+            try {
+                return $this->salvar($requisicao);
+            } catch (Throwable $erro) {
+                return RespostaProcesso::resposta(
+                    "Erro interno ao registrar a denúncia: " . $erro->getMessage()
+                    . " (" . basename($erro->getFile()) . ":" . $erro->getLine() . ")"
+                );
+            }
+        }
 
         return RespostaProcesso::resposta("Requisição inválida para criar denúncia");
     }
@@ -31,14 +66,12 @@ class DenunciaController {
     private function salvar(array $requisicao){
         // 1) Quem está enviando? O usuário vem do TOKEN validado pelo servidor,
         //    nunca de campos do formulário (que o cliente poderia alterar).
-        $resposta = (new TokenController())->validarToken();
+        //    ALTERADO: agora usa o UsuarioLogadoService (mesma regra das outras rotas com login).
+        $resposta = UsuarioLogadoService::obter();
         if (!$resposta['resposta']) return $resposta;
 
         $dados_token = $resposta['dados'];
-        $perfil = $dados_token['perfil'] ?? "visitante";
-        if ($perfil === "visitante") {
-            return RespostaProcesso::resposta("Faça login para registrar uma denúncia");
-        }
+        $perfil = $dados_token['perfil'];
 
         // 2) Campos obrigatórios (os nomes são os mesmos do formulário)
         $obrigatorios = [

@@ -1,3 +1,10 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['caminho_raiz_projeto'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,27 +13,44 @@
     <title>RelateSBC</title>
     <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../app/view/estilo/navbar.css">
+    <!-- ALTERADO: o <style> que ficava depois do </html> foi movido para dentro do <head> -->
+    <style>
+        html { height: 100%; }
+    
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        footer {
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
     
    <header class="navbar-header">
     <nav class="navbar">
-        <a href="./home" class="logo-link">
+        <a href="<?= $raiz ?>home" class="logo-link">
             <img src="../app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
         </a>
 
+        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
-            <li class="nav-item active"><a href="index">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
             <li class="nav-item"><a href="#">Sobre</a></li>
             <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item"><a href="home-mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
         </ul>
 
         <div class="nav-actions">
-            <a href="login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
-            <a href="cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
         </div>
@@ -42,18 +66,19 @@
     <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
-                <li class="nav-item active"><a href="index">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="#">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="home-mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             </ul>
 
             <div class="nav-actions">
-              <a href="login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+              <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
               </a>
-              <a href="cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+              <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                   Cadastre-se
               </a>
             </div>
@@ -74,10 +99,11 @@
         <!-- </span> -->
         <div>
           <div class="d-flex gap-2">
-            <span class="fs-5 fw-bold">Felipe Rodrigo</span>
-            <span class="badge text-light rounded-pill border border-success align-self-center" style="background-color: rgb(64, 146, 71);">MUNÍCIPE</span>
+            <!-- ALTERADO: ids perfil-nome, perfil-badge e perfil-local. O perfil.js preenche com os dados do banco (./user/dados) -->
+            <span class="fs-5 fw-bold" id="perfil-nome">Carregando...</span>
+            <span class="badge text-light rounded-pill border border-success align-self-center" style="background-color: rgb(64, 146, 71);" id="perfil-badge">...</span>
           </div>
-          <div class="text-muted small">Sitio bom Jesus/Bairro dos casa.</div>
+          <div class="text-muted small" id="perfil-local">&nbsp;</div>
         </div>
       </div>
 
@@ -88,10 +114,11 @@
           <input type="checkbox" class="form-check-input"> <!-- ativa e desaticva modo escuro, deixo para quem quiser fazer ai-->
           <label for="modoEscuro">Modo Escuro</label>
         </div>
-        <button type="button" class="btn btn-dark fw-bold btn-sm">
+        <button type="button" class="btn btn-dark fw-bold btn-sm" id="btn-editar-perfil">
           EDITAR PERFIL
         </button>
-        <button type="button" class="btn btn-success fw-bold btn-sm">
+        <!-- ALTERADO: id="btn-nova-denuncia" (o perfil.js leva para o formulário de denúncia) -->
+        <button type="button" class="btn btn-success fw-bold btn-sm" id="btn-nova-denuncia">
           CRIAR NOVA DENÚNCIA
         </button>
       </div>
@@ -102,7 +129,8 @@
     <div class="row mb-4">
       <div class="col-md-4">
         <label class="fw-semibold small">Pesquisar</label>
-        <input type="text" class="form-control" placeholder="Buscar denúncia...">
+        <!-- ALTERADO: id="busca-perfil" (filtra a lista abaixo pelo texto digitado) -->
+        <input type="text" class="form-control" placeholder="Buscar denúncia..." id="busca-perfil">
       </div>
       <div class="col-md-5">
         <label class="fw-semibold small">Categorias</label>
@@ -127,34 +155,36 @@
       </div>
     </div>
 
-    <!-- Lista de denúncias -->
-    <ul class="list-group list-group-flush d-flex">
+    <!-- ALTERADO: o exemplo fixo foi removido. O perfil.js lista aqui SÓ as denúncias do usuário logado
+         (./denuncia/minhas), copiando o modelo "modelo-denuncia-perfil". Ids: perfil-mensagem, lista-denuncias-perfil -->
+    <p id="perfil-mensagem" class="text-secondary text-center my-3" style="display: none;"></p>
 
+    <!-- Lista de denúncias -->
+    <ul class="list-group list-group-flush d-flex" id="lista-denuncias-perfil"></ul>
+
+    <template id="modelo-denuncia-perfil">
       <li class="list-group-item d-flex flex-wrap align-items-center py-3">
         <div>
-          <div class="fw-semibold">Buraco na Rua</div>
-          <div class="text-muted small">Buraco profundo perigoso</div>
+          <div class="fw-semibold" data-campo="titulo">Título</div>
+          <div class="text-muted small" data-campo="descricao">Descrição</div>
         </div>
-        <div class="text-muted small text-center" style="min-width:150px;">R. Braz, nº 67</div>
+        <div class="text-muted small text-center" style="min-width:150px;" data-campo="local">Local</div>
         <div class="text-center" style="min-width:140px;">
-          <span class="badge bg-success rounded-pill">CONCLUÍDA</span>
-          <span class=" badge bg-warning rounded-pill">EM ANDAMENTO</span>
-          <span class="badge bg-primary rounded-pill">EM ANÁLISE</span>
-          <span class="badge bg-danger rounded-pill ">PENDENTE</span>
+          <span class="badge bg-secondary rounded-pill" data-campo="status">STATUS</span>
         </div>
-        <div class="text-muted small text-center" style="min-width:90px;">21/02/2009</div>
+        <div class="text-muted small text-center" style="min-width:90px;" data-campo="data">Data</div>
         <div class="d-flex gap-3">
           <button class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
           <button class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
           <button class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
         </div>
       </li>
-
-    </ul>
+    </template>
 
   </div>
 </main>
 
+<!-- ALTERADO: links do rodapé completos (todas as páginas, menos home-denuncias) e com as rotas reais -->
 <footer class="bg-dark text-light">
   <div class="container pt-5">
     <div class="row">
@@ -170,39 +200,22 @@
       <div class="col-md-3">
         <h5 style="font-weight: bold;">Para você</h5>
         <ul class="list-unstyled">
-          <li><a href="seleciona-login.html" class="link-light small">Ja tem uma conta?
-          </a></li>
-          <li><a href="selecionar-cadastro.html" class="link-light small">Cadastre-se</a></li>
-          <li>
-            <a href="cadastro-denunciante" class="link-light small">
-              Sou um denunciante       
-            </a>
-          </li>
-          <li>
-            <a href="cadastro-representante" class="link-light small">
-              Sou um representante       
-            </a>
-          </li>    
+          <li><a href="<?= $raiz ?>login" class="link-light small">Já tem uma conta?</a></li>
+          <li><a href="<?= $raiz ?>cadastro" class="link-light small">Cadastre-se</a></li>
+          <li><a href="<?= $raiz ?>cadastro/municipe" class="link-light small">Sou um denunciante</a></li>
+          <li><a href="<?= $raiz ?>cadastro/representante" class="link-light small">Sou um representante</a></li>
         </ul>
       </div>
 
         <!-- Coloquei isso só para encher e ficar mais bonito, pq o modelo que eu segui tinha mais link  -->   
 
       <div class="col-md-3">
-        <h5 style="font-weight: bold;">
-          Denuncias
-        </h5>
+        <h5 style="font-weight: bold;">Denúncias</h5>
         <ul class="list-unstyled">
-        <li>
-          <a href="home-denunciante.html" class="link-light small">
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="home-denuncias.html" class="link-light small">
-            Mural de denuncias
-          </a>
-        </li>
+          <li><a href="<?= $raiz ?>home" class="link-light small">Início</a></li>
+          <li><a href="<?= $raiz ?>denuncia/mural" class="link-light small">Mural de denúncias</a></li>
+          <li><a href="<?= $raiz ?>denuncia/criar" class="link-light small">Registrar denúncia</a></li>
+          <li><a href="<?= $raiz ?>user/perfil" class="link-light small">Meu perfil</a></li>
         </ul>
       </div>
 
@@ -237,21 +250,9 @@
     </div>
 </footer>
     
+<!-- ADICIONADO: navbar.js (menu mobile e botão Sair) e perfil.js (dados do usuário + denúncias dele) -->
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/perfil.js"></script>
+
 </body>
 </html>
-
-<style>
-    html { height: 100%; }
-
-    body {
-        min-height: 100vh;
-        min-height: 100dvh;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    footer {
-        margin-top: auto;
-    }
-</style>

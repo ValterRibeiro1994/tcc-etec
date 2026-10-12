@@ -62,6 +62,7 @@ class TokenService {
                 mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), 
                 resposta: true,
                 dados: $dados
+            ); // CORRIGIDO: faltava fechar o parêntese da chamada (erro de sintaxe que quebrava o arquivo inteiro)
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);
             return RespostaProcesso::resposta(

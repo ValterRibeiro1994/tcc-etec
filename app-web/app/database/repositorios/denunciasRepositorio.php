@@ -2,13 +2,10 @@
 
 class DenunciasRepositorio {
 
-    // ==================================================================
-    // ALTERADO: agora grava a denúncia na tabela tb_denuncia.
-    // - id_usuario e perfil_usuario são buscados no banco pelo e-mail do usuário
-    //   autenticado (nunca vêm do formulário).
+    // Grava a denúncia na tabela tb_denuncia.
+    // - id_usuario e perfil_usuario são buscados no banco pelo e-mail do usuário autenticado.
     // - logradouro_denuncia recebe a junção dos campos de endereço (Endereco::getLogradouro()).
     // - status_denuncia não é enviado: o banco usa o padrão 'pendente'.
-    // ==================================================================
     public function salvarDenuncia(Denuncia $denuncia): array {
         $tabela_denuncia = $GLOBALS['denuncia'];
         $tabela_usuario = $GLOBALS['usuario'];
@@ -83,17 +80,19 @@ class DenunciasRepositorio {
     public function apagarDenuncia(){}
 
     // ==================================================================
-    // Busca as denúncias no banco (tb_denuncia) para o mural
-    // ALTERADO: o local do card agora usa direto o logradouro_denuncia, que já é
-    // a junção "Rua, número, complemento - bairro" gravada ao criar a denúncia.
+    // Mural: todas as denúncias, com o nome de quem denunciou.
+    // ALTERADO: INNER JOIN com tb_usuario para trazer nome_usuario/sobrenome_usuario.
     // ==================================================================
     public function listarDenuncias(int $limite = 100): array {
-        $tabela = $GLOBALS['denuncia']; // tb_denuncia (definida em config.php)
+        $tabela_denuncia = $GLOBALS['denuncia'];  // tb_denuncia (definida em config.php)
+        $tabela_usuario = $GLOBALS['usuario'];    // tb_usuario
 
-        $comando = "SELECT id_denuncia, titulo_denuncia, data_denuncia, imagem_denuncia,
-                           nome_categoria, logradouro_denuncia, status_denuncia
-                    FROM $tabela
-                    ORDER BY data_denuncia DESC
+        $comando = "SELECT d.id_denuncia, d.titulo_denuncia, d.data_denuncia, d.imagem_denuncia,
+                           d.nome_categoria, d.logradouro_denuncia, d.status_denuncia,
+                           u.nome_usuario, u.sobrenome_usuario
+                    FROM $tabela_denuncia d
+                    INNER JOIN $tabela_usuario u ON u.id_usuario = d.id_usuario
+                    ORDER BY d.data_denuncia DESC, d.id_denuncia DESC
                     LIMIT :limite";
 
         try {
@@ -123,7 +122,8 @@ class DenunciasRepositorio {
                     "local"     => $linha['logradouro_denuncia'],
                     "data"      => $data,
                     "status"    => $linha['status_denuncia'],
-                    "imagem"    => $imagem
+                    "imagem"    => $imagem,
+                    "autor"     => $this->nomeParaExibir($linha['nome_usuario'], $linha['sobrenome_usuario'])
                 ];
             }
 
@@ -139,5 +139,67 @@ class DenunciasRepositorio {
                 dados: RespostaProcesso::salvarErro($erro)
             );
         }
+    }
+
+    // ==================================================================
+    // ADICIONADO: apenas as denúncias feitas pelo usuário logado (pelo e-mail do token).
+    // O INNER JOIN com tb_usuario + WHERE garante que ninguém vê denúncias de outra pessoa.
+    // ==================================================================
+    public function listarDenunciasDoUsuario(string $email, int $limite = 200): array {
+        $tabela_denuncia = $GLOBALS['denuncia'];
+        $tabela_usuario = $GLOBALS['usuario'];
+
+        $comando = "SELECT d.id_denuncia, d.titulo_denuncia, d.descricao_denuncia, d.data_denuncia,
+                           d.nome_categoria, d.logradouro_denuncia, d.status_denuncia
+                    FROM $tabela_denuncia d
+                    INNER JOIN $tabela_usuario u ON u.id_usuario = d.id_usuario
+                    WHERE u.email_usuario = :email
+                    ORDER BY d.data_denuncia DESC, d.id_denuncia DESC
+                    LIMIT :limite";
+
+        try {
+            $conexao = (new Conexao())->getConexao();
+            $sql = $conexao->prepare($comando);
+            $sql->bindValue(':email', $email);
+            $sql->bindValue(':limite', $limite, PDO::PARAM_INT);
+            $sql->execute();
+            $linhas = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            $denuncias = [];
+            foreach ($linhas as $linha) {
+                $denuncias[] = [
+                    "id"        => (int) $linha['id_denuncia'],
+                    "titulo"    => $linha['titulo_denuncia'],
+                    "descricao" => $linha['descricao_denuncia'],
+                    "categoria" => $linha['nome_categoria'],
+                    "local"     => $linha['logradouro_denuncia'],
+                    "data"      => (new DateTime($linha['data_denuncia']))->format("d/m/Y"),
+                    "status"    => $linha['status_denuncia']
+                ];
+            }
+
+            return RespostaProcesso::resposta(
+                mensagem: count($denuncias) . " denúncia(s) do usuário",
+                resposta: true,
+                dados: $denuncias
+            );
+        } catch (Exception $erro) {
+            return RespostaProcesso::resposta(
+                mensagem: "Erro ao buscar suas denúncias",
+                resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
+        }
+    }
+
+    // Nome público de quem denunciou: primeiro nome + inicial do sobrenome (ex.: "Maria S.").
+    // Para mostrar o nome completo, troque o retorno por: $nome . " " . $sobrenome
+    private function nomeParaExibir(string $nome, string $sobrenome): string {
+        // o cadastro guarda os nomes com htmlspecialchars; aqui voltamos ao texto normal
+        $nome = html_entity_decode(trim($nome), ENT_QUOTES, 'UTF-8');
+        $sobrenome = html_entity_decode(trim($sobrenome), ENT_QUOTES, 'UTF-8');
+
+        if ($sobrenome === "") return $nome;
+        return $nome . " " . mb_strtoupper(mb_substr($sobrenome, 0, 1)) . ".";
     }
 }

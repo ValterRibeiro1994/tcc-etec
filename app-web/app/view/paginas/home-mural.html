@@ -1,3 +1,10 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['caminho_raiz_projeto'];
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,22 +22,23 @@
     
    <header class="navbar-header">
     <nav class="navbar">
-        <a href="home" class="logo-link">
+        <a href="<?= $raiz ?>home" class="logo-link">
             <img src="../app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
         </a>
 
+        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
-            <li class="nav-item active"><a href="index.html">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
             <li class="nav-item"><a href="#">Sobre</a></li>
             <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item"><a href="#">Mural</a></li>
+            <li class="nav-item active"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
         </ul>
 
         <div class="nav-actions" id="convidado">
-            <a href="login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
-            <a href="cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
 
@@ -53,18 +61,19 @@
     <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
-                <li class="nav-item active"><a href="index">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="#">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="#">Mural</a></li>
+                <li class="nav-item active"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             </ul>
 
             <div class="nav-actions">
-              <a href="login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+              <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
               </a>
-              <a href="cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+              <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                   Cadastre-se
               </a>
                 
@@ -93,39 +102,41 @@
               ×
             </button>
             
-            <button class="menu-lateral-btn-criar">
+            <!-- ALTERADO: adicionado id="btn-nova-denuncia-lateral" -->
+            <button class="menu-lateral-btn-criar" id="btn-nova-denuncia-lateral">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 Nova denúncia
             </button>
             
+            <!-- ALTERADO: cada link ganhou data-pagina e id. O link "perfil" abre a página de perfil, só para usuário logado (mural.js) -->
             <nav class="menu-lateral-navegacao">
-                <a href="#" class="menu-lateral-link ativo">
+                <a href="#" class="menu-lateral-link ativo" data-pagina="mural" id="link-mural">
                     <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     Mural de denúncias
                 </a>
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="denuncias" id="link-denuncias">
                     <svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Minhas denúncias
                 </a>
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="acompanhamento" id="link-acompanhamento">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     Acompanhamento
                 </a>
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="favoritos" id="link-favoritos">
                     <svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     Favoritos
                 </a>
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="historico" id="link-historico">
                     <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                     Histórico
                 </a>
                
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="configuracoes" id="link-configuracoes">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Configurações
                 </a>
 
-                <a href="#" class="menu-lateral-link">
+                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     perfil
                 </a>
@@ -201,6 +212,8 @@
                     <div class="card-body">
                             <span class="tag-categoria" id="categoria-denuncia">Categoria</span>
                             <h3 class="card-title" id="titulo-denuncia">titulo</h3>
+                            <!-- ADICIONADO: autor da denúncia. O nome vem do INNER JOIN com tb_usuario e é preenchido pelo mural.js -->
+                            <p class="mb-2 small text-secondary">Por <strong id="autor-denuncia">Autor</strong></p>
                             <div class="card-info">
                                 <span id="local-denuncia">Local</span>
                                 <span id="data-denuncia">Data</span>
@@ -224,19 +237,19 @@
         <p>Acompanhe o andamento de tudo o que você já registrou.</p>
     </div>
 
-    <!-- RESUMO -->
+    <!-- ALTERADO: os números do resumo agora têm id (resumo-*) e são calculados pelo mural.js com as denúncias do próprio usuário -->
     <div class="resumo-denuncias">
         <div class="resumo-item" data-cor="verde">
-            <strong>1</strong><span>Concluídas</span>
+            <strong id="resumo-concluidas">0</strong><span>Concluídas</span>
         </div>
         <div class="resumo-item" data-cor="amarelo">
-            <strong>1</strong><span>Em andamento</span>
+            <strong id="resumo-andamento">0</strong><span>Em andamento</span>
         </div>
         <div class="resumo-item" data-cor="azul">
-            <strong>1</strong><span>Em análise</span>
+            <strong id="resumo-analise">0</strong><span>Em análise</span>
         </div>
         <div class="resumo-item" data-cor="vermelho">
-            <strong>1</strong><span>Pendentes</span>
+            <strong id="resumo-pendentes">0</strong><span>Pendentes</span>
         </div>
     </div>
 
@@ -249,102 +262,36 @@
         <button class="filtro-chip" data-filtro="pendente">Pendentes</button>
     </div>
 
-    <!-- LISTA -->
-    <div class="lista-denuncias">
+    <!-- ALTERADO: os 4 exemplos fixos foram removidos. O mural.js lista aqui SÓ as denúncias do usuário logado
+         (./denuncia/minhas), copiando o modelo "modelo-minha-denuncia". Ids: minhas-mensagem, lista-minhas-denuncias -->
+    <p id="minhas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
 
-        <article class="denuncia-item" data-status="concluida">
-            <div class="denuncia-principal">
-                <h3>Buraco na rua</h3>
-                <p>Buraco profundo e perigoso em frente ao número 67.</p>
-            </div>
-            <div class="denuncia-meta">
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    R. Braz, nº 67
-                </span>
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    21/02/2009
-                </span>
-            </div>
-            <span class="status-badge">Concluída</span>
-            <div class="denuncia-acoes">
-                <button class="btn-acao btn-acao-principal">Ver mais</button>
-                <button class="btn-acao">Editar</button>
-                <button class="btn-acao btn-acao-perigo">Remover</button>
-            </div>
-        </article>
+    <div class="lista-denuncias" id="lista-minhas-denuncias"></div>
 
-        <article class="denuncia-item" data-status="andamento">
-            <div class="denuncia-principal">
-                <h3>Poste sem iluminação</h3>
-                <p>Poste apagado há mais de uma semana, rua muito escura à noite.</p>
-            </div>
-            <div class="denuncia-meta">
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    Av. Kennedy, nº 120
-                </span>
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    05/03/2025
-                </span>
-            </div>
-            <span class="status-badge">Em andamento</span>
-            <div class="denuncia-acoes">
-                <button class="btn-acao btn-acao-principal">Ver mais</button>
-                <button class="btn-acao">Editar</button>
-                <button class="btn-acao btn-acao-perigo">Remover</button>
-            </div>
-        </article>
-
-        <article class="denuncia-item" data-status="analise">
-            <div class="denuncia-principal">
-                <h3>Lixo acumulado na calçada</h3>
-                <p>Entulho descartado irregularmente na esquina.</p>
-            </div>
-            <div class="denuncia-meta">
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    R. Marechal, nº 45
-                </span>
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    12/04/2025
-                </span>
-            </div>
-            <span class="status-badge">Em análise</span>
-            <div class="denuncia-acoes">
-                <button class="btn-acao btn-acao-principal">Ver mais</button>
-                <button class="btn-acao">Editar</button>
-                <button class="btn-acao btn-acao-perigo">Remover</button>
-            </div>
-        </article>
-
+    <template id="modelo-minha-denuncia">
         <article class="denuncia-item" data-status="pendente">
             <div class="denuncia-principal">
-                <h3>Bueiro entupido</h3>
-                <p>Água acumulando na rua quando chove.</p>
+                <h3 data-campo="titulo">Título</h3>
+                <p data-campo="descricao">Descrição</p>
             </div>
             <div class="denuncia-meta">
                 <span class="meta-linha">
                     <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    R. das Flores, nº 300
+                    <span data-campo="local">Local</span>
                 </span>
                 <span class="meta-linha">
                     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    28/04/2025
+                    <span data-campo="data">Data</span>
                 </span>
             </div>
-            <span class="status-badge">Pendente</span>
+            <span class="status-badge" data-campo="status">Status</span>
             <div class="denuncia-acoes">
                 <button class="btn-acao btn-acao-principal">Ver mais</button>
                 <button class="btn-acao">Editar</button>
                 <button class="btn-acao btn-acao-perigo">Remover</button>
             </div>
         </article>
-
-    </div>
+    </template>
 </section>
         <!-- Conteúdo desta tela -->
     
@@ -356,9 +303,9 @@
 
 </main>
     
-   <script src="../app/view/scripts/navbar.js"></script>
+   <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
   <!-- ADICIONADO: busca as denúncias no banco e monta os cards do mural -->
-  <script src="../app/view/scripts/mural.js"></script>
+  <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
     
 </body>
 </html>

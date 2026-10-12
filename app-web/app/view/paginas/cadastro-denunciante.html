@@ -1,3 +1,10 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['caminho_raiz_projeto'];
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -15,22 +22,23 @@
     <!-- NAV/HEADER -->
     <header class="navbar-header">
         <nav class="navbar">
-            <a href="../home" class="logo-link">
+            <a href="<?= $raiz ?>home" class="logo-link">
                 <img src="..\app\recursos\imagens\logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
             </a>
 
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
-                <li class="nav-item active"><a href="index">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="#">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="home-mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="../login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                     Entrar
                 </a>
-                <a href="../cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                     Cadastre-se
                 </a>
             </div>
@@ -46,18 +54,19 @@
 
         <!-- MENU MOBILE -->
         <div class="mobile-menu">
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
-                <li class="nav-item active"><a href="../home">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="#">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="../home">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="../login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                     Entrar
                 </a>
-                <a href="../cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                     Cadastre-se
                 </a>
             </div>
@@ -97,7 +106,7 @@
                                     Cadastro
                                 </h2>
 
-                                <a href="../login" class="text-decoration-none">
+                                <a href="<?= $raiz ?>login" class="text-decoration-none">
                                     Já tem conta?
                                 </a>
                             </div>
@@ -203,7 +212,9 @@
     </main>
 
     <!-- SCRIPTS -->
-    <script src="../app/view/scripts/cadastro-denunciante.js"></script>
+    <!-- ADICIONADO: navbar.js (menu mobile e botão Sair) -->
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/cadastro-denunciante.js"></script>
     
 </body>
 </html>
