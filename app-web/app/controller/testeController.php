@@ -64,4 +64,6 @@ class TesteController {
             formato: "html", pagina: "app/view/paginas/criar-denuncia.html"
         );
     }
+
+    
 }

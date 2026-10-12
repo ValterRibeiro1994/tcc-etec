@@ -1,36 +1,55 @@
 <?php
 
 class Endereco {
-    private string|null $logradouro = null;
+    private string|null $rua = null;
     private string|null $bairro = null; 
     private string|null $numero = null;
+    private string|null $complemento = null;
     private string|null $cidade = null;
     private string|null $estado = null;
     private string|null $cep = null;
 
-    public function __construct(string $cidade = null, string $estado = null){
+    public function __construct(string|null $cidade = null, string|null $estado = null){
         if ($cidade !== null) $this->setCidade($cidade);
         if ($estado !== null) $this->setEstado($estado);
 
     }
     
-    
-    public function setLogradouro(string $logradouro){
-        $logradouro = trim($logradouro); // remove excesso de espaços em branco
-        if (empty($logradouro)) throw new Exception("Logradouro Invalido");
-        $this->logradouro = $logradouro;
+    // ==================================================================
+    // ALTERADO: o logradouro NÃO é mais informado diretamente.
+    // Ele é montado (getLogradouro) a partir de rua, número, complemento e bairro.
+    // O método setLogradouro() foi removido e substituído por setRua().
+    // ==================================================================
+    public function setRua(string $rua, int $limite = 100){
+        $rua = trim(preg_replace('/\s+/', ' ', $rua)); // remove excesso de espaços em branco
+        if ($rua === "") throw new Exception("Rua Invalida");
+        if (mb_strlen($rua) > $limite) throw new Exception("Rua muito longa (máximo de $limite caracteres)");
+        $this->rua = $rua;
     }
  
-    public function setBairro(string $bairro){
+    public function setBairro(string $bairro, int $limite = 80){
         $bairro = trim($bairro);
-        if (empty($bairro)) throw new Exception("Bairro Invalido");
+        if ($bairro === "") throw new Exception("Bairro Invalido");
+        if (mb_strlen($bairro) > $limite) throw new Exception("Bairro muito longo (máximo de $limite caracteres)");
         $this->bairro = $bairro;
     }
 
-    public function setNumero(string $numero){
+    public function setNumero(string $numero, int $limite = 30){
         $numero = trim($numero);
-        if (empty($numero)) throw new Exception("Numero Invalido");
+        if ($numero === "") throw new Exception("Numero Invalido");
+        if (mb_strlen($numero) > $limite) throw new Exception("Número muito longo (máximo de $limite caracteres)");
         $this->numero = $numero;
+    }
+
+    // O complemento é opcional: texto vazio ou null deixam o complemento sem valor
+    public function setComplemento(string|null $complemento, int $limite = 100){
+        $complemento = trim(preg_replace('/\s+/', ' ', (string) $complemento));
+        if ($complemento === "") {
+            $this->complemento = null;
+            return;
+        }
+        if (mb_strlen($complemento) > $limite) throw new Exception("Complemento muito longo (máximo de $limite caracteres)");
+        $this->complemento = $complemento;
     }
 
     public function setCidade(string $cidade, int $limite = 50){
@@ -48,28 +67,51 @@ class Endereco {
     }
 
     public function setCep(string $cep, int $limite = 8){
-        $cep_limpo = ""; // armazena apenas os números do cpf
-        $cpf = trim($cep); // remove excesso de espaços em branco
+        $cep_limpo = ""; // armazena apenas os números do cep
+        $cep = trim($cep); // remove excesso de espaços em branco
         
-        // loop para capturar apenas os espaços em branco
+        // loop para capturar apenas os números
         $n = strlen($cep);
-        for ($x = 0; $x < $n; $x++) if (ctype_digit($cpf[$x])) $cep_limpo .= $cpf[$x];
+        for ($x = 0; $x < $n; $x++) if (ctype_digit($cep[$x])) $cep_limpo .= $cep[$x];
         if (strlen($cep_limpo) != $limite) throw new Exception("Cep Invalido");
 
-        // salva os numeros do cpf
+        // salva os numeros do cep
         $this->cep = $cep_limpo;
     }
 
+    public function getRua(): string {
+        if ($this->rua === null) throw new Exception("Rua não informada");
+        return $this->rua;
+    }
+
+    /**
+     * LOGRADOURO = junção dos campos de endereço, no formato:
+     *   "Rua das Flores, 123, Apto 4 - Centro"
+     *   (rua, número, complemento [se existir] - bairro)
+     * Cidade, estado e CEP continuam em campos próprios.
+     * O limite de 150 caracteres é o tamanho da coluna logradouro_denuncia.
+     */
     public function getLogradouro(): string {
-        return $this->logradouro;
+        $partes = [$this->getRua(), $this->getNumero()];
+        if ($this->complemento !== null) $partes[] = $this->complemento;
+
+        $logradouro = implode(", ", $partes) . " - " . $this->getBairro();
+        if (mb_strlen($logradouro) > 150) throw new Exception("Endereço muito longo: reduza a rua, o complemento ou o bairro");
+        return $logradouro;
     }
 
     public function getBairro(): string {
+        if ($this->bairro === null) throw new Exception("Bairro não informado");
         return $this->bairro;
     }
 
     public function getNumero(): string {
+        if ($this->numero === null) throw new Exception("Número não informado");
         return $this->numero;
+    }
+
+    public function getComplemento(): string|null {
+        return $this->complemento;
     }
 
     public function getCidade(): string {
@@ -81,6 +123,7 @@ class Endereco {
     }
 
     public function getCep(): string {
+        if ($this->cep === null) throw new Exception("Cep não informado");
         return $this->cep;
     }
     
