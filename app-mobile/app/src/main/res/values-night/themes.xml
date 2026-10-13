@@ -1,7 +1,16 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TCC" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+
+    <style name="Base.Theme.TCC"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">#304D2C</item>
+        <item name="colorPrimaryVariant">#243B22</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:windowLightStatusBar">false</item>
+
     </style>
+
+    <style name="Theme.TCC"
+        parent="Base.Theme.TCC" />
+
 </resources>

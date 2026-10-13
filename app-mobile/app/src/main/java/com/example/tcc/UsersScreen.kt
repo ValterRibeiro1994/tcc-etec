@@ -95,7 +95,7 @@ class UsersScreen : AppCompatActivity() {
 
         // BOTÃO MODO ESCURO
         binding.btnDarkMode.setOnClickListener {
-            // Funcionalidade futura
+            ThemeManager.alternarTema(this)
         }
     }
 

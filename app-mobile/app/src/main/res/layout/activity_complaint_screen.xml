@@ -7,7 +7,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8EFE5"
+    android:background="@color/fundo_denuncia"
     tools:context=".ComplaintScreen">
 
 
@@ -79,7 +79,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#82936A"
+                    app:backgroundTint="@color/fundo_botao_header"
                     app:cornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:text="Nova denúncia"
-                android:textColor="#111111"
+                android:textColor="@color/texto_principal"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -107,7 +107,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="16dp"
                 android:text="Descreva o problema, adicione uma foto e informe a localização."
-                android:textColor="#202020"
+                android:textColor="@color/texto_descricao"
                 android:textSize="16sp" />
 
 
@@ -119,10 +119,10 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/fundo_card"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#303030"
+                app:strokeColor="@color/borda_card"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -137,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Título"
-                        android:textColor="#111111"
+                        android:textColor="@color/texto_principal"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -157,7 +157,9 @@
                             android:layout_height="wrap_content"
                             android:hint="Ex: Poste queimado"
                             android:inputType="text"
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            android:textColor="@color/texto_principal"
+                            android:textColorHint="@color/texto_secundario" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:text="Categoria"
-                        android:textColor="#111111"
+                        android:textColor="@color/texto_principal"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -176,9 +178,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_marginTop="5dp"
+                        app:cardBackgroundColor="@color/fundo_card"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#333333"
+                        app:strokeColor="@color/borda_campo"
                         app:strokeWidth="1dp">
 
                         <Spinner
@@ -197,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:text="Descrição"
-                        android:textColor="#111111"
+                        android:textColor="@color/texto_principal"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -218,7 +221,9 @@
                             android:gravity="top|start"
                             android:hint="Descreva o problema..."
                             android:inputType="textMultiLine"
-                            android:paddingTop="12dp" />
+                            android:paddingTop="12dp"
+                            android:textColor="@color/texto_principal"
+                            android:textColorHint="@color/texto_secundario" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:text="Foto"
-                        android:textColor="#111111"
+                        android:textColor="@color/texto_principal"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -237,16 +242,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:layout_marginTop="5dp"
+                        app:cardBackgroundColor="@color/fundo_card"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="#333333"
+                        app:strokeColor="@color/borda_campo"
                         app:strokeWidth="1dp">
 
                         <ImageView
                             android:id="@+id/imageFoto"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#E4E4E4"
+                            android:background="@color/fundo_foto"
                             android:contentDescription="Foto da denúncia"
                             android:scaleType="centerCrop" />
 
@@ -257,7 +263,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#87966C"
+                        android:backgroundTint="@color/fundo_botao_foto"
                         android:text="Selecionar foto"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF" />
@@ -269,7 +275,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:text="Endereço"
-                        android:textColor="#111111"
+                        android:textColor="@color/texto_principal"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -288,7 +294,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Rua e número"
-                            android:inputType="textPostalAddress" />
+                            android:inputType="textPostalAddress"
+                            android:textColor="@color/texto_principal"
+                            android:textColorHint="@color/texto_secundario" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,7 +307,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_marginTop="24dp"
-                        android:backgroundTint="#264D26"
+                        android:backgroundTint="@color/fundo_botao_enviar"
                         android:text="Cadastrar denúncia"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
@@ -321,7 +329,7 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
         android:layout_height="82dp"
-        android:background="#4D7048"
+        android:background="@color/barra_navegacao"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -336,6 +344,7 @@
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_home"
+            android:tint="@color/icone_navegacao"
             android:contentDescription="Início"
             android:scaleType="fitCenter"
             android:padding="10dp"
@@ -354,6 +363,7 @@
             android:layout_marginEnd="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_warning"
+            android:tint="@color/icone_navegacao"
             android:contentDescription="Denúncia"
             android:scaleType="fitCenter"
             android:padding="10dp"
@@ -372,6 +382,7 @@
             android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_person"
+            android:tint="@color/icone_navegacao"
             android:contentDescription="Perfil"
             android:scaleType="fitCenter"
             android:padding="10dp"

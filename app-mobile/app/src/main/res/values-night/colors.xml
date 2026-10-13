@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fundo_tela">#121712</color>
+    <color name="fundo_denuncia">#121712</color>
+    <color name="fundo_perfil">#121712</color>
+    <color name="fundo_filtros">#1C261D</color>
+    <color name="fundo_card">#252D25</color>
+    <color name="texto_principal">#F5F7F4</color>
+    <color name="texto_descricao">#E1E9DF</color>
+    <color name="texto_secundario">#BFCABD</color>
+    <color name="texto_vazio">#AEB9AC</color>
+    <color name="borda_card">#657866</color>
+    <color name="borda_campo">#829782</color>
+    <color name="borda_opcoes">#718473</color>
+    <color name="borda_botao">#718473</color>
+    <color name="barra_navegacao">#263D29</color>
+    <color name="icone_navegacao">#FFFFFF</color>
+    <color name="fundo_foto">#364338</color>
+    <color name="fundo_botao_foto">#536B50</color>
+    <color name="fundo_botao_header">#5A7655</color>
+    <color name="fundo_filtro_botao">#536B50</color>
+    <color name="texto_filtro">#FFFFFF</color>
+    <color name="fundo_verde_perfil">#1C3B23</color>
+    <color name="fundo_botao_enviar">#345F38</color>
+    <color name="fundo_avatar">#F3A24F</color>
+</resources>

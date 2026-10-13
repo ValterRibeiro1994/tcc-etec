@@ -17,6 +17,8 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.INSTANCE.aplicarTema(this);
+
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
