@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "932436548473",
+    "project_id": "relatesbc",
+    "storage_bucket": "relatesbc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932436548473:android:279d9658e77a3428dfada8",
+        "android_client_info": {
+          "package_name": "com.example.tcc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932436548473-8skmdr2a745s7d5ropa4qnfggrrh606h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tcc",
+            "certificate_hash": "7696aea45bdf1e86116903c111b7f294561ff817"
+          }
+        },
+        {
+          "client_id": "932436548473-12l70slsvgb5p5k3lcpjkhraj2chnr3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpIkWXo-GILHOwI4xMHEUjcJBDQUQ6xZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932436548473-12l70slsvgb5p5k3lcpjkhraj2chnr3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
