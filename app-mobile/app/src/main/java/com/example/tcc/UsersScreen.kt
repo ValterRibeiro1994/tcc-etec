@@ -176,22 +176,52 @@ class UsersScreen : AppCompatActivity() {
     }
 
     // ESTATÍSTICAS DAS DENÚNCIAS
+
     private fun carregarEstatisticas() {
 
-        val denuncias = ItemRepository.buscarTodos(this)
+        binding.txtSolicitacoes.text = "..."
+        binding.txtResolvidas.text = "..."
+        binding.txtAndamento.text = "..."
 
-        val total = denuncias.size
+        val uidConsultado = FirebaseAuth.getInstance()
+            .currentUser?.uid ?: return
 
-        // Valores temporários até integrar os status ao banco
-        val resolvidas = 0
-        val andamento = total
+        ItemRepository.buscarMinhas(
+            sucesso = { denuncias ->
 
-        binding.txtSolicitacoes.text = total.toString()
+                if (isFinishing || isDestroyed) {
+                    return@buscarMinhas
+                }
 
-        binding.txtResolvidas.text = resolvidas.toString()
+                if (FirebaseAuth.getInstance().currentUser?.uid != uidConsultado) {
+                    return@buscarMinhas
+                }
 
-        binding.txtAndamento.text = andamento.toString()
+                val total = denuncias.size
+
+                val resolvidas = denuncias.count {
+                    it.status == "resolvida"
+                }
+
+                val andamento = denuncias.count {
+                    it.status == "em_analise"
+                }
+
+                binding.txtSolicitacoes.text = total.toString()
+                binding.txtResolvidas.text = resolvidas.toString()
+                binding.txtAndamento.text = andamento.toString()
+            },
+
+            erro = {
+                if (!isFinishing && !isDestroyed) {
+                    binding.txtSolicitacoes.text = "-"
+                    binding.txtResolvidas.text = "-"
+                    binding.txtAndamento.text = "-"
+                }
+            }
+        )
     }
+
 
     // VOLTAR PARA A TELA DE LOGIN
     private fun abrirLogin() {

@@ -1,15 +1,17 @@
+
 package com.example.tcc
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class ItemAdapter(
-    private var lista: List<Item>
+    private var itens: List<Item>
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) :
@@ -17,6 +19,12 @@ class ItemAdapter(
 
         val foto: ImageView =
             view.findViewById(R.id.cardFoto)
+
+        val status: TextView =
+            view.findViewById(R.id.cardStatus)
+
+        val tempo: TextView =
+            view.findViewById(R.id.cardTempo)
 
         val titulo: TextView =
             view.findViewById(R.id.cardTitulo)
@@ -29,12 +37,6 @@ class ItemAdapter(
 
         val endereco: TextView =
             view.findViewById(R.id.cardEndereco)
-
-        val status: TextView =
-            view.findViewById(R.id.cardStatus)
-
-        val tempo: TextView =
-            view.findViewById(R.id.cardTempo)
     }
 
     override fun onCreateViewHolder(
@@ -42,8 +44,7 @@ class ItemAdapter(
         viewType: Int
     ): ItemViewHolder {
 
-        val view = LayoutInflater
-            .from(parent.context)
+        val view = LayoutInflater.from(parent.context)
             .inflate(
                 R.layout.item_card,
                 parent,
@@ -57,36 +58,43 @@ class ItemAdapter(
         holder: ItemViewHolder,
         position: Int
     ) {
-
-        val item = lista[position]
+        val item = itens[position]
 
         holder.titulo.text = item.titulo
         holder.categoria.text = item.categoria
         holder.descricao.text = item.descricao
         holder.endereco.text = item.endereco
 
-        // Por enquanto
-        holder.status.text = "Em andamento"
-        holder.tempo.text = "agora"
-
-        if (!item.fotoUri.isNullOrEmpty()) {
-
-            try {
-                holder.foto.setImageURI(
-                    Uri.parse(item.fotoUri)
-                )
-            } catch (_: Exception) {
-                holder.foto.setImageDrawable(null)
-            }
+        holder.status.text = when (item.status) {
+            "resolvida" -> "Resolvida"
+            "em_analise" -> "Em análise"
+            else -> "Pendente"
         }
+
+        // O modelo Item ainda não possui data de criação.
+        holder.tempo.text = ""
+
+        // Carregar foto do Cloudinary
+        Glide.with(holder.itemView.context)
+            .load(item.fotoUri)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .centerCrop()
+            .placeholder(android.R.drawable.ic_menu_gallery)
+            .error(android.R.drawable.ic_menu_report_image)
+            .into(holder.foto)
     }
 
-    override fun getItemCount(): Int {
-        return lista.size
-    }
+    override fun getItemCount(): Int = itens.size
 
     fun atualizarLista(novaLista: List<Item>) {
-        lista = novaLista
+        itens = novaLista
         notifyDataSetChanged()
+    }
+
+    override fun onViewRecycled(holder: ItemViewHolder) {
+        Glide.with(holder.itemView.context)
+            .clear(holder.foto)
+
+        super.onViewRecycled(holder)
     }
 }

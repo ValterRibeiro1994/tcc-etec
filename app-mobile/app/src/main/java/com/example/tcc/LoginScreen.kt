@@ -48,7 +48,7 @@ class LoginScreen : AppCompatActivity() {
             insets
         }
 
-        val auth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         credentialManager = CredentialManager.create(this)
 
 

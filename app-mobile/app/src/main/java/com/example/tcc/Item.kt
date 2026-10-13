@@ -6,5 +6,8 @@ data class Item(
     val categoria: String,
     val descricao: String,
     val fotoUri: String?,
-    val endereco: String
+    val endereco: String,
+    val firebaseId: String = "",
+    val usuarioUid: String = "",
+    val status: String = "pendente"
 )
