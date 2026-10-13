@@ -1,114 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginScreen" >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="143dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="284dp"
-            android:backgroundTint="#5E634F"
-            android:text="Entrar"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="213dp"
-            android:layout_height="79dp"
-            android:layout_marginStart="176dp"
-            android:layout_marginTop="51dp"
-            android:layout_marginEnd="178dp"
-            android:text="Login"
-            android:textAlignment="center"
-            android:textColor="#020202"
-            android:textSize="48sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="77dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="184dp"
-            android:text="Email"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.161"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="77dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="280dp"
-            android:text="Senha"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.161"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edtEmail_Login"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="147dp"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="139dp"
-            android:layout_marginEnd="138dp"
-            android:layout_marginBottom="85dp"
-            android:backgroundTint="#FCF5FD"
-            android:text="cadastre-se"
-            android:textColor="#2F2D2D"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/edtPassword_Login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="147dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FAFAFA" tools:context=".LoginScreen">
+    <androidx.core.widget.NestedScrollView android:id="@+id/scrollForm" android:layout_width="0dp" android:layout_height="0dp" android:fillViewport="true" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@id/footer" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal">
+            <View android:layout_width="match_parent" android:layout_height="56dp" android:background="#A3AC8A"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="44dp" android:gravity="center" android:text="Login" android:textSize="44sp" android:textStyle="bold" android:textColor="#000000"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="28dp" android:layout_marginEnd="28dp" android:layout_marginTop="30dp" android:orientation="vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="0dp" android:layout_marginStart="8dp" android:text="Email" android:textSize="20sp" android:textStyle="bold" android:textColor="#000000"/>
+                <EditText android:id="@+id/edtEmail_Login" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="6dp" android:background="@drawable/bg_auth_field" android:paddingStart="16dp" android:paddingEnd="16dp" android:inputType="textEmailAddress" android:textSize="18sp" android:singleLine="true"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:layout_marginStart="8dp" android:text="Senha" android:textSize="20sp" android:textStyle="bold" android:textColor="#000000"/>
+                <EditText android:id="@+id/edtPassword_Login" android:layout_width="match_parent" android:layout_height="58dp" android:layout_marginTop="6dp" android:background="@drawable/bg_auth_field" android:paddingStart="16dp" android:paddingEnd="16dp" android:inputType="textPassword" android:textSize="18sp" android:singleLine="true"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/btn" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginStart="38dp" android:layout_marginEnd="38dp" android:layout_marginTop="42dp" android:text="Entrar" android:textAllCaps="false" android:textColor="#000000" android:textSize="22sp" android:textStyle="bold" app:backgroundTint="#A3AC8A" app:cornerRadius="20dp" app:strokeColor="#000000" app:strokeWidth="2dp"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:gravity="center" android:text="Entrar com:" android:textColor="#000000" android:textSize="18sp" android:textStyle="bold"/>
+                <!--  Visual do Google: conecte a autenticação no Kotlin, se desejar.  -->
+                <TextView android:id="@+id/btnGoogle" android:layout_width="58dp" android:layout_height="58dp" android:layout_gravity="center_horizontal" android:layout_marginTop="8dp" android:background="@drawable/bg_auth_field" android:gravity="center" android:text="G" android:textColor="#4285F4" android:textSize="30sp" android:textStyle="bold" android:contentDescription="Entrar com Google"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <FrameLayout android:id="@+id/footer" android:layout_width="0dp" android:layout_height="66dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+        <Button android:id="@+id/btnRegister" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_gravity="center" android:backgroundTint="#FAFAFA" android:text="cadastre-se" android:textAllCaps="false" android:textColor="#666666" android:textSize="18sp" android:textStyle="bold"/>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

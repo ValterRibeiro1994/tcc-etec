@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -48,8 +49,16 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.material)
     implementation("com.google.code.gson:gson:2.13.2")
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("com.google.android.material:material:1.13.0")
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+    implementation("com.google.firebase:firebase-auth")
+
+    // Credential Manager
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+
+    // Login com Google
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
