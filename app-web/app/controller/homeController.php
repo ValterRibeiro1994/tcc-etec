@@ -5,7 +5,7 @@ class HomeController {
 
         if ($requisicao['metodo'] == "GET"){
             return RespostaProcesso::resposta(
-                mensagem: "Sucesso", resposta: true,
+                mensagem: "Controller: Enviando documento html", resposta: true,
                 formato: "html", pagina: "app/view/paginas/index.html"
             );
         }
