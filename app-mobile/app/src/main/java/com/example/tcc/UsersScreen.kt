@@ -1,17 +1,22 @@
 package com.example.tcc
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tcc.databinding.ActivityUsersScreenBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 class UsersScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivityUsersScreenBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +26,14 @@ class UsersScreen : AppCompatActivity() {
         binding = ActivityUsersScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
 
-            val systemBars =
-                insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                )
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
 
             v.setPadding(
                 systemBars.left,
@@ -38,133 +45,168 @@ class UsersScreen : AppCompatActivity() {
             insets
         }
 
-        val sharedPref =
-            getSharedPreferences(
-                "DadosDoUsuario",
-                Context.MODE_PRIVATE
-            )
+        // Verifica se existe usuário autenticado
+        val usuario = auth.currentUser
 
-        val nome =
-            sharedPref.getString(
-                "Nome_salvo",
-                ""
-            ) ?: ""
-
-        val email =
-            sharedPref.getString(
-                "email_salvo",
-                ""
-            ) ?: ""
-
-        if (nome.isNotBlank()) {
-
-            binding.txtName.text = nome
-
-        } else {
-
-            binding.txtName.text = "Usuário"
+        if (usuario == null) {
+            abrirLogin()
+            return
         }
 
-        if (email.isNotBlank()) {
+        // Carrega os dados do usuário no Firebase
+        carregarUsuario(usuario)
 
-            binding.txtEmail.text = email
-
-        } else {
-
-            binding.txtEmail.text =
-                "Email não informado"
-        }
-
-        if (nome.isNotBlank()) {
-
-            val primeiraLetra =
-                nome.trim()
-                    .first()
-                    .uppercaseChar()
-
-            binding.txtInicial.text =
-                primeiraLetra.toString()
-
-        } else {
-
-            binding.txtInicial.text = "U"
-        }
-
+        // Carrega as estatísticas das denúncias
         carregarEstatisticas()
 
+        // BOTÃO SAIR
         binding.btnLogout.setOnClickListener {
 
-            val intent =
-                Intent(
-                    this,
-                    LoginScreen::class.java
-                )
-            intent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+            auth.signOut()
 
-            startActivity(intent)
-
-            finish()
+            abrirLogin()
         }
 
+        // BOTÃO PÁGINA PRINCIPAL
         binding.btnMain.setOnClickListener {
 
-            val intent =
-                Intent(
-                    this,
-                    MainActivity::class.java
-                )
-
-            startActivity(intent)
+            startActivity(
+                Intent(this, MainActivity::class.java)
+            )
 
             finish()
         }
 
+        // BOTÃO DENÚNCIAS
         binding.btnDenuncia.setOnClickListener {
 
-            val intent =
-                Intent(
-                    this,
-                    ComplaintScreen::class.java
-                )
-
-            startActivity(intent)
+            startActivity(
+                Intent(this, ComplaintScreen::class.java)
+            )
 
             finish()
         }
 
+        // BOTÃO PERFIL
         binding.btnUser.setOnClickListener {
-
+            // Já está na tela de perfil
         }
 
-
+        // BOTÃO MODO ESCURO
         binding.btnDarkMode.setOnClickListener {
-
+            // Funcionalidade futura
         }
     }
 
+    // BUSCAR DADOS DO USUÁRIO NO FIRESTORE
+    private fun carregarUsuario(usuario: FirebaseUser) {
+
+        // Exibe os dados disponíveis enquanto consulta o Firestore
+        val nomeInicial = usuario.displayName ?: "Usuário"
+
+        atualizarInterface(
+            nomeInicial,
+            usuario.email ?: "E-mail não informado"
+        )
+
+        db.collection("usuarios")
+            .document(usuario.uid)
+            .get()
+            .addOnSuccessListener { documento ->
+
+                if (isFinishing || isDestroyed) {
+                    return@addOnSuccessListener
+                }
+
+                // Evita mostrar dados se a sessão mudou
+                if (auth.currentUser?.uid != usuario.uid) {
+                    return@addOnSuccessListener
+                }
+
+                if (documento.exists()) {
+
+                    val nome = documento.getString("nome")
+                        ?.takeIf { it.isNotBlank() }
+                        ?: nomeInicial
+
+                    val email = documento.getString("email")
+                        ?.takeIf { it.isNotBlank() }
+                        ?: usuario.email
+                        ?: "E-mail não informado"
+
+                    atualizarInterface(nome, email)
+
+                } else {
+
+                    // Usuário autenticado, mas sem perfil no Firestore
+                    atualizarInterface(
+                        nomeInicial,
+                        usuario.email ?: "E-mail não informado"
+                    )
+                }
+            }
+            .addOnFailureListener { erro ->
+
+                if (isFinishing || isDestroyed) {
+                    return@addOnFailureListener
+                }
+
+                Toast.makeText(
+                    this,
+                    "Não foi possível carregar o perfil: ${erro.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
+
+    // ATUALIZAR NOME, EMAIL E INICIAL DO AVATAR
+    private fun atualizarInterface(nome: String, email: String) {
+
+        binding.txtName.text = nome
+
+        binding.txtEmail.text = email
+
+        val inicial = nome.trim()
+            .firstOrNull()
+            ?.uppercaseChar()
+            ?.toString()
+            ?: "U"
+
+        binding.txtInicial.text = inicial
+    }
+
+    // ESTATÍSTICAS DAS DENÚNCIAS
     private fun carregarEstatisticas() {
 
-        val denuncias =
-            ItemRepository.buscarTodos(this)
+        val denuncias = ItemRepository.buscarTodos(this)
 
-        val total =
-            denuncias.size
+        val total = denuncias.size
 
+        // Valores temporários até integrar os status ao banco
         val resolvidas = 0
-
         val andamento = total
 
+        binding.txtSolicitacoes.text = total.toString()
 
-        binding.txtSolicitacoes.text =
-            total.toString()
+        binding.txtResolvidas.text = resolvidas.toString()
 
-        binding.txtResolvidas.text =
-            resolvidas.toString()
+        binding.txtAndamento.text = andamento.toString()
+    }
 
-        binding.txtAndamento.text =
-            andamento.toString()
+    // VOLTAR PARA A TELA DE LOGIN
+    private fun abrirLogin() {
+
+        val intent = Intent(
+            this,
+            LoginScreen::class.java
+        )
+
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+        startActivity(intent)
+        finish()
     }
 
     override fun onResume() {

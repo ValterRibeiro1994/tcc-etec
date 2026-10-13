@@ -59,6 +59,11 @@ dependencies {
 
     // Login com Google
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.google.firebase:firebase-firestore")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

@@ -48,44 +48,53 @@ class LoginScreen : AppCompatActivity() {
             insets
         }
 
-        auth = FirebaseAuth.getInstance()
+        val auth = FirebaseAuth.getInstance()
         credentialManager = CredentialManager.create(this)
 
-        // LOGIN ATUAL POR EMAIL E SENHA
+
+
+
         binding.btn.setOnClickListener {
 
-            val sharedPref = getSharedPreferences(
-                "DadosDoUsuario",
-                Context.MODE_PRIVATE
-            )
+            val email = binding.edtEmailLogin.text
+                .toString().trim()
 
-            val emailCadastrado =
-                sharedPref.getString("email_salvo", "") ?: ""
+            val senha = binding.edtPasswordLogin.text
+                .toString()
 
-            val senhaCadastrada =
-                sharedPref.getString("senha_salva", "") ?: ""
-
-            val emailLogin =
-                binding.edtEmailLogin.text.toString().trim()
-
-            val senhaLogin =
-                binding.edtPasswordLogin.text.toString()
-
-            if (
-                emailLogin.isNotEmpty() &&
-                senhaLogin.isNotEmpty() &&
-                emailLogin == emailCadastrado &&
-                senhaLogin == senhaCadastrada
-            ) {
-                abrirMain()
-            } else {
+            if (email.isBlank() || senha.isBlank()) {
                 Toast.makeText(
                     this,
-                    "Senha ou e-mail estão errados",
+                    "Preencha e-mail e senha",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                return@setOnClickListener
             }
+
+            binding.btn.isEnabled = false
+
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnSuccessListener {
+
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                    )
+
+                    finish()
+                }
+                .addOnFailureListener {
+
+                    binding.btn.isEnabled = true
+
+                    Toast.makeText(
+                        this,
+                        "Não foi possível entrar. Verifique seus dados.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
         }
+
 
         // TELA DE CADASTRO
         binding.btnRegister.setOnClickListener {

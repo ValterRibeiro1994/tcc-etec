@@ -27,30 +27,63 @@ class RegisterScreen : AppCompatActivity() {
             insets
         }
 
+
+        val usuarioRepository = UsuarioRepository()
+
         binding.button.setOnClickListener {
-            val Nome_atual = binding.edtName.text.toString()
-            val Email_atual = binding.edtEmail.text.toString()
-            val Senha_atual = binding.edtPassword.text.toString()
 
-            if (Nome_atual.isNotEmpty() && Email_atual.isNotEmpty() && Senha_atual.isNotEmpty()) {
-                val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
+            val nome = binding.edtName.text.toString().trim()
+            val email = binding.edtEmail.text.toString().trim()
+            val senha = binding.edtPassword.text.toString()
 
-                editor.putString("Nome_salvo", Nome_atual)
-                editor.putString("email_salvo", Email_atual)
-                val intent = Intent(this, LoginScreen::class.java).apply {
-                    editor.putString("senha_salva", Senha_atual)
-                }
-
-                editor.apply()
-                startActivity(intent)
-                finish()
-
-            } else {
-                // Exibe uma mensagem de aviso caso algum campo esteja em branco
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+            if (nome.isBlank()) {
+                binding.edtName.error = "Digite seu nome"
+                return@setOnClickListener
             }
-        }
 
+            if (!android.util.Patterns.EMAIL_ADDRESS
+                    .matcher(email).matches()
+            ) {
+                binding.edtEmail.error = "E-mail inválido"
+                return@setOnClickListener
+            }
+
+            if (senha.length < 6) {
+                binding.edtPassword.error =
+                    "A senha deve ter pelo menos 6 caracteres"
+                return@setOnClickListener
+            }
+
+            binding.button.isEnabled = false
+
+            usuarioRepository.cadastrar(
+                nome = nome,
+                email = email,
+                senha = senha,
+
+                sucesso = {
+                    Toast.makeText(
+                        this,
+                        "Cadastro realizado com sucesso!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                    )
+                    finish()
+                },
+
+                erro = { mensagem ->
+                    binding.button.isEnabled = true
+
+                    Toast.makeText(
+                        this,
+                        mensagem,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            )
+        }
     }
 }
