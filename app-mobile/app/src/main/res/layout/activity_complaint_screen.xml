@@ -327,52 +327,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <!-- BOTÃO INÍCIO -->
+        <ImageButton
             android:id="@+id/btnMain"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            android:backgroundTint="#87966C"
-            android:text="Main"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="14dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_home"
+            android:contentDescription="Início"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnDenuncia"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <!-- BOTÃO DENÚNCIA -->
+        <ImageButton
             android:id="@+id/btnDenuncia"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:backgroundTint="#A3B386"
-            android:text="Denúncia"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:cornerRadius="14dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_warning"
+            android:contentDescription="Denúncia"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnUser"
             app:layout_constraintHorizontal_weight="1.25"
             app:layout_constraintStart_toEndOf="@id/btnMain"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <!-- BOTÃO PERFIL -->
+        <ImageButton
             android:id="@+id/btnUser"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="#87966C"
-            android:text="User"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="14dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_person"
+            android:contentDescription="Perfil"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"

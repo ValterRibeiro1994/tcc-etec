@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
@@ -63,14 +64,14 @@ class ComplaintScreen : AppCompatActivity() {
             selecionarFoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         btnCadastrar.setOnClickListener { cadastrarDenuncia() }
-        findViewById<Button>(R.id.btnMain).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnMain).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-        findViewById<Button>(R.id.btnDenuncia).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnDenuncia).setOnClickListener {
             findViewById<NestedScrollView>(R.id.nestedScrollView).smoothScrollTo(0, 0)
         }
-        findViewById<Button>(R.id.btnUser).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnUser).setOnClickListener {
             startActivity(Intent(this, UsersScreen::class.java))
             finish()
         }

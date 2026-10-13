@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -40,16 +41,16 @@ class MainActivity : AppCompatActivity() {
         itemAdapter = ItemAdapter(emptyList())
         recyclerItens.adapter = itemAdapter
         configurarFiltros()
-        findViewById<Button>(R.id.btnMain).setOnClickListener {
-            if (itemAdapter.itemCount > 0) recyclerItens.smoothScrollToPosition(0)
-        }
-        findViewById<Button>(R.id.btnDenuncia).setOnClickListener {
-            startActivity(Intent(this, ComplaintScreen::class.java))
-        }
         findViewById<Button>(R.id.btnNovaDenuncia).setOnClickListener {
             startActivity(Intent(this, ComplaintScreen::class.java))
         }
-        findViewById<Button>(R.id.btnUser).setOnClickListener {
+        findViewById< ImageButton>(R.id.btnMain).setOnClickListener {
+            if (itemAdapter.itemCount > 0) recyclerItens.smoothScrollToPosition(0)
+        }
+        findViewById<ImageButton>(R.id.btnDenuncia).setOnClickListener {
+            startActivity(Intent(this, ComplaintScreen::class.java))
+        }
+        findViewById<ImageButton>(R.id.btnUser).setOnClickListener {
             startActivity(Intent(this, UsersScreen::class.java))
         }
     }
