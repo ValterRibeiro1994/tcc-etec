@@ -4,29 +4,72 @@ class LoginController {
     public function index(array $requisicao){
         
         if ($requisicao['metodo'] == "GET") {
-            if ($this->logado()) return RespostaProcesso::resposta(
-                mensagem: "Login usuario conectado",
+            if ($this->estaLogado())
+                // o usuario não pode acessar login se está autenticado 
+                return RespostaProcesso::resposta(
+                mensagem: "Controller: Usuario Conectado",
                 pagina: "app/view/paginas/index.html", resposta: true, 
                 formato: "html");
 
             return RespostaProcesso::resposta(
-                mensagem: "Usuario Precisa logar", formato: "html",
-                pagina: "app/view/paginas/login.html", resposta: true
+                mensagem: "Controller: Enviando documento html", resposta: true,
+                dados: [], formato: "html",
+                pagina: "app/view/paginas/login.html"
             );
         }
         if ($requisicao['metodo'] == "POST") {
-            if ($this->logado()) return RespostaProcesso::respostaProcesso("Usuario já está logado");
-            return $this->logar($requisicao);
+            if ($this->estaLogado()){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Usuario Conectado", resposta: false,
+                    dados: [], formato: "json"
+                );
+            }
+
+            // para esse controller é permitido apenas login
+            try {
+                return $this->efetuarLogin($requisicao);
+            } catch (Exception $erro){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Erro ao efetuar login", resposta: false,
+                    dados: RespostaProcesso::salvarErro($erro), formato: "json"
+                );
+            }
         }
 
-        throw new Exception("Requisição não permitida");
+        return RespostaProcesso::resposta(
+            mensagem: "Controller: Método de requisição invalida para login", resposta: false,
+            dados: $requisicao, formato: "json"
+        );
     }
 
-    private function logar(array $requisicao){
+    private function efetuarLogin(array $requisicao){
+        $tentativas = SessaoService::obterTentativasLogin();
+        if ($tentativas > 4){
+            // coloque em espera para proxima tentativa
+            SessaoService::editarTempoEspera(3);
+            if (!SessaoService::espera()){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Limite de tentativas Excedido, aguarde um pouco antes de tentar novamente",
+                    resposta: false, dados: ['tentativas' => $tentativas],
+                    formato: "json"
+                );
+            }
+            
+            SessaoService::resetarTentativasLogin();
+            SessaoService::resetarTempoInicio();
+        } else {
+            $tentativas += 1;
+        }
+
         $campos = ['email', 'senha', 'lembrar'];
         for ($x = 0; $x < 2; $x++){
             $entrada = $campos[$x];
-            if (!array_key_exists($entrada, $requisicao)) return RespostaProcesso::resposta("Campo '$entrada' não enviado", dados:$requisicao);
+            if (!array_key_exists($entrada, $requisicao)) {
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Campo $entrada não encontrado", resposta: false, 
+                    dados: $requisicao, formato: "json"
+                );
+        }
         }
 
         // valida os dados recebidos pelo front-end
@@ -34,14 +77,70 @@ class LoginController {
         $senha = new Senha($requisicao['senha']);
 
         // iniciar repositorio
-        $repositorio = new UsuarioRepositorio();
+        $repositorio = new UsuarioRepositorio(new Conexao());
+        
+        // Localiza o usuario pelo email recebido
+        $resposta = $repositorio->obterUsuario($email->getEmail());
+        if (!$resposta['resposta']) return $resposta;
+        
+        // destroi o repositorio que foi aberto
+        $repositorio = null;
+        $usuario_db = $resposta['dados'];
 
-        
-        
+        // captura a senha do banco
+        $senha = $usuario_db['senha']; // hash armazenado no banco
+
+        if (!password_verify($requisicao['senha'], $senha)) {
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Senha inválida", resposta: false,
+                dados: $requisicao, formato: "json"
+            );
+        }
+
+        // cria um novo usuario com os dados recebidos
+        $usuario = new Usuario(
+            dados_usuario: new DadosPessoais(
+                perfil: new Perfil($usuario_db['perfil']),
+                nome: new Nome($usuario_db['nome']),
+                sobrenome: new Sobrenome($usuario_db['sobrenome']),
+                email: $email
+            ),
+        );
+
+        $usuario->setEndereco(
+            endereco: new Endereco(
+               cidade: $usuario_db['cidade'],
+               estado: $usuario_db['estado']
+            )
+        );
+
+        if ($usuario_db['perfil'] === "representante"){
+            $usuario->setPrefeitura(
+                prefeitura: new Prefeitura(
+                    orgao: $usuario_db['orgao'],
+                    cargo: $usuario_db['cargo']
+                )
+            );
+        }
+
+        // destroi a sessão de visitante
+        SessaoService::destruirSessao();
+
+        // cria uma nova sessão para o usuario autenticado
+        $resposta = SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
+        if (!$resposta['resposta']) return $resposta;
+
+        // cria o token para o usuario
+        $resposta = TokenService::criarToken($usuario, $requisicao['lembrar'] ? 86400 : 600);
+        if (!$resposta['resposta']) return $resposta;
+
+        return RespostaProcesso::resposta(
+            mensagem: "Controller: Login efetuado com sucesso", resposta: true,
+            dados: $resposta['dados'], formato: "json"
+        );
     }
 
-    private function logado(){
-        $resposta =  SessaoController::estaConectado();
-        return $resposta['resposta'];
+    private function estalogado(){
+        return SessaoService::estaOnline();
     }
 }

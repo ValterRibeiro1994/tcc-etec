@@ -19,6 +19,10 @@ class SessaoService {
             return false;
         }
 
+        if ($_SESSION['user']['perfil'] == "visitante"){
+            return false;
+        }
+
         $ultimo_acesso = $_SESSION['user']['ultimo_acesso'];
         $expira = $_SESSION['user']['expira_em']; // int tempo em segundos
 
@@ -125,7 +129,35 @@ class SessaoService {
         }
 
         return $_SESSION['user']['contar-login'];
+    }
 
+    public static function resetarTentativasLogin(){
+        $_SESSION['user']['contar-login'] = 0;
+    }
 
+    public static function editarTempoEspera(int $tempo_minutos){
+        $_SESSION['espera'] = $tempo_minutos;
+    }
+
+    public static function espera() {
+
+        if (!array_key_exists('inicio', $_SESSION) || $_SESSION['inicio'] === "null"){
+            $_SESSION['inicio'] = new DateTime("now");
+        }
+
+        $tempo_espera = $_SESSION['espera'];
+        $hora_inicio = new DateTime($_SESSION['inicio']);
+        $hora_atual = new DateTime("now");
+        $hora_fim = $hora_inicio->modify("$tempo_espera minutes");
+
+        if ($hora_fim > $hora_atual){
+            // o tempo de espera acabou
+            return true;
+        }
+        return false;
+    }
+
+    public static function resetarTempoInicio(){
+        $_SESSION['inicio'] = "null";
     }
 }

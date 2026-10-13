@@ -1,22 +1,29 @@
 <?php
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class TokenService {
 
-    public static function validarToken(string $token){
+    public static function validarToken(string $token_cliente){
         try {
-            $token = str_replace("Bearer ", "", $token);
+            $token = str_replace("Bearer ", "", $token_cliente);
             $decodificar = JWT::decode($token, new Key(self::obterChave(), self::obterAlgoritmo()));
             return RespostaProcesso::resposta(
-                mensagem: "Token válido", resposta: true,
-                dados: get_object_vars($decodificar)
+                mensagem: "Service: Token válido", resposta: true,
+                dados: ['status'=>'valido']
+            );
+        } catch (ExpiredException $erro){
+            return RespostaProcesso::resposta(
+                mensagem: "Service: Token expirado", resposta: false,
+                dados: ['status'=> 'expirado']
             );
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);
+            $dados['status'] = 'invalido';
             return RespostaProcesso::resposta(
-                mensagem: "Erro criar Token: " . $dados['mensagem'], resposta: false,
+                mensagem: "Service: Erro ao validar token", resposta: false,
                 dados: $dados
             );
         }
@@ -59,14 +66,14 @@ class TokenService {
             $jwt = JWT::encode($configuracao, self::obterChave(), self::obterAlgoritmo());
             $dados['token'] = $jwt;
             return RespostaProcesso::resposta(
-                mensagem: "Token criar com sucesso para " . $usuario->getPerfil(), 
+                mensagem: "Service: Token gerado com sucesso para " . $usuario->getPerfil(), 
                 resposta: true,
                 dados: $dados
-            ); // CORRIGIDO: faltava fechar o parêntese da chamada (erro de sintaxe que quebrava o arquivo inteiro)
+            );
         } catch (Exception $erro) {
             $dados = RespostaProcesso::salvarErro($erro);
             return RespostaProcesso::resposta(
-                mensagem: "Erro criar Token: " . $dados['mensagem'], resposta: false,
+                mensagem: "Service: Erro ao gerar token" , resposta: false,
                 dados: $dados
             );
         }

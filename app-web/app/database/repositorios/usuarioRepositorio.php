@@ -83,7 +83,7 @@ class UsuarioRepositorio {
                     SELECT 
                         nome_usuario AS nome, sobrenome_usuario AS sobrenome, perfil_usuario AS perfil,
                         cpf_usuario AS cpf, cidade_usuario AS cidade, estado_usuario AS estado,
-                        orgao_usuario AS orgao, cargo_usuario AS cargo
+                        orgao_usuario AS orgao, cargo_usuario AS cargo, senha_usuario AS senha
                     FROM 
                         $tabela_usuario
                     WHERE email_usuario = :email 

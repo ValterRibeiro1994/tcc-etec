@@ -9,8 +9,12 @@ class Email {
     }
 
     private function validarEmail(string $email, int $limite = 120): void {
-        if (strlen($email) > $limite) throw new Exception("Email inválido");
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new Exception("Email Inválido");
+        if (strlen($email) > $limite) {
+            throw new InvalidArgumentException("Email inválido");
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Email Inválido");
+        }
     }
 
     public function getEmail(): string {
