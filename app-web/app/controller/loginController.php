@@ -69,7 +69,7 @@ class LoginController {
                     mensagem: "Controller: Campo $entrada não encontrado", resposta: false, 
                     dados: $requisicao, formato: "json"
                 );
-        }
+            }
         }
 
         // valida os dados recebidos pelo front-end

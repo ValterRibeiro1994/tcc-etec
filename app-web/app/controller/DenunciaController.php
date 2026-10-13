@@ -8,21 +8,31 @@
 //   POST ./denuncia/criar   ->  grava a denúncia (exige usuário logado)
 class DenunciaController {
 
-    // ADICIONADO: rota oficial da página do mural (antes só existia ./teste/homemural)
+    // ADICIONADO: rota oficial da página do mural
     public function mural(array $requisicao){
-        return RespostaProcesso::resposta(
-            mensagem: "Mural de denúncias", resposta: true,
-            formato: "html", pagina: "app/view/paginas/home-mural.html"
-        );
+        // para o mural o usuario de denuncias o usuario não precisa estar logado
+        if ($requisicao['metodo'] === "GET") {
+            return RespostaProcesso::resposta(
+                mensagem: "Mural de denúncias", resposta: true,
+                formato: "html", pagina: "app/view/paginas/home-mural.html"
+            );
+        }
     }
 
     public function listar(array $requisicao){
-        if ($requisicao['metodo'] !== "GET") {
-            return RespostaProcesso::resposta("Requisição inválida para listar denúncias");
+        if ($requisicao['metodo'] === "POST"){
+            $repositorio = new DenunciasRepositorio();
+            $denuncias = $repositorio->listarDenuncias();
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Denuncias listadas com sucesso", resposta: true,
+                dados: $denuncias, formato: "json"
+            );
         }
 
-        $repositorio = new DenunciasRepositorio();
-        return $repositorio->listarDenuncias();
+        return RespostaProcesso::resposta(
+                mensagem: "Controller: Requisição inválida para listar denúncias", resposta: false,
+                dados: [], formato: "json"
+        );
     }
 
     // ADICIONADO: denúncias do próprio usuário (usadas em "Minhas denúncias" e no perfil)

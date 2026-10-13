@@ -15,6 +15,7 @@ class Roteador {
             // chama o processo GET 
             $this->resposta = $this->getProcess($_GET);
         } else if ($metodo == "POST"){
+            // todo metodo post deve ter um token de autenticacao
             $this->resposta = $this->postProcesso($_POST);
         } else {
             throw new Exception("Método $metodo inválido");
