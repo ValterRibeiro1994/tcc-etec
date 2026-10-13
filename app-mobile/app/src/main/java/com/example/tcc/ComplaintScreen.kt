@@ -107,7 +107,7 @@ class ComplaintScreen : AppCompatActivity() {
         }
 
         val botaoHome =
-            findViewById<Button>(
+            findViewById<ImageButton>(
                 R.id.btnMain
             )
 
@@ -124,7 +124,7 @@ class ComplaintScreen : AppCompatActivity() {
         }
 
         val botaoComplaint =
-            findViewById<Button>(
+            findViewById<ImageButton>(
                 R.id.btnDenuncia
             )
 
@@ -140,7 +140,7 @@ class ComplaintScreen : AppCompatActivity() {
         }
 
         val botaoUser =
-            findViewById<Button>(
+            findViewById<ImageButton>(
                 R.id.btnUser
             )
 

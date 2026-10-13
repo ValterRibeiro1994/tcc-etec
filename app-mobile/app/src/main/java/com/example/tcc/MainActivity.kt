@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         // ==============================
 
         val botaoHome =
-            findViewById<Button>(R.id.btnMain)
+            findViewById<ImageButton>(R.id.btnMain)
 
         botaoHome.setOnClickListener {
 
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         // ==============================
 
         val botaoComplaint =
-            findViewById<Button>(R.id.btnDenuncia)
+            findViewById<ImageButton>(R.id.btnDenuncia)
 
         botaoComplaint.setOnClickListener {
 
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         // ==============================
 
         val botaoUser =
-            findViewById<Button>(R.id.btnUser)
+            findViewById<ImageButton>(R.id.btnUser)
 
         botaoUser.setOnClickListener {
 
