@@ -8,10 +8,9 @@ try {
     $rotas = new Roteador();
     $resposta = $rotas->getResposta();
     if ($resposta['formato'] == "html"){
-        $header ="Content-type: text/html; charset=utf-8";
-        header($header);
+        header("Content-type: text/html; charset=utf-8");
         $pagina = $resposta['pagina'];
-        // include_once($pagina);
+        include_once($pagina);
         exit();
     }
 

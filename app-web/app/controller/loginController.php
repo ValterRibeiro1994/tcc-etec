@@ -142,5 +142,5 @@ class LoginController {
 
     private function estalogado(){
         return SessaoService::estaOnline();
-    }
+    }  
 }

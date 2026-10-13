@@ -3,8 +3,8 @@
 // Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
 // Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
 // rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
-$raiz = $GLOBALS['caminho_raiz_projeto'];
-?>
+$raiz = $GLOBALS['raiz-app'];
+?> 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,7 +18,6 @@ $raiz = $GLOBALS['caminho_raiz_projeto'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cards_tela_inicio.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/sobre_tela_inicio.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/login.css">
-    <link rel="stylesheet" href="<?= $raiz ?>app/view/scripts/start-app.html">
     
     <title>RelateSBC</title>
 </head>
@@ -26,23 +25,23 @@ $raiz = $GLOBALS['caminho_raiz_projeto'];
     
    <header class="navbar-header">
     <nav class="navbar">
-        <a href="<?= $raiz ?>home" class="logo-link">
+        <a href="<?= $raiz ?>app/home" class="logo-link">
             <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
         </a>
 
         <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
-            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>app/home">Início</a></li>
             <li class="nav-item"><a href="#">Sobre</a></li>
             <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>app/denuncia/mural">Mural</a></li>
         </ul>
 
         <div class="nav-actions">
-            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+            <a href="<?=$raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
                 Entrar
             </a>
-            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+            <a href="<?=$raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
             </a>
         </div>
@@ -102,7 +101,7 @@ $raiz = $GLOBALS['caminho_raiz_projeto'];
                     <input type="submit" class="btn btn-outline-success d-block mt-3">
                 </form>
                 <footer class="py-5">
-                    <p class="text-center"> Se você ainda não tem uma conta <a href="<?= $raiz ?>cadastro">clique aqui !!!</a></p>
+                    <p class="text-center"> Se você ainda não tem uma conta <a href="<?= $raiz ?>app/cadastro">clique aqui !!!</a></p>
                 </footer>
             </div>
         </div>
@@ -177,8 +176,8 @@ $raiz = $GLOBALS['caminho_raiz_projeto'];
 
 
 
-    <script src="<?= $raiz ?>app/view/scripts/login.js"></script>
-    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
-    <script src="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= $raiz ?>view/scripts/login.js"></script>
+    <script src="<?= $raiz ?>view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
