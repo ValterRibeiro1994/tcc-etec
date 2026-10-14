@@ -2,7 +2,7 @@
 include_once("app/config.php");
 include_once("app/autoload.php");
 include_once("app/roteador.php");
-// var_dump($GLOBALS);
+
 new AutoLoadFiles();
 try {
     $rotas = new Roteador();
@@ -16,6 +16,7 @@ try {
 
     // var_dump($resposta);
     header("Content-type: application/json; charset=utf-8");
+    
     echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit();
 

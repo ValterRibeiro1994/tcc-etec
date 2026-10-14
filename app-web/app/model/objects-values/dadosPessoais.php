@@ -16,7 +16,7 @@ class DadosPessoais {
 
     public function getPerfil(): string {
         if ($this->perfil == null){
-            $this->setPerfil("Não informado");
+            $this->setPerfil("visitante");
         }
 
         return $this->perfil->getPerfil();

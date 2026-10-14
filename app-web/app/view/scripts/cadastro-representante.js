@@ -6,6 +6,7 @@ form.addEventListener("submit", async function (event) {
     
     let dadosForm = new FormData(form);
     dadosForm.append('metodo', 'POST');  
+    dadosForm.append('perfil', 'representante');  
     
     
     try {

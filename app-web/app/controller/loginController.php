@@ -84,9 +84,8 @@ class LoginController {
         if (!$resposta['resposta']) return $resposta;
         
         // destroi o repositorio que foi aberto
-        $repositorio = null;
+        // $repositorio = null;
         $usuario_db = $resposta['dados'];
-
         // captura a senha do banco
         $senha = $usuario_db['senha']; // hash armazenado no banco
 

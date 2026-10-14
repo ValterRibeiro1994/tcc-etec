@@ -32,6 +32,8 @@ try {
     
         let resposta = await servidor.json();
         console.log(JSON.stringify(resposta));
+
+        
     });
 } catch (error){
     console.log(error)

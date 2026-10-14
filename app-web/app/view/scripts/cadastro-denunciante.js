@@ -30,6 +30,8 @@ form.addEventListener("submit", async function (event) {
     dadosForm.append('perfil', 'municipe');
     dadosForm.append('orgao', 'não informado');
     dadosForm.append('cargo', 'não informado');
+    console.log("Ennviando requisição para cadastro");
+    console.log(dadosForm.get('perfil'))
     
     try {
         let resposta = await fetch("../cadastro/municipe", {

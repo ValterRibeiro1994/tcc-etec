@@ -24,6 +24,7 @@ class UsuarioRepositorio {
     }
 
     public function adicionarUsuario(Usuario $usuario){
+
         $comando = "
             INSERT INTO 
                 tb_usuario (
@@ -46,19 +47,18 @@ class UsuarioRepositorio {
             if (!$resposta){
                 return $resposta;
             }
-
             // executa os comandos
             $cursor = $this->pdo->prepare($comando);
             $cursor->bindValue(":nome", $usuario->getNome());
             $cursor->bindValue(":sobrenome", $usuario->getSobrenome());
-            $cursor->bindValue(":email", $usuario->getEmail());
-            $cursor->bindValue(":cpf", $usuario->getCpf());
             $cursor->bindValue(":perfil", $usuario->getPerfil());
-            $cursor->bindValue(":senha", $usuario->obterHashSenha());
-            $cursor->bindValue(":estado", $usuario->getEstado());
+            $cursor->bindValue(":email", $usuario->getEmail());
             $cursor->bindValue(":cidade",  $usuario->getCidade());
+            $cursor->bindValue(":estado", $usuario->getEstado());
             $cursor->bindValue(":orgao", $usuario->getPrefeitura()->getOrgao());
             $cursor->bindValue(":cargo", $usuario->getPrefeitura()->getCargo());
+            $cursor->bindValue(":senha", $usuario->obterHashSenha());
+            $cursor->bindValue(":cpf", $usuario->getCpf());
             $cursor->execute();
 
             return RespostaProcesso::resposta(
@@ -97,6 +97,11 @@ class UsuarioRepositorio {
             $cursor->execute();
 
             $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
+            if ($cursor->rowCount() == 0 || !$resposta){
+                return RespostaProcesso::resposta(
+                    mensagem: "Database: Usuario não encontrado", resposta: false,
+                );
+            }
             
             return RespostaProcesso::resposta(
                 mensagem: "Database: Usuario localizado com sucesso", resposta: true,

@@ -2,9 +2,11 @@
 
 class Perfil {
     private string $perfil;
-    public function __construct(string $perfil)
+    public function __construct(string $perfil = "visitante")
     {
-        if (!$this->validarPerfil($perfil)) throw new Exception("Perfil $perfil invalido");
+        if (!$this->validarPerfil($perfil)){
+            throw new Exception("Perfil: Esse '$perfil' não foi indentificado");
+        }
         $this->perfil = $perfil;
 
     }
@@ -14,7 +16,7 @@ class Perfil {
     }
 
     public function setPerfil(string $perfil){
-        if (!$this->validarPerfil($perfil)) throw new Exception("Perfil $perfil invalido");
+        if (!$this->validarPerfil($perfil)) throw new Exception("Perfil: Esse '$perfil' não foi indentificado");
         $this->perfil = $perfil;
     }
 
