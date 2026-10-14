@@ -165,51 +165,53 @@ class Usuario {
     public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
         $perfis_com_endereco = ['municipe', 'representante'];
         if (!$this->validarPerfil($perfis_com_endereco)) {
-            $perfil = $this->getPerfil();
-            throw new Exception("$perfil não tem acesso a essa funcionalidade");
-        }
-
-        // o endereço foi criado?
-        if ($endereco != null){// sim
-            // o estado foi enviado?
-            if ($cidade != null){
-                $endereco->setCidade($cidade);
-            }
-
-            // a cidade foi enviada
-            if ($estado != null) {
-                $endereco->setEstado($estado);
-            }
-
-            // salva o endereço
-            $this->endereco = $endereco;
-        } else {// não
-            // ja temos um endereço salvo?
-            if (!$this->endereco == null){ // não
-                // cria um novo endereço
-                $endereco = new Endereco();
-
-                // a cidade foi enviada
+            $this->endereco = new Endereco(
+                cidade: null,
+                estado: null // não informado
+            );
+        } else {
+            // o endereço foi criado?
+            if ($endereco != null){// sim
+                // o estado foi enviado?
                 if ($cidade != null){
                     $endereco->setCidade($cidade);
                 }
 
-                // o estado foi enviado?
-                if ($estado != null){
+                // a cidade foi enviada
+                if ($estado != null) {
                     $endereco->setEstado($estado);
                 }
 
                 // salva o endereço
                 $this->endereco = $endereco;
-            } else {// sim
-                // a cidade foi enviada
-                if ($cidade != null){
-                    $this->endereco->setCidade($cidade);
-                }
+            } else {// não
+                // ja temos um endereço salvo?
+                if (!$this->endereco == null){ // não
+                    // cria um novo endereço
+                    $endereco = new Endereco();
 
-                // o estado foi enviado?
-                if ($estado != null){
-                    $this->endereco->setEstado($estado);
+                    // a cidade foi enviada
+                    if ($cidade != null){
+                        $endereco->setCidade($cidade);
+                    }
+
+                    // o estado foi enviado?
+                    if ($estado != null){
+                        $endereco->setEstado($estado);
+                    }
+
+                    // salva o endereço
+                    $this->endereco = $endereco;
+                } else {// sim
+                    // a cidade foi enviada
+                    if ($cidade != null){
+                        $this->endereco->setCidade($cidade);
+                    }
+
+                    // o estado foi enviado?
+                    if ($estado != null){
+                        $this->endereco->setEstado($estado);
+                    }
                 }
             }
         }
@@ -217,38 +219,32 @@ class Usuario {
 
     public function getEndereco(): Endereco {
         $perfis_com_endereco = ['municipe', 'representante'];
-        if (!$this->validarPerfil($perfis_com_endereco)) throw new Exception($this->getPerfil() . " Não tem acesso a essa funcionalidade");
+        if (!$this->validarPerfil($perfis_com_endereco)){
+            $this->setEndereco();
+        }
+
         return $this->endereco;
     }
 
     public function setCidade(string $cidade){
-        if ($this->endereco == null){
-            $this->endereco = new Endereco(cidade: $cidade);
-            return;
-        }
-
-        $this->endereco->setCidade($cidade);
+        $this->setEndereco(cidade: $cidade);
     }
 
     public function getCidade(): string {
         if ($this->endereco == null){
-            return "Endereço não informado";
+            $this->setEndereco();
         }
 
         return $this->endereco->getCidade();
     }
 
     public function setEstado(string $estado){
-        if ($this->endereco == null){
-            $this->endereco = new Endereco(estado: $estado);
-            return;
-        }
-        $this->endereco->setEstado($estado);
+        $this->setEndereco(estado: $estado);
     }
 
     public function getEstado(): string {
-        if ($this->endereco == null) return "Estado não informado";
-        return strtoupper($this->endereco->getEstado());
+        if ($this->endereco == null) $this->setEndereco();
+        return $this->endereco->getEstado();
     }
     /**
      * APENAS O REPRESENTANTE POSSUI UM ORGÃO DE ATUAÇÃO E PODE RESPONDER AS DENUNCIAS
@@ -256,17 +252,16 @@ class Usuario {
      * 
      */
     public function getPrefeitura(): Prefeitura {
-        $perfis_autorizados = ['representante'];
-        if (!$this->validarPerfil($perfis_autorizados)){
-            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        if ($this->getPerfil() != 'representante'){
+            $this->prefeitura = new Prefeitura();
         }
         return $this->prefeitura;
     }
 
     public function setPrefeitura(Prefeitura $prefeitura = null, string $orgao = null, string $cargo = null){
-        $perfis_autorizados = ['representante'];
-        if (!$this->validarPerfil($perfis_autorizados)){
-            throw new Exception($this->getPerfil() . " não tem acesso a essa funcionalidade");
+        if ($this->getPerfil() != 'representante'){
+            $this->prefeitura = new Prefeitura();
+            return;
         }
 
         if ($prefeitura == null){

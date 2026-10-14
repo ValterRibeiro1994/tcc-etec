@@ -6,8 +6,11 @@ class Prefeitura {
     private int $limite = 120;
 
     public function __construct(string $orgao = null, string $cargo = null){
-        if ($orgao != null) $this->setCargo($cargo);
-        if ($cargo != null) $this->setOrgao($orgao);
+        $this->orgao = "não informado";
+        if ($orgao != null) $this->setOrgao($orgao); 
+
+        $this->cargo = "não informado";
+        if ($cargo != null) $this->setCargo($cargo);
 
     }
 
@@ -31,13 +34,13 @@ class Prefeitura {
 
     private function validarOrgao(string $nome_orgao): bool {
         $orgao = trim($nome_orgao);
-        if (strlen($orgao) > $this->limite) throw new Exception("ERRO: Limite de caracteres excedido para orgão");
+        if (strlen($orgao) > $this->limite) throw new InvalidArgumentException("ERRO: Limite de caracteres excedido para orgão");
         return true;
     }
 
     private function validarCargo(string $cargo): bool {
         $cargo = trim($cargo);
-        if (strlen($cargo) > $this->limite) throw new Exception("ERRO: Limite de caracteres excedido para cargo");
+        if (strlen($cargo) > $this->limite) throw new InvalidArgumentException("ERRO: Limite de caracteres excedido para cargo");
         return true;
     }
 }

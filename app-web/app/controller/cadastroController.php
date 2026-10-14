@@ -31,7 +31,7 @@ class CadastroController {
 
     public function representante(array $requisicao){
        // if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/home-mural.html", true, formato: "html");
-        if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::respostaProcesso("Requisição invalida");
+        if (!array_key_exists("metodo", $requisicao)) return RespostaProcesso::resposta("Requisição invalida");
 
         if ($requisicao['metodo'] == "GET") return RespostaProcesso::resposta(
         mensagem:"Get realizado com sucesso para representante", resposta:true,
@@ -39,13 +39,13 @@ class CadastroController {
         pagina:  "app/view/paginas/cadastro-representante.html");
 
         if ($requisicao['metodo'] == "POST") return $this->cadastrarUsuario($requisicao);
-        return RespostaProcesso::respostaProcesso("Requisição indefinida");
+        return RespostaProcesso::resposta("Requisição indefinida");
     }
 
     public function denuncia(array $requisicao){
         // if (!SessaoController::estaConectado()) throw new Exception("Usuario desconectado");
         $metodo = $requisicao['metodo'];
-        if ($metodo == "GET") return RespostaProcesso::respostaProcesso("app/view/paginas/criar-denuncia.html", formato: "html");
+        if ($metodo == "GET") return RespostaProcesso::resposta(mensagem:"ok", pagina: "app/view/paginas/criar-denuncia.html", formato: "html");
         // if ($metodo == "POST") return $this->cadastroDenuncia($requisicao);   
     }
 

@@ -3,7 +3,7 @@
 // Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
 // Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
 // rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
-$raiz = $raiz = $GLOBALS['raiz-app'];;
+$raiz = $GLOBALS['raiz-app'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +11,8 @@ $raiz = $raiz = $GLOBALS['raiz-app'];;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RelateSBC</title>
-    <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <!-- ALTERADO: o <style> que ficava depois do </html> foi movido para dentro do <head> -->
     <style>
         html { height: 100%; }

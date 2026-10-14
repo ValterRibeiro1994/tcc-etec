@@ -26,10 +26,13 @@ form.addEventListener("submit", async function (event) {
     event.preventDefault();
     
     let dadosForm = new FormData(form);
-    dadosForm.append('metodo', 'POST');  
+    dadosForm.append('metodo', 'POST');
+    dadosForm.append('perfil', 'municipe');
+    dadosForm.append('orgao', 'não informado');
+    dadosForm.append('cargo', 'não informado');
     
     try {
-        let resposta = await fetch("../teste/cadastromunicipe", {
+        let resposta = await fetch("../cadastro/municipe", {
             method: 'POST',
             body: dadosForm
         });
@@ -37,7 +40,7 @@ form.addEventListener("submit", async function (event) {
         let resultado = await resposta.json();
         console.log(resultado);
 
-        window.location.href ="../" + resultado.pagina;
+        // window.location.href ="../" + resultado.pagina;
         // let paragrafo = document.getElementById("respostaProcesso");
         // paragrafo.textContent = resultado.mensagem;
 

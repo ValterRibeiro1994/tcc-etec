@@ -20,7 +20,7 @@ class DenunciaController {
     }
 
     public function listar(array $requisicao){
-        if ($requisicao['metodo'] === "POST"){
+        if ($requisicao['metodo'] === "GET"){
             $repositorio = new DenunciasRepositorio();
             $denuncias = $repositorio->listarDenuncias();
             return RespostaProcesso::resposta(

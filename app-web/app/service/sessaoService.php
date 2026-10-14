@@ -4,7 +4,7 @@ class SessaoService {
 
     private static function iniciarSessao() { 
         if (session_status() === PHP_SESSION_NONE) { 
-            ini_set('session.cookie_lifetime', 86400); 
+            ini_set('session.cookie_lifetime', 120); 
             ini_set('session.cookie_httponly', 1); 
             ini_set('session.cookie_secure', 0); // Mude para 1 em produção (HTTPS)
             ini_set('session.use_only_cookies', 1); 

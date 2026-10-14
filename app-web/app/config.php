@@ -1,6 +1,6 @@
 <?php
 // caminhos
-$GLOBALS['raiz-app'] = "../app-web/" ;
+$GLOBALS['raiz-app'] =  '/app-web/';
 
 // dados de acesso ao banco de dados
 $GLOBALS['usuario_banco'] = "root";
