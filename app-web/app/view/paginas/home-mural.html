@@ -10,10 +10,11 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../app/view/estilo/navbar.css">
-    <link rel="stylesheet" href="../app/view/estilo/geral.css">
-    <link rel="stylesheet" href="../app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
   
     
     <title>RelateSBC</title>
@@ -118,28 +119,28 @@ $raiz = $GLOBALS['raiz-app'];
                     <svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Minhas denúncias
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="acompanhamento" id="link-acompanhamento">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    Acompanhamento
+                
+                <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
+                     Notificações
+                 <span class="menu-badge" id="badge-notificacoes" hidden>0</span>
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="favoritos" id="link-favoritos">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    Favoritos
+
+                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
+                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round preview-icon"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                    perfil
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="historico" id="link-historico">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                    Histórico
+
+                <a href="#" class="menu-lateral-link" data-pagina="central-de-ajuda" id="link-central">
+                    <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark preview-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    Central de ajuda
                 </a>
-               
+
                 <a href="#" class="menu-lateral-link" data-pagina="configuracoes" id="link-configuracoes">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Configurações
                 </a>
 
-                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                    perfil
-                </a>
             </nav>
 
             <div class="menu-lateral-card-informativo">
@@ -293,13 +294,46 @@ $raiz = $GLOBALS['raiz-app'];
         </article>
     </template>
 </section>
-        <!-- Conteúdo desta tela -->
-    
+       <section id="tela-notificacoes" class="tela">
 
-        
+    <div class="mural-descricao">
+        <h2>Notificações</h2>
+        <p>Veja o que mudou nas suas denúncias e as respostas da prefeitura.</p>
+    </div>
 
+    <div class="notificacoes-barra">
+        <div class="filtro-status" id="filtro-notificacoes">
+            <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
+            <button type="button" class="notif-chip" data-filtro="nao-lidas">Não lidas</button>
+        </div>
 
+        <button type="button" class="btn-acao" id="btn-marcar-todas">Marcar todas como lidas</button>
+    </div>
 
+    <div id="lista-notificacoes"></div>
+
+    <div class="notificacoes-vazio" id="notificacoes-vazio" hidden>
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+        <strong id="notificacoes-vazio-titulo">Nenhuma notificação por aqui</strong>
+        <p id="notificacoes-vazio-texto">Quando uma denúncia mudar de status ou receber um comentário, você verá o aviso aqui.</p>
+    </div>
+
+    <template id="modelo-notificacao">
+        <li class="notificacao-item">
+            <button type="button" class="notificacao-corpo">
+                <span class="notificacao-icone" data-campo="icone"></span>
+                <span class="notificacao-texto">
+                    <strong data-campo="titulo">Título</strong>
+                    <span data-campo="mensagem">Mensagem</span>
+                </span>
+                <span class="notificacao-meta">
+                    <time data-campo="tempo">agora</time>
+                    <span class="notificacao-ponto" aria-label="Não lida"></span>
+                </span>
+            </button>
+        </li>
+    </template>
+</section>
 
 </main>
     
