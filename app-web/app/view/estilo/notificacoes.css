@@ -152,3 +152,98 @@
         align-items: center;
     }
 }
+
+/*SESSÃO CENTRAL DE AJUDA*/
+.ajuda-busca { max-width: 560px; margin-bottom: 32px; }
+
+.ajuda-titulo {
+    margin-bottom: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Passos */
+.ajuda-passos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+}
+.ajuda-passo {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.ajuda-numero {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background: #f0fdf4;
+    color: #166534;
+    font-weight: 700;
+}
+.ajuda-passo strong { display: block; margin-bottom: 4px; color: #0f172a; }
+.ajuda-passo p { margin: 0; font-size: 13px; color: #64748b; }
+
+/* Dúvidas */
+.ajuda-faq {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+.ajuda-item + .ajuda-item { border-top: 1px solid #e2e8f0; }
+
+.ajuda-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    list-style: none;
+}
+.ajuda-item summary::-webkit-details-marker { display: none; }
+.ajuda-item summary::after { content: '+'; font-size: 20px; color: #166534; }
+.ajuda-item[open] summary::after { content: '–'; }
+.ajuda-item summary:hover { background: #f8fafc; }
+
+.ajuda-item p,
+.ajuda-item ul {
+    margin: 0;
+    padding: 0 20px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+}
+.ajuda-item ul { list-style: none; }
+.ajuda-item li { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ajuda-item .badge { min-width: 104px; }
+
+.ajuda-vazio { margin-top: 16px; text-align: center; color: #64748b; }
+
+/* Contato */
+.ajuda-contato {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 40px;
+    padding: 24px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+}
+.ajuda-contato strong { display: block; color: #166534; }
+.ajuda-contato p { margin: 0; font-size: 14px; color: #64748b; }
+.ajuda-contato a { text-decoration: none; }

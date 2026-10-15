@@ -604,3 +604,4 @@
     const linkMenu = document.querySelector('.menu-lateral-link[data-pagina="notificacoes"]');
     if (linkMenu && !USAR_EXEMPLO) linkMenu.addEventListener('click', carregar);
 })();
+

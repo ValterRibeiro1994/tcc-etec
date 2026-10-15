@@ -10,55 +10,53 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="app/view/estilo/navbar.css">
-    <link rel="stylesheet" href="app/view/estilo/geral.css">
-    <link rel="stylesheet" href="app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
   
     
     <title>RelateSBC</title>
 </head>
 <body>
     
-   <header class="navbar-header">
-    <nav class="navbar">
-        <a href="<?= $raiz ?>home" class="logo-link">
-            <img src="app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
-        </a>
-
-        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
-        <ul class="tabela-de-links">
-            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-            <li class="nav-item"><a href="#">Sobre</a></li>
-            <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item active"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
-        </ul>
-
-        <div class="nav-actions" id="convidado">
-            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
-                Entrar
-            </a>
-            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
-                Cadastre-se
+    <header class="navbar-header">
+        <nav class="navbar">
+            <a href="<?= $raiz ?>home" class="logo-link">
+                <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
             </a>
 
-            
-        </div>
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+                <li class="nav-item active"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            </ul>
 
-        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
-            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
-        </div>
+            <div class="nav-actions" id="convidado">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                    <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+            </div>
+
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+            </div>
         
 
-        <div class="mobile-menu-icon">
-            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <div class="mobile-menu-icon">
+                <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"   class="bi bi-list" viewBox="0 0 16 16">
 
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg></i></button>
-        </div>
-    </nav>
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg></i></button>
+            </div>
+        </nav>
 
-    <!-- MENU MOBILE -->
+        <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
             <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
@@ -70,17 +68,16 @@ $raiz = $GLOBALS['raiz-app'];
             </ul>
 
             <div class="nav-actions">
-              <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
-              </a>
-              <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                   Cadastre-se
-              </a>
+                </a>
                 
-            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
-            <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
-        </div>
-                
+                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                    <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+                </div>
             </div>
         </div>
 
@@ -92,10 +89,10 @@ $raiz = $GLOBALS['raiz-app'];
             </button>
             <span>Mural de denúncias</span>
         </nav>
-  </header>
+    </header>
 
 
-     <div class="main-container">
+    <div class="main-container">
         
         <aside class="menu-lateral">
             <button class="btn-fechar-sidebar" onclick="fecharSidebar()">
@@ -118,17 +115,21 @@ $raiz = $GLOBALS['raiz-app'];
                     <svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Minhas denúncias
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="acompanhamento" id="link-acompanhamento">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    Acompanhamento
+
+                <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
+                     Notificações
+                 <span class="menu-badge" id="badge-notificacoes" hidden>0</span>
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="favoritos" id="link-favoritos">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    Favoritos
+                
+                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
+                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round preview-icon"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                    perfil
                 </a>
-                <a href="#" class="menu-lateral-link" data-pagina="historico" id="link-historico">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                    Histórico
+                
+                <a href="#" class="menu-lateral-link" data-pagina="central-de-ajuda" id="link-central">
+                    <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question-mark preview-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    Central de ajuda
                 </a>
                
                 <a href="#" class="menu-lateral-link" data-pagina="configuracoes" id="link-configuracoes">
@@ -136,10 +137,6 @@ $raiz = $GLOBALS['raiz-app'];
                     Configurações
                 </a>
 
-                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
-                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                    perfil
-                </a>
             </nav>
 
             <div class="menu-lateral-card-informativo">
@@ -150,60 +147,56 @@ $raiz = $GLOBALS['raiz-app'];
         
         <!--CONTEUDO DA PAGINA-->
     
-        <main class="conteudo-principal" style="flex: 1; padding: 40px;">
-            <section id="tela-mural" class="tela ativa">
+<main class="conteudo-principal" style="flex: 1; padding: 40px;">
+    <section id="tela-mural" class="tela ativa">
 
             <div class="mural-descricao">
                     <h2>Mural de denúncias</h2>
                     <p>Acompanhe e fiscalize em tempo real a situação dos problemas em São Bernardo.</p>
             </div>
 
-            <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
+        <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
             <div class="row g-2 align-items-center">
             
-            <div class="col-md-5">
+                <div class="col-md-5">
             
-                <div class="input-group pesquisa-grupo bg-light border rounded-3">
-                    <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </span>
-                    <input type="text" class="form-control bg-transparent border-0 shadow-none py-2" placeholder="Buscar por rua, problema ou palavra-chave...">
+                    <div class="input-group pesquisa-grupo bg-light border rounded-3">
+                        <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </span>
+                        <input type="text" class="form-control bg-transparent border-0 shadow-none py-2" placeholder="Buscar por rua, problema ou palavra-chave...">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <select class="form-select rounded-3 py-2 text-secondary shadow-none">
+                        <option selected>Todas as categorias</option>
+                        <option>Infraestrutura</option>
+                        <option>Limpeza Urbana</option>
+                        <option>Iluminação Pública</option>
+                    </select>
+                </div>
+           
+                <div class="col-md-2">
+                    <select class="form-select rounded-3 py-2 text-secondary shadow-none">
+                        <option selected>Todos os bairros</option>
+                        <option>Centro</option>
+                        <option>Vila Gonçalves</option>
+                        <option>Jardim do Lago</option>
+                        <option>Rudge Ramos</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="button" class="btn btn-filtros rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    Mais Filtros
+                    </button>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <select class="form-select rounded-3 py-2 text-secondary shadow-none">
-                    <option selected>Todas as categorias</option>
-                    <option>Infraestrutura</option>
-                    <option>Limpeza Urbana</option>
-                    <option>Iluminação Pública</option>
-                </select>
-            </div>
-           
-            <div class="col-md-2">
-                <select class="form-select rounded-3 py-2 text-secondary shadow-none">
-                    <option selected>Todos os bairros</option>
-                    <option>Centro</option>
-                    <option>Vila Gonçalves</option>
-                    <option>Jardim do Lago</option>
-                    <option>Rudge Ramos</option>
-                </select>
-            </div>
-
-            <div class="col-md-2 d-grid">
-               <button type="button" class="btn btn-filtros rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-                    Mais Filtros
-                </button>
-            </div>
-
         </div>
-      </div>
          <!--CARD-->
-            <!-- ALTERADO: o card abaixo agora é só um MODELO. O mural.js copia este card para cada denúncia
-                 e depois remove o exemplo. Os ids (card-mural, img-card, categoria-denuncia, titulo-denuncia,
-                 local-denuncia, data-denuncia, status-denuncia) são usados pelo script, não remova. -->
-            <!-- ALTERADO: adicionado id="grid-denuncias" (o mural.js insere aqui um card para cada denúncia do banco) -->
+
             <div class="grid-denuncias" id="grid-denuncias">
                 <div class="card" id="card-mural">
                     <div class="card-img-wrapper">
@@ -225,87 +218,213 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-            <!-- ADICIONADO: mensagem exibida pelo mural.js ("Carregando...", "Nenhuma denúncia registrada", erro) -->
             <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
     </section>
         <!-- MINHAS DENÚNCIAS -->
     
     <section id="tela-denuncias" class="tela">
 
-    <div class="mural-descricao">
-        <h2>Minhas denúncias</h2>
-        <p>Acompanhe o andamento de tudo o que você já registrou.</p>
-    </div>
-
-    <!-- ALTERADO: os números do resumo agora têm id (resumo-*) e são calculados pelo mural.js com as denúncias do próprio usuário -->
-    <div class="resumo-denuncias">
-        <div class="resumo-item" data-cor="verde">
-            <strong id="resumo-concluidas">0</strong><span>Concluídas</span>
+        <div class="mural-descricao">
+            <h2>Minhas denúncias</h2>
+            <p>Acompanhe o andamento de tudo o que você já registrou.</p>
         </div>
-        <div class="resumo-item" data-cor="amarelo">
-            <strong id="resumo-andamento">0</strong><span>Em andamento</span>
-        </div>
-        <div class="resumo-item" data-cor="azul">
-            <strong id="resumo-analise">0</strong><span>Em análise</span>
-        </div>
-        <div class="resumo-item" data-cor="vermelho">
-            <strong id="resumo-pendentes">0</strong><span>Pendentes</span>
-        </div>
-    </div>
 
-    <!-- FILTROS -->
-    <div class="filtro-status">
-        <button class="filtro-chip ativo" data-filtro="todas">Todas</button>
-        <button class="filtro-chip" data-filtro="concluida">Concluídas</button>
-        <button class="filtro-chip" data-filtro="andamento">Em andamento</button>
-        <button class="filtro-chip" data-filtro="analise">Em análise</button>
-        <button class="filtro-chip" data-filtro="pendente">Pendentes</button>
-    </div>
-
-    <!-- ALTERADO: os 4 exemplos fixos foram removidos. O mural.js lista aqui SÓ as denúncias do usuário logado
-         (./denuncia/minhas), copiando o modelo "modelo-minha-denuncia". Ids: minhas-mensagem, lista-minhas-denuncias -->
-    <p id="minhas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
-
-    <div class="lista-denuncias" id="lista-minhas-denuncias"></div>
-
-    <template id="modelo-minha-denuncia">
-        <article class="denuncia-item" data-status="pendente">
-            <div class="denuncia-principal">
-                <h3 data-campo="titulo">Título</h3>
-                <p data-campo="descricao">Descrição</p>
+        <div class="resumo-denuncias">
+            <div class="resumo-item" data-cor="verde">
+                <strong id="resumo-concluidas">0</strong><span>Concluídas</span>
             </div>
-            <div class="denuncia-meta">
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    <span data-campo="local">Local</span>
-                </span>
-                <span class="meta-linha">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span data-campo="data">Data</span>
-                </span>
+            <div class="resumo-item" data-cor="amarelo">
+                <strong id="resumo-andamento">0</strong><span>Em andamento</span>
             </div>
-            <span class="status-badge" data-campo="status">Status</span>
-            <div class="denuncia-acoes">
-                <button class="btn-acao btn-acao-principal">Ver mais</button>
-                <button class="btn-acao">Editar</button>
-                <button class="btn-acao btn-acao-perigo">Remover</button>
+            <div class="resumo-item" data-cor="azul">
+                <strong id="resumo-analise">0</strong><span>Em análise</span>
             </div>
-        </article>
-    </template>
-</section>
-        <!-- Conteúdo desta tela -->
-    
+            <div class="resumo-item" data-cor="vermelho">
+                <strong id="resumo-pendentes">0</strong><span>Pendentes</span>
+            </div>
+        </div>
 
+        <!-- FILTROS -->
+        <div class="filtro-status">
+            <button class="filtro-chip ativo" data-filtro="todas">Todas</button>
+            <button class="filtro-chip" data-filtro="concluida">Concluídas</button>
+            <button class="filtro-chip" data-filtro="andamento">Em andamento</button>
+            <button class="filtro-chip" data-filtro="analise">Em análise</button>
+            <button class="filtro-chip" data-filtro="pendente">Pendentes</button>
+        </div>
+
+            <p id="minhas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+
+        <div class="lista-denuncias" id="lista-minhas-denuncias"></div>
+
+        <template id="modelo-minha-denuncia">
+            <article class="denuncia-item" data-status="pendente">
+                <div class="denuncia-principal">
+                    <h3 data-campo="titulo">Título</h3>
+                    <p data-campo="descricao">Descrição</p>
+                </div>
+                <div class="denuncia-meta">
+                    <span class="meta-linha">
+                        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span data-campo="local">Local</span>
+                    </span>
+                    <span class="meta-linha">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span data-campo="data">Data</span>
+                    </span>
+                </div>
+                    <span class="status-badge" data-campo="status">Status</span>
+                <div class="denuncia-acoes">
+                    <button class="btn-acao btn-acao-principal">Ver mais</button>
+                    <button class="btn-acao">Editar</button>
+                    <button class="btn-acao btn-acao-perigo">Remover</button>
+                </div>
+            </article>
+        </template>
+    </section>
+
+        <!-- INICIO SESSÃO NOTIFICAÇÕES -->
+    <section id="tela-notificacoes" class="tela">
         
+            <div class="mural-descricao">
+                <h2>Notificações</h2>
+                <p>Veja o que mudou nas suas denúncias e as respostas da prefeitura.</p>
+            </div>
 
+            <div class="notificacoes-barra">
+                <div class="filtro-status" id="filtro-notificacoes">
+                    <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
+                    <button type="button" class="notif-chip" data-filtro="nao-lidas">Não lidas</button>
+                </div>
+                    <button type="button" class="btn-acao" id="btn-marcar-todas">Marcar todas como lidas</button>
+            </div>
 
+            <div id="lista-notificacoes"></div>
 
+            <div class="notificacoes-vazio" id="notificacoes-vazio" hidden>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+                <strong id="notificacoes-vazio-titulo">Nenhuma notificação por aqui</strong>
+                <p id="notificacoes-vazio-texto">Quando uma denúncia mudar de status ou receber um comentário, você verá o aviso aqui.</p>
+            </div>
+
+        <template id="modelo-notificacao">
+            <li class="notificacao-item">
+                <button type="button" class="notificacao-corpo">
+                    <span class="notificacao-icone" data-campo="icone"></span>
+                    <span class="notificacao-texto">
+                        <strong data-campo="titulo">Título</strong>
+                        <span data-campo="mensagem">Mensagem</span>
+                    </span>
+                    <span class="notificacao-meta">
+                        <time data-campo="tempo">agora</time>
+                        <span class="notificacao-ponto" aria-label="Não lida"></span>
+                    </span>
+                </button>
+            </li>
+        </template>
+    </section>
+    <!-- FIM SESSÃO NOTIFICAÇÕES -->
+
+    <!-- INICIO SESSÃO CENTRAL DE AJUDA -->
+    <section id="tela-central-de-ajuda" class="tela">
+
+        <div class="mural-descricao">
+            <h2>Central de ajuda</h2>
+            <p>Tire suas dúvidas e aprenda a usar o RelateSBC.</p>
+        </div>
+
+        <h3 class="ajuda-titulo">Como funciona</h3>
+        <div class="ajuda-passos">
+            <div class="ajuda-passo">
+                <span class="ajuda-numero">1</span>
+                <strong>Crie sua conta</strong>
+                <p>Cadastre-se e entre para registrar e acompanhar denúncias. Para ver o mural, não precisa de conta.</p>
+            </div>
+            <div class="ajuda-passo">
+                <span class="ajuda-numero">2</span>
+                <strong>Registre a denúncia</strong>
+                <p>Clique em "Nova denúncia", conte o que está acontecendo, informe o local e adicione uma foto, se puder.</p>
+            </div>
+            <div class="ajuda-passo">
+                <span class="ajuda-numero">3</span>
+                <strong>Acompanhe</strong>
+                <p>Veja o andamento de tudo o que você registrou em "Minhas denúncias".</p>
+            </div>
+            <div class="ajuda-passo">
+                <span class="ajuda-numero">4</span>
+                <strong>Receba avisos</strong>
+                <p>Você é notificado quando o status mudar ou quando a prefeitura responder.</p>
+            </div>
+        </div>
+
+            <h3 class="ajuda-titulo">Dúvidas frequentes</h3>
+        <div class="ajuda-faq">
+
+            <details class="ajuda-item">
+                <summary>Como registro uma denúncia?</summary>
+                <p>Clique no botão "Nova denúncia" no menu lateral, preencha as informações do problema e envie. É preciso estar logado para registrar.</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Preciso ter conta para usar o site?</summary>
+                <p>Para ver o mural de denúncias, não. Para registrar uma denúncia, acompanhar as suas e receber notificações, sim.</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Que tipos de problema posso denunciar?</summary>
+                <p>Problemas de infraestrutura, limpeza urbana e iluminação pública nos bairros de São Bernardo do Campo, como buracos, lixo acumulado e postes apagados.</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>O que significa cada status?</summary>
+                <ul>
+                    <li><span class="badge rounded-pill text-bg-danger">Pendente</span> A denúncia foi registrada e ainda não foi vista.</li>
+                    <li><span class="badge rounded-pill text-bg-primary">Em análise</span> A prefeitura está avaliando o caso.</li>
+                    <li><span class="badge rounded-pill text-bg-warning">Em andamento</span> O problema está sendo resolvido.</li>
+                    <li><span class="badge rounded-pill text-bg-success">Concluída</span> O problema foi resolvido.</li>
+                </ul>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Como acompanho minha denúncia?</summary>
+                <p>Abra "Minhas denúncias" no menu lateral. Lá você vê todas as que registrou, com o status atual, e pode filtrar por situação.</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Quando recebo notificações?</summary>
+                <p>Sempre que o status de uma denúncia sua mudar e quando a prefeitura responder. Elas aparecem em "Notificações", e o número no menu mostra quantas você ainda não leu.</p>
+            </details>
+
+            <details class="ajuda-item">
+                 <summary>Posso editar ou remover uma denúncia?</summary>
+                <p>Sim. Em "Minhas denúncias", cada denúncia tem os botões "Editar" e "Remover".</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Quanto tempo leva para resolverem?</summary>
+                <p>O prazo depende do tipo de problema e do órgão responsável. O que o site garante é que você acompanha cada mudança de status em tempo real.</p>
+            </details>
+
+            <details class="ajuda-item">
+                <summary>Meu nome aparece para os outros usuários?</summary>
+                <p>Sim, o seu nome aparece junto da denúncia no mural.</p>
+            </details>
+        </div>
+
+        <div class="ajuda-contato">
+            <div>
+                <strong>Não encontrou o que procurava?</strong>
+                <p>Fale com a nossa equipe.</p>
+            </div>
+            <a href="#" class="btn-acao btn-acao-principal">Entrar em contato</a>
+        </div>
+    </section>
+    <!-- FIM SESSÃO CENTRAL DE AJUDA -->
 
 </main>
     
-   <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
-  <!-- ADICIONADO: busca as denúncias no banco e monta os cards do mural -->
-  <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
     
 </body>
 </html>
