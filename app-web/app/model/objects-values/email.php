@@ -2,7 +2,7 @@
 
 class Email {
     private string $email;
-    public function __construct(string $email){
+    public function __construct(string $email = "visitante@gmail.com"){
         $email = $this->sanitizarEmail($email);
         $this->validarEmail($email);
         $this->email = $email;

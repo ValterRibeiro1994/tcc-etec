@@ -14,3 +14,8 @@ $GLOBALS['municipe'] = "tb_municipe";
 
 // debug
 $GLOBALS['debug'] = true;
+
+// tempo de sessao
+$GLOBALS['tempo-sessao'] = 30;
+
+$GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';

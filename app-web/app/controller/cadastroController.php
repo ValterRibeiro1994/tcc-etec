@@ -145,7 +145,7 @@ class CadastroController {
         foreach ($dados_esperado as $chave) {
             if (!array_key_exists($chave, $dados) || empty($dados[$chave])) {
                 return RespostaProcesso::resposta(
-                    mensagem: "Controller: Campo $chave não enviado", resposta: false,
+                    mensagem: "Cliente: Campo $chave não enviado", resposta: false,
                     dados: $dados
                 );
             }
@@ -156,7 +156,7 @@ class CadastroController {
             // valida as senhas
             if ($dados['senha'] !== $dados['confirmar-senha']){
                 return RespostaProcesso::resposta(
-                    mensagem: "Controller: Senhas diferentes", resposta: false,
+                    mensagem: "Cliente: Senhas diferentes", resposta: false,
                     dados: $dados, formato: "json"
                 );
             }

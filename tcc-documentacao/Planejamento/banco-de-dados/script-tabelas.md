@@ -1,37 +1,26 @@
 # Tabelas salvas diretamente no infinity
 ## por isso não tem a definição para o BD 
 
+create database if not exists relate_sbc;
+use relate_sbc;
+
 create table if not exists tb_usuario (
 	id_usuario int not null primary key auto_increment,
+    perfil_usuario enum('municipe', 'representante', 'visitante') not null,
     nome_usuario varchar(20) not null,
     sobrenome_usuario varchar(60) not null,
     email_usuario varchar(120) not null unique,
     cpf_usuario char(11) not null unique,
-    perfil_usuario enum('municipe', 'representante') not null,
-    senha_usuario varchar(60) not null
+    senha_usuario varchar(60) not null,
+    cidade_usuario varchar(50) not null,
+    estado_usuario char(2) not null,
+    orgao_representante varchar(120) not null,
+    cargo_representante varchar(120) not null,
 );
-
 
 create table if not exists tb_categoria (
 	id_categoria int not null primary key auto_increment,
     nome_categoria varchar(30) unique
-);
-
-
-create table if not exists tb_municipe (
-	id_usuario int primary key,
-    cidade_municipe varchar(50) not null,
-    estado_municipe char(2) not null,
-    foreign key (id_usuario) references tb_usuario (id_usuario)
-);
-
-create table if not exists tb_representante (
-	id_usuario int primary key,
-    cidade_representante varchar(50) not null,
-    estado_representante char(2) not null,
-    orgao_representante varchar(120) not null,
-    cargo_representante varchar(120) not null,
-    foreign key (id_usuario) references tb_usuario (id_usuario)
 );
 
 create table if not exists tb_denuncia (

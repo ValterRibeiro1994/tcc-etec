@@ -4,7 +4,7 @@ class SessaoService {
 
     private static function iniciarSessao() { 
         if (session_status() === PHP_SESSION_NONE) { 
-            ini_set('session.cookie_lifetime', 120); 
+            ini_set('session.cookie_lifetime', (int) $GLOBALS['tempo-sessao']); 
             ini_set('session.cookie_httponly', 1); 
             ini_set('session.cookie_secure', 0); // Mude para 1 em produção (HTTPS)
             ini_set('session.use_only_cookies', 1); 
@@ -12,6 +12,7 @@ class SessaoService {
             session_start(); 
         } 
     }
+
     
     public static function estaOnline() {
         self::iniciarSessao();
@@ -25,7 +26,7 @@ class SessaoService {
             return false;
         }
 
-        $ultimo_acesso = $_SESSION['user']['ultimo_acesso'] ?? null;
+        $ultimo_acesso = $_SESSION['user']['ultimo_acesso'];
         $expira = $_SESSION['user']['expira_em'] ?? 0; // tempo em segundos ou minutos dependendo da sua regra
 
         if (!$ultimo_acesso) {
@@ -44,8 +45,6 @@ class SessaoService {
             return false; // Expirou
         }
         
-        // Atualiza o último acesso para renovar a sessão
-        $_SESSION['user']['ultimo_acesso'] = (new DateTime())->format('Y-m-d H:i:s');
         return true;
     }
 
@@ -72,10 +71,14 @@ class SessaoService {
             $dados_usuario = $resposta['dados'];
             $_SESSION['user'] = $dados_usuario;
 
-            $expira = $lembrar ? 86400 : 600; // 1 dia ou 10 minutos
+            if ($lembrar){
+                $expira = 86400; // um dia
+            } {
+                $expira = (int) $GLOBALS['tempo-sessao'];
+            }
 
             $_SESSION['user']['expira_em'] = $expira;
-            $_SESSION['user']['ultimo_acesso'] = (new DateTime())->format('Y-m-d H:i:s');
+            $_SESSION['user']['ultimo_acesso'] = (new DateTime())->format($GLOBALS['formato-data-hora']);
             $_SESSION['user']['contar-login'] = 0;
 
             return RespostaProcesso::resposta(
@@ -171,7 +174,7 @@ class SessaoService {
         }
 
         if (!array_key_exists('inicio', $_SESSION) || $_SESSION['inicio'] === "null"){
-            $_SESSION['inicio'] = (new DateTime("now"))->format('Y-m-d H:i:s');
+            $_SESSION['inicio'] = (new DateTime("now"))->format($GLOBALS['formato-data-hora']);
         }
 
         $tempo_espera = $_SESSION['espera'];
@@ -191,5 +194,28 @@ class SessaoService {
     public static function resetarTempoInicio(){
         self::iniciarSessao();
         $_SESSION['inicio'] = "null";
+    }
+
+    public static function obterAtributoUsuario(string $atributo){
+        if (!array_key_exists("user", $_SESSION)) return false;
+        if (!array_key_exists($atributo, $_SESSION['user'])) return false;
+        return $_SESSION['user'][$atributo];
+    }
+
+    public static function rastrearUsuario(array $resposta){
+        self::iniciarSessao();
+        $arquivo = $_SERVER['SCRIPT_FILENAME'];
+        $metodo = $_SERVER['REQUEST_METHOD'];
+        $uri = $_SERVER['REQUEST_URI'];
+        $_SESSION['seg']['acoes'][] = [
+            "usuario"=> $_SESSION['user'] ?? "Primeiro Acesso - não registrado",
+            "arquivo"=> $arquivo,
+            "metodo"=> $metodo,
+            "uri"=> $uri,
+            "mensagem"=>$resposta['mensagem'],
+            "status-processo"=>$resposta['resposta'],
+            "dados"=> $resposta['dados'],
+            "data-hora" => (new DateTime("now"))->format($GLOBALS['formato-data-hora']),
+        ];
     }
 }

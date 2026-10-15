@@ -7,9 +7,16 @@ class DadosPessoais {
     private Email $email;
 
     public function __construct(Perfil $perfil = null, Nome $nome = null, Sobrenome $sobrenome = null, Email $email = null) {
+        $this->perfil = new Perfil();
         if ($perfil != null) $this->perfil = $perfil;
+
+        $this->nome = new Nome();
         if ($nome != null) $this->nome = $nome;
+
+        $this->sobrenome = new Sobrenome();
         if ($sobrenome != null) $this->sobrenome = $sobrenome;
+
+        $this->email = new Email();
         if ($email != null) $this->email = $email;
     }
 
@@ -24,32 +31,24 @@ class DadosPessoais {
 
     public function getNome(): string {
         if ($this->nome == null) {
-            $this->setNome("Não informado");
+            $this->setNome("visitante");
         }
         return $this->nome->getNome();
     }
         
-        public function getSobrenome(): string {
+    public function getSobrenome(): string {
         if ($this->sobrenome == null) {
-            $this->setSobrenome("Sobrenome não informado");
+            $this->setSobrenome("visitante");
         }
         return $this->sobrenome->getSobrenome();
     }
 
     public function getEmail(): string {
         if ($this->email == null){
-            $this->setEmail("Email não informado");
+            $this->setEmail("visitante");
         };
         return $this->email->getEmail();
     }
-
-    // public function getCpf(): string {
-    //     if ($this->cpf == null){
-    //         $this->setCpf("Cpf não informado");
-    //     }
-    //     return $this->cpf->getCpf();
-    // } 
-
 
     public function setPerfil(Perfil|string  $perfil){
         if (is_string($perfil)){

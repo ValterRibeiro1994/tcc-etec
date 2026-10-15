@@ -47,15 +47,10 @@ class TokenController {
                     perfil: new Perfil($requisicao['perfil'])
                     )
                 );
+
             if ($usuario->getPerfil() === "visitante"){
-
-                // padrão para visitante
-                $usuario->setNome("visitante");
-                $usuario->setSobrenome("visitante");
-                $usuario->setEmail("visitante@gmail.com");
-
                 // cria o token
-                return TokenService::criarToken($usuario, 600);
+                return TokenService::criarToken($usuario, $GLOBALS['tempo-sessao']);
             }
 
             $entradas = ['nome', "sobrenome", "email", "cidade", "estado"];
@@ -74,7 +69,19 @@ class TokenController {
             $usuario->setCidade($requisicao['cidade']);
             $usuario->setEstado($requisicao['estado']);
 
-            // continua
+            if ($usuario->getPerfil() == "municipe") return TokenService::criarToken($usuario);
+            $entradas = ['orgao', 'cidade'];
+            foreach ($entradas as $entrada) {
+                if (!array_key_exists($entrada, $requisicao)){
+                    return RespostaProcesso::resposta(
+                        mensagem: "Controller: Chave $entrada não enviada", resposta: false,
+                        dados: $requisicao, formato: 'json'
+                    );
+                }
+            }
+
+            $usuario->setPrefeitura(orgao: $requisicao['orgao'], cargo: $requisicao['cargo']);
+            return TokenService::criarToken($usuario);
 
         } catch (Exception $erro){
             return RespostaProcesso::resposta(

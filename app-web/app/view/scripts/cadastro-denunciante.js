@@ -30,8 +30,6 @@ form.addEventListener("submit", async function (event) {
     dadosForm.append('perfil', 'municipe');
     dadosForm.append('orgao', 'não informado');
     dadosForm.append('cargo', 'não informado');
-    console.log("Ennviando requisição para cadastro");
-    console.log(dadosForm.get('perfil'))
     
     try {
         let resposta = await fetch("../cadastro/municipe", {
@@ -42,15 +40,16 @@ form.addEventListener("submit", async function (event) {
         let resultado = await resposta.json();
         console.log(resultado);
 
-        // window.location.href ="../" + resultado.pagina;
-        // let paragrafo = document.getElementById("respostaProcesso");
-        // paragrafo.textContent = resultado.mensagem;
+        
 
-        // if (resultado.resposta){
-        //     paragrafo.classList.add("alert", "alert-success");
-        // } else {
-        //     paragrafo.classList.add("alert", "alert-warning");
-        // }
+        let paragrafo = document.getElementById("respostaProcesso");
+        paragrafo.textContent = resultado.mensagem;
+
+        if (resultado.resposta){
+            paragrafo.classList.add("alert", "alert-success");
+        } else {
+            paragrafo.classList.add("alert", "alert-warning");
+        }
 
     } catch (error) {
         console.error('Erro ao enviar', error);
