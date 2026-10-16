@@ -21,12 +21,15 @@ class DenunciaController {
 
     public function listar(array $requisicao){
         if ($requisicao['metodo'] === "GET"){
+
             $repositorio = new DenunciasRepositorio();
-            $denuncias = $repositorio->listarDenuncias();
-            return RespostaProcesso::resposta(
+            return $repositorio->listarDenuncias();
+            //$denuncias = $repositorio->listarDenuncias();
+            /* return RespostaProcesso::resposta(
                 mensagem: "Controller: Denuncias listadas com sucesso", resposta: true,
                 dados: $denuncias, formato: "json"
-            );
+            ); */
+            
         }
 
         return RespostaProcesso::resposta(

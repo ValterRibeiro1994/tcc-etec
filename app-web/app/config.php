@@ -10,7 +10,8 @@ $GLOBALS['database_banco'] = "relate_sbc";
 
 //tabelas do banco de dados
 $GLOBALS['usuario'] = "tb_usuario";
-$GLOBALS['municipe'] = "tb_municipe";
+$GLOBALS['denuncia'] = "tb_denuncia";
+$GLOBALS['categorias'] = "tb_categoria";    
 
 // debug
 $GLOBALS['debug'] = true;

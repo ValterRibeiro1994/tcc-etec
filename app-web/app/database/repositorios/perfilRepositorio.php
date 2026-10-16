@@ -13,15 +13,12 @@ class PerfilRepositorio {
         $tabela_municipe = $GLOBALS['municipe'];
         $tabela_representante = $GLOBALS['representante'];
 
-        $comando = "SELECT u.nome_usuario, u.sobrenome_usuario, u.email_usuario, u.perfil_usuario,
-                           COALESCE(m.cidade_municipe, r.cidade_representante) AS cidade,
-                           COALESCE(m.estado_municipe, r.estado_representante) AS estado,
-                           r.orgao_representante AS orgao,
-                           r.cargo_representante AS cargo
-                    FROM $tabela_usuario u
-                    LEFT JOIN $tabela_municipe m ON m.id_usuario = u.id_usuario
-                    LEFT JOIN $tabela_representante r ON r.id_usuario = u.id_usuario
-                    WHERE u.email_usuario = :email";
+        $comando = "
+                    SELECT nome_usuario, sobrenome_usuario, email_usuario, perfil_usuario,
+                        cidade_usuario AS cidade, estado_usuario AS estado,
+                        orgao_usuario AS orgao, cargo_usuario AS cargo
+                    FROM tb_usuario
+                    WHERE email_usuario = :email";
 
         try {
             $conexao = (new Conexao())->getConexao();
