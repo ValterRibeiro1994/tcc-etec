@@ -7,6 +7,29 @@
 class DenunciaController {
 
     public function listar(array $requisicao){
+<<<<<<< Updated upstream
+=======
+        if ($requisicao['metodo'] === "GET"){
+
+            $repositorio = new DenunciasRepositorio();
+            return $repositorio->listarDenuncias();
+            //$denuncias = $repositorio->listarDenuncias();
+            /* return RespostaProcesso::resposta(
+                mensagem: "Controller: Denuncias listadas com sucesso", resposta: true,
+                dados: $denuncias, formato: "json"
+            ); */
+            
+        }
+
+        return RespostaProcesso::resposta(
+                mensagem: "Controller: Requisição inválida para listar denúncias", resposta: false,
+                dados: [], formato: "json"
+        );
+    }
+
+    // ADICIONADO: denúncias do próprio usuário (usadas em "Minhas denúncias" e no perfil)
+    public function minhas(array $requisicao){
+>>>>>>> Stashed changes
         if ($requisicao['metodo'] !== "GET") {
             return RespostaProcesso::resposta("Requisição inválida para listar denúncias");
         }

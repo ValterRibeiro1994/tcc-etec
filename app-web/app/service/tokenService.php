@@ -5,6 +5,7 @@ use Firebase\JWT\Key;
 
 class TokenService {
 
+<<<<<<< Updated upstream
     public static function validarToken(string $token){
         try {
             $token = str_replace("Bearer ", "", $token);
@@ -20,7 +21,35 @@ class TokenService {
                 dados: $dados
             );
         }
+=======
+    public static function validarToken(string $token_cliente){
+    try {
+        $token = str_replace("Bearer ", "", $token_cliente);
+        $decodificar = JWT::decode($token, new Key(self::obterChave(), self::obterAlgoritmo()));
+
+        // transforma o conteúdo do token (perfil, nome, sobrenome, email...) em array
+        $dados = (array) $decodificar;
+        $dados['status'] = 'valido';
+
+        return RespostaProcesso::resposta(
+            mensagem: "Service: Token válido", resposta: true,
+            dados: $dados
+        );
+    } catch (ExpiredException $erro){
+        return RespostaProcesso::resposta(
+            mensagem: "Service: Token expirado", resposta: false,
+            dados: ['status'=> 'expirado']
+        );
+    } catch (Exception $erro) {
+        $dados = RespostaProcesso::salvarErro($erro);
+        $dados['status'] = 'invalido';
+        return RespostaProcesso::resposta(
+            mensagem: "Service: Erro ao validar token", resposta: false,
+            dados: $dados
+        );
+>>>>>>> Stashed changes
     }
+}
 
     public static function criarToken(Usuario $usuario, int $expira = 86400){
         try {

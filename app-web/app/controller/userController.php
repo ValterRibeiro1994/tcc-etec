@@ -3,7 +3,7 @@
 class UserController {
     public function index(array $requisicao){
         
-        if (!SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("app/view/paginas/index.html", true, formato: "html");
+        if (!SessaoController::estaConectado()) return RespostaProcesso::resposta("app/view/paginas/index.html", true, formato: "html");
 
         $perfil = SessaoController::obterAtributoUsuario("perfil"); 
         if ($perfil == "representante"){
@@ -18,34 +18,27 @@ class UserController {
     }
 
     public function representante(array $requisicao){
-        return RespostaProcesso::respostaProcesso("app/view/paginas/cadastro-denunciante.html", true, formato: "html");
+        return RespostaProcesso::resposta("app/view/paginas/cadastro-denunciante.html", true, formato: "html");
     }
 
     public function logout(array $requisicao){
-        if ($requisicao['metodo'] === "GET"){
-            // existe uma sessão ?
-            if (SessaoController::estaConectado()){
-                // se esta conectado o campo token deve existir
-                $token = new TokenController();
-                $resposta = $token->validarToken();
-                if ($resposta['resposta']){
-                    SessaoController::encerrarSessao();
-                    return RespostaProcesso::respostaProcesso("Usuario desconectado", true);
-                } else {
-                    SessaoController::encerrarSessao();
-                    return $resposta;
-                }
-            } else {
-                return RespostaProcesso::respostaProcesso("Usuario desconectado", true);
-            }
-        }
-        throw new Exception("Requisição inválida");
+    if ($requisicao['metodo'] === "GET"){
+        $resposta = RespostaProcesso::resposta(
+            mensagem: "Usuario desconectado", resposta: true
+        );
+        
+        SessaoService::destruirSessao();
+
+        return $resposta;
     }
+
+    return RespostaProcesso::resposta("Requisição inválida para logout");
+}
 
     public function municipe(array $requisicao){
         if ($requisicao['metodo'] == "GET"){
             // enviar a página solicitada para o usuario (mural)
-            return RespostaProcesso::respostaProcesso("app/view/paginas/perfil.html", true, formato: "html");
+            return RespostaProcesso::resposta("app/view/paginas/perfil.html", true, formato: "html");
         }
 
         if ($requisicao['metodo'] == "POST"){
@@ -57,6 +50,6 @@ class UserController {
 
     private function postProcessoMunicipe(array $requisicao){
         
-        return RespostaProcesso::respostaProcesso("Criar processo POST para os dados a serem recebidos");
+        return RespostaProcesso::resposta("Criar processo POST para os dados a serem recebidos");
     }
 }
