@@ -202,20 +202,4 @@ class SessaoService {
         return $_SESSION['user'][$atributo];
     }
 
-    public static function rastrearUsuario(array $resposta){
-        self::iniciarSessao();
-        $arquivo = $_SERVER['SCRIPT_FILENAME'];
-        $metodo = $_SERVER['REQUEST_METHOD'];
-        $uri = $_SERVER['REQUEST_URI'];
-        $_SESSION['seg']['acoes'][] = [
-            "usuario"=> $_SESSION['user'] ?? "Primeiro Acesso - não registrado",
-            "arquivo"=> $arquivo,
-            "metodo"=> $metodo,
-            "uri"=> $uri,
-            "mensagem"=>$resposta['mensagem'],
-            "status-processo"=>$resposta['resposta'],
-            "dados"=> $resposta['dados'],
-            "data-hora" => (new DateTime("now"))->format($GLOBALS['formato-data-hora']),
-        ];
-    }
 }

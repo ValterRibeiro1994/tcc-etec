@@ -19,4 +19,9 @@ $GLOBALS['debug'] = true;
 // tempo de sessao
 $GLOBALS['tempo-sessao'] = 30;
 
+// formato padrão para data e hora do sistema
 $GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';
+
+// chave temporaria para token
+$GLOBALS['token-chave'] = "projeto-relate-tcc-etec-lauro-gomes";
+$GLOBALS['tkn-algo'] = "HS256"; // algoritmo de criptografia do token

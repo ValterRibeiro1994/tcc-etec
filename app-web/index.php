@@ -22,6 +22,9 @@ if (!SessaoService::estaOnline()){ // se não
 try {
     $rotas = new Roteador();
     $resposta = $rotas->getResposta();
+    // var_dump($resposta);
+    // var_dump($GLOBALS);
+    // exit();
     if ($resposta['formato'] == "html"){
         header("Content-type: text/html; charset=utf-8");
         $pagina = $resposta['pagina'];

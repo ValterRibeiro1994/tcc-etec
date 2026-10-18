@@ -9,7 +9,7 @@ class TokenService {
     public static function validarToken(string $token_cliente){
         try {
             $token = str_replace("Bearer ", "", $token_cliente);
-            $decodificar = JWT::decode($token, new Key(self::obterChave(), self::obterAlgoritmo()));
+            $decodificar = JWT::decode($token, new Key($GLOBALS['token-chave'], $GLOBALS['tkn-algo']));
             return RespostaProcesso::resposta(
                 mensagem: "Service: Token válido", resposta: true,
                 dados: ['status'=>'valido']
@@ -54,6 +54,8 @@ class TokenService {
                 $dados['cidade'] = $usuario->getCidade();
                 $configuracao['estado'] = $usuario->getEstado();
                 $dados['estado'] = $usuario->getEstado();
+                $expira = clone $GLOBALS['tempo-sessao'];
+                $configuracao['exp'] = time() + $expira;
             }
 
             if ($usuario->getPerfil() == "representante"){
@@ -63,7 +65,7 @@ class TokenService {
                 $dados['cargo'] = $usuario->getPrefeitura()->getCargo();
             }
 
-            $jwt = JWT::encode($configuracao, self::obterChave(), self::obterAlgoritmo());
+            $jwt = JWT::encode($configuracao, $GLOBALS['token-chave'], $GLOBALS['tkn-algo']);
             $dados['token'] = $jwt;
             return RespostaProcesso::resposta(
                 mensagem: "Service: Token gerado com sucesso para " . $usuario->getPerfil(), 
@@ -79,11 +81,66 @@ class TokenService {
         }
     }
 
-    private static function obterChave(): string {
-        return "projeto-relate-tcc-etec-lauro-gomes";
-    }
+    public function renovarToken(Usuario $usuario, string $token_cliente){
+        // recupera o payload do token recebido
+        $payload = (array) JWT::decode($token_cliente, new Key($GLOBALS['token-chave'], $GLOBALS['tkn-algo']));
+        
+        // checa se tem 'perfil' atributo no payload
+        if (!array_key_exists("perfil", $payload)){
+            return RespostaProcesso::resposta(
+                mensagem: "Service: Token invalido", resposta: false,
+                dados: ['status'=>"invalido"]
+            );
+        }
 
-    private static function obterAlgoritmo(): string {
-        return "HS256";
+        // verifica se o token é pertencente a um visitante
+        if ($payload['perfil'] === "visitante"){
+            // checa se o perfil no payload corresponde ao perfil de usuario recebido
+            if ($usuario->getPerfil() !== "visitante"){
+                return RespostaProcesso::resposta(
+                    mensagem: "Service: Tokens incompativeis", resposta: false,
+                    dados: ['status'=>"invalido"]
+                );
+            }
+                    
+            // cria um novo token para o visitante
+            return $this->criarToken($usuario, $GLOBALS['tempo-sessao']);
+        }
+
+        // verifica se o perfil pertence a alguem já cadastrado
+        if ($payload['perfil'] === "municipe" || $payload['perfil'] === "representante"){
+            // o payload deve ter nome, sobrenome, email, cidade, estado 
+            // orgao e cargo no caso do representante
+            if ($payload['perfil'] === "representante"){
+                $dados_payload = ['nome', 'sobrenome', 'email', 'cidade', 'estado', 'orgao', 'cargo'];
+            } else {
+                $dados_payload = ['nome', 'sobrenome', 'email', 'cidade', 'estado'];
+            }
+
+            foreach($dados_payload as $chave){
+                if (!array_key_exists($chave, $payload)){
+                    return RespostaProcesso::resposta(
+                        mensagem: "Service: Token Inválido", resposta: false,
+                        dados:['status'=>"invalido"]
+                    );
+                }
+
+                // compara os dados do payload com a do usuario recebido
+                $comando = "get" . ucfirst($chave);
+                if ($payload[$chave] !== $usuario->$comando()){
+                    return RespostaProcesso::resposta(
+                        mensagem: "Service: Token Invalido", resposta: false,
+                        dados:['status'=>'invalido']
+                    );
+                }
+            }
+
+            return $this->criarToken($usuario);
+        }
+
+        return RespostaProcesso::resposta(
+            mensagem:"Service: Token Inválido", resposta: false,
+            dados: ['status'=>'invalido']
+        );
     }
 }
