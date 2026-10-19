@@ -5,20 +5,6 @@ include_once("app/roteador.php");
 
 new AutoLoadFiles();
 
-// checa se existe uma sessão aberta 
-if (!SessaoService::estaOnline()){ // se não
-    // checa pela existencia de um perfil se alguma conexão já foi aberta anteriormente
-    $perfil = SessaoService::obterAtributoUsuario("perfil");
-    if (!$perfil){ // se não foi aberta nenhuma sessão
-        // cria um perfil de visitante
-        $visitante = new Usuario(new DadosPessoais());
-        $resposta = SessaoService::registrarUsuario($visitante, false);
-        if (!$resposta['resposta']){
-            SessaoService::destruirSessao();  
-        }
-    }
-}
-
 try {
     $rotas = new Roteador();
     $resposta = $rotas->getResposta();

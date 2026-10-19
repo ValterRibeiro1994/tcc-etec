@@ -54,7 +54,7 @@ class TokenService {
                 $dados['cidade'] = $usuario->getCidade();
                 $configuracao['estado'] = $usuario->getEstado();
                 $dados['estado'] = $usuario->getEstado();
-                $expira = clone $GLOBALS['tempo-sessao'];
+                $expira = $GLOBALS['tempo-sessao'];
                 $configuracao['exp'] = time() + $expira;
             }
 

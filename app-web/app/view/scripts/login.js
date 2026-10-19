@@ -6,13 +6,11 @@ const debug = true;
 main();
 
 function main() {
-    // Se o usuário já tem um token, redireciona
     if (existeToken()) {
         if (debug) {
             console.log("Usuário já registrou login");
             return;
         }
-        window.location.href = "../home";
         return;
     }
 
@@ -49,6 +47,9 @@ function prepararEventoLogin() {
             if (respostaJson.resposta) {
                 let dados_token = respostaJson.dados;
                 localStorage.setItem('token', dados_token.token);
+                localStorage.setItem("nome", dados_token.nome);
+                localStorage.setItem("sobrenome", dados_token.sobrenome);
+                localStorage.setItem("email", dados_token.email);
                 localStorage.setItem('perfil', dados_token.perfil);
                 localStorage.setItem('cidade', dados_token.cidade);
                 localStorage.setItem('estado', dados_token.estado);
@@ -112,9 +113,8 @@ function prepararFormulario(form) {
 
 function existeToken() {
     const token = localStorage.getItem("token");
-    // Nota: Ajustei a lógica aqui, assumindo que se houver token, retorna true
-    if (token) {
-        return true; 
+    if (!token) {
+        return false; 
     }
 
     const perfil = localStorage.getItem("perfil");
@@ -124,7 +124,6 @@ function existeToken() {
         }
 
         const perfis_validos = ['municipe', 'representante'];
-        // Substituído o forEach por .includes() para validação correta e limpa
         if (perfis_validos.includes(perfil)) {
             return true;
         }
@@ -145,9 +144,4 @@ function exibirResposta(resposta, mensagem) {
     } else {
         tagResposta.classList.add("text-white", "bg-danger");
     }
-}
-
-function validarToken(){
-    let token = localStorage.getItem("token");
-    
 }

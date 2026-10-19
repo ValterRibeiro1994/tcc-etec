@@ -114,8 +114,16 @@ class TokenController {
     public function validar(array $requisicao){
         if (!array_key_exists("token", $requisicao)){
             return RespostaProcesso::resposta(
-                mensagem: "Chave token não enviada", resposta: false,
-                dados: $requisicao, formato: "json"
+                mensagem: "Controller: Token não enviado", resposta: false,
+                dados: ['status'=>'invalido'], formato: "json"
+            );
+        }
+
+        $headers = getallheaders();
+        if (!array_key_exists("Authorization", $headers)){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Cabeçalho de autenticação não enviado", resposta: false,
+                dados: ['status'=>'invalido'], formato: "json"
             );
         }
 
