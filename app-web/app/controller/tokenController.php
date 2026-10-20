@@ -64,7 +64,7 @@ class TokenController {
         $resposta = TokenService::validarToken($requisicao['token']);
 
         // guarda o token recebido pelo cliente
-        $resposta['dados']['token'] = clone $requisicao['token'];
+        $resposta['dados']['token'] = $requisicao['token'];
 
         // retorna o mesmo token se for valido não necessita um novo
         if ($resposta['resposta']) return $resposta;
@@ -99,11 +99,23 @@ class TokenController {
 
         // checa se a invalidez é por estar expirado
         if ($resposta['dados']['status'] == "expirado"){
+            if ($usuario->getPerfil() != "visitante") {
+                $lembrar = true;
+            } else {
+                $lembrar = false;
+            }
             // retorna um novo token 
-            return TokenService::criarToken($usuario);
+            $resposta =  TokenService::criarToken($usuario);
+            if ($resposta['resposta']){
+                SessaoService::registrarUsuario($usuario, $lembrar);
+            } else {
+                SessaoService::destruirSessao();
+            }
+            return $resposta;
         }
 
         // se chegou aqui o token é invalido
+        SessaoService::destruirSessao();
         return RespostaProcesso::resposta(
             mensagem: "Controller: Falha ao renovar token", resposta: false,
             dados: $resposta['dados'], formato: "json"
@@ -119,13 +131,13 @@ class TokenController {
             );
         }
 
-        $headers = getallheaders();
-        if (!array_key_exists("Authorization", $headers)){
-            return RespostaProcesso::resposta(
-                mensagem: "Controller: Cabeçalho de autenticação não enviado", resposta: false,
-                dados: ['status'=>'invalido'], formato: "json"
-            );
-        }
+        // $headers = getallheaders();
+        // if (!array_key_exists("Authorization", $headers)){
+        //     return RespostaProcesso::resposta(
+        //         mensagem: "Controller: Cabeçalho de autenticação não enviado", resposta: false,
+        //         dados: ['status'=>'invalido'], formato: "json"
+        //     );
+        // }
 
         return TokenService::validarToken($requisicao['token']);
     }
@@ -138,11 +150,13 @@ class TokenController {
             );
         }
 
-        $perfil_usuario = $requisicao['perfil'];
-        if ($perfil_usuario === "visitante"){
+        $perfil_usuario = new Perfil(strtolower(trim($requisicao['perfil'])));
+        if ($perfil_usuario->getPerfil() === "visitante"){
             $usuario = new Usuario(new DadosPessoais());
+            SessaoService::registrarUsuario($usuario, false);
             $token_service = TokenService::criarToken($usuario, $GLOBALS['tempo-sessao']);
             if (!$token_service['resposta']){
+                SessaoService::destruirSessao();
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Falha ao criar token", resposta: false,
                     dados: $token_service['dados'], formato: "json"
@@ -155,6 +169,7 @@ class TokenController {
             $chaves_necessarias = ['nome', 'sobrenome', 'cidade', 'estado', 'email'];
             foreach ($chaves_necessarias as $chave) {
                 if (!array_key_exists($chave, $requisicao)){
+                    SessaoService::destruirSessao();
                     return RespostaProcesso::resposta(
                         mensagem: "Controller: Chave $chave não enviada", resposta: false,
                         dados: $requisicao, formato: "json"
@@ -164,7 +179,7 @@ class TokenController {
 
             $usuario = new Usuario(
                 dados_usuario: new DadosPessoais(
-                    perfil: new Perfil($requisicao['perfil']),
+                    perfil: $perfil_usuario,
                     nome: new Nome($requisicao['nome']),
                     sobrenome: new Sobrenome($requisicao['sobrenome']),
                     email: new Email($requisicao['email'])
@@ -173,10 +188,11 @@ class TokenController {
             $usuario->setCidade($requisicao['cidade']);
             $usuario->setEstado($requisicao['estado']);
 
-            if ($perfil_usuario === "representante"){
+            if ($perfil_usuario->getPerfil() === "representante"){
                 $chaves_necessarias = ['orgao', 'cargo'];
                 foreach ($chaves_necessarias as $chave) {
                     if (!array_key_exists($chave, $requisicao)){
+                        SessaoService::destruirSessao();
                         return RespostaProcesso::resposta(
                             mensagem: "Controller: Chave $chave não enviada", resposta: false,
                             dados: $requisicao, formato: "json"
@@ -193,7 +209,9 @@ class TokenController {
             }
 
             $token_service = TokenService::criarToken($usuario, $GLOBALS['tempo-sessao']);
+            SessaoService::registrarUsuario($usuario, true);
             if (!$token_service['resposta']){
+                SessaoService::destruirSessao();
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Falha ao criar token", resposta: false,
                     dados: $token_service['dados'], formato: "json"

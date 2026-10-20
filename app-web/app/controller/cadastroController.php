@@ -4,10 +4,19 @@ class CadastroController {
     public function index(array $requisicao){
         // if (SessaoController::estaConectado()) return RespostaProcesso::respostaProcesso("./app/view/paginas/index.html", true, formato: "html");
         // o index do cadastro não possui formulario na pagina.
-        if ($requisicao['metodo'] == "GET") return RespostaProcesso::resposta(
-            mensagem:"Get realizado com sucesso", resposta: true, 
-            formato: "html", 
-            pagina: "app/view/paginas/selecionar-cadastro.html");
+        if ($requisicao['metodo'] == "GET"){
+            
+            if (SessaoService::estaOnline()){
+                return RespostaProcesso::resposta(
+                    mensagem: "Usuario já está conectado", resposta: false,
+                    dados: [], formato: "html", pagina: "app/view/paginas/perfil.html"
+                );
+            }
+            return RespostaProcesso::resposta(    
+                mensagem:"Get realizado com sucesso", resposta: true, 
+                formato: "html", 
+                pagina: "app/view/paginas/selecionar-cadastro.html");
+            } 
         
         // envia json informando o erro para o front 
         throw new Exception("requisição invalida para cadastro");

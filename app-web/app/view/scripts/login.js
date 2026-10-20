@@ -1,7 +1,7 @@
 const formLogin = window.document.getElementById("form-login-main");
 const tagResposta = window.document.getElementById("resposta-formulario");
 const debug = true;
-
+// console.clear();
 // Inicializa o fluxo
 main();
 
@@ -9,6 +9,7 @@ function main() {
     if (existeToken()) {
         if (debug) {
             console.log("Usuário já registrou login");
+            window.location.href = "/home";
             return;
         }
         return;
@@ -32,8 +33,9 @@ function prepararEventoLogin() {
         }
 
         try {
-            const dados = validacao.dados;
-            const servidor = await fetch("./login", {
+            const dados = new URLSearchParams(validacao.dados);
+            dados.append("metodo", "POST");
+            const servidor = await fetch("/login", {
                 method: "POST",
                 body: dados
             });
@@ -59,6 +61,7 @@ function prepararEventoLogin() {
                 }
 
                 exibirResposta(true, "Sucesso: Login efetuado com sucesso");
+               window.location.href = "/home";
                 return;
             }
 
@@ -133,6 +136,7 @@ function existeToken() {
 }
 
 function exibirResposta(resposta, mensagem) {
+    console.log(resposta, mensagem);
     if (!tagResposta) return;
     
     tagResposta.textContent = message = mensagem;

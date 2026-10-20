@@ -173,7 +173,7 @@ class DenunciasRepositorio {
                     "descricao" => $linha['descricao_denuncia'],
                     "categoria" => $linha['nome_categoria'],
                     "local"     => $linha['logradouro_denuncia'],
-                    "data"      => (new DateTime($linha['data_denuncia']))->format("d/m/Y"),
+                    "data"      => (new DateTime($linha['data_denuncia']))->format($GLOBALS['formato-data-hora']),
                     "status"    => $linha['status_denuncia']
                 ];
             }
