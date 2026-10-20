@@ -21,18 +21,20 @@ class CategoriaController {
             $conexao = $conexao->getConexao();
             $sql = $conexao->prepare($comando);
             $sql->execute();
-            // ALTERADO: fetchAll (antes fetch devolvia só a primeira categoria)
+            
             $resposta = $sql->fetchAll(PDO::FETCH_ASSOC);
             if ($sql->rowCount() == 0 || !$resposta){
                 return RespostaProcesso::resposta("Categorias não foram registradas", true);
             }
 
-            // ALTERADO: status true (antes ficava false por padrão e o front entendia como erro)
             return RespostaProcesso::resposta("Categorias obtidas", true, $resposta);
 
         } catch (Exception $erro) {
             $msg = "ERRO: " . $erro->getMessage();
             return RespostaProcesso::resposta($msg, false);
+        } finally {
+            $sql = null;
+            $conexao = null;
         }
     }
 }

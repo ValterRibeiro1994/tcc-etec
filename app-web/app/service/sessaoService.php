@@ -202,4 +202,8 @@ class SessaoService {
         return $_SESSION['user'][$atributo];
     }
 
+    public static function adicionarTentativa(){
+        self::iniciarSessao();
+        $_SESSION['user']['contar-login'] += 1;
+    }
 }

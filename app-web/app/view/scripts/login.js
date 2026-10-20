@@ -35,7 +35,7 @@ function prepararEventoLogin() {
         try {
             const dados = new URLSearchParams(validacao.dados);
             dados.append("metodo", "POST");
-            const servidor = await fetch("/login", {
+            const servidor = await fetch("./login", {
                 method: "POST",
                 body: dados
             });

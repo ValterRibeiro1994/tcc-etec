@@ -44,10 +44,10 @@ class LoginController {
 
     private function efetuarLogin(array $requisicao){
         $tentativas = SessaoService::obterTentativasLogin();
-        if ($tentativas > 4){
+        if ($tentativas > 3){
             // coloque em espera para proxima tentativa
             SessaoService::editarTempoEspera(3);
-            if (!SessaoService::espera()){
+            if (SessaoService::espera()){
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Limite de tentativas Excedido, aguarde um pouco antes de tentar novamente",
                     resposta: false, dados: ['tentativas' => $tentativas],
@@ -58,7 +58,7 @@ class LoginController {
             SessaoService::resetarTentativasLogin();
             SessaoService::resetarTempoInicio();
         } else {
-            $tentativas += 1;
+            SessaoService::adicionarTentativa();
         }
 
         $campos = ['email', 'senha', 'lembrar'];
@@ -130,7 +130,7 @@ class LoginController {
         if (!$resposta['resposta']) return $resposta;
 
         // cria o token para o usuario
-        $resposta = TokenService::criarToken($usuario, $requisicao['lembrar'] ? 86400 : 600);
+        $resposta = TokenService::criarToken($usuario, $requisicao['lembrar'] ? 86400 : $GLOBALS['tempo-sessao']);
         if (!$resposta['resposta']) return $resposta;
 
         return RespostaProcesso::resposta(
