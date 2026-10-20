@@ -58,12 +58,21 @@ class TesteController {
         );
     }
 
+    public function sobre(array $requisicao){
+        return RespostaProcesso::resposta(
+            mensagem: "nome da pagina", resposta: true, 
+            formato: "html", pagina: "app/view/paginas/sobre-nos.html"
+        );
+    }
+
     public function criardenuncia(array $requisicao){
         return RespostaProcesso::resposta(
             mensagem: "nome da pagina", resposta: true, 
             formato: "html", pagina: "app/view/paginas/criar-denuncia.html"
         );
     }
+    
+
 
     // TEMPORÁRIO: APAGAR antes de publicar o site. Gera token sem exigir senha.
 public function gerartoken(array $requisicao){
