@@ -1,0 +1,129 @@
+/* ===== TEMA ESCURO ===== */
+html[data-tema="escuro"] {
+    color-scheme: dark;
+    --cinza-texto: #f1f5f9;
+    --cinza-subtexto: #94a3b8;
+    --borda-suave: #334155;
+}
+html[data-tema="escuro"] body { background-color: #0f172a; color: #e2e8f0; }
+
+/* Barra do topo (não vi o navbar.css, ajuste se precisar) */
+html[data-tema="escuro"] .navbar-header,
+html[data-tema="escuro"] .navbar,
+html[data-tema="escuro"] .mobile-menu { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .nav-item:not(.active) a { color: #cbd5e1; }
+
+/* Estrutura e menu lateral */
+html[data-tema="escuro"] .main-container { background-color: #0f172a; }
+html[data-tema="escuro"] .conteudo-principal { color: #e2e8f0; }
+html[data-tema="escuro"] .mural-descricao h2 { color: #f1f5f9; }
+html[data-tema="escuro"] .menu-lateral { background-color: #1e293b; border-right-color: #334155; }
+html[data-tema="escuro"] .menu-lateral-link { color: #94a3b8; }
+html[data-tema="escuro"] .menu-lateral-link:hover { background-color: #0f172a; color: #e2e8f0; }
+html[data-tema="escuro"] .menu-lateral-link.ativo { background-color: rgba(74, 222, 128, 0.12); color: #4ade80; }
+html[data-tema="escuro"] .menu-lateral-card-informativo { background-color: #0f172a; border-color: #334155; color: #cbd5e1; }
+html[data-tema="escuro"] .navbar-pagina-mobile { background-color: #1e293b; border-bottom-color: #334155; }
+html[data-tema="escuro"] .navbar-pagina-mobile span,
+html[data-tema="escuro"] .navbar-pagina-mobile button { color: #e2e8f0; }
+html[data-tema="escuro"] .btn-fechar-sidebar { color: #94a3b8; }
+html[data-tema="escuro"] .btn-fechar-sidebar:hover { background-color: #334155; }
+
+/* Classes do Bootstrap usadas no mural */
+html[data-tema="escuro"] .conteudo-principal .bg-white { background-color: #1e293b !important; }
+html[data-tema="escuro"] .conteudo-principal .bg-light { background-color: #0f172a !important; }
+html[data-tema="escuro"] .conteudo-principal .border { border-color: #334155 !important; }
+html[data-tema="escuro"] .conteudo-principal .text-secondary { color: #94a3b8 !important; }
+html[data-tema="escuro"] .form-select,
+html[data-tema="escuro"] .form-control { background-color: #0f172a; color: #e2e8f0; border-color: #334155; }
+html[data-tema="escuro"] .form-control::placeholder { color: #64748b; }
+html[data-tema="escuro"] .btn-filtros { background-color: #1e293b; color: #94a3b8; border-color: #334155 !important; }
+html[data-tema="escuro"] .btn-filtros:focus,
+html[data-tema="escuro"] .btn-filtros:active { background-color: #1e293b !important; color: #94a3b8 !important; border-color: #334155 !important; }
+
+/* Cards do mural */
+html[data-tema="escuro"] .card { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .card-img-wrapper { background-color: #0f172a; }
+html[data-tema="escuro"] .card-title { color: #f1f5f9; }
+html[data-tema="escuro"] .card-info { color: #94a3b8; }
+html[data-tema="escuro"] .tag-categoria { color: #4ade80 !important; }
+
+/* Minhas denúncias */
+html[data-tema="escuro"] .resumo-item { background-color: #1e293b; border-color: #334155; border-top-color: var(--cor); }
+html[data-tema="escuro"] .resumo-item span { color: #94a3b8; }
+html[data-tema="escuro"] .denuncia-item { background-color: #1e293b; border-color: #334155; border-left-color: var(--cor); }
+html[data-tema="escuro"] .denuncia-principal h3 { color: #f1f5f9; }
+html[data-tema="escuro"] .denuncia-principal p { color: #94a3b8; }
+html[data-tema="escuro"] .meta-linha { color: #cbd5e1; }
+html[data-tema="escuro"] .status-badge { background: color-mix(in srgb, var(--cor) 22%, transparent); }
+
+/* Chips de filtro */
+html[data-tema="escuro"] .filtro-chip,
+html[data-tema="escuro"] .notif-chip { background-color: #1e293b; border-color: #475569; color: #cbd5e1; }
+html[data-tema="escuro"] .filtro-chip:hover,
+html[data-tema="escuro"] .notif-chip:hover { border-color: #4ade80; color: #4ade80; }
+html[data-tema="escuro"] .filtro-chip.ativo,
+html[data-tema="escuro"] .notif-chip.ativo { background-color: #166534; border-color: #166534; color: #fff; }
+
+/* Botões */
+html[data-tema="escuro"] .btn-acao { background-color: #1e293b; border-color: #475569; color: #e2e8f0; }
+html[data-tema="escuro"] .btn-acao:hover { background-color: #334155; }
+html[data-tema="escuro"] .btn-acao-principal { background-color: #166534; border-color: #166534; color: #fff; }
+html[data-tema="escuro"] .btn-acao-principal:hover { background-color: #15803d; }
+html[data-tema="escuro"] .btn-acao-perigo { color: #f87171; border-color: #7f1d1d; }
+html[data-tema="escuro"] .btn-acao-perigo:hover { background-color: rgba(220, 38, 38, 0.15); }
+
+/* Notificações */
+html[data-tema="escuro"] .notificacoes-grupo-titulo { color: #94a3b8; }
+html[data-tema="escuro"] .notificacoes-lista { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .notificacao-item + .notificacao-item { border-top-color: #334155; }
+html[data-tema="escuro"] .notificacao-corpo { color: #e2e8f0; }
+html[data-tema="escuro"] .notificacao-corpo:hover { background-color: #0f172a; }
+html[data-tema="escuro"] .nao-lida .notificacao-corpo { background-color: rgba(74, 222, 128, 0.08); }
+html[data-tema="escuro"] .nao-lida .notificacao-corpo:hover { background-color: rgba(74, 222, 128, 0.14); }
+html[data-tema="escuro"] .notificacao-texto strong { color: #f1f5f9; }
+html[data-tema="escuro"] .notificacao-texto span,
+html[data-tema="escuro"] .notificacao-meta { color: #94a3b8; }
+html[data-tema="escuro"] .notificacao-ponto { background-color: #4ade80; }
+html[data-tema="escuro"] .notificacao-icone { background-color: #334155; color: #94a3b8; }
+html[data-tema="escuro"] .notificacao-icone[data-tipo="resolvida"]  { background-color: rgba(22, 163, 74, 0.2);  color: #4ade80; }
+html[data-tema="escuro"] .notificacao-icone[data-tipo="status"]     { background-color: rgba(217, 119, 6, 0.2);  color: #fbbf24; }
+html[data-tema="escuro"] .notificacao-icone[data-tipo="comentario"] { background-color: rgba(37, 99, 235, 0.2);  color: #60a5fa; }
+html[data-tema="escuro"] .notificacoes-vazio { background-color: #1e293b; border-color: #475569; color: #94a3b8; }
+html[data-tema="escuro"] .notificacoes-vazio strong { color: #f1f5f9; }
+html[data-tema="escuro"] .notificacoes-vazio a { color: #4ade80; }
+
+/* Central de ajuda */
+html[data-tema="escuro"] .ajuda-titulo,
+html[data-tema="escuro"] .ajuda-passo strong,
+html[data-tema="escuro"] .ajuda-item summary { color: #f1f5f9; }
+html[data-tema="escuro"] .ajuda-passo,
+html[data-tema="escuro"] .ajuda-faq { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .ajuda-passo p,
+html[data-tema="escuro"] .ajuda-item p,
+html[data-tema="escuro"] .ajuda-item ul,
+html[data-tema="escuro"] .ajuda-contato p { color: #94a3b8; }
+html[data-tema="escuro"] .ajuda-numero { background-color: rgba(74, 222, 128, 0.14); color: #4ade80; }
+html[data-tema="escuro"] .ajuda-item + .ajuda-item { border-top-color: #334155; }
+html[data-tema="escuro"] .ajuda-item summary:hover { background-color: #0f172a; }
+html[data-tema="escuro"] .ajuda-item summary::after { color: #4ade80; }
+html[data-tema="escuro"] .ajuda-contato { background-color: rgba(74, 222, 128, 0.08); border-color: #166534; }
+html[data-tema="escuro"] .ajuda-contato strong { color: #4ade80; }
+
+/* Configurações */
+html[data-tema="escuro"] .config-card { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .config-card h3,
+html[data-tema="escuro"] .config-linha strong { color: #f1f5f9; }
+html[data-tema="escuro"] .config-desc,
+html[data-tema="escuro"] .config-linha p { color: #94a3b8; }
+html[data-tema="escuro"] .config-card .form-label { color: #cbd5e1; }
+html[data-tema="escuro"] .config-opcao { background-color: #0f172a; border-color: #475569; color: #cbd5e1; }
+html[data-tema="escuro"] .config-opcao:hover { border-color: #4ade80; color: #4ade80; }
+html[data-tema="escuro"] .config-opcao.ativo { background-color: rgba(74, 222, 128, 0.12); border-color: #4ade80; color: #4ade80; }
+html[data-tema="escuro"] .config-switch span { background-color: #475569; }
+html[data-tema="escuro"] .config-switch input:checked + span { background-color: #16a34a; }
+html[data-tema="escuro"] .config-msg.ok { color: #4ade80; }
+html[data-tema="escuro"] .config-msg.erro { color: #f87171; }
+html[data-tema="escuro"] .config-perigo { border-color: #7f1d1d; }
+html[data-tema="escuro"] .config-perigo h3 { color: #f87171; }
+html[data-tema="escuro"] .config-aviso { background-color: rgba(217, 119, 6, 0.15); border-color: #92400e; color: #fcd34d; }
+html[data-tema="escuro"] .config-aviso a { color: #fcd34d; }

@@ -15,6 +15,8 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+
   
     
     <title>RelateSBC</title>
@@ -421,10 +423,140 @@ $raiz = $GLOBALS['raiz-app'];
     </section>
     <!-- FIM SESSÃO CENTRAL DE AJUDA -->
 
+        <!-- INICIO SESSÃO CONFIGURAÇÕES -->
+<section id="tela-configuracoes" class="tela">
+
+    <div class="mural-descricao">
+        <h2>Configurações</h2>
+        <p>Ajuste a aparência do site e os dados da sua conta.</p>
+    </div>
+
+    <div class="config-aviso" id="config-aviso-login" hidden>
+        Faça login para alterar os dados da sua conta. <a href="<?= $raiz ?>login">Entrar</a>
+    </div>
+
+    <!-- APARÊNCIA -->
+    <div class="config-card">
+        <h3>Aparência</h3>
+        <p class="config-desc">Escolha como o site aparece para você.</p>
+        <div class="config-opcoes" id="config-tema">
+            <button type="button" class="config-opcao" data-tema="claro">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                Claro
+            </button>
+            <button type="button" class="config-opcao" data-tema="escuro">
+                <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                Escuro
+            </button>
+        </div>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div class="config-card" data-requer-login>
+        <h3>Notificações</h3>
+        <div class="config-linha">
+            <div>
+                <strong>Receber avisos por e-mail</strong>
+                <p>Enviamos um e-mail quando o status mudar ou a prefeitura responder.</p>
+            </div>
+            <label class="config-switch">
+                <input type="checkbox" id="config-avisos-email" aria-label="Receber avisos por e-mail">
+                <span></span>
+            </label>
+        </div>
+        <p class="config-msg" id="msg-avisos" hidden></p>
+    </div>
+
+    <!-- LOCALIZAÇÃO -->
+    <form class="config-card" id="form-local" data-requer-login>
+        <h3>Estado e cidade</h3>
+        <p class="config-desc">Onde você mora.</p>
+        <div class="config-campos">
+            <div>
+                <label class="form-label" for="config-estado">Estado</label>
+                <select class="form-select" id="config-estado"></select>
+            </div>
+            <div>
+                <label class="form-label" for="config-cidade">Cidade</label>
+                <input class="form-control" type="text" id="config-cidade" list="lista-cidades" autocomplete="off" required>
+                <datalist id="lista-cidades"></datalist>
+            </div>
+        </div>
+        <button type="submit" class="btn-acao btn-acao-principal">Salvar localização</button>
+        <p class="config-msg" id="msg-local" hidden></p>
+    </form>
+
+    <!-- E-MAIL -->
+    <form class="config-card" id="form-email" data-requer-login>
+        <h3>Alterar e-mail</h3>
+        <p class="config-desc">Digite o novo e-mail e confirme com a sua senha.</p>
+        <div class="config-campos">
+            <div>
+                <label class="form-label" for="config-email-novo">Novo e-mail</label>
+                <input class="form-control" type="email" id="config-email-novo" autocomplete="email" required>
+            </div>
+            <div>
+                <label class="form-label" for="config-email-senha">Senha atual</label>
+                <input class="form-control" type="password" id="config-email-senha" autocomplete="current-password" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-acao btn-acao-principal">Alterar e-mail</button>
+        <p class="config-msg" id="msg-email" hidden></p>
+    </form>
+
+    <!-- SENHA -->
+    <form class="config-card" id="form-senha" data-requer-login>
+        <h3>Alterar senha</h3>
+        <p class="config-desc">Use uma senha com pelo menos 8 caracteres.</p>
+        <div class="config-campos config-campos-3">
+            <div>
+                <label class="form-label" for="config-senha-atual">Senha atual</label>
+                <input class="form-control" type="password" id="config-senha-atual" autocomplete="current-password" required>
+            </div>
+            <div>
+                <label class="form-label" for="config-senha-nova">Nova senha</label>
+                <input class="form-control" type="password" id="config-senha-nova" autocomplete="new-password" required>
+            </div>
+            <div>
+                <label class="form-label" for="config-senha-confirma">Confirmar nova senha</label>
+                <input class="form-control" type="password" id="config-senha-confirma" autocomplete="new-password" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-acao btn-acao-principal">Alterar senha</button>
+        <p class="config-msg" id="msg-senha" hidden></p>
+    </form>
+
+    <!-- SAIR -->
+    <div class="config-card" data-requer-login>
+        <div class="config-linha">
+            <div>
+                <strong>Sair da conta</strong>
+                <p>Encerra a sessão neste dispositivo.</p>
+            </div>
+            <button type="button" class="btn-acao" id="config-sair">Sair</button>
+        </div>
+    </div>
+
+    <!-- EXCLUIR CONTA -->
+    <form class="config-card config-perigo" id="form-excluir" data-requer-login>
+        <h3>Excluir conta</h3>
+        <p class="config-desc">Essa ação não pode ser desfeita. Digite sua senha para confirmar.</p>
+        <div class="config-campos config-campos-1">
+            <div>
+                <label class="form-label" for="config-excluir-senha">Senha atual</label>
+                <input class="form-control" type="password" id="config-excluir-senha" autocomplete="current-password" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-acao btn-acao-perigo">Excluir minha conta</button>
+        <p class="config-msg" id="msg-excluir" hidden></p>
+    </form>
+</section>
+<!-- FIM SESSÃO CONFIGURAÇÕES -->
 </main>
     
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/configuracoes.js"></script>
     
 </body>
 </html>

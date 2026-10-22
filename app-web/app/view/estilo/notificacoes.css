@@ -247,3 +247,133 @@
 .ajuda-contato strong { display: block; color: #166534; }
 .ajuda-contato p { margin: 0; font-size: 14px; color: #64748b; }
 .ajuda-contato a { text-decoration: none; }
+
+
+/*SESSAO CONFIGURAÇÕES*/
+#tela-configuracoes { max-width: 760px; }
+
+.config-aviso {
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 14px;
+    font-size: 14px;
+    color: #92400e;
+}
+.config-aviso a { color: #92400e; font-weight: 700; }
+
+.config-card {
+    margin-bottom: 20px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.config-card h3 { margin-bottom: 4px; font-size: 17px; font-weight: 700; color: #0f172a; }
+.config-desc { margin-bottom: 18px; font-size: 13px; color: #64748b; }
+
+.config-card .form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+.config-card .form-control:focus,
+.config-card .form-select:focus {
+    border-color: #166534 !important;
+    box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15) !important;
+}
+
+/* Campos lado a lado */
+.config-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.config-campos-3 { grid-template-columns: repeat(3, 1fr); }
+.config-campos-1 { grid-template-columns: 1fr; max-width: 360px; }
+
+/* Linha: texto à esquerda, controle à direita */
+.config-linha { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.config-linha strong { display: block; color: #0f172a; }
+.config-linha p { margin: 2px 0 0; font-size: 13px; color: #64748b; }
+
+/* Tema claro / escuro */
+.config-opcoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.config-opcao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+}
+.config-opcao svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.config-opcao:hover { border-color: #166534; color: #166534; }
+.config-opcao.ativo { background: #f0fdf4; border-color: #166534; color: #166534; }
+
+/* Interruptor */
+.config-switch { position: relative; flex-shrink: 0; width: 46px; height: 26px; }
+.config-switch input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.config-switch span {
+    position: absolute;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+}
+.config-switch span::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+}
+.config-switch input:checked + span { background: #166534; }
+.config-switch input:checked + span::after { transform: translateX(20px); }
+.config-switch input:focus-visible + span { outline: 2px solid #166534; outline-offset: 2px; }
+.config-switch input:disabled + span { opacity: 0.5; }
+
+/* Mensagens */
+.config-msg { margin-top: 12px; font-size: 13px; }
+.config-msg[hidden] { display: none; }
+.config-msg.ok { color: #166534; }
+.config-msg.erro { color: #dc2626; }
+
+/* Excluir conta */
+.config-perigo { border-color: #fecaca; }
+.config-perigo h3 { color: #dc2626; }
+
+.config-card button:disabled { opacity: 0.6; cursor: default; }
+
+@media (max-width: 700px) {
+    .config-campos,
+    .config-campos-3 { grid-template-columns: 1fr; }
+    .config-card { padding: 18px; }
+}
