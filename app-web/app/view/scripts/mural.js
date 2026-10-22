@@ -25,6 +25,23 @@
         'concluida':    { texto: 'Concluída',    classe: 'text-bg-success', filtro: 'concluida' }
     };
 
+        // ADICIONADO: tira acentos e maiúsculas, para a busca achar "iluminacao" em "Iluminação"
+    function normalizarTexto(texto) {
+        return String(texto || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    // ADICIONADO: "Minhas denúncias" recebe a data como 2026-10-20 14:30:00; o mural já recebe 20/10/2026
+    function formatarDataBr(valor) {
+        const partes = /^(\d{4})-(\d{2})-(\d{2})/.exec(valor || '');
+        return partes ? partes[3] + '/' + partes[2] + '/' + partes[1] : (valor || '');
+    }
+
+    // ADICIONADO: o PHP monta o local como "Rua, número, complemento - Bairro"; o bairro é o que vem depois do último " - "
+    function bairroDoLocal(local) {
+        const posicao = (local || '').lastIndexOf(' - ');
+        return posicao === -1 ? '' : local.slice(posicao + 3).trim();
+    }
+
     // Ordem dos links do menu lateral (usada só se o link não tiver data-pagina no HTML)
     const PAGINAS = ['mural', 'denuncias', 'acompanhamento', 'favoritos', 'historico', 'configuracoes', 'perfil'];
 
@@ -183,7 +200,10 @@
         badge.className = 'badge rounded-pill ' + info.classe;
         badge.textContent = info.texto;
         status.appendChild(badge);
-
+        card.dataset.categoria = denuncia.categoria || '';
+        card.dataset.bairro    = bairroDoLocal(denuncia.local);
+        card.dataset.status    = info.filtro || '';
+        card.dataset.busca     = normalizarTexto([denuncia.titulo, denuncia.categoria, denuncia.local, denuncia.autor].join(' '));
         return card;
     }
 
@@ -214,7 +234,8 @@
             }
 
             mostrarMensagemMural('');
-
+            preencherOpcoes(selCategoria, denuncias.map(function (d) { return d.categoria; }));
+            preencherOpcoes(selBairro, denuncias.map(function (d) { return bairroDoLocal(d.local); }));
             const fragmento = document.createDocumentFragment();
             denuncias.forEach(function (denuncia) {
                 fragmento.appendChild(montarCard(copiaModelo, denuncia));
@@ -227,6 +248,73 @@
     }
 
     /* ---------- 3) Minhas denúncias: só as do usuário logado ---------- */
+
+        /* ---------- ADICIONADO: filtros do mural ---------- */
+
+    const campoBusca     = document.getElementById('busca-mural');
+    const selCategoria   = document.getElementById('filtro-categoria');
+    const selBairro      = document.getElementById('filtro-bairro');
+    const selStatusMural = document.getElementById('filtro-status-mural');
+    const btnMaisFiltros = document.getElementById('btn-mais-filtros');
+    const painelExtras   = document.getElementById('filtros-extras');
+    const btnLimpar      = document.getElementById('btn-limpar-filtros');
+
+    // Mantém só a 1ª opção ("Todas as...") e cria as outras, sem repetir e em ordem alfabética
+    function preencherOpcoes(select, valores) {
+        if (!select) return;
+        while (select.options.length > 1) select.remove(1);
+
+        Array.from(new Set(valores.filter(Boolean)))
+            .sort(function (a, b) { return a.localeCompare(b, 'pt-BR'); })
+            .forEach(function (valor) { select.add(new Option(valor, valor)); });
+    }
+
+    // Lê os 4 filtros e mostra/esconde cada card do mural
+    function aplicarFiltrosMural() {
+        const cards     = document.querySelectorAll('#grid-denuncias .card');
+        const busca     = normalizarTexto(campoBusca ? campoBusca.value : '');
+        const categoria = selCategoria ? selCategoria.value : '';
+        const bairro    = selBairro ? selBairro.value : '';
+        const status    = selStatusMural ? selStatusMural.value : '';
+        let visiveis = 0;
+
+        cards.forEach(function (card) {
+            const mostrar =
+                (busca === ''     || card.dataset.busca.includes(busca)) &&
+                (categoria === '' || card.dataset.categoria === categoria) &&
+                (bairro === ''    || card.dataset.bairro === bairro) &&
+                (status === ''    || card.dataset.status === status);
+
+            card.style.display = mostrar ? '' : 'none';
+            if (mostrar) visiveis++;
+        });
+
+        if (cards.length > 0) {
+            mostrarMensagemMural(visiveis === 0 ? 'Nenhuma denúncia encontrada com esses filtros.' : '');
+        }
+    }
+
+    if (campoBusca) campoBusca.addEventListener('input', aplicarFiltrosMural);
+
+    [selCategoria, selBairro, selStatusMural].forEach(function (select) {
+        if (select) select.addEventListener('change', aplicarFiltrosMural);
+    });
+
+    if (btnMaisFiltros && painelExtras) {
+        btnMaisFiltros.addEventListener('click', function () {
+            painelExtras.classList.toggle('d-none');
+        });
+    }
+
+    if (btnLimpar) {
+        btnLimpar.addEventListener('click', function () {
+            if (campoBusca) campoBusca.value = '';
+            [selCategoria, selBairro, selStatusMural].forEach(function (select) {
+                if (select) select.value = '';
+            });
+            aplicarFiltrosMural();
+        });
+    }
 
     let filtroAtual = 'todas';
 
@@ -277,11 +365,12 @@
 
         item.dataset.status = info.filtro; // a cor da borda/etiqueta vem do CSS por esse atributo
         item.dataset.idDenuncia = denuncia.id;
+        item.dataset.descricaoCompleta = denuncia.descricao || '';
 
         campo('titulo').textContent    = denuncia.titulo;
         campo('descricao').textContent = resumirTexto(denuncia.descricao, 110);
         campo('local').textContent     = denuncia.local;
-        campo('data').textContent      = denuncia.data;
+        campo('data').textContent      = formatarDataBr(denuncia.data);
         campo('status').textContent    = info.texto;
 
         return item;
@@ -312,6 +401,28 @@
             aplicarFiltro();
         });
     });
+
+    const listaMinhas = document.getElementById('lista-minhas-denuncias');
+    if (listaMinhas) {
+        listaMinhas.addEventListener('click', function (evento) {
+            const botao = evento.target.closest('[data-acao]');
+            if (!botao) return;
+
+            const item = botao.closest('.denuncia-item');
+
+            if (botao.dataset.acao === 'ver-mais') {
+                const texto = item.querySelector('[data-campo="descricao"]');
+                const aberto = item.dataset.expandido === 'sim';
+                texto.textContent = aberto ? resumirTexto(item.dataset.descricaoCompleta, 110) : item.dataset.descricaoCompleta;
+                item.dataset.expandido = aberto ? 'nao' : 'sim';
+                botao.textContent = aberto ? 'Ver mais' : 'Ver menos';
+                return;
+            }
+
+            // Editar e Remover: o servidor ainda não tem essas rotas (denuncia/editar e denuncia/remover)
+            alert('Esta função ainda não está disponível.');
+        });
+    }
 
     async function carregarMinhasDenuncias() {
         const lista = document.getElementById('lista-minhas-denuncias');
@@ -363,6 +474,23 @@
     /* ---------- Início ---------- */
 
     document.addEventListener('DOMContentLoaded', function () {
+        function atualizarBotoesDoTopo() {
+        const logado = !!lerToken();
+
+        document.querySelectorAll('#btn-entrar, #btn-cadastro').forEach(function (botao) {
+            botao.style.display = logado ? 'none' : '';
+        });
+        document.querySelectorAll('#usuario-logado').forEach(function (bloco) {
+            bloco.style.display = logado ? '' : 'none';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        atualizarBotoesDoTopo(); // ADICIONADO
+        mostrarPagina('mural');
+        carregarMural();
+        carregarMinhasDenuncias();
+    });
         mostrarPagina('mural');
         carregarMural();
         carregarMinhasDenuncias();

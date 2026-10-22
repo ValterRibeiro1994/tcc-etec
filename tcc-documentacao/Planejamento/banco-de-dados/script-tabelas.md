@@ -1,5 +1,3 @@
-# Tabelas salvas diretamente no infinity
-## por isso não tem a definição para o BD 
 
 create database if not exists relate_sbc;
 use relate_sbc;
@@ -14,8 +12,8 @@ create table if not exists tb_usuario (
     senha_usuario varchar(60) not null,
     cidade_usuario varchar(50) not null,
     estado_usuario char(2) not null,
-    orgao_representante varchar(120) not null,
-    cargo_representante varchar(120) not null,
+    orgao_usuario varchar(120) not null,
+    cargo_usuario varchar(120) not null
 );
 
 create table if not exists tb_categoria (
@@ -58,3 +56,6 @@ create table if not exists tb_resposta (
     foreign key (id_denuncia) references tb_denuncia (id_denuncia)
     
 );
+
+INSERT IGNORE INTO tb_categoria (nome_categoria)
+VALUES ('Infraestrutura'), ('Limpeza Urbana'), ('Iluminação Pública'), ('Saneamento');

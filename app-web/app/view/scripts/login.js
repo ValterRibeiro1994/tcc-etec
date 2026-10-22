@@ -9,7 +9,7 @@ function main() {
     if (existeToken()) {
         if (debug) {
             console.log("Usuário já registrou login");
-            window.location.href = "/home";
+            window.location.href = "home";
             return;
         }
         return;
@@ -61,7 +61,7 @@ function prepararEventoLogin() {
                 }
 
                 exibirResposta(true, "Sucesso: Login efetuado com sucesso");
-               window.location.href = "/home";
+               window.location.href = "denuncia/mural";
                 return;
             }
 

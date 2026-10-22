@@ -19,7 +19,10 @@ class UsuarioLogadoService {
             return RespostaProcesso::resposta("Sessão inválida ou expirada. Faça login novamente.");
         }
 
-        $dados = $resposta['dados'];
+        $dados = self::lerPayload($token);
+        if ($dados === null) {
+            return RespostaProcesso::resposta("Sessão inválida ou expirada. Faça login novamente.");
+        }
         $perfil = $dados['perfil'] ?? "visitante";
         if ($perfil === "visitante" || empty($dados['email'])) {
             return RespostaProcesso::resposta("Faça login para continuar");
@@ -35,6 +38,16 @@ class UsuarioLogadoService {
                 "email"     => $dados['email']
             ]
         );
+    }
+
+     private static function lerPayload(string $token): array|null {
+        $partes = explode('.', str_replace('Bearer ', '', $token));
+        if (count($partes) !== 3) return null;
+
+        $json = base64_decode(strtr($partes[1], '-_', '+/')); // volta para o base64 normal e decodifica
+        $payload = json_decode($json, true);                  // true = devolve array em vez de objeto
+
+        return is_array($payload) ? $payload : null;
     }
 
     private static function lerCabecalhoAuthorization(): string|null {
