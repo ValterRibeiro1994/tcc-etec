@@ -733,3 +733,14 @@
     if (linkMenu && !USAR_EXEMPLO) linkMenu.addEventListener('click', carregar);
 })();
 
+document.querySelectorAll('[data-ir-para]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+        e.preventDefault();
+        var alvo = document.getElementById('link-' + el.dataset.irPara);
+        if (alvo) {
+            alvo.click();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+});
+

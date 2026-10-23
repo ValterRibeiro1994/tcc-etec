@@ -71,6 +71,13 @@ class TesteController {
             formato: "html", pagina: "app/view/paginas/criar-denuncia.html"
         );
     }
+
+    public function informacoes(array $requisicao){
+        return RespostaProcesso::resposta(
+            mensagem: "nome da pagina", resposta: true, 
+            formato: "html", pagina: "app/view/paginas/informacoes-legais.html"
+        );
+    }
     
 
 
