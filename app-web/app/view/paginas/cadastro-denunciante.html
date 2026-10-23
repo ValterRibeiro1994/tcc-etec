@@ -13,10 +13,12 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cadastro.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <title>Cadastro - RelateSBC</title>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 </head>
 
  <body>
@@ -31,9 +33,10 @@ $raiz = $GLOBALS['raiz-app'];
             <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -59,9 +62,10 @@ $raiz = $GLOBALS['raiz-app'];
             <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -217,6 +221,7 @@ $raiz = $GLOBALS['raiz-app'];
     <!-- ADICIONADO: navbar.js (menu mobile e botão Sair) -->
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/cadastro-denunciante.js"></script>
+    
     
 </body>
 </html>

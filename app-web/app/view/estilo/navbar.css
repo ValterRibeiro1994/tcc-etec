@@ -18,7 +18,7 @@
 
     background-color: #1a321b;
 
-    padding: 12px 5%;
+    padding: 12px max(5%, calc((100% - 1400px) / 2));
 
     box-sizing: border-box;
 
@@ -296,3 +296,23 @@
   }
 }
 
+/* TELAS MÉDIAS E GRANDES: logo | links (no centro exato) | botões */
+@media screen and (min-width: 731px) {
+    .navbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        column-gap: 16px;
+    }
+
+    .navbar .logo-link { grid-column: 1; grid-row: 1; justify-self: start; }
+    .navbar .tabela-de-links { grid-column: 2; grid-row: 1; margin: 0; justify-content: center; }
+    .navbar .nav-actions { grid-column: 3; grid-row: 1; justify-self: end; }
+    .navbar .nav-actions:empty { display: none; }
+}
+
+/* telas intermediárias: menu mais compacto para caber os 5 links */
+@media screen and (min-width: 731px) and (max-width: 1100px) {
+    .tabela-de-links { gap: 14px; }
+    .nav-item a { font-size: 16px; }
+    .logo-relatesbc { width: 140px; }
+}

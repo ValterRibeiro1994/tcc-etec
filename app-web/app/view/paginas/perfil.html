@@ -10,6 +10,7 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
     <title>RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
@@ -29,6 +30,7 @@ $raiz = $GLOBALS['raiz-app'];
             margin-top: auto;
         }
     </style>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 </head>
 <body>
     
@@ -41,9 +43,10 @@ $raiz = $GLOBALS['raiz-app'];
         <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
             <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-            <li class="nav-item"><a href="#">Sobre</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
             <li class="nav-item"><a href="#">Dicas</a></li>
             <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
         </ul>
 
         <div class="nav-actions">
@@ -69,9 +72,10 @@ $raiz = $GLOBALS['raiz-app'];
             <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
                 <li class="nav-item"><a href="#">Dicas</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -111,8 +115,8 @@ $raiz = $GLOBALS['raiz-app'];
 
       <div class="d-flex align-items-center gap-4 tgap">
         <div class="form-check form-switch mb-0">
-          <input type="checkbox" class="form-check-input"> <!-- ativa e desaticva modo escuro, deixo para quem quiser fazer ai-->
-          <label for="modoEscuro">Modo Escuro</label>
+          <input type="checkbox" class="form-check-input" id="toggle-tema" role="switch">
+          <label for="toggle-tema" class="form-check-label">Modo Escuro</label>
         </div>
         <button type="button" class="btn btn-dark fw-bold btn-sm" id="btn-editar-perfil">
           EDITAR PERFIL
@@ -225,10 +229,10 @@ $raiz = $GLOBALS['raiz-app'];
         </h5>
         <ul class="list-unstyled">
         <li>
-          <a href="#" class="link-light small">
-            Fale Conosco
-           
-          </a>
+          <a href="#" class="link-light small">Fale Conosco</a>
+        </li>
+        <li>
+          <a href="<?= $raiz ?>teste/informacoes" class="link-light small">Privacidade e termos de uso</a>
         </li>
         </ul>
       </div>

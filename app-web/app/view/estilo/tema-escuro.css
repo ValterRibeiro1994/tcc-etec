@@ -1,11 +1,10 @@
-/* ===== TEMA ESCURO ===== */
 html[data-tema="escuro"] {
     color-scheme: dark;
     --cinza-texto: #f1f5f9;
     --cinza-subtexto: #94a3b8;
     --borda-suave: #334155;
 }
-html[data-tema="escuro"] body { background-color: #0f172a; color: #e2e8f0; }
+html[data-tema="escuro"] body { background-color: #0f172a; color: #e2e8f0 ; }
 
 /* Barra do topo (não vi o navbar.css, ajuste se precisar) */
 html[data-tema="escuro"] .navbar-header,
@@ -127,3 +126,266 @@ html[data-tema="escuro"] .config-perigo { border-color: #7f1d1d; }
 html[data-tema="escuro"] .config-perigo h3 { color: #f87171; }
 html[data-tema="escuro"] .config-aviso { background-color: rgba(217, 119, 6, 0.15); border-color: #92400e; color: #fcd34d; }
 html[data-tema="escuro"] .config-aviso a { color: #fcd34d; }
+
+/* ============================================================
+   PÁGINAS ADICIONADAS AO TEMA ESCURO
+   (início, login, cadastros, criar denúncia, perfil)
+   ============================================================ */
+
+/* Login força o fundo claro com !important, então aqui também precisa */
+html[data-tema="escuro"] body { background-color: #0f172a !important; }
+
+/* ----- Tela inicial (index) ----- */
+html[data-tema="escuro"] .secao-conteiner { background-color: #14261b; }
+html[data-tema="escuro"] .cards-tela-inicial { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .titulo-card { color: #f1f5f9; }
+html[data-tema="escuro"] .descricao-card { color: #94a3b8; }
+html[data-tema="escuro"] .card-sobre-container { background-color: #1e293b; }
+html[data-tema="escuro"] .zelar-cuidar { color: #f1f5f9; }
+html[data-tema="escuro"] .texto-menor { color: #94a3b8; }
+html[data-tema="escuro"] .denuncia-cor { color: #4ade80; }
+
+/* ----- Login ----- */
+html[data-tema="escuro"] main.container > .row { background-color: #1e293b; }
+html[data-tema="escuro"] main.container header h1 { color: #4ade80; }
+html[data-tema="escuro"] main.container header h5 { color: #86efac; }
+html[data-tema="escuro"] #form-login-main .form-label { color: #86efac; }
+html[data-tema="escuro"] #form-login-main .form-control { background-color: #0f172a; border-color: #334155; color: #e2e8f0; }
+html[data-tema="escuro"] #form-login-main .form-control:focus { background-color: #0f172a; border-color: #4ade80; }
+html[data-tema="escuro"] #form-login-main .form-check-label { color: #94a3b8; }
+html[data-tema="escuro"] main.container footer p { color: #94a3b8; }
+html[data-tema="escuro"] main.container footer a { color: #4ade80; }
+
+/* ----- Seleção de cadastro ----- */
+html[data-tema="escuro"] .card-escolha { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .card-escolha h2,
+html[data-tema="escuro"] .card-escolha h3 { color: #f1f5f9; }
+html[data-tema="escuro"] .card-escolha p,
+html[data-tema="escuro"] .texto-escolha,
+html[data-tema="escuro"] .texto-login-cadastro { color: #94a3b8; }
+html[data-tema="escuro"] .circulo-denunciante { background-color: rgba(74, 222, 128, 0.15); color: #4ade80; }
+html[data-tema="escuro"] .circulo-representante { background-color: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+html[data-tema="escuro"] .tipo-escolha-d,
+html[data-tema="escuro"] .texto-login-cadastro a { color: #4ade80; }
+html[data-tema="escuro"] .tipo-escolha-r { color: #60a5fa; }
+html[data-tema="escuro"] .texto-login-cadastro a:hover { color: #86efac; }
+
+/* ----- Cadastro (denunciante e representante) ----- */
+html[data-tema="escuro"] .brand-info { color: #cbd5e1; }
+html[data-tema="escuro"] .brand-title { color: #f1f5f9; }
+html[data-tema="escuro"] .brand-description { color: #94a3b8; }
+html[data-tema="escuro"] .brand-illustration i { color: #4ade80; }
+html[data-tema="escuro"] .form-container { background-color: #1e293b; }
+html[data-tema="escuro"] .form-header h2 { color: #f1f5f9; }
+html[data-tema="escuro"] .login-link { color: #4ade80; }
+html[data-tema="escuro"] .login-link:hover { color: #86efac; }
+html[data-tema="escuro"] .form-field span,
+html[data-tema="escuro"] .form-field > i { color: #94a3b8; }
+html[data-tema="escuro"] .form-field input { background-color: #0f172a; border-color: #334155; color: #e2e8f0; }
+html[data-tema="escuro"] .form-label { color: #cbd5e1; }
+html[data-tema="escuro"] .card .lead,
+html[data-tema="escuro"] .lead.text-secondary { color: #94a3b8 !important; }
+
+/* ----- Criar denúncia ----- */
+html[data-tema="escuro"] .formulario-denuncia { background: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .cabecalho-formulario h1 { color: #4ade80; }
+html[data-tema="escuro"] .cabecalho-formulario p { color: #94a3b8; }
+html[data-tema="escuro"] .campo-denuncia label { color: #cbd5e1; }
+html[data-tema="escuro"] .campo-denuncia label span { color: #94a3b8; }
+html[data-tema="escuro"] .campo-denuncia input,
+html[data-tema="escuro"] .campo-denuncia textarea,
+html[data-tema="escuro"] .campo-denuncia select { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+html[data-tema="escuro"] .campo-denuncia input:focus,
+html[data-tema="escuro"] .campo-denuncia textarea:focus,
+html[data-tema="escuro"] .campo-denuncia select:focus { border-color: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12); }
+html[data-tema="escuro"] .campo-denuncia input::placeholder,
+html[data-tema="escuro"] .campo-denuncia textarea::placeholder { color: #64748b; }
+html[data-tema="escuro"] .upload-foto { border-color: #475569; }
+html[data-tema="escuro"] .upload-foto:hover { border-color: #4ade80; background: rgba(74, 222, 128, 0.06); }
+html[data-tema="escuro"] .icone-upload { background: rgba(74, 222, 128, 0.14); color: #4ade80; }
+html[data-tema="escuro"] .upload-conteudo strong { color: #e2e8f0; }
+html[data-tema="escuro"] .upload-conteudo small,
+html[data-tema="escuro"] .formulario-denuncia small { color: #94a3b8 !important; }
+html[data-tema="escuro"] .btn-cancelar { background: #0f172a; color: #cbd5e1; border-color: #475569; }
+html[data-tema="escuro"] .btn-cancelar:hover { background: #334155; color: #f1f5f9; }
+
+/* ----- Perfil (Bootstrap puro; o data-bs-theme já cuida de card, tabela e inputs) ----- */
+html[data-tema="escuro"] .btn-dark { background-color: #334155; border-color: #334155; color: #f1f5f9; }
+html[data-tema="escuro"] .btn-dark:hover { background-color: #475569; border-color: #475569; }
+html[data-tema="escuro"] .btn-outline-dark { color: #cbd5e1; border-color: #475569; }
+html[data-tema="escuro"] .btn-outline-dark:hover { background-color: #334155; color: #f1f5f9; }
+html[data-tema="escuro"] .list-group-item { background-color: transparent; border-color: #334155; color: #e2e8f0; }
+html[data-tema="escuro"] .text-muted { color: #94a3b8 !important; }
+
+/* A imagem do topo da tela inicial é clara nos dois temas: o texto sobre ela continua escuro */
+html[data-tema="escuro"] .fundo-img { color: #212529; }
+ 
+ 
+/* ============================================================
+   CORREÇÕES DO TEMA ESCURO: INÍCIO (index) E SOBRE (sobre-nos)
+   ============================================================ */
+ 
+/* ----- Início (index) ----- */
+html[data-tema="escuro"] .card-sobre-container { background-color: #1e293b; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
+html[data-tema="escuro"] .tag-sobre { background-color: #166534; color: #fff; }
+html[data-tema="escuro"] .secao-conteiner h2 { color: #f1f5f9; }
+html[data-tema="escuro"] .cards-tela-inicial { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); border-color: #334155; }
+/* a foto do celular tem fundo branco: vira um quadro arredondado em vez de um retângulo solto */
+html[data-tema="escuro"] .sobre-imagem img { border-radius: 16px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+html[data-tema="escuro"] main > hr { border-color: #475569; opacity: 1; }
+ 
+/* ----- Sobre (sobre-nos) ----- */
+html[data-tema="escuro"] .sobre {
+    --verde-900: #bbf7d0;   /* títulos */
+    --verde-100: #166534;
+    --verde-50: rgba(74, 222, 128, 0.10);
+    background: #0f172a;
+    color: #e2e8f0;
+}
+html[data-tema="escuro"] .sobre-secao:nth-of-type(3),
+html[data-tema="escuro"] .sobre-secao:nth-of-type(5) { background: #131d33; border-color: #334155; }
+html[data-tema="escuro"] .sobre-intro,
+html[data-tema="escuro"] .sobre-hero p,
+html[data-tema="escuro"] .sobre-card p,
+html[data-tema="escuro"] .sobre-cta p { color: #94a3b8; }
+ 
+/* topo */
+html[data-tema="escuro"] .sobre-hero {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(74, 222, 128, 0.12), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(250, 204, 21, 0.08), transparent 40%),
+        #0f172a;
+    border-bottom-color: #334155;
+}
+html[data-tema="escuro"] .sobre-etiqueta { background: rgba(74, 222, 128, 0.12); border-color: #166534; color: #86efac; }
+html[data-tema="escuro"] .sobre-hero h1 { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-destaque { background: linear-gradient(transparent 60%, rgba(250, 204, 21, 0.45) 60%); }
+html[data-tema="escuro"] .sobre-mosaico::before { background: rgba(250, 204, 21, 0.18); }
+html[data-tema="escuro"] .sobre-foto { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
+ 
+/* botões */
+html[data-tema="escuro"] .sobre-btn { border-color: #22c55e; }
+html[data-tema="escuro"] .sobre-btn-primario { background: #166534; border-color: #166534; box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4); }
+html[data-tema="escuro"] .sobre-btn-primario:hover { background: #15803d; border-color: #15803d; }
+html[data-tema="escuro"] .sobre-btn-secundario { background: transparent; color: #86efac; border-color: #22c55e; }
+html[data-tema="escuro"] .sobre-btn-secundario:hover { background: rgba(74, 222, 128, 0.12); color: #bbf7d0; }
+ 
+/* selo flutuante */
+html[data-tema="escuro"] .sobre-selo { background: #1e293b; border-color: #334155; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); }
+html[data-tema="escuro"] .sobre-selo strong { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-selo small { color: #94a3b8; }
+ 
+/* cards */
+html[data-tema="escuro"] .sobre-card { background: #1e293b; border-color: #334155; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+html[data-tema="escuro"] .sobre-card:hover { border-color: #22c55e; box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5); }
+html[data-tema="escuro"] .sobre-card h3 { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-duas-colunas .sobre-card:first-child { background: rgba(250, 204, 21, 0.07); border-color: #854d0e; }
+html[data-tema="escuro"] .sobre-duas-colunas .sobre-card:last-child { background: rgba(74, 222, 128, 0.07); border-color: #166534; }
+html[data-tema="escuro"] .sobre-pessoa p { color: #4ade80; }
+html[data-tema="escuro"] .sobre-avatar { border-color: #166534; }
+ 
+/* aviso de emergência */
+html[data-tema="escuro"] .sobre-aviso { background: rgba(245, 158, 11, 0.12); border-color: #92400e; border-left-color: #f59e0b; color: #fcd34d; }
+html[data-tema="escuro"] .sobre-aviso strong { color: #fbbf24; }
+ 
+/* convite final */
+html[data-tema="escuro"] .sobre-cta {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(250, 204, 21, 0.10), transparent 45%),
+        linear-gradient(135deg, #14261b, #1e293b 70%);
+    border-color: #166534;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+}
+ 
+/* ============================================================
+   RODAPÉ (início e sobre): sobrescreve o background inline
+   ============================================================ */
+html[data-tema="escuro"] footer.text-light {
+    background-color: #0b1410 !important;
+    border-top: 1px solid #1f3a2a;
+}
+html[data-tema="escuro"] footer.text-light hr { border-color: #334155; opacity: 1; }
+html[data-tema="escuro"] footer.text-light h5 { color: #f1f5f9; }
+html[data-tema="escuro"] footer.text-light .link-light { color: #94a3b8 !important; text-decoration: none; }
+html[data-tema="escuro"] footer.text-light .link-light:hover { color: #4ade80 !important; }
+
+/* ============================================================
+   CORREÇÕES DO TEMA ESCURO: INÍCIO (index) E SOBRE (sobre-nos)
+   ============================================================ */
+
+/* ----- Início (index) ----- */
+html[data-tema="escuro"] .card-sobre-container { background-color: #1e293b; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
+html[data-tema="escuro"] .tag-sobre { background-color: #166534; color: #fff; }
+html[data-tema="escuro"] .secao-conteiner h2 { color: #f1f5f9; }
+html[data-tema="escuro"] .cards-tela-inicial { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); border-color: #334155; }
+html[data-tema="escuro"] .sobre-imagem img { border-radius: 16px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+html[data-tema="escuro"] main > hr { border-color: #475569; opacity: 1; }
+
+/* ----- Sobre (sobre-nos) ----- */
+html[data-tema="escuro"] .sobre {
+    --verde-900: #bbf7d0;
+    --verde-100: #166534;
+    --verde-50: rgba(74, 222, 128, 0.10);
+    background: #0f172a;
+    color: #e2e8f0;
+}
+html[data-tema="escuro"] .sobre-secao:nth-of-type(3),
+html[data-tema="escuro"] .sobre-secao:nth-of-type(5) { background: #131d33; border-color: #334155; }
+html[data-tema="escuro"] .sobre-intro,
+html[data-tema="escuro"] .sobre-hero p,
+html[data-tema="escuro"] .sobre-card p,
+html[data-tema="escuro"] .sobre-cta p { color: #94a3b8; }
+
+html[data-tema="escuro"] .sobre-hero {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(74, 222, 128, 0.12), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(250, 204, 21, 0.08), transparent 40%),
+        #0f172a;
+    border-bottom-color: #334155;
+}
+html[data-tema="escuro"] .sobre-etiqueta { background: rgba(74, 222, 128, 0.12); border-color: #166534; color: #86efac; }
+html[data-tema="escuro"] .sobre-hero h1 { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-destaque { background: linear-gradient(transparent 60%, rgba(250, 204, 21, 0.45) 60%); }
+html[data-tema="escuro"] .sobre-mosaico::before { background: rgba(250, 204, 21, 0.18); }
+html[data-tema="escuro"] .sobre-foto { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
+
+html[data-tema="escuro"] .sobre-btn { border-color: #22c55e; }
+html[data-tema="escuro"] .sobre-btn-primario { background: #166534; border-color: #166534; box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4); }
+html[data-tema="escuro"] .sobre-btn-primario:hover { background: #15803d; border-color: #15803d; }
+html[data-tema="escuro"] .sobre-btn-secundario { background: transparent; color: #86efac; border-color: #22c55e; }
+html[data-tema="escuro"] .sobre-btn-secundario:hover { background: rgba(74, 222, 128, 0.12); color: #bbf7d0; }
+
+html[data-tema="escuro"] .sobre-selo { background: #1e293b; border-color: #334155; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); }
+html[data-tema="escuro"] .sobre-selo strong { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-selo small { color: #94a3b8; }
+
+html[data-tema="escuro"] .sobre-card { background: #1e293b; border-color: #334155; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+html[data-tema="escuro"] .sobre-card:hover { border-color: #22c55e; box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5); }
+html[data-tema="escuro"] .sobre-card h3 { color: #f1f5f9; }
+html[data-tema="escuro"] .sobre-duas-colunas .sobre-card:first-child { background: rgba(250, 204, 21, 0.07); border-color: #854d0e; }
+html[data-tema="escuro"] .sobre-duas-colunas .sobre-card:last-child { background: rgba(74, 222, 128, 0.07); border-color: #166534; }
+html[data-tema="escuro"] .sobre-pessoa p { color: #4ade80; }
+html[data-tema="escuro"] .sobre-avatar { border-color: #166534; }
+
+html[data-tema="escuro"] .sobre-aviso { background: rgba(245, 158, 11, 0.12); border-color: #92400e; border-left-color: #f59e0b; color: #fcd34d; }
+html[data-tema="escuro"] .sobre-aviso strong { color: #fbbf24; }
+
+html[data-tema="escuro"] .sobre-cta {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(250, 204, 21, 0.10), transparent 45%),
+        linear-gradient(135deg, #14261b, #1e293b 70%);
+    border-color: #166534;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* ============================================================
+   RODAPÉ: sobrescreve o background inline
+   ============================================================ */
+html[data-tema="escuro"] footer.text-light {
+    background-color: #0b1410 !important;
+    border-top: 1px solid #1f3a2a;
+}
+html[data-tema="escuro"] footer.text-light hr { border-color: #334155; opacity: 1; }
+html[data-tema="escuro"] footer.text-light h5 { color: #f1f5f9; }
+html[data-tema="escuro"] footer.text-light .link-light { color: #94a3b8 !important; text-decoration: none; }
+html[data-tema="escuro"] footer.text-light .link-light:hover { color: #4ade80 !important; }
