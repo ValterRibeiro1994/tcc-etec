@@ -10,6 +10,14 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    try {
+        if (localStorage.getItem('tema') === 'escuro') {
+            document.documentElement.setAttribute('data-tema', 'escuro');
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+        }
+    } catch (e) {}
+    </script>
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
@@ -137,6 +145,11 @@ $raiz = $GLOBALS['raiz-app'];
                 <a href="#" class="menu-lateral-link" data-pagina="configuracoes" id="link-configuracoes">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Configurações
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="informacoes-legais" id="link-informacoes-legais">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 8a4 4 0 0 0 6 0z"/><path d="M19 7l-3 8a4 4 0 0 0 6 0z"/><path d="M8 21h8"/></svg>
+                    Informações legais
                 </a>
 
             </nav>
@@ -558,6 +571,124 @@ $raiz = $GLOBALS['raiz-app'];
     </form>
 </section>
 <!-- FIM SESSÃO CONFIGURAÇÕES -->
+ <!-- INICIO SESSÃO INFORMAÇÕES LEGAIS -->
+<section id="tela-informacoes-legais" class="tela">
+ 
+    <div class="mural-descricao">
+        <h2>Informações legais</h2>
+        <p>Entenda seus direitos, seus deveres e como tratamos os seus dados no RelateSBC.</p>
+    </div>
+ 
+    <!-- Índice rápido -->
+    <div class="legal-indice">
+        <a href="#legal-direitos">Seus direitos</a>
+        <a href="#legal-deveres">Boas práticas e deveres</a>
+        <a href="#legal-privacidade">Privacidade e dados</a>
+        <a href="#legal-termos">Termos de uso</a>
+        <a href="#legal-textos">Textos oficiais</a>
+        <a href="#legal-emergencia">Emergências</a>
+    </div>
+ 
+    <!-- DIREITOS -->
+    <h3 class="ajuda-titulo" id="legal-direitos">Seus direitos</h3>
+    <div class="legal-grid">
+        <article class="legal-card">
+            <span class="legal-icone">§</span>
+            <strong>Direito de petição</strong>
+            <p>A Constituição Federal garante a qualquer pessoa o direito de apresentar petições aos Poderes Públicos, sem pagar taxas, para defender direitos ou contestar ilegalidades e abusos de poder (art. 5º, XXXIV, "a").</p>
+        </article>
+        <article class="legal-card">
+            <span class="legal-icone">§</span>
+            <strong>Defesa do usuário de serviço público</strong>
+            <p>A Lei nº 13.460/2017 assegura ao cidadão o direito de apresentar manifestações, ser atendido com respeito e receber resposta sobre os serviços públicos.</p>
+        </article>
+        <article class="legal-card">
+            <span class="legal-icone">§</span>
+            <strong>Acesso à informação</strong>
+            <p>Pela Lei nº 12.527/2011 (Lei de Acesso à Informação), você pode pedir dados e informações dos órgãos públicos, salvo as exceções previstas em lei.</p>
+        </article>
+    </div>
+    <br>
+    <!-- DEVERES -->
+    <h3 class="ajuda-titulo" id="legal-deveres">Boas práticas e deveres</h3>
+    <div class="ajuda-faq">
+        <details class="ajuda-item" open>
+            <summary>Denuncie fatos reais</summary>
+            <p>Registre apenas problemas que você realmente observou. Publicar acusações falsas ou informações que prejudiquem alguém injustamente pode gerar consequências jurídicas, dependendo das circunstâncias.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Respeite as pessoas</summary>
+            <p>Não é permitido publicar ofensas, ameaças ou discriminação. A honra, a imagem e a privacidade das pessoas devem ser respeitadas: o foco da denúncia é o problema urbano, não pessoas.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Cuide das fotos que envia</summary>
+            <p>Evite imagens que exponham dados pessoais ou identifiquem terceiros, como rostos, placas de veículos, documentos ou o interior de residências. Prefira fotos do local do problema.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>O que pode ser removido</summary>
+            <p>Conteúdos que descumpram estas regras, sejam duplicados ou não tratem de zeladoria urbana podem ser ocultados ou removidos pela equipe. A remoção depende das circunstâncias, das regras da plataforma e da legislação aplicável.</p>
+        </details>
+    </div>
+    <br>
+    <!-- PRIVACIDADE -->
+    <h3 class="ajuda-titulo" id="legal-privacidade">Privacidade e proteção de dados</h3>
+    <div class="config-card">
+        <p class="config-desc">O tratamento dos seus dados segue a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+        <ul class="legal-lista">
+            <li><strong>O que coletamos:</strong> nome, e-mail, cidade e estado, além do conteúdo das denúncias (texto, local e imagem).</li>
+            <li><strong>Para que usamos:</strong> identificar sua conta, exibir suas denúncias, enviar notificações e melhorar o serviço.</li>
+            <li><strong>O que fica público:</strong> o seu nome, o título, o local, a data, a imagem e o status da denúncia aparecem no mural.</li>
+            <li><strong>Seus direitos como titular:</strong> confirmar o tratamento, acessar, corrigir e solicitar a exclusão dos seus dados.</li>
+            <li><strong>Como exercer:</strong> altere e-mail, senha e localização, ou exclua a conta, em <a href="" data-ir-para="configuracoes">Configurações</a>.</li>
+        </ul>
+    </div>
+ 
+    <!-- TERMOS -->
+    <h3 class="ajuda-titulo" id="legal-termos">Termos de uso</h3>
+    <div class="config-card">
+        <ul class="legal-lista">
+            <li>O RelateSBC é uma plataforma para registrar e acompanhar problemas urbanos em São Bernardo do Campo.</li>
+            <li>O RelateSBC não é um canal oficial da Prefeitura de São Bernardo do Campo.</li>
+            <li>Você é responsável pelo conteúdo que publica e pela veracidade das informações.</li>
+            <li>O prazo e a forma de resolução dependem do órgão responsável; o site não garante a solução.</li>
+            <li>Esses termos podem ser atualizados. Última atualização: <strong>outubro de 2026</strong>.</li>
+        </ul>
+    </div>
+ 
+    <!-- TEXTOS OFICIAIS -->
+    <h3 class="ajuda-titulo" id="legal-textos">Textos oficiais</h3>
+    <div class="config-card">
+        <ul class="legal-lista">
+            <li><a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" target="_blank" rel="noopener">Constituição Federal</a></li>
+            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13460.htm" target="_blank" rel="noopener">Lei nº 13.460/2017 — Direitos dos usuários de serviços públicos</a></li>
+            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm" target="_blank" rel="noopener">Lei nº 12.527/2011 — Acesso à Informação</a></li>
+            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener">Lei nº 13.709/2018 — LGPD</a></li>
+        </ul>
+    </div>
+ 
+    <!-- EMERGÊNCIA -->
+    <h3 class="ajuda-titulo" id="legal-emergencia">Em caso de emergência</h3>
+    <div class="legal-emergencia">
+        <strong>O RelateSBC não atende emergências.</strong>
+        <p>Se houver risco imediato à vida ou à segurança, ligue:</p>
+        <div class="legal-telefones">
+            <span><b>190</b> Polícia Militar</span>
+            <span><b>192</b> SAMU</span>
+            <span><b>193</b> Bombeiros</span>
+            <span><b>199</b> Defesa Civil</span>
+        </div>
+    </div>
+ 
+    <div class="ajuda-contato">
+        <div>
+            <strong>Dúvidas sobre seus dados ou estes termos?</strong>
+            <p>Fale com a nossa equipe.</p>
+        </div>
+        <a href="#" class="btn-acao btn-acao-principal">Entrar em contato</a>
+    </div>
+</section>
+<!-- FIM SESSÃO INFORMAÇÕES LEGAIS -->
+ 
 </main>
     
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
