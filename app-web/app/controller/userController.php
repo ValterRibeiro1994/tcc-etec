@@ -135,10 +135,10 @@ class UserController {
                 );
             }
 
-            $denuncias = $resposta['dados'];
+            $denuncias = $denuncias['dados'];
 
             $resposta = [
-                'usuario'=>$usuario->getArray(),
+                'usuario'=>$usuario->getArray()['dados'],
                 'denuncias'=>$denuncias
                 ];
             
