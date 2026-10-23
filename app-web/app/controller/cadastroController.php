@@ -104,8 +104,8 @@ class CadastroController {
             }
 
             $usuario = UtilService::criarUsuario($dados);
-            $usuario->setSenha($senha);
-            $usuario->setCpf($dados['cpf']);
+            // $usuario->setSenha($senha);
+            // $usuario->setCpf($dados['cpf']);
 
             // salva o usuario no banco
             $repositorio = new UsuarioRepositorio(new Conexao());
