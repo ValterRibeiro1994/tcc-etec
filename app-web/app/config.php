@@ -17,7 +17,7 @@ $GLOBALS['categorias'] = "tb_categoria";
 $GLOBALS['debug'] = true;
 
 // tempo de sessao
-$GLOBALS['tempo-sessao'] = 120;
+$GLOBALS['tempo-sessao'] = 30;
 
 // formato padrão para data e hora do sistema
 $GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';

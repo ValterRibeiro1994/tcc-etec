@@ -143,82 +143,37 @@ class TokenController {
     }
 
     public function criar(array $requisicao){
-        if (!array_key_exists("perfil", $requisicao)){
+        // crio o usuario com os dados recebidos
+        $usuario = UtilService::criarUsuario($requisicao);
+        
+        if ($requisicao['lembrar']){
+            $expira = 86400;
+        } else {
+            $expira = $GLOBALS['tempo-sessao'];
+        }
+        
+        // cria o token para o usuario
+        $token = TokenService::criarToken($usuario, $expira);
+        if (!$token['resposta']){
             return RespostaProcesso::resposta(
-                mensagem: "Controller: Perfil de usuario não enviado", resposta: false,
-                dados: $requisicao, formato: "json"
+                mensagem: "Controller: Não foi possivel gerar o token", resposta: false,
+                dados: $token['dados'], formato: "json"
             );
         }
 
-        $perfil_usuario = new Perfil(strtolower(trim($requisicao['perfil'])));
-        if ($perfil_usuario->getPerfil() === "visitante"){
-            $usuario = new Usuario(new DadosPessoais());
-            SessaoService::registrarUsuario($usuario, false);
-            $token_service = TokenService::criarToken($usuario, $GLOBALS['tempo-sessao']);
-            if (!$token_service['resposta']){
-                SessaoService::destruirSessao();
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Falha ao criar token", resposta: false,
-                    dados: $token_service['dados'], formato: "json"
-                );
-            }
-            return $token_service;
-        }
-
-        if ($perfil_usuario !== "visitante"){
-            $chaves_necessarias = ['nome', 'sobrenome', 'cidade', 'estado', 'email'];
-            foreach ($chaves_necessarias as $chave) {
-                if (!array_key_exists($chave, $requisicao)){
-                    SessaoService::destruirSessao();
-                    return RespostaProcesso::resposta(
-                        mensagem: "Controller: Chave $chave não enviada", resposta: false,
-                        dados: $requisicao, formato: "json"
-                    );
-                }
-            }
-
-            $usuario = new Usuario(
-                dados_usuario: new DadosPessoais(
-                    perfil: $perfil_usuario,
-                    nome: new Nome($requisicao['nome']),
-                    sobrenome: new Sobrenome($requisicao['sobrenome']),
-                    email: new Email($requisicao['email'])
-                )
+        // inicia uma sessão para o usuario
+        $sessao = SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
+        if (!$sessao['resposta']){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Falha ao iniciar sessão", resposta: false,
+                dados: $sessao['dados'], formato: "json"
             );
-            $usuario->setCidade($requisicao['cidade']);
-            $usuario->setEstado($requisicao['estado']);
-
-            if ($perfil_usuario->getPerfil() === "representante"){
-                $chaves_necessarias = ['orgao', 'cargo'];
-                foreach ($chaves_necessarias as $chave) {
-                    if (!array_key_exists($chave, $requisicao)){
-                        SessaoService::destruirSessao();
-                        return RespostaProcesso::resposta(
-                            mensagem: "Controller: Chave $chave não enviada", resposta: false,
-                            dados: $requisicao, formato: "json"
-                        );
-                    }
-                }
-
-                $usuario->setPrefeitura(
-                    prefeitura: new Prefeitura(
-                        orgao: $requisicao['orgao'],
-                        cargo: $requisicao['cargo']
-                    )
-                );
-            }
-
-            $token_service = TokenService::criarToken($usuario, $GLOBALS['tempo-sessao']);
-            SessaoService::registrarUsuario($usuario, true);
-            if (!$token_service['resposta']){
-                SessaoService::destruirSessao();
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Falha ao criar token", resposta: false,
-                    dados: $token_service['dados'], formato: "json"
-                );
-            }
-            return $token_service;
         }
+
+        return RespostaProcesso::resposta(
+            mensagem: "Controller: Sessão iniciada com sucesso", resposta: true,
+            dados: $token['dados'], formato: "json"
+        );
+
     }
-
 }

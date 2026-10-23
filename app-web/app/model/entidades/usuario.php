@@ -125,6 +125,7 @@ class Usuario {
         if (is_string($senha)){
             $senha = new Senha($senha);
         }
+        
         $this->senha = $senha;
     }
 

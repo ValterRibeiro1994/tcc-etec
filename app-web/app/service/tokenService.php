@@ -81,7 +81,7 @@ class TokenService {
         }
     }
 
-    public function renovarToken(Usuario $usuario, string $token_cliente){
+    public static function renovarToken(Usuario $usuario, string $token_cliente){
         // recupera o payload do token recebido
         $payload = (array) JWT::decode($token_cliente, new Key($GLOBALS['token-chave'], $GLOBALS['tkn-algo']));
         
@@ -104,7 +104,7 @@ class TokenService {
             }
                     
             // cria um novo token para o visitante
-            return $this->criarToken($usuario, $GLOBALS['tempo-sessao']);
+            return self::criarToken($usuario, $GLOBALS['tempo-sessao']);
         }
 
         // verifica se o perfil pertence a alguem já cadastrado
@@ -135,12 +135,29 @@ class TokenService {
                 }
             }
 
-            return $this->criarToken($usuario);
+            return self::criarToken($usuario);
         }
 
         return RespostaProcesso::resposta(
             mensagem:"Service: Token Inválido", resposta: false,
             dados: ['status'=>'invalido']
         );
+    }
+
+    public static function extrairPayload(string $token_cliente) {
+        try {
+            // considera que o token já tenha sido validado antes
+            $token = str_replace("Bearer ", "", $token_cliente);
+            $decodificar = JWT::decode($token, new Key($GLOBALS['token-chave'], $GLOBALS['tkn-algo']));
+            return RespostaProcesso::resposta(
+                mensagem: "Service: Token extraido com sucesso", resposta: true,
+                dados: (array) $decodificar
+            );
+        } catch (ExpiredException $erro){
+            return RespostaProcesso::resposta(
+                mensagem: "Service: Falha ao extrair payload", resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
+        }
     }
 }

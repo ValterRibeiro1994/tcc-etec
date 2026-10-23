@@ -53,7 +53,7 @@ class SessaoService {
             self::iniciarSessao();
             $perfis_autorizados = ["visitante", "municipe", "representante"];
             
-            if (!UtilService::validarPerfil($perfis_autorizados, $usuario->getPerfil())){
+            if (!UtilService::perfilExiste($perfis_autorizados, $usuario->getPerfil())){
                 return RespostaProcesso::resposta(
                     mensagem: "Erro Perfil de usuario não permitido", resposta: false,
                     dados: $usuario->getArray()['dados'] ?? []

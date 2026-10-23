@@ -16,6 +16,7 @@ class UsuarioRepositorio {
                 mensagem: "Database: Conexão PDO concluida com sucesso", resposta: true
             );
         } catch (Exception $erro) {
+            $this->pdo = null;
             return RespostaProcesso::resposta(
                 mensagem: "Database: " . $erro->getMessage(), resposta: false,
                 dados: RespostaProcesso::salvarErro($erro)
@@ -83,7 +84,8 @@ class UsuarioRepositorio {
                     SELECT 
                         nome_usuario AS nome, sobrenome_usuario AS sobrenome, perfil_usuario AS perfil,
                         cpf_usuario AS cpf, cidade_usuario AS cidade, estado_usuario AS estado,
-                        orgao_usuario AS orgao, cargo_usuario AS cargo, senha_usuario AS senha
+                        orgao_usuario AS orgao, cargo_usuario AS cargo, senha_usuario AS senha,
+                        id_usuario AS id
                     FROM 
                         $tabela_usuario
                     WHERE email_usuario = :email 
@@ -117,5 +119,8 @@ class UsuarioRepositorio {
         }
     }
 
+    public function obterId(string $email){
+
+    }
 
 }

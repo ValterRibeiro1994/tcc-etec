@@ -3,7 +3,7 @@ const DEBUG = true;
 if (!localStorage.getItem("token")) {
 
     async function criarVisitante() {
-        let servidor = await fetch("./token/criar/?perfil=visitante", {
+        let servidor = await fetch("./token/criar/?perfil=visitante&nome=visitante&sobrenome=visitante&email=visitante@gmail.com&lembrar=false", {
             method: "GET",
         });
 
@@ -85,7 +85,7 @@ if (!localStorage.getItem("token")) {
                 if (DEBUG) {
                     console.log(JSON.stringify(resposta));
                 }
-
+ 
                 if (!resposta.resposta) {
                     localStorage.clear();
                 } else {
