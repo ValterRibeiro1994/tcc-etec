@@ -46,17 +46,17 @@ class Usuario {
                 email_usuario = :email
             ";
         
-            $cursor = $conexao->prepare($comando_sql);
-            $cursor->bindValue(":email", $usuario['email']);
-            $cursor->execute();
-            $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
-            if (!$resposta){
-                return RespostaProcesso::resposta(
-                    mensagem: ""
-                );
-            }
-
-
+        $cursor = $conexao->prepare($comando_sql);
+        $cursor->bindValue(":email", $usuario['email']);
+        $cursor->execute();
+        $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
+        if (!$resposta){
+            return RespostaProcesso::resposta(
+                mensagem: "Cliente: Email não registrado", resposta: false
+            );
+        }
+        $id = (int) $resposta['id'];
+        return $id;
     }
     /**
      * OS DADOS PESSOAIS OBRIGATORIOS 
@@ -136,7 +136,7 @@ class Usuario {
 
     public function obterHashSenha(): string {
         if ($this->senha == null) return "Hash da senha não informada";
-        return $this->senha->getSenhaHash();
+        return $this->senha->hashSenha();
     }
 
     /**

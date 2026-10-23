@@ -80,7 +80,7 @@ class CadastroController {
             if (!array_key_exists($chave, $dados) || empty($dados[$chave])) {
                 return RespostaProcesso::resposta(
                     mensagem: "Cliente: Campo $chave não enviado", resposta: false,
-                    dados: $dados
+                    dados: $dados, formato: "json"
                 );
             }
         }
@@ -96,38 +96,16 @@ class CadastroController {
             }
 
             $senha = new Senha($dados['senha']);
-            $cpf = new Cpf($dados['cpf']);
-
-            // valida os dados do usuario
-            $usuario = new Usuario(
-                dados_usuario: new DadosPessoais(
-                    perfil: new Perfil($dados['perfil']),
-                    nome: new Nome($dados['nome']),
-                    sobrenome: new Sobrenome($dados['sobrenome']),
-                    email: new Email($dados['email'])
-                )
-            );
-
-            $usuario->setCpf($cpf);
-            $usuario->setSenha($senha);
-            $usuario->setEndereco(
-                endereco: new Endereco(
-                    cidade: $dados['cidade'],
-                    estado: $dados['estado']
-                )
-            );
-
-            if ($usuario->getPerfil() == "representante"){
-                $usuario->setPrefeitura(
-                    prefeitura: new Prefeitura(
-                        orgao: $dados['orgao'],
-                        cargo: $dados['cargo'])
-                    );
-            } else {
-                $usuario->setPrefeitura(
-                    orgao: "Não informado", cargo: "Não informado"
+            if (!$senha->validarSenha()){
+                return RespostaProcesso::resposta(
+                    mensagem: "Cliente: Senha invalida", resposta: false,
+                    dados: $dados, formato: "json"
                 );
             }
+
+            $usuario = UtilService::criarUsuario($dados);
+            $usuario->setSenha($senha);
+            $usuario->setCpf($dados['cpf']);
 
             // salva o usuario no banco
             $repositorio = new UsuarioRepositorio(new Conexao());

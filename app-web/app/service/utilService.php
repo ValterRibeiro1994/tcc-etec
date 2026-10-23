@@ -34,7 +34,7 @@ class UtilService {
 
         if ($dados['perfil'] == "representante"){
             $atributos = ['orgao', 'cargo'];
-            if (!self::camposExistem($atributos, $dados['perfil'])){
+            if (!self::camposExistem($atributos, $dados)){
                 throw new Exception("Service: Atributo obrigatorio não enviado");
             }
         }
@@ -67,6 +67,10 @@ class UtilService {
         // dados que não são obrigatorios mas podem ser necessarios em algum caso
         if (array_key_exists("senha", $dados)){
             $usuario->setSenha($dados['senha']);
+        }
+
+        if (array_key_exists("cpf", $dados)){
+            $usuario->setCpf($dados['cpf']);
         }
 
         return $usuario;

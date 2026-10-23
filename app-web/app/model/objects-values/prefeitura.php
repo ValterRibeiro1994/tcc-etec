@@ -29,7 +29,7 @@ class Prefeitura {
 
     public function setOrgao(string $novo_orgao){
         $this->validarOrgao($novo_orgao);
-        $this->cargo = $novo_orgao;
+        $this->orgao = $novo_orgao;
     }
 
     private function validarOrgao(string $nome_orgao): bool {
