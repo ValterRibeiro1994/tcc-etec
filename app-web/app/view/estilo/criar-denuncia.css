@@ -295,6 +295,54 @@ body{
     color: #293830;
 }
 
+/* OPÇÃO DE ANONIMATO */
+
+.anonimato-opcao {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.anonimato-opcao .form-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 0;
+    margin-bottom: 10px;
+}
+
+.anonimato-opcao .form-check-input {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    accent-color: #24812c;
+}
+
+.anonimato-opcao .form-check-label {
+    color: #155b3a;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.anonimato-opcao p {
+    margin: 0 0 10px;
+    color: #465c4e;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.anonimato-opcao small {
+    display: block;
+    color: #607768;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 
 @media (max-width: 700px) {
 

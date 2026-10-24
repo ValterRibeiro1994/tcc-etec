@@ -51,6 +51,7 @@ create table if not exists tb_denuncia (
     status_denuncia enum('em andamento','concluida','em analise', 'pendente') default 'pendente' not null,
     perfil_usuario enum('municipe', 'representante') not null,
     complemento_denuncia varchar(100),
+    anonima_denuncia TINYINT(1) not null default(0),
     
     
     

@@ -26,7 +26,7 @@ $GLOBALS['categorias'] = "tb_categoria";
 $GLOBALS['debug'] = true;
 
 // tempo de sessao
-$GLOBALS['tempo-sessao'] = 30;
+$GLOBALS['tempo-sessao'] = 6000000;
 
 $GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';
 >>>>>>> Stashed changes

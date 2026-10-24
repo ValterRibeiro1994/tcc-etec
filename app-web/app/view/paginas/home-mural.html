@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="../app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../app/view/estilo/navbar.css">
     <link rel="stylesheet" href="../app/view/estilo/geral.css">
     <link rel="stylesheet" href="../app/view/estilo/home-mural.css">
   
     
+=======
+    <script>
+        try {
+            if (localStorage.getItem('tema') === 'escuro') {
+                document.documentElement.setAttribute('data-tema', 'escuro');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        } catch (e) { }
+    </script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+
+
+
+>>>>>>> Stashed changes
     <title>RelateSBC</title>
 </head>
+
 <body>
+<<<<<<< Updated upstream
     
    <header class="navbar-header">
     <nav class="navbar">
@@ -32,11 +55,19 @@
             </a>
             <a href="cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
+=======
+
+    <header class="navbar-header">
+        <nav class="navbar">
+            <a href="<?= $raiz ?>home" class="logo-link">
+                <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+>>>>>>> Stashed changes
             </a>
 
             
         </div>
 
+<<<<<<< Updated upstream
         <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
             <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
         </div>
@@ -49,6 +80,33 @@
             </svg></i></button>
         </div>
     </nav>
+=======
+            <div class="nav-actions" id="convidado">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;"
+                    class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;"
+                    class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+            </div>
+
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+            </div>
+
+
+            <div class="mobile-menu-icon">
+                <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+                        <path fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                    </svg></i></button>
+            </div>
+        </nav>
+>>>>>>> Stashed changes
 
     <!-- MENU MOBILE -->
 
@@ -61,6 +119,7 @@
             </ul>
 
             <div class="nav-actions">
+<<<<<<< Updated upstream
               <a href="login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
               </a>
@@ -72,10 +131,24 @@
             <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
         </div>
                 
+=======
+                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;"
+                    class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;"
+                    class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+
+                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                    <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+                </div>
+>>>>>>> Stashed changes
             </div>
         </div>
 
-        
+
 
         <nav class="navbar-pagina-mobile">
             <button type="button" onclick="abrirSidebar()">
@@ -86,12 +159,18 @@
   </header>
 
 
+<<<<<<< Updated upstream
      <div class="main-container">
         
+=======
+    <div class="main-container">
+
+>>>>>>> Stashed changes
         <aside class="menu-lateral">
             <button class="btn-fechar-sidebar" onclick="fecharSidebar()">
-              ×
+                ×
             </button>
+<<<<<<< Updated upstream
             
             <button class="menu-lateral-btn-criar">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -128,6 +207,94 @@
                 <a href="#" class="menu-lateral-link">
                     <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     perfil
+=======
+
+            <!-- ALTERADO: adicionado id="btn-nova-denuncia-lateral" -->
+            <button class="menu-lateral-btn-criar" id="btn-nova-denuncia-lateral">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Nova denúncia
+            </button>
+
+            <!-- ALTERADO: cada link ganhou data-pagina e id. O link "perfil" abre a página de perfil, só para usuário logado (mural.js) -->
+            <nav class="menu-lateral-navegacao">
+                <a href="#" class="menu-lateral-link ativo" data-pagina="mural" id="link-mural">
+                    <svg viewBox="0 0 24 24" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Mural de denúncias
+                </a>
+                <a href="#" class="menu-lateral-link" data-pagina="denuncias" id="link-denuncias">
+                    <svg viewBox="0 0 24 24" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Minhas denúncias
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                        <path d="M22 8c0-2.3-.8-4.3-2-6" />
+                        <path
+                            d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+                        <path d="M4 2C2.8 3.7 2 5.7 2 8" />
+                    </svg>
+                    Notificações
+                    <span class="menu-badge" id="badge-notificacoes" hidden>0</span>
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round preview-icon">
+                        <circle cx="12" cy="8" r="5" />
+                        <path d="M20 21a8 8 0 0 0-16 0" />
+                    </svg>
+                    perfil
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="central-de-ajuda" id="link-central">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-message-circle-question-mark preview-icon">
+                        <path
+                            d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    Central de ajuda
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="configuracoes" id="link-configuracoes">
+                    <svg viewBox="0 0 24 24" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                    Configurações
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="informacoes-legais" id="link-informacoes-legais">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3v18" />
+                        <path d="M5 7h14" />
+                        <path d="M5 7l-3 8a4 4 0 0 0 6 0z" />
+                        <path d="M19 7l-3 8a4 4 0 0 0 6 0z" />
+                        <path d="M8 21h8" />
+                    </svg>
+                    Informações legais
+>>>>>>> Stashed changes
                 </a>
             </nav>
 
@@ -136,17 +303,26 @@
                 <p>Sua denúncia ajuda a melhorar nossos bairros em SBC.</p>
             </div>
         </aside>
+<<<<<<< Updated upstream
         
         <!--CONTEUDO DA PAGINA-->
     
         <main class="conteudo-principal" style="flex: 1; padding: 40px;">
             <section id="tela-mural" class="tela ativa">
+=======
+>>>>>>> Stashed changes
 
-            <div class="mural-descricao">
+        <!--CONTEUDO DA PAGINA-->
+
+        <main class="conteudo-principal" style="flex: 1; padding: 40px;">
+            <section id="tela-mural" class="tela ativa">
+
+                <div class="mural-descricao">
                     <h2>Mural de denúncias</h2>
                     <p>Acompanhe e fiscalize em tempo real a situação dos problemas em São Bernardo.</p>
-            </div>
+                </div>
 
+<<<<<<< Updated upstream
             <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
             <div class="row g-2 align-items-center">
             
@@ -199,6 +375,83 @@
                             <div class="card-img text-center" id="img-card">Imagem</div> <!-- ALTERADO: removido o background-image de exemplo (a imagem real vem do banco via mural.js) -->
                     </div>
                     <div class="card-body">
+=======
+                <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
+                    <div class="row g-2 align-items-center">
+
+                        <div class="col-md-5">
+                            <div class="input-group pesquisa-grupo bg-light border rounded-3">
+                                <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                </span>
+                                <input type="text" id="busca-mural"
+                                    class="form-control bg-transparent border-0 shadow-none py-2"
+                                    placeholder="Buscar por rua, problema ou palavra-chave...">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select id="filtro-categoria" class="form-select rounded-3 py-2 text-secondary shadow-none">
+                                <option value="" selected>Todas as categorias</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <select id="filtro-bairro" class="form-select rounded-3 py-2 text-secondary shadow-none">
+                                <option value="" selected>Todos os bairros</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 d-grid">
+                            <button type="button" id="btn-mais-filtros"
+                                class="btn btn-filtros rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                                </svg>
+                                Mais Filtros
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row g-2 align-items-center mt-1 d-none" id="filtros-extras">
+                        <div class="col-md-3">
+                            <select id="filtro-status-mural"
+                                class="form-select rounded-3 py-2 text-secondary shadow-none">
+                                <option value="" selected>Todos os status</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="analise">Em análise</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="concluida">Concluída</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="button" id="btn-limpar-filtros"
+                                class="btn btn-outline-secondary rounded-3 py-2">Limpar filtros</button>
+                        </div>
+                    </div>
+                </div>
+                <!--CARD-->
+
+                <div class="grid-denuncias" id="grid-denuncias">
+                    <div class="card" id="card-mural">
+                        <div class="card-img-wrapper">
+                            <div class="card-img text-center" id="img-card">Imagem</div>
+                            <!-- ALTERADO: removido o background-image de exemplo (a imagem real vem do banco via mural.js) -->
+                        </div>
+                        <div class="card-body">
+>>>>>>> Stashed changes
                             <span class="tag-categoria" id="categoria-denuncia">Categoria</span>
                             <h3 class="card-title" id="titulo-denuncia">titulo</h3>
                             <div class="card-info">
@@ -208,10 +461,11 @@
                             <div class="card-pe" id="status-denuncia">
                                 <span class="badge rounded-pill text-bg-secondary">Status</span>
                             </div>
-                     </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
+<<<<<<< Updated upstream
             <!-- ADICIONADO: mensagem exibida pelo mural.js ("Carregando...", "Nenhuma denúncia registrada", erro) -->
             <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
     </section>
@@ -360,5 +614,541 @@
   <!-- ADICIONADO: busca as denúncias no banco e monta os cards do mural -->
   <script src="../app/view/scripts/mural.js"></script>
     
+=======
+                <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+
+                <nav id="paginacao-mural" class="paginacao-relate" aria-label="Páginas do mural">
+                </nav>
+            </section>
+            <!-- MINHAS DENÚNCIAS -->
+
+            <section id="tela-denuncias" class="tela">
+
+                <div class="mural-descricao">
+                    <h2>Minhas denúncias</h2>
+                    <p>Acompanhe o andamento de tudo o que você já registrou.</p>
+                </div>
+
+                <div class="resumo-denuncias">
+                    <div class="resumo-item" data-cor="verde">
+                        <strong id="resumo-concluidas">0</strong><span>Concluídas</span>
+                    </div>
+                    <div class="resumo-item" data-cor="amarelo">
+                        <strong id="resumo-andamento">0</strong><span>Em andamento</span>
+                    </div>
+                    <div class="resumo-item" data-cor="azul">
+                        <strong id="resumo-analise">0</strong><span>Em análise</span>
+                    </div>
+                    <div class="resumo-item" data-cor="vermelho">
+                        <strong id="resumo-pendentes">0</strong><span>Pendentes</span>
+                    </div>
+                </div>
+
+                <!-- FILTROS -->
+                <div class="filtro-status">
+                    <button class="filtro-chip ativo" data-filtro="todas">Todas</button>
+                    <button class="filtro-chip" data-filtro="concluida">Concluídas</button>
+                    <button class="filtro-chip" data-filtro="andamento">Em andamento</button>
+                    <button class="filtro-chip" data-filtro="analise">Em análise</button>
+                    <button class="filtro-chip" data-filtro="pendente">Pendentes</button>
+                </div>
+
+                <p id="minhas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+
+                <div class="lista-denuncias" id="lista-minhas-denuncias"></div>
+                <p class="text-secondary small mt-3">
+    Total de denúncias registradas:
+    <strong id="total-minhas">0</strong>
+</p>
+
+<nav id="paginacao-minhas"
+     class="paginacao-relate"
+     aria-label="Páginas das minhas denúncias">
+</nav>
+
+                <template id="modelo-minha-denuncia">
+                    <article class="denuncia-item" data-status="pendente">
+                        <div class="denuncia-principal">
+                            <h3 data-campo="titulo">Título</h3>
+                            <p data-campo="descricao">Descrição</p>
+                        </div>
+                        <div class="denuncia-meta">
+                            <span class="meta-linha">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span data-campo="local">Local</span>
+                            </span>
+                            <span class="meta-linha">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span data-campo="data">Data</span>
+                            </span>
+                        </div>
+                        <span class="status-badge" data-campo="status">Status</span>
+                        <div class="denuncia-acoes">
+                            <button type="button" class="btn-acao btn-acao-principal" data-acao="ver-mais">Ver
+                                mais</button>
+                            <button type="button" class="btn-acao" data-acao="editar">Editar</button>
+                            <button type="button" class="btn-acao btn-acao-perigo" data-acao="remover">Remover</button>
+                        </div>
+                    </article>
+                </template>
+            </section>
+
+            <!-- INICIO SESSÃO NOTIFICAÇÕES -->
+            <section id="tela-notificacoes" class="tela">
+
+                <div class="mural-descricao">
+                    <h2>Notificações</h2>
+                    <p>Veja o que mudou nas suas denúncias e as respostas da prefeitura.</p>
+                </div>
+
+                <div class="notificacoes-barra">
+                    <div class="filtro-status" id="filtro-notificacoes">
+                        <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
+                        <button type="button" class="notif-chip" data-filtro="nao-lidas">Não lidas</button>
+                    </div>
+                    <button type="button" class="btn-acao" id="btn-marcar-todas">Marcar todas como lidas</button>
+                </div>
+
+                <div id="lista-notificacoes"></div>
+
+                <div class="notificacoes-vazio" id="notificacoes-vazio" hidden>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                        <path
+                            d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+                    </svg>
+                    <strong id="notificacoes-vazio-titulo">Nenhuma notificação por aqui</strong>
+                    <p id="notificacoes-vazio-texto">Quando uma denúncia mudar de status ou receber um comentário, você
+                        verá o aviso aqui.</p>
+                </div>
+
+                <template id="modelo-notificacao">
+                    <li class="notificacao-item">
+                        <button type="button" class="notificacao-corpo">
+                            <span class="notificacao-icone" data-campo="icone"></span>
+                            <span class="notificacao-texto">
+                                <strong data-campo="titulo">Título</strong>
+                                <span data-campo="mensagem">Mensagem</span>
+                            </span>
+                            <span class="notificacao-meta">
+                                <time data-campo="tempo">agora</time>
+                                <span class="notificacao-ponto" aria-label="Não lida"></span>
+                            </span>
+                        </button>
+                    </li>
+                </template>
+            </section>
+            <!-- FIM SESSÃO NOTIFICAÇÕES -->
+
+            <!-- INICIO SESSÃO CENTRAL DE AJUDA -->
+            <section id="tela-central-de-ajuda" class="tela">
+
+                <div class="mural-descricao">
+                    <h2>Central de ajuda</h2>
+                    <p>Tire suas dúvidas e aprenda a usar o RelateSBC.</p>
+                </div>
+
+                <h3 class="ajuda-titulo">Como funciona</h3>
+                <div class="ajuda-passos">
+                    <div class="ajuda-passo">
+                        <span class="ajuda-numero">1</span>
+                        <strong>Crie sua conta</strong>
+                        <p>Cadastre-se e entre para registrar e acompanhar denúncias. Para ver o mural, não precisa de
+                            conta.</p>
+                    </div>
+                    <div class="ajuda-passo">
+                        <span class="ajuda-numero">2</span>
+                        <strong>Registre a denúncia</strong>
+                        <p>Clique em "Nova denúncia", conte o que está acontecendo, informe o local e adicione uma foto,
+                            se puder.</p>
+                    </div>
+                    <div class="ajuda-passo">
+                        <span class="ajuda-numero">3</span>
+                        <strong>Acompanhe</strong>
+                        <p>Veja o andamento de tudo o que você registrou em "Minhas denúncias".</p>
+                    </div>
+                    <div class="ajuda-passo">
+                        <span class="ajuda-numero">4</span>
+                        <strong>Receba avisos</strong>
+                        <p>Você é notificado quando o status mudar ou quando a prefeitura responder.</p>
+                    </div>
+                </div>
+
+                <h3 class="ajuda-titulo">Dúvidas frequentes</h3>
+                <div class="ajuda-faq">
+
+                    <details class="ajuda-item">
+                        <summary>Como registro uma denúncia?</summary>
+                        <p>Clique no botão "Nova denúncia" no menu lateral, preencha as informações do problema e envie.
+                            É preciso estar logado para registrar.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Preciso ter conta para usar o site?</summary>
+                        <p>Para ver o mural de denúncias, não. Para registrar uma denúncia, acompanhar as suas e receber
+                            notificações, sim.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Que tipos de problema posso denunciar?</summary>
+                        <p>Problemas de infraestrutura, limpeza urbana e iluminação pública nos bairros de São Bernardo
+                            do Campo, como buracos, lixo acumulado e postes apagados.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>O que significa cada status?</summary>
+                        <ul>
+                            <li><span class="badge rounded-pill text-bg-danger">Pendente</span> A denúncia foi
+                                registrada e ainda não foi vista.</li>
+                            <li><span class="badge rounded-pill text-bg-primary">Em análise</span> A prefeitura está
+                                avaliando o caso.</li>
+                            <li><span class="badge rounded-pill text-bg-warning">Em andamento</span> O problema está
+                                sendo resolvido.</li>
+                            <li><span class="badge rounded-pill text-bg-success">Concluída</span> O problema foi
+                                resolvido.</li>
+                        </ul>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Como acompanho minha denúncia?</summary>
+                        <p>Abra "Minhas denúncias" no menu lateral. Lá você vê todas as que registrou, com o status
+                            atual, e pode filtrar por situação.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Quando recebo notificações?</summary>
+                        <p>Sempre que o status de uma denúncia sua mudar e quando a prefeitura responder. Elas aparecem
+                            em "Notificações", e o número no menu mostra quantas você ainda não leu.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Posso editar ou remover uma denúncia?</summary>
+                        <p>Sim. Em "Minhas denúncias", cada denúncia tem os botões "Editar" e "Remover".</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Quanto tempo leva para resolverem?</summary>
+                        <p>O prazo depende do tipo de problema e do órgão responsável. O que o site garante é que você
+                            acompanha cada mudança de status em tempo real.</p>
+                    </details>
+
+                    <details class="ajuda-item">
+                        <summary>Meu nome aparece para os outros usuários?</summary>
+                        <p>Sim, o seu nome aparece junto da denúncia no mural.</p>
+                    </details>
+                </div>
+
+                <div class="ajuda-contato">
+                    <div>
+                        <strong>Não encontrou o que procurava?</strong>
+                        <p>Fale com a nossa equipe.</p>
+                    </div>
+                    <a href="#" class="btn-acao btn-acao-principal">Entrar em contato</a>
+                </div>
+            </section>
+            <!-- FIM SESSÃO CENTRAL DE AJUDA -->
+
+            <!-- INICIO SESSÃO CONFIGURAÇÕES -->
+            <section id="tela-configuracoes" class="tela">
+
+                <div class="mural-descricao">
+                    <h2>Configurações</h2>
+                    <p>Ajuste a aparência do site e os dados da sua conta.</p>
+                </div>
+
+                <div class="config-aviso" id="config-aviso-login" hidden>
+                    Faça login para alterar os dados da sua conta. <a href="<?= $raiz ?>login">Entrar</a>
+                </div>
+
+                <!-- APARÊNCIA -->
+                <div class="config-card">
+                    <h3>Aparência</h3>
+                    <p class="config-desc">Escolha como o site aparece para você.</p>
+                    <div class="config-opcoes" id="config-tema">
+                        <button type="button" class="config-opcao" data-tema="claro">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="4" />
+                                <path
+                                    d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                            </svg>
+                            Claro
+                        </button>
+                        <button type="button" class="config-opcao" data-tema="escuro">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                            Escuro
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NOTIFICAÇÕES -->
+                <div class="config-card" data-requer-login>
+                    <h3>Notificações</h3>
+                    <div class="config-linha">
+                        <div>
+                            <strong>Receber avisos por e-mail</strong>
+                            <p>Enviamos um e-mail quando o status mudar ou a prefeitura responder.</p>
+                        </div>
+                        <label class="config-switch">
+                            <input type="checkbox" id="config-avisos-email" aria-label="Receber avisos por e-mail">
+                            <span></span>
+                        </label>
+                    </div>
+                    <p class="config-msg" id="msg-avisos" hidden></p>
+                </div>
+
+                <!-- LOCALIZAÇÃO -->
+                <form class="config-card" id="form-local" data-requer-login>
+                    <h3>Estado e cidade</h3>
+                    <p class="config-desc">Onde você mora.</p>
+                    <div class="config-campos">
+                        <div>
+                            <label class="form-label" for="config-estado">Estado</label>
+                            <select class="form-select" id="config-estado"></select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="config-cidade">Cidade</label>
+                            <input class="form-control" type="text" id="config-cidade" list="lista-cidades"
+                                autocomplete="off" required>
+                            <datalist id="lista-cidades"></datalist>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-acao btn-acao-principal">Salvar localização</button>
+                    <p class="config-msg" id="msg-local" hidden></p>
+                </form>
+
+                <!-- E-MAIL -->
+                <form class="config-card" id="form-email" data-requer-login>
+                    <h3>Alterar e-mail</h3>
+                    <p class="config-desc">Digite o novo e-mail e confirme com a sua senha.</p>
+                    <div class="config-campos">
+                        <div>
+                            <label class="form-label" for="config-email-novo">Novo e-mail</label>
+                            <input class="form-control" type="email" id="config-email-novo" autocomplete="email"
+                                required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="config-email-senha">Senha atual</label>
+                            <input class="form-control" type="password" id="config-email-senha"
+                                autocomplete="current-password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-acao btn-acao-principal">Alterar e-mail</button>
+                    <p class="config-msg" id="msg-email" hidden></p>
+                </form>
+
+                <!-- SENHA -->
+                <form class="config-card" id="form-senha" data-requer-login>
+                    <h3>Alterar senha</h3>
+                    <p class="config-desc">Use uma senha com pelo menos 8 caracteres.</p>
+                    <div class="config-campos config-campos-3">
+                        <div>
+                            <label class="form-label" for="config-senha-atual">Senha atual</label>
+                            <input class="form-control" type="password" id="config-senha-atual"
+                                autocomplete="current-password" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="config-senha-nova">Nova senha</label>
+                            <input class="form-control" type="password" id="config-senha-nova"
+                                autocomplete="new-password" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="config-senha-confirma">Confirmar nova senha</label>
+                            <input class="form-control" type="password" id="config-senha-confirma"
+                                autocomplete="new-password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-acao btn-acao-principal">Alterar senha</button>
+                    <p class="config-msg" id="msg-senha" hidden></p>
+                </form>
+
+                <!-- SAIR -->
+                <div class="config-card" data-requer-login>
+                    <div class="config-linha">
+                        <div>
+                            <strong>Sair da conta</strong>
+                            <p>Encerra a sessão neste dispositivo.</p>
+                        </div>
+                        <button type="button" class="btn-acao" id="config-sair">Sair</button>
+                    </div>
+                </div>
+
+                <!-- EXCLUIR CONTA -->
+                <form class="config-card config-perigo" id="form-excluir" data-requer-login>
+                    <h3>Excluir conta</h3>
+                    <p class="config-desc">Essa ação não pode ser desfeita. Digite sua senha para confirmar.</p>
+                    <div class="config-campos config-campos-1">
+                        <div>
+                            <label class="form-label" for="config-excluir-senha">Senha atual</label>
+                            <input class="form-control" type="password" id="config-excluir-senha"
+                                autocomplete="current-password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-acao btn-acao-perigo">Excluir minha conta</button>
+                    <p class="config-msg" id="msg-excluir" hidden></p>
+                </form>
+            </section>
+            <!-- FIM SESSÃO CONFIGURAÇÕES -->
+            <!-- INICIO SESSÃO INFORMAÇÕES LEGAIS -->
+            <section id="tela-informacoes-legais" class="tela">
+
+                <div class="mural-descricao">
+                    <h2>Informações legais</h2>
+                    <p>Entenda seus direitos, seus deveres e como tratamos os seus dados no RelateSBC.</p>
+                </div>
+
+                <!-- Índice rápido -->
+                <div class="legal-indice">
+                    <a href="#legal-direitos">Seus direitos</a>
+                    <a href="#legal-deveres">Boas práticas e deveres</a>
+                    <a href="#legal-privacidade">Privacidade e dados</a>
+                    <a href="#legal-termos">Termos de uso</a>
+                    <a href="#legal-textos">Textos oficiais</a>
+                    <a href="#legal-emergencia">Emergências</a>
+                </div>
+
+                <!-- DIREITOS -->
+                <h3 class="ajuda-titulo" id="legal-direitos">Seus direitos</h3>
+                <div class="legal-grid">
+                    <article class="legal-card">
+                        <span class="legal-icone">§</span>
+                        <strong>Direito de petição</strong>
+                        <p>A Constituição Federal garante a qualquer pessoa o direito de apresentar petições aos Poderes
+                            Públicos, sem pagar taxas, para defender direitos ou contestar ilegalidades e abusos de
+                            poder (art. 5º, XXXIV, "a").</p>
+                    </article>
+                    <article class="legal-card">
+                        <span class="legal-icone">§</span>
+                        <strong>Defesa do usuário de serviço público</strong>
+                        <p>A Lei nº 13.460/2017 assegura ao cidadão o direito de apresentar manifestações, ser atendido
+                            com respeito e receber resposta sobre os serviços públicos.</p>
+                    </article>
+                    <article class="legal-card">
+                        <span class="legal-icone">§</span>
+                        <strong>Acesso à informação</strong>
+                        <p>Pela Lei nº 12.527/2011 (Lei de Acesso à Informação), você pode pedir dados e informações dos
+                            órgãos públicos, salvo as exceções previstas em lei.</p>
+                    </article>
+                </div>
+                <br>
+                <!-- DEVERES -->
+                <h3 class="ajuda-titulo" id="legal-deveres">Boas práticas e deveres</h3>
+                <div class="ajuda-faq">
+                    <details class="ajuda-item" open>
+                        <summary>Denuncie fatos reais</summary>
+                        <p>Registre apenas problemas que você realmente observou. Publicar acusações falsas ou
+                            informações que prejudiquem alguém injustamente pode gerar consequências jurídicas,
+                            dependendo das circunstâncias.</p>
+                    </details>
+                    <details class="ajuda-item">
+                        <summary>Respeite as pessoas</summary>
+                        <p>Não é permitido publicar ofensas, ameaças ou discriminação. A honra, a imagem e a privacidade
+                            das pessoas devem ser respeitadas: o foco da denúncia é o problema urbano, não pessoas.</p>
+                    </details>
+                    <details class="ajuda-item">
+                        <summary>Cuide das fotos que envia</summary>
+                        <p>Evite imagens que exponham dados pessoais ou identifiquem terceiros, como rostos, placas de
+                            veículos, documentos ou o interior de residências. Prefira fotos do local do problema.</p>
+                    </details>
+                    <details class="ajuda-item">
+                        <summary>O que pode ser removido</summary>
+                        <p>Conteúdos que descumpram estas regras, sejam duplicados ou não tratem de zeladoria urbana
+                            podem ser ocultados ou removidos pela equipe. A remoção depende das circunstâncias, das
+                            regras da plataforma e da legislação aplicável.</p>
+                    </details>
+                </div>
+                <br>
+                <!-- PRIVACIDADE -->
+                <h3 class="ajuda-titulo" id="legal-privacidade">Privacidade e proteção de dados</h3>
+                <div class="config-card">
+                    <p class="config-desc">O tratamento dos seus dados segue a Lei Geral de Proteção de Dados (Lei nº
+                        13.709/2018).</p>
+                    <ul class="legal-lista">
+                        <li><strong>O que coletamos:</strong> nome, e-mail, cidade e estado, além do conteúdo das
+                            denúncias (texto, local e imagem).</li>
+                        <li><strong>Para que usamos:</strong> identificar sua conta, exibir suas denúncias, enviar
+                            notificações e melhorar o serviço.</li>
+                        <li><strong>O que fica público:</strong> o seu nome, o título, o local, a data, a imagem e o
+                            status da denúncia aparecem no mural.</li>
+                        <li><strong>Seus direitos como titular:</strong> confirmar o tratamento, acessar, corrigir e
+                            solicitar a exclusão dos seus dados.</li>
+                        <li><strong>Como exercer:</strong> altere e-mail, senha e localização, ou exclua a conta, em <a
+                                href="" data-ir-para="configuracoes">Configurações</a>.</li>
+                    </ul>
+                </div>
+
+                <!-- TERMOS -->
+                <h3 class="ajuda-titulo" id="legal-termos">Termos de uso</h3>
+                <div class="config-card">
+                    <ul class="legal-lista">
+                        <li>O RelateSBC é uma plataforma para registrar e acompanhar problemas urbanos em São Bernardo
+                            do Campo.</li>
+                        <li>O RelateSBC não é um canal oficial da Prefeitura de São Bernardo do Campo.</li>
+                        <li>Você é responsável pelo conteúdo que publica e pela veracidade das informações.</li>
+                        <li>O prazo e a forma de resolução dependem do órgão responsável; o site não garante a solução.
+                        </li>
+                        <li>Esses termos podem ser atualizados. Última atualização: <strong>outubro de 2026</strong>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- TEXTOS OFICIAIS -->
+                <h3 class="ajuda-titulo" id="legal-textos">Textos oficiais</h3>
+                <div class="config-card">
+                    <ul class="legal-lista">
+                        <li><a href="https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+                                target="_blank" rel="noopener">Constituição Federal</a></li>
+                        <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13460.htm"
+                                target="_blank" rel="noopener">Lei nº 13.460/2017 — Direitos dos usuários de serviços
+                                públicos</a></li>
+                        <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm"
+                                target="_blank" rel="noopener">Lei nº 12.527/2011 — Acesso à Informação</a></li>
+                        <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm"
+                                target="_blank" rel="noopener">Lei nº 13.709/2018 — LGPD</a></li>
+                    </ul>
+                </div>
+
+                <!-- EMERGÊNCIA -->
+                <h3 class="ajuda-titulo" id="legal-emergencia">Em caso de emergência</h3>
+                <div class="legal-emergencia">
+                    <strong>O RelateSBC não atende emergências.</strong>
+                    <p>Se houver risco imediato à vida ou à segurança, ligue:</p>
+                    <div class="legal-telefones">
+                        <span><b>190</b> Polícia Militar</span>
+                        <span><b>192</b> SAMU</span>
+                        <span><b>193</b> Bombeiros</span>
+                        <span><b>199</b> Defesa Civil</span>
+                    </div>
+                </div>
+
+                <div class="ajuda-contato">
+                    <div>
+                        <strong>Dúvidas sobre seus dados ou estes termos?</strong>
+                        <p>Fale com a nossa equipe.</p>
+                    </div>
+                    <a href="#" class="btn-acao btn-acao-principal">Entrar em contato</a>
+                </div>
+            </section>
+            <!-- FIM SESSÃO INFORMAÇÕES LEGAIS -->
+
+        </main>
+
+        <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+        <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
+        <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
+        <script src="<?= $raiz ?>app/view/scripts/configuracoes.js"></script>
+
+>>>>>>> Stashed changes
 </body>
+
 </html>

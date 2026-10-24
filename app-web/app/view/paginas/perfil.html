@@ -130,6 +130,15 @@
     <!-- Lista de denúncias -->
     <ul class="list-group list-group-flush d-flex">
 
+<<<<<<< Updated upstream
+=======
+    <nav id="paginacao-perfil"
+     class="paginacao-relate"
+     aria-label="Páginas das denúncias do perfil">
+</nav>
+
+    <template id="modelo-denuncia-perfil">
+>>>>>>> Stashed changes
       <li class="list-group-item d-flex flex-wrap align-items-center py-3">
         <div>
           <div class="fw-semibold">Buraco na Rua</div>
@@ -142,11 +151,17 @@
           <span class="badge bg-primary rounded-pill">EM ANÁLISE</span>
           <span class="badge bg-danger rounded-pill ">PENDENTE</span>
         </div>
+<<<<<<< Updated upstream
         <div class="text-muted small text-center" style="min-width:90px;">21/02/2009</div>
+=======
+        <div class="text-muted small text-center" style="min-width:90px;" data-campo="data">Data</div>
+        <!-- ALTERADO: botões com type="button" e data-acao (editar | remover | ver-mais), que o perfil.js usa.
+             Não usamos id aqui porque este modelo é copiado para cada denúncia (ids ficariam repetidos). -->
+>>>>>>> Stashed changes
         <div class="d-flex gap-3">
-          <button class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
-          <button class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
-          <button class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
+          <button type="button" class="btn btn-outline-dark btn-sm fw-bold" data-acao="editar">Editar</button>
+          <button type="button" class="btn btn-outline-danger btn-sm fw-bold" data-acao="remover">Remover</button>
+          <button type="button" class="btn btn-outline-success btn-sm fw-bold" data-acao="ver-mais">Ver mais</button>
         </div>
       </li>
 
@@ -237,6 +252,14 @@
     </div>
 </footer>
     
+<<<<<<< Updated upstream
+=======
+<!-- ADICIONADO: navbar.js (menu mobile e botão Sair) e perfil.js (dados do usuário + denúncias dele) -->
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
+    <script type="module" src="<?= $raiz ?>app/view/scripts/perfil.js"></script>
+
+>>>>>>> Stashed changes
 </body>
 </html>
 

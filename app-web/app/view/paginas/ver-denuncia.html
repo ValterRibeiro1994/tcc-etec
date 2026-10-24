@@ -1,0 +1,399 @@
+<?php $raiz = $GLOBALS['raiz-app']; ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RelateSBC — Denúncia</title>
+
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+
+    <link rel="stylesheet"
+          href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="<?= $raiz ?>app/view/estilo/navbar.css">
+
+    <link rel="stylesheet"
+          href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+
+    <link rel="stylesheet"
+          href="<?= $raiz ?>app/view/estilo/ver-denuncia.css">
+</head>
+
+<body>
+
+<!-- NAVBAR PADRÃO DO RELATESBC -->
+<header class="navbar-header">
+    <nav class="navbar" aria-label="Navegação principal">
+
+        <a href="<?= $raiz ?>home" class="logo-link">
+            <img
+                src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png"
+                alt="RelateSBC"
+                class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item">
+                <a href="<?= $raiz ?>home">Início</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>teste/sobre">Sobre</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Dicas</a>
+            </li>
+
+            <li class="nav-item active">
+                <a href="<?= $raiz ?>denuncia/mural">Mural</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>teste/informacoes">
+                    Informações legais
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-actions" id="convidado">
+            <a href="<?= $raiz ?>login"
+               class="nav-btn nav-btn-secondary py-2"
+               id="btn-entrar">
+                Entrar
+            </a>
+
+            <a href="<?= $raiz ?>cadastro"
+               class="nav-btn nav-btn-primary py-2"
+               id="btn-cadastro">
+                Cadastre-se
+            </a>
+        </div>
+
+        <div class="nav-actions"
+             id="usuario-logado"
+             style="display:none">
+
+            <button class="nav-btn nav-btn-primary py-2"
+                    id="logout-btn"
+                    type="button">
+                Sair
+            </button>
+        </div>
+
+        <div class="mobile-menu-icon">
+            <button type="button"
+                    onclick="menuAbrir()"
+                    aria-label="Abrir menu">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE -->
+    <div class="mobile-menu">
+        <ul class="tabela-de-links">
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>home">Início</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>teste/sobre">Sobre</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Dicas</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>denuncia/mural">Mural</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= $raiz ?>teste/informacoes">
+                    Informações legais
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="<?= $raiz ?>login"
+               class="nav-btn nav-btn-secondary"
+               id="btn-entrar-mob">
+                Entrar
+            </a>
+
+            <a href="<?= $raiz ?>cadastro"
+               class="nav-btn nav-btn-primary"
+               id="btn-cadastro-mob">
+                Cadastre-se
+            </a>
+
+            <div id="usuario-logado-mob" style="display:none">
+                <button class="nav-btn nav-btn-primary"
+                        id="logout-btn-mob"
+                        type="button">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- PÁGINA DA DENÚNCIA -->
+<main class="pagina-detalhe">
+
+    <div class="detalhe-container">
+
+        <!-- RETORNO AO MURAL -->
+        <div class="detalhe-breadcrumb">
+            <a id="btn-voltar"
+               href="<?= $raiz ?>denuncia/mural">
+                ← Voltar para onde eu estava
+            </a>
+
+            <span>Mural de denúncias / Detalhes</span>
+        </div>
+
+        <p id="detalhe-mensagem"
+           class="detalhe-carregando"
+           role="status">
+            Carregando denúncia...
+        </p>
+
+        <article id="detalhe-conteudo" class="d-none">
+
+            <!-- IMAGEM PRINCIPAL -->
+            <div class="detalhe-foto">
+                <img
+                    id="detalhe-imagem"
+                    class="d-none"
+                    alt="Fotografia enviada com a denúncia">
+
+                <div id="detalhe-sem-imagem">
+                    Esta denúncia não possui fotografia.
+                </div>
+            </div>
+
+            <!-- CATEGORIA E STATUS -->
+            <div class="detalhe-etiquetas">
+                <span class="detalhe-categoria"
+                      id="detalhe-categoria">
+                    Categoria
+                </span>
+
+                <span class="badge rounded-pill text-bg-secondary"
+                      id="detalhe-status">
+                    Status
+                </span>
+            </div>
+
+            <!-- TÍTULO -->
+            <h1 id="detalhe-titulo">Denúncia</h1>
+
+            <p class="detalhe-meta">
+                Por <strong id="detalhe-autor">Autor</strong>
+
+                <span aria-hidden="true">•</span>
+                <span id="detalhe-data">Data</span>
+
+                <span aria-hidden="true">•</span>
+                <span id="detalhe-cidade-topo">Cidade</span>
+            </p>
+
+            <!-- NAVEGAÇÃO INTERNA -->
+            <nav class="detalhe-abas" aria-label="Seções da denúncia">
+
+                <a href="#aba-detalhes">
+                    ▤ Detalhes
+                </a>
+
+                <a href="#aba-comentarios">
+                    ♧ Comentários
+                    (<span id="total-comentarios">0</span>)
+                </a>
+            </nav>
+
+            <!-- DETALHES EM COLUNAS -->
+            <div class="detalhe-colunas">
+
+                <div class="detalhe-principal">
+
+                    <!-- DESCRIÇÃO -->
+                    <section class="detalhe-painel" id="aba-detalhes">
+                        <h2>
+                            <span class="detalhe-icone">▤</span>
+                            Descrição
+                        </h2>
+
+                        <p id="detalhe-descricao"
+                           class="detalhe-paragrafo"></p>
+                    </section>
+
+                    <!-- ENDEREÇO -->
+                    <section class="detalhe-painel">
+                        <h2>
+                            <span class="detalhe-icone">●</span>
+                            Informações da ocorrência
+                        </h2>
+
+                        <dl class="detalhe-lista">
+                            <div>
+                                <dt>Local</dt>
+                                <dd id="detalhe-local"></dd>
+                            </div>
+
+                            <div>
+                                <dt>Cidade</dt>
+                                <dd id="detalhe-cidade"></dd>
+                            </div>
+
+                            <div>
+                                <dt>CEP</dt>
+                                <dd id="detalhe-cep"></dd>
+                            </div>
+                        </dl>
+                    </section>
+                </div>
+
+                <!-- RESUMO LATERAL -->
+                <aside class="detalhe-painel detalhe-resumo"
+                       aria-label="Resumo da denúncia">
+
+                    <h2>
+                        <span class="detalhe-icone">✓</span>
+                        Acompanhamento
+                    </h2>
+
+                    <dl class="detalhe-lista">
+                        <div>
+                            <dt>Número</dt>
+                            <dd id="detalhe-numero"></dd>
+                        </div>
+
+                        <div>
+                            <dt>Situação</dt>
+                            <dd id="detalhe-status-info"></dd>
+                        </div>
+
+                        <div>
+                            <dt>Data da ocorrência</dt>
+                            <dd id="detalhe-data-info"></dd>
+                        </div>
+                    </dl>
+
+                    <p class="detalhe-ajuda">
+                        Os dados apresentados são referentes
+                        ao registro da denúncia.
+                    </p>
+                </aside>
+            </div>
+
+            <!-- COMENTÁRIOS -->
+            <section id="aba-comentarios"
+                     class="detalhe-painel detalhe-comentarios">
+
+                <h2>
+                    <span class="detalhe-icone">♧</span>
+                    Comentários
+                </h2>
+
+                <p class="detalhe-ajuda">
+                    Comentários são públicos e exibem o nome de
+                    quem comenta, mesmo em denúncias anônimas.
+                </p>
+
+                <p id="aviso-login"
+                   class="d-none detalhe-ajuda">
+                    Faça login para comentar.
+                    <a href="<?= $raiz ?>login">Entrar</a>
+                </p>
+
+                <!-- FORMULÁRIO -->
+                <form id="form-comentario">
+
+                    <label for="texto-comentario"
+                           class="visually-hidden">
+                        Escreva um comentário
+                    </label>
+
+                    <textarea
+                        id="texto-comentario"
+                        class="form-control"
+                        name="comentario"
+                        rows="3"
+                        maxlength="1000"
+                        placeholder="Escreva um comentário..."
+                        required></textarea>
+
+                    <div class="detalhe-acoes">
+                        <small id="contador-comentario">
+                            0/1000
+                        </small>
+
+                        <button type="submit"
+                                id="btn-comentar"
+                                class="detalhe-botao">
+                            ➤ Comentar
+                        </button>
+                    </div>
+                </form>
+
+                <div id="mensagem-comentario"
+                     class="alert d-none mt-3"
+                     role="alert"></div>
+
+                <!-- LISTA -->
+                <div id="lista-comentarios"
+                     class="detalhe-lista-comentarios"></div>
+
+                <p id="comentarios-vazio"
+                   class="detalhe-ajuda text-center mt-3">
+                    Nenhum comentário ainda. Seja o primeiro!
+                </p>
+
+                <!-- MODELO USADO PELO JAVASCRIPT -->
+                <template id="modelo-comentario">
+
+                    <article class="detalhe-comentario">
+
+                        <div class="detalhe-avatar"
+                             aria-hidden="true">
+                            ●
+                        </div>
+
+                        <div class="detalhe-comentario-corpo">
+
+                            <div class="detalhe-comentario-cabecalho">
+
+                                <strong data-campo="autor"></strong>
+
+                                <span class="detalhe-perfil"
+                                      data-campo="perfil">
+                                    Cidadão
+                                </span>
+
+                                <time data-campo="data"></time>
+                            </div>
+
+                            <p data-campo="texto"></p>
+                        </div>
+                    </article>
+                </template>
+            </section>
+
+        </article>
+    </div>
+</main>
+
+<script src="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+<script src="<?= $raiz ?>app/view/scripts/ver-denuncia.js"></script>
+
+</body>
+</html>

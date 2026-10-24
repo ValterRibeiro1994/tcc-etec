@@ -10,9 +10,11 @@ $raiz = $GLOBALS['raiz-app'];
 >>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< Updated upstream
     <link rel="stylesheet" href= "<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/geral.css">
@@ -20,9 +22,21 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/criar-denuncia.css">
   
     
+=======
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/criar-denuncia.css">
+
+
+>>>>>>> Stashed changes
     <title>RelateSBC</title>
 </head>
+
 <body>
+<<<<<<< Updated upstream
     
    <header class="navbar-header">
     <nav class="navbar">
@@ -48,25 +62,52 @@ $raiz = $GLOBALS['raiz-app'];
             </a>
             <a href="cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
                 Cadastre-se
+=======
+
+    <header class="navbar-header">
+        <nav class="navbar">
+            <a href="<?= $raiz ?>home" class="logo-link">
+                <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+>>>>>>> Stashed changes
             </a>
 
-            
-        </div>
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="#">Sobre</a></li>
+                <li class="nav-item"><a href="#">Dicas</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            </ul>
 
-        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
-            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
-        </div>
-        
+            <div class="nav-actions" id="convidado">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;"
+                    class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;"
+                    class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
 
-        <div class="mobile-menu-icon">
-            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
 
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg></i></button>
-        </div>
-    </nav>
+            </div>
 
-    <!-- MENU MOBILE -->
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+            </div>
+
+
+            <div class="mobile-menu-icon">
+                <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+                        <path fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                    </svg></i></button>
+            </div>
+        </nav>
+
+        <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
             <ul class="tabela-de-links">
@@ -77,6 +118,7 @@ $raiz = $GLOBALS['raiz-app'];
             </ul>
 
             <div class="nav-actions">
+<<<<<<< Updated upstream
               <a href="login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
                   Entrar
               </a>
@@ -88,10 +130,25 @@ $raiz = $GLOBALS['raiz-app'];
             <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
         </div>
                 
+=======
+                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;"
+                    class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;"
+                    class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+
+                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                    <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+                </div>
+
+>>>>>>> Stashed changes
             </div>
         </div>
 
-        
+
 
         <nav class="navbar-pagina-mobile">
             <button type="button" onclick="abrirSidebar()">
@@ -99,260 +156,235 @@ $raiz = $GLOBALS['raiz-app'];
             </button>
             <span>Mural de denúncias</span>
         </nav>
-  </header>
+    </header>
 
-<!--CONTEUDO-->
-  <main class="pagina-denuncia">
+    <!--CONTEUDO-->
+    <main class="pagina-denuncia">
 
-    <section class="formulario-denuncia">
+        <section class="formulario-denuncia">
 
-        <div class="cabecalho-formulario">
-            <div class="icone-denuncia">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
+            <div class="cabecalho-formulario">
+                <div class="icone-denuncia">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-edit">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
+
+                <div>
+                    <h1>Registrar uma denúncia</h1>
+                    <p>
+                        Informe os detalhes da ocorrência para que a equipe
+                        responsável possa analisar e tomar as providências necessárias.
+                    </p>
+                </div>
             </div>
 
-            <div>
-                <h1>Registrar uma denúncia</h1>
-                <p>
-                    Informe os detalhes da ocorrência para que a equipe
-                    responsável possa analisar e tomar as providências necessárias.
-                </p>
-            </div>
-        </div>
+            <!--FORMULARIO-->
+            <!-- ALTERADO: adicionado id="form-denuncia" e enctype (necessário para enviar a foto). O envio é feito pelo criar-denuncia.js -->
+            <form id="form-denuncia" enctype="multipart/form-data">
 
-        <!--FORMULARIO-->
-        <!-- ALTERADO: adicionado id="form-denuncia" e enctype (necessário para enviar a foto). O envio é feito pelo criar-denuncia.js -->
-        <form id="form-denuncia" enctype="multipart/form-data">
+                <!-- TÍTULO -->
+                <div class="campo-denuncia">
+                    <label for="titulo-denuncia">Título</label>
 
-            <!-- TÍTULO -->
-            <div class="campo-denuncia">
-                <label for="titulo-denuncia">Título</label>
-
-                <input  type="text"
-                        id="titulo-denuncia"
-                        name="titulo-denuncia"
-                        placeholder="Ex: Buraco na rua, poste caído, lixo acumulado..."
-                        required >
-            </div>
+                    <input type="text" id="titulo-denuncia" name="titulo-denuncia"
+                        placeholder="Ex: Buraco na rua, poste caído, lixo acumulado..." required>
+                </div>
 
 
-            <!-- DESCRIÇÃO -->
-            <div class="campo-denuncia">
-                <label for="descricao-denuncia">Descrição</label>
+                <!-- DESCRIÇÃO -->
+                <div class="campo-denuncia">
+                    <label for="descricao-denuncia">Descrição</label>
 
-                <textarea
-                    id="descricao-denuncia"
-                    name="descricao-denuncia"
-                    placeholder="Descreva o que está acontecendo com mais detalhes..."
-                    required
-                ></textarea>
-            </div>
+                    <textarea id="descricao-denuncia" name="descricao-denuncia"
+                        placeholder="Descreva o que está acontecendo com mais detalhes..." required></textarea>
+                </div>
 
 
-            <!-- ALTERADO: antes era "CATEGORIA E STATUS".
+                <!-- ALTERADO: antes era "CATEGORIA E STATUS".
                  - As categorias agora vêm da tabela tb_categoria (o criar-denuncia.js preenche o select),
                    pois o valor enviado precisa ser igual a nome_categoria (chave estrangeira).
                  - O campo STATUS foi removido: toda denúncia nova nasce como "pendente" (padrão do banco).
                  - O campo "Data da ocorrência" foi movido para esta linha. -->
-            <div class="linha">
+                <div class="linha">
 
-                <div class="campo-denuncia">
-                    <label for="categoria-denuncia">Categoria</label>
+                    <div class="campo-denuncia">
+                        <label for="categoria-denuncia">Categoria</label>
 
-                    <select id="categoria-denuncia" name="categoria-denuncia" required>
-                        <option value="" selected disabled>
-                            Carregando categorias...
-                        </option>
-                    </select>
-                </div>
+                        <select id="categoria-denuncia" name="categoria-denuncia" required>
+                            <option value="" selected disabled>
+                                Carregando categorias...
+                            </option>
+                        </select>
+                    </div>
 
-                <div class="campo-denuncia">
-                    <label for="data-denuncia">Data da ocorrência</label>
+                    <div class="campo-denuncia">
+                        <label for="data-denuncia">Data da ocorrência</label>
 
-                    <input
-                        type="date"
-                        id="data-denuncia"
-                        name="data-denuncia"
-                        required
-                    >
-                </div>
-
-            </div>
-
-
-            <!-- ENDEREÇO -->
-            <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
-                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
-                 Campos novos: rua-denuncia e complemento-denuncia. -->
-            <div class="linha">
-                <div class="campo-denuncia">
-                    <label for="estado-denuncia">Estado (UF)</label>
-
-                    <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
-                    <input
-                        type="text"
-                        id="estado-denuncia"
-                        name="estado-denuncia"
-                        placeholder="Ex: SP"
-                        maxlength="2"
-                        pattern="[A-Za-z]{2}"
-                        title="Informe a sigla do estado com 2 letras, por exemplo SP"
-                        required
-                    >
-                </div>
-            
-            
-                <div class="campo-denuncia">
-                    <label for="cidade-denuncia">Cidade</label>
-
-                    <input
-                        type="text"
-                        id="cidade-denuncia"
-                        name="cidade-denuncia"
-                        placeholder="Digite a cidade do local.."
-                        maxlength="50"
-                        required
-                    >
-                </div>
-            </div>
-
-            <!-- ADICIONADO: rua (parte do logradouro) -->
-            <div class="campo-denuncia">
-                <label for="rua-denuncia">Rua / Avenida</label>
-
-                <input
-                    type="text"
-                    id="rua-denuncia"
-                    name="rua-denuncia"
-                    placeholder="Ex: Rua das Flores"
-                    maxlength="100"
-                    required
-                >
-            </div>
-
-            <div class="linha">
-                <div class="campo-denuncia">
-                    <label for="numero-denuncia">Número</label>
-
-                    <input
-                        type="text"
-                        id="numero-denuncia"
-                        name="numero-denuncia"
-                        placeholder="Número do local (ou S/N)"
-                        maxlength="30"
-                        required
-                    >
-                </div>
-
-                <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
-                <div class="campo-denuncia">
-                    <label for="complemento-denuncia">Complemento (opcional)</label>
-
-                    <input
-                        type="text"
-                        id="complemento-denuncia"
-                        name="complemento-denuncia"
-                        placeholder="Ex: Apto 4, em frente ao mercado.."
-                        maxlength="100"
-                    >
-                </div>
-            </div>
-
-            <div class="linha">
-                <div class="campo-denuncia">
-                    <label for="bairro-denuncia">Bairro</label>
-
-                    <input
-                        type="text"
-                        id="bairro-denuncia"
-                        name="bairro-denuncia"
-                        placeholder="Digite o bairro do local.."
-                        maxlength="80"
-                        required
-                    >
-                </div>
-
-                <div class="campo-denuncia">
-                    <label for="cep-denuncia">CEP</label>
-
-                    <input
-                        type="text"
-                        id="cep-denuncia"
-                        name="cep-denuncia"
-                        placeholder="00000-000"
-                        maxlength="9"
-                        inputmode="numeric"
-                        required
-                    >
-                </div>
-            </div>
-
-            <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo criar-denuncia.js, só para conferência) -->
-            <div class="campo-denuncia">
-                <small style="color: #5b6b62;">
-                    Logradouro registrado:
-                    <strong id="previa-logradouro">preencha rua, número e bairro</strong>
-                </small>
-            </div>
-
-            <!-- FOTO -->
-            <div class="campo-denuncia">
-                <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
-                    Foto
-                </label>
-
-                <div class="upload-foto">
-
-                    <input
-                        type="file"
-                        id="foto-denuncia"
-                        name="foto-denuncia"
-                        accept="image/png, image/jpeg"
-                    >
-
-                    <div class="upload-conteudo">
-                        <div class="icone-upload">↑</div>
-
-                        <div>
-                            <strong>
-                                Clique para selecionar uma imagem
-                            </strong>
-
-                            <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
-                            <small id="foto-info">
-                                JPG ou PNG — tamanho máximo de 5MB
-                            </small>
-                        </div>
+                        <input type="date" id="data-denuncia" name="data-denuncia" required>
                     </div>
 
                 </div>
-            </div>
 
 
-            <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
-            <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
+                <!-- ENDEREÇO -->
+                <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
+                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
+                 Campos novos: rua-denuncia e complemento-denuncia. -->
+                <div class="linha">
+                    <div class="campo-denuncia">
+                        <label for="estado-denuncia">Estado (UF)</label>
 
-            <!-- BOTÃO -->
-            <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
-            <div class="linha linha-botoes">
-                <button type="submit" class="btn-enviar" id="btn-enviar">
-                    Enviar denúncia
-                </button>
-            
-                <button type="button" class="btn-cancelar" id="btn-cancelar">
-                    Cancelar
-                </button>
-            </div>
-        </form>
+                        <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
+                        <input type="text" id="estado-denuncia" name="estado-denuncia" placeholder="Ex: SP"
+                            maxlength="2" pattern="[A-Za-z]{2}"
+                            title="Informe a sigla do estado com 2 letras, por exemplo SP" required>
+                    </div>
 
-    </section>
 
-  </main>
+                    <div class="campo-denuncia">
+                        <label for="cidade-denuncia">Cidade</label>
 
+<<<<<<< Updated upstream
   <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
   <script src="../app/view/scripts/navbar.js"></script>
   <script src="../app/view/scripts/criar-denuncia.js"></script>
+=======
+                        <input type="text" id="cidade-denuncia" name="cidade-denuncia"
+                            placeholder="Digite a cidade do local.." maxlength="50" required>
+                    </div>
+                </div>
+
+                <!-- ADICIONADO: rua (parte do logradouro) -->
+                <div class="campo-denuncia">
+                    <label for="rua-denuncia">Rua / Avenida</label>
+
+                    <input type="text" id="rua-denuncia" name="rua-denuncia" placeholder="Ex: Rua das Flores"
+                        maxlength="100" required>
+                </div>
+
+                <div class="linha">
+                    <div class="campo-denuncia">
+                        <label for="numero-denuncia">Número</label>
+
+                        <input type="text" id="numero-denuncia" name="numero-denuncia"
+                            placeholder="Número do local (ou S/N)" maxlength="30" required>
+                    </div>
+
+                    <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
+                    <div class="campo-denuncia">
+                        <label for="complemento-denuncia">Complemento (opcional)</label>
+
+                        <input type="text" id="complemento-denuncia" name="complemento-denuncia"
+                            placeholder="Ex: Apto 4, em frente ao mercado.." maxlength="100">
+                    </div>
+                </div>
+
+                <div class="linha">
+                    <div class="campo-denuncia">
+                        <label for="bairro-denuncia">Bairro</label>
+
+                        <input type="text" id="bairro-denuncia" name="bairro-denuncia"
+                            placeholder="Digite o bairro do local.." maxlength="80" required>
+                    </div>
+
+                    <div class="campo-denuncia">
+                        <label for="cep-denuncia">CEP</label>
+
+                        <input type="text" id="cep-denuncia" name="cep-denuncia" placeholder="00000-000" maxlength="9"
+                            inputmode="numeric" required>
+                    </div>
+                </div>
+
+                <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo criar-denuncia.js, só para conferência) -->
+                <div class="campo-denuncia">
+                    <small style="color: #5b6b62;">
+                        Logradouro registrado:
+                        <strong id="previa-logradouro">preencha rua, número e bairro</strong>
+                    </small>
+                </div>
+
+                <!-- FOTO -->
+                <div class="campo-denuncia">
+                    <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
+                        Foto
+                    </label>
+
+                    <div class="upload-foto">
+
+                        <input type="file" id="foto-denuncia" name="foto-denuncia" accept="image/png, image/jpeg">
+
+                        <div class="upload-conteudo">
+                            <div class="icone-upload">↑</div>
+
+                            <div>
+                                <strong>
+                                    Clique para selecionar uma imagem
+                                </strong>
+
+                                <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
+                                <small id="foto-info">
+                                    JPG ou PNG — tamanho máximo de 5MB
+                                </small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- PRIVACIDADE DA DENÚNCIA -->
+                <div class="anonimato-opcao">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="anonima-denuncia" name="anonima-denuncia"
+                            value="1">
+
+                        <label class="form-check-label" for="anonima-denuncia">
+                            <strong>Publicar denúncia anonimamente</strong>
+                        </label>
+                    </div>
+
+                    <p>
+                        Ao ativar esta opção, seu nome não aparecerá
+                        no mural nem na página pública da denúncia.
+                    </p>
+
+                    <small>
+                        <i class="fa-solid fa-lock"></i>
+                        Sua conta continuará vinculada ao registro para
+                        que você possa acompanhar a denúncia.
+                        Esta escolha é permanente após a publicação.
+                    </small>
+                </div>
+                <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
+                <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
+
+                <!-- BOTÃO -->
+                <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
+                <div class="linha linha-botoes">
+                    <button type="submit" class="btn-enviar" id="btn-enviar">
+                        Enviar denúncia
+                    </button>
+
+                    <button type="button" class="btn-cancelar" id="btn-cancelar">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+    <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/criar-denuncia.js"></script>
+>>>>>>> Stashed changes
 
 </body>
+
 </html>
