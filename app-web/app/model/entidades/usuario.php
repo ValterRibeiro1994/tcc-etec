@@ -6,6 +6,7 @@ class Usuario {
     private Cpf $cpf;
     private Endereco $endereco;
     private Prefeitura $prefeitura;
+    private int $id;
 
 
     /**
@@ -56,7 +57,13 @@ class Usuario {
             );
         }
         $id = (int) $resposta['id'];
-        return $id;
+        $this->setId($id);
+        return $this->id;
+    }
+
+    public function setId(int $id){
+        if ($id <= 0) throw new Exception("Usuario: Id inválido");
+        $this->id = $id;
     }
     /**
      * OS DADOS PESSOAIS OBRIGATORIOS 
@@ -67,6 +74,10 @@ class Usuario {
     public function __construct(DadosPessoais $dados_usuario)
     {
         $this->dados_usuario = $dados_usuario;
+        $email = new Email($this->dados_usuario->getEmail());
+        if (!$email->validarEmail()){
+            throw new InvalidArgumentException("Cliente: Email inválido");
+        }
     }
 
     public function setDadosPessoais(DadosPessoais $dados_usuario){
@@ -165,7 +176,7 @@ class Usuario {
     */
     public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
         $perfis_com_endereco = ['municipe', 'representante'];
-        if (!$this->validarPerfil($perfis_com_endereco)) {
+        if (UtilService::perfilExiste($perfis_com_endereco, $this->getPerfil())) {
             $this->endereco = new Endereco(
                 cidade: null,
                 estado: null // não informado
@@ -314,20 +325,22 @@ class Usuario {
 
     public function getArray(){
         $perfis_autorizados = ['visitante', 'municipe', 'representante'];
-        if (!$this->validarPerfil($perfis_autorizados)){
+        if (!UtilService::perfilExiste($perfis_autorizados, $this->getPerfil())){
             return RespostaProcesso::resposta(
                 mensagem: "Perfil não autorizado para essa função", resposta: false
             );
         }
+
+        $dados_usuario = [
+            "nome"=>$this->getNome(),
+            "sobrenome"=>$this->getSobrenome(),
+            "email"=>$this->getEmail(),
+            "perfil"=>$this->getPerfil()
+        ];
         
+
         if ($this->getPerfil() == "visitante" || $this->getPerfil() == "municipe" || $this->getPerfil() == "representante" ){
             // padrão para o perfil de visitante
-            $dados_usuario = [
-                "nome"=>$this->getNome(),
-                "sobrenome"=>$this->getSobrenome(),
-                "email"=>$this->getEmail(),
-                "perfil"=>$this->getPerfil()
-            ];
         }
 
         if ($this->getPerfil() == "municipe" || $this->getPerfil() == "representante"){

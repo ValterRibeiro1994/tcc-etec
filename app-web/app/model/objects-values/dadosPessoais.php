@@ -11,13 +11,13 @@ class DadosPessoais {
         if ($perfil != null) $this->perfil = $perfil;
 
         $this->nome = new Nome();
-        if ($nome != null) $this->nome = $nome;
+        if ($nome != null) $this->setNome($nome);
 
         $this->sobrenome = new Sobrenome();
-        if ($sobrenome != null) $this->sobrenome = $sobrenome;
+        if ($sobrenome != null) $this->setSobrenome($sobrenome);
 
         $this->email = new Email();
-        if ($email != null) $this->email = $email;
+        if ($email != null) $this->setEmail($email);
     }
 
 
@@ -45,7 +45,7 @@ class DadosPessoais {
 
     public function getEmail(): string {
         if ($this->email == null){
-            $this->setEmail("visitante");
+            $this->setEmail("visitante@gmail.com");
         };
         return $this->email->getEmail();
     }
@@ -75,6 +75,11 @@ class DadosPessoais {
         if (is_string($email)){
             $email = new Email($email);
         }
+
+        if (!$email->validarEmail()){
+            throw new InvalidArgumentException("Cliente: Email invalido");
+        }
+
         $this->email = $email;
     }
 

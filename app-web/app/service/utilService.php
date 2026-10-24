@@ -15,29 +15,10 @@ class UtilService {
             throw new Exception("Service: Atributos obrigatorios não enviado");            
         }
 
-        // validamos o perfil
-        if (!self::perfilExiste(
-            perfis_validos: ['municipe', 'representante', 'visitante'],
-            perfil_recebido: $dados['perfil']
-            )
-        ) throw new Exception("Service: Perfil invalido");
-
         if ($dados['perfil'] == "visitante"){
             return new Usuario(new DadosPessoais());
         }
 
-        // como parte de  todo municipe ou representante cidade e estado são obrigatorios
-        $atributos = ['cidade', 'estado'];
-        if (!self::camposExistem($atributos, $dados)){
-            throw new Exception("Service: Atributo obrigatorio não enviado");
-        }
-
-        if ($dados['perfil'] == "representante"){
-            $atributos = ['orgao', 'cargo'];
-            if (!self::camposExistem($atributos, $dados)){
-                throw new Exception("Service: Atributo obrigatorio não enviado");
-            }
-        }
         
         $usuario = new Usuario(
             dados_usuario: new DadosPessoais(
@@ -48,14 +29,24 @@ class UtilService {
             )
         );
 
+        // como parte de  todo municipe ou representante cidade e estado são obrigatorios
+        $atributos = ['cidade', 'estado'];
+        if (!self::camposExistem($atributos, $dados)){
+            throw new Exception("Service: Atributo obrigatorio não enviado");
+        }
+
         $usuario->setEndereco(
-            new Endereco(
-                cidade: $dados['cidade'],
-                estado: $dados['estado']
+                endereco: new Endereco(
+                    cidade: $dados['cidade'],
+                    estado: $dados['estado']
             )
         );
 
         if ($dados['perfil'] == "representante"){
+            $atributos = ['orgao', 'cargo'];
+            if (!self::camposExistem($atributos, $dados)){
+                throw new Exception("Service: Atributo obrigatorio não enviado");
+            }
             $usuario->setPrefeitura(
                 new Prefeitura(
                     orgao: $dados['orgao'],
@@ -71,6 +62,10 @@ class UtilService {
 
         if (array_key_exists("cpf", $dados)){
             $usuario->setCpf($dados['cpf']);
+        }
+
+        if (array_key_exists("id", $dados)){
+            $usuario->setId((int) $dados['id']);
         }
 
         return $usuario;

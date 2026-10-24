@@ -74,7 +74,10 @@ class LoginController {
 
         // valida os dados recebidos pelo front-end
         $email = new Email($requisicao['email']);
+        $email->validarEmail();
+
         $senha = new Senha($requisicao['senha']);
+        $senha->validarSenha();
 
         // iniciar repositorio
         $repositorio = new UsuarioRepositorio(new Conexao());
@@ -97,31 +100,8 @@ class LoginController {
         }
 
         // cria um novo usuario com os dados recebidos
-        $usuario = new Usuario(
-            dados_usuario: new DadosPessoais(
-                perfil: new Perfil($usuario_db['perfil']),
-                nome: new Nome($usuario_db['nome']),
-                sobrenome: new Sobrenome($usuario_db['sobrenome']),
-                email: $email
-            ),
-        );
-
-        $usuario->setEndereco(
-            endereco: new Endereco(
-               cidade: $usuario_db['cidade'],
-               estado: $usuario_db['estado']
-            )
-        );
-
-        if ($usuario_db['perfil'] === "representante"){
-            $usuario->setPrefeitura(
-                prefeitura: new Prefeitura(
-                    orgao: $usuario_db['orgao'],
-                    cargo: $usuario_db['cargo']
-                )
-            );
-        }
-
+        $usuario = UtilService::criarUsuario($usuario_db);
+        
         // destroi a sessão de visitante
         SessaoService::destruirSessao();
 

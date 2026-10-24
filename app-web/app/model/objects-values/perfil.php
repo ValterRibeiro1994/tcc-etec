@@ -5,7 +5,7 @@ class Perfil {
     public function __construct(string $perfil = "visitante")
     {
         if (!$this->validarPerfil($perfil)){
-            throw new Exception("Perfil: Esse '$perfil' não foi indentificado");
+            throw new Exception("Perfil: Perfil não indentificado no sistema");
         }
         $this->perfil = $perfil;
 
@@ -16,7 +16,10 @@ class Perfil {
     }
 
     public function setPerfil(string $perfil){
-        if (!$this->validarPerfil($perfil)) throw new Exception("Perfil: Esse '$perfil' não foi indentificado");
+        if (!$this->validarPerfil($perfil)) {
+            throw new Exception("Perfil: Perfil não indentificado no sistema");
+        }
+        
         $this->perfil = $perfil;
     }
 
@@ -24,14 +27,12 @@ class Perfil {
         if (!ctype_alpha($perfil) && !is_string($perfil)){
             return false;
         }
-
+            
+        $perfil = mb_strtolower($perfil, "UTF-8");
         $perfis_autorizados = [
             "visitante", "municipe", "representante"
         ];
 
-        foreach ($perfis_autorizados as $perfil_usuario) {
-            if ($perfil == $perfil_usuario) return true;
-        }
-        return false;
+        return UtilService::perfilExiste($perfis_autorizados, $perfil);
     }
 }

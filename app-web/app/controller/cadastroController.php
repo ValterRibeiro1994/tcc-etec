@@ -16,7 +16,53 @@ class CadastroController {
                 mensagem:"Get realizado com sucesso", resposta: true, 
                 formato: "html", 
                 pagina: "app/view/paginas/selecionar-cadastro.html");
-            } 
+        }
+        
+        if ($requisicao['metodo'] == "POST"){
+            if (!array_key_exists("token", $requisicao)){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Token não enviado para cadastro", resposta: false,
+                    dados: $requisicao, formato: "json"
+                );
+            }
+
+            if (!array_key_exists("perfil", $requisicao)){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Perfil não enviado para cadastro", resposta: false,
+                    dados: $requisicao, formato: "json"
+                );
+            }
+
+            // extraia o payload do token
+            $resposta = TokenService::extrairPayload($requisicao['token']);
+            if (!$resposta['resposta']){
+                return RespostaProcesso::resposta(
+                    mensagem: $resposta['mensagem'], resposta: false,
+                    dados: $resposta['dados'], formato: "json"
+                );
+            }
+            $payload = $resposta['dados'];
+
+            if ($payload['perfil'] == "visitante" && $requisicao['perfil'] == "visitante"){
+                return $this->cadastrarUsuario($requisicao);
+            } else if ($payload['perfil'] == "municipe" && $requisicao['perfil'] == "municipe"){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Desenvolver processo para cadastro de denuncia", resposta: false,
+                    formato: "json"
+                );
+
+            } else if ($payload['perfil'] == "representante" && $requisicao['perfil'] == "representante"){
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Desenvolver processo para cadastro de resposta do representante", resposta: false,
+                    formato: "json"
+                );
+            } else {
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Erro ao autenticar usuario", resposta: false,
+                    dados: $requisicao, formato: "json"
+                );
+            }
+        }
         
         // envia json informando o erro para o front 
         throw new Exception("requisição invalida para cadastro");
@@ -96,16 +142,24 @@ class CadastroController {
             }
 
             $senha = new Senha($dados['senha']);
-            if (!$senha->validarSenha()){
+            $senha->validarSenha();
+
+            // garanta que o perfil não seja de um visitante
+            $perfil = new Perfil($dados['perfil']);
+            if ($dados['perfil'] == "visitante"){
                 return RespostaProcesso::resposta(
-                    mensagem: "Cliente: Senha invalida", resposta: false,
+                    mensagem: "Cliente: Perfil invalido para cadastro", resposta: false,
                     dados: $dados, formato: "json"
                 );
             }
 
+            $cpf = new Cpf($dados['cpf']);
+            $cpf->validarCpf();
+
+            $email = new Email($dados['email']);
+            $email->validarEmail();
+
             $usuario = UtilService::criarUsuario($dados);
-            // $usuario->setSenha($senha);
-            // $usuario->setCpf($dados['cpf']);
 
             // salva o usuario no banco
             $repositorio = new UsuarioRepositorio(new Conexao());
@@ -115,7 +169,6 @@ class CadastroController {
                 mensagem: "Controller: Cadastro realizado com sucesso", resposta: true,
                 formato: "json"
             );
-
 
         } catch (Exception $erro) {
             return RespostaProcesso::resposta(

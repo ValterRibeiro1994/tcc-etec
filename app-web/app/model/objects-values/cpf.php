@@ -4,16 +4,6 @@ class Cpf {
     private string $cpf;
 
     public function __construct(string $cpf) {
-
-        // limpar o cpf 
-        $cpf = $this->limparCaracteres($cpf);
-        
-        // validar o CPF
-        if (strlen($cpf) != 11) throw new Exception("CPF Invalido");
-        $this->validarCaracteresRepetidos($cpf);
-        $this->validarPrimeiroDigito($cpf);
-        $this->validarSegundoDigito($cpf);
-
         // salva o CPF
         $this->cpf = $cpf;
     }
@@ -22,8 +12,32 @@ class Cpf {
         return $this->cpf;
     }
 
+    public function setCpf(string $cpf){
+        $this->cpf = $cpf;
+    }
+
+    public function validarCpf(): void {
+        // limpa a mascara do cpf(pontos e traços)
+        $this->cpf = $this->limparCaracteres($this->cpf);
+
+        // confere a quantidade de numeros que ele possui
+        if (strlen($this->cpf) != 11){
+            throw new InvalidArgumentException("Cliente: CPF inválido");
+        }
+
+        // garanta que não sejam todos numericamente iguais
+        $this->validarCaracteresRepetidos($this->cpf);
+
+        // valida o primeiro digito
+        $this->validarPrimeiroDigito($this->cpf);
+
+        // valida o segundo digito
+        $this->validarSegundoDigito($this->cpf);
+
+    }
+
     private function validarCaracteresRepetidos(string $cpf): void {
-        if ($cpf === str_repeat($cpf[0], 11)) throw new Exception("CPF Invalido");
+        if ($cpf === str_repeat($cpf[0], 11)) throw new InvalidArgumentException("Cliente: CPF Invalido");
     }
 
     private function limparCaracteres(string $cpf): string {
@@ -50,7 +64,7 @@ class Cpf {
             $resto = 0;
         }
 
-        if ($resto != $cpf[9]) throw new Exception("CPF Invalido");
+        if ($resto != $cpf[9]) throw new InvalidArgumentException("Cliente: CPF Invalido");
     }
 
     private function validarSegundoDigito(string $cpf): void {
@@ -65,6 +79,6 @@ class Cpf {
             $resto = 0;
         }
 
-        if ($resto != $cpf[10]) throw new Exception("CPF Invalido");
+        if ($resto != $cpf[10]) throw new InvalidArgumentException("Cliente: CPF Invalido");
     }
 }

@@ -10,7 +10,7 @@ class Senha {
     public function validarSenha() {
         $senha = $this->senha;
         $n = strlen($senha);
-        if ($n < 8) throw new Exception("Cliente: Senha invalida");
+        if ($n < 8) throw new InvalidArgumentException("Cliente: Senha invalida");
         $maiuscula = false;
         $minuscula = false;
         $numero = false;
@@ -31,11 +31,12 @@ class Senha {
             else if (ctype_punct($letra)){
                 $caracteres = true;
             } else {
-                throw new Exception("Cliente: Senha inválida");
+                throw new InvalidArgumentException("Cliente: Senha inválida");
             }
             $n -= 1;
         }
-        return ($maiuscula && $minuscula && $numero && $caracteres);
+        $resposta = ($maiuscula && $minuscula && $numero && $caracteres);
+        if (!$resposta) throw new InvalidArgumentException("Cliente: Senha Invalida");
     }
 
     public function setSenha(string $senha = ""){
@@ -49,7 +50,7 @@ class Senha {
     public function hashSenha(){
         // valida a senha antes de realizar o hash
         if (!$this->validarSenha()){
-            throw new Exception("Cliente: Senha invalida");
+            throw new InvalidArgumentException("Cliente: Senha invalida");
         }
         // fator de custo menor para um processamento mais rapido
         $options = ['cost' => 10];

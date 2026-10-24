@@ -153,7 +153,7 @@ class TokenService {
                 mensagem: "Service: Token extraido com sucesso", resposta: true,
                 dados: (array) $decodificar
             );
-        } catch (ExpiredException $erro){
+        } catch (Exception $erro){
             return RespostaProcesso::resposta(
                 mensagem: "Service: Falha ao extrair payload", resposta: false,
                 dados: RespostaProcesso::salvarErro($erro)

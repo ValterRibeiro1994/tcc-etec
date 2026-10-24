@@ -101,11 +101,13 @@ class TokenController {
         if ($resposta['dados']['status'] == "expirado"){
             if ($usuario->getPerfil() != "visitante") {
                 $lembrar = true;
+                $expira = 86400;
             } else {
                 $lembrar = false;
+                $expira = $GLOBALS['tempo-sessao'];
             }
             // retorna um novo token 
-            $resposta =  TokenService::criarToken($usuario);
+            $resposta =  TokenService::criarToken($usuario, $expira);
             if ($resposta['resposta']){
                 SessaoService::registrarUsuario($usuario, $lembrar);
             } else {

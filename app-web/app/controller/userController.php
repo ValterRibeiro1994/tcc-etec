@@ -4,91 +4,91 @@ class UserController {
 
 
     private function validarSessao(array $requisicao){
-            if (!SessaoService::estaOnline()){
-                // visitante não pode ter acesso ao dados de um perfil de usuario
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Serviço disponivel apenas para usuario cadastrados", resposta: false,
-                    formato: "json"
-                );
-            }
-
-            // captura o tokem do cliente
-            if (!array_key_exists("token", $requisicao)){
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Token não enviado", resposta: false,
-                    formato: "json"
-                );
-            }
-
-            $resposta = TokenService::validarToken($requisicao['token']);
-            if (!$resposta['resposta']){
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Token invalido", resposta: false,
-                    dados: $resposta['dados'], formato: "json"
-                );
-            }
-
-            // extraia o payload do token recebido
-            $resposta = TokenService::extrairPayload($requisicao['token']);
-            if (!$resposta['resposta']){
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Erro ao extrair payload", resposta: false,
-                    dados: $resposta['dados'], formato: "json"
-                );
-            }
-
-            $payload = $resposta['dados'];
-            // checa se o payload possui todos os campos obrigatorios
-            $atributos = ['perfil', 'nome', 'sobrenome', 'email'];
-            if (!UtilService::camposExistem($atributos, $payload)){
-                // o token é invalido e pode ter sido alterado
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Token inválido", resposta: false,
-                    formato: "json"
-                );
-            }
-
-            // garanta que todos os atributos sejam validos
-            if (!UtilService::perfilExiste(perfis_validos: ['municipe', 'representante', 'visitante'], perfil_recebido: $payload['perfil'])){
-                // o perfil enviado no token não existe no sistema
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Token invalido", resposta: false,
-                    formato: "json"
-                );
-            }
-
-            // se o perfil for de um visitante ou algo fora do sistema, o token é invalido
-            if ($payload['perfil'] == "visitante"){
-                return RespostaProcesso::resposta(
-                    mensagem: "Controller: Token de visitante", resposta: false,
-                    formato: "json"
-                );
-            }
-
-            // sabemos que até aqui já foi descartada a tentativa de um visitante
-            $atributo[] = "cidade";
-            $atributos[] = "estado";
-
-            if ($payload['perfil'] == "representante"){
-                $atributos[] = 'orgao';
-                $atributos[] = 'cargo';
-            }
-
-            // compara os dados do payload com o da sessão
-            foreach($atributos as $atributo){
-                if ($payload[$atributo] != SessaoService::obterAtributoUsuario($atributo)){
-                    // os mesmos dados de sessão são passados para o token, algum deles foi alterado
-                    return RespostaProcesso::resposta(
-                        mensagem: "Controller: Token invalido", resposta: false,
-                        formato: "json"
-                    );
-                }
-            }
-
+        if (!SessaoService::estaOnline()){
+            // visitante não pode ter acesso ao dados de um perfil de usuario
             return RespostaProcesso::resposta(
-                mensagem: "Controller: Sessão valida", resposta: true,
-                dados:['payload'=>$payload]
+                mensagem: "Controller: Serviço disponivel apenas para usuario cadastrados", resposta: false,
+                formato: "json"
             );
+        }
+
+        // captura o tokem do cliente
+        if (!array_key_exists("token", $requisicao)){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Token não enviado", resposta: false,
+                formato: "json"
+            );
+        }
+
+        $resposta = TokenService::validarToken($requisicao['token']);
+        if (!$resposta['resposta']){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Token invalido", resposta: false,
+                dados: $resposta['dados'], formato: "json"
+            );
+        }
+
+        // extraia o payload do token recebido
+        $resposta = TokenService::extrairPayload($requisicao['token']);
+        if (!$resposta['resposta']){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Erro ao extrair payload", resposta: false,
+                dados: $resposta['dados'], formato: "json"
+            );
+        }
+
+        $payload = $resposta['dados'];
+        // checa se o payload possui todos os campos obrigatorios
+        $atributos = ['perfil', 'nome', 'sobrenome', 'email'];
+        if (!UtilService::camposExistem($atributos, $payload)){
+            // o token é invalido e pode ter sido alterado
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Token inválido", resposta: false,
+                formato: "json"
+            );
+        }
+
+        // garanta que todos os atributos sejam validos
+        if (!UtilService::perfilExiste(perfis_validos: ['municipe', 'representante', 'visitante'], perfil_recebido: $payload['perfil'])){
+            // o perfil enviado no token não existe no sistema
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Token invalido", resposta: false,
+                formato: "json"
+            );
+        }
+
+        // se o perfil for de um visitante ou algo fora do sistema, o token é invalido
+        if ($payload['perfil'] == "visitante"){
+            return RespostaProcesso::resposta(
+                mensagem: "Controller: Token de visitante", resposta: false,
+                formato: "json"
+            );
+        }
+
+        // sabemos que até aqui já foi descartada a tentativa de um visitante
+        $atributo[] = "cidade";
+        $atributos[] = "estado";
+
+        if ($payload['perfil'] == "representante"){
+            $atributos[] = 'orgao';
+            $atributos[] = 'cargo';
+        }
+
+        // compara os dados do payload com o da sessão
+        foreach($atributos as $atributo){
+            if ($payload[$atributo] != SessaoService::obterAtributoUsuario($atributo)){
+                // os mesmos dados de sessão são passados para o token, algum deles foi alterado
+                return RespostaProcesso::resposta(
+                    mensagem: "Controller: Token invalido", resposta: false,
+                    formato: "json"
+                );
+            }
+        }
+
+        return RespostaProcesso::resposta(
+            mensagem: "Controller: Sessão valida", resposta: true,
+            dados:['payload'=>$payload]
+        );
     }
     
     public function index(array $requisicao){
@@ -140,7 +140,7 @@ class UserController {
             $resposta = [
                 'usuario'=>$usuario->getArray()['dados'],
                 'denuncias'=>$denuncias
-                ];
+            ];
             
             return RespostaProcesso::resposta(
                 mensagem: "Controller: Dados de perfil carregados com sucesso", resposta: true,
@@ -164,7 +164,7 @@ class UserController {
             return $resposta;
         }
 
-    return RespostaProcesso::resposta("Requisição inválida para logout");
+        return RespostaProcesso::resposta("Requisição inválida para logout");
     }
 
     public function municipe(array $requisicao){
