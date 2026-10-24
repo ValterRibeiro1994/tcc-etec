@@ -19,6 +19,7 @@ class CadastroController {
         }
         
         if ($requisicao['metodo'] == "POST"){
+            $requisicao = json_decode(file_get_contents('php://input'), true);
             if (!array_key_exists("token", $requisicao)){
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Token não enviado para cadastro", resposta: false,
@@ -132,7 +133,6 @@ class CadastroController {
         }
 
         try {
-
             // valida as senhas
             if ($dados['senha'] !== $dados['confirmar-senha']){
                 return RespostaProcesso::resposta(
@@ -146,6 +146,8 @@ class CadastroController {
 
             // garanta que o perfil não seja de um visitante
             $perfil = new Perfil($dados['perfil']);
+            $perfil->validarPerfil();
+
             if ($dados['perfil'] == "visitante"){
                 return RespostaProcesso::resposta(
                     mensagem: "Cliente: Perfil invalido para cadastro", resposta: false,

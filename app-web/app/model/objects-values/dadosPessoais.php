@@ -75,18 +75,8 @@ class DadosPessoais {
         if (is_string($email)){
             $email = new Email($email);
         }
-
-        if (!$email->validarEmail()){
-            throw new InvalidArgumentException("Cliente: Email invalido");
-        }
-
         $this->email = $email;
     }
 
-    // public function setCpf(Cpf|string $cpf): void {
-    //     if (is_string($cpf)){
-    //         $cpf = new Cpf($cpf);
-    //     }
-    //     $this->cpf = $cpf;
-    // }
+
 }

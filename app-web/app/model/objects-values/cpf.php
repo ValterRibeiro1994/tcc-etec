@@ -5,7 +5,7 @@ class Cpf {
 
     public function __construct(string $cpf) {
         // salva o CPF
-        $this->cpf = $cpf;
+        $this->cpf = $this->limparCaracteres($cpf);
     }
 
     public function getCpf(): string {

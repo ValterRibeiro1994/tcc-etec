@@ -120,6 +120,7 @@ class UserController {
 
             $resposta = $this->validarSessao($requisicao);
             if (!$resposta['resposta']) return $resposta;
+            
             $payload = $resposta['dados']['payload'];
             // podemos criar o usuario 
             $usuario = UtilService::criarUsuario($payload);

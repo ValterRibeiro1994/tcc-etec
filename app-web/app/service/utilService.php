@@ -10,16 +10,15 @@ class UtilService {
 
     public static function criarUsuario(array $dados){
         // como parte de todo usuario os campos abaixos são obrigatorios em todo processo
-        $atributos = ['perfil', 'nome', 'sobrenome', 'email'];
-        if (!self::camposExistem($atributos, $dados)){
-            throw new Exception("Service: Atributos obrigatorios não enviado");            
+        if (array_key_exists("perfil", $dados)){
+            if ($dados['perfil'] == "visitante"){
+                return new Usuario(new DadosPessoais());
+            }
         }
-
-        if ($dados['perfil'] == "visitante"){
-            return new Usuario(new DadosPessoais());
-        }
-
         
+        $atributos = ['perfil', 'nome', 'sobrenome', 'email'];
+        self::camposExistem($atributos, $dados);
+
         $usuario = new Usuario(
             dados_usuario: new DadosPessoais(
                 perfil: new Perfil($dados['perfil']),
@@ -31,9 +30,7 @@ class UtilService {
 
         // como parte de  todo municipe ou representante cidade e estado são obrigatorios
         $atributos = ['cidade', 'estado'];
-        if (!self::camposExistem($atributos, $dados)){
-            throw new Exception("Service: Atributo obrigatorio não enviado");
-        }
+        self::camposExistem($atributos, $dados);
 
         $usuario->setEndereco(
                 endereco: new Endereco(
@@ -44,9 +41,8 @@ class UtilService {
 
         if ($dados['perfil'] == "representante"){
             $atributos = ['orgao', 'cargo'];
-            if (!self::camposExistem($atributos, $dados)){
-                throw new Exception("Service: Atributo obrigatorio não enviado");
-            }
+            self::camposExistem($atributos, $dados);
+
             $usuario->setPrefeitura(
                 new Prefeitura(
                     orgao: $dados['orgao'],
@@ -72,8 +68,8 @@ class UtilService {
     }
 
     public static function camposExistem(array $chaves, array $dados){
-        foreach($chaves as $chave){
-            if (!array_key_exists($chave, $dados)) return false;
+        foreach($chaves as $chave){;
+            if (!array_key_exists($chave, $dados)) throw new InvalidArgumentException("Chave '$chave' não enviada");
         }
         return true;
     }

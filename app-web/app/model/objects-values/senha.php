@@ -35,6 +35,7 @@ class Senha {
             }
             $n -= 1;
         }
+
         $resposta = ($maiuscula && $minuscula && $numero && $caracteres);
         if (!$resposta) throw new InvalidArgumentException("Cliente: Senha Invalida");
     }
@@ -48,10 +49,6 @@ class Senha {
     }
 
     public function hashSenha(){
-        // valida a senha antes de realizar o hash
-        if (!$this->validarSenha()){
-            throw new InvalidArgumentException("Cliente: Senha invalida");
-        }
         // fator de custo menor para um processamento mais rapido
         $options = ['cost' => 10];
         return password_hash($this->senha, PASSWORD_BCRYPT, $options);

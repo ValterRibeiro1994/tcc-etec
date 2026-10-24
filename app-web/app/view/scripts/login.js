@@ -101,6 +101,8 @@ function prepararFormulario(form) {
     const campos_esperados = ['email', 'senha', 'lembrar'];
     const dados = new FormData(form);
     dados.append("metodo", "POST");
+    dados.append("perfil", "visitante");
+    dados.append("token", localStorage.getItem("token"));
 
     if (dados.get("lembrar") == null) {
         dados.append("lembrar", "false");

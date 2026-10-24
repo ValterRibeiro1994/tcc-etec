@@ -105,6 +105,8 @@ class UsuarioRepositorio {
                 );
             }
             
+            // adiciona o email na resposta
+            $resposta['email'] = $email;
             return RespostaProcesso::resposta(
                 mensagem: "Database: Usuario localizado com sucesso", resposta: true,
                 dados: $resposta
@@ -117,10 +119,6 @@ class UsuarioRepositorio {
         } finally {
             $this->pdo = null;
         }
-    }
-
-    public function obterId(string $email){
-
     }
 
 }

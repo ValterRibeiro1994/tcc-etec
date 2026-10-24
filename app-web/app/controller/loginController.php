@@ -101,7 +101,7 @@ class LoginController {
 
         // cria um novo usuario com os dados recebidos
         $usuario = UtilService::criarUsuario($usuario_db);
-        
+
         // destroi a sessão de visitante
         SessaoService::destruirSessao();
 

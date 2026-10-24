@@ -74,10 +74,6 @@ class Usuario {
     public function __construct(DadosPessoais $dados_usuario)
     {
         $this->dados_usuario = $dados_usuario;
-        $email = new Email($this->dados_usuario->getEmail());
-        if (!$email->validarEmail()){
-            throw new InvalidArgumentException("Cliente: Email inválido");
-        }
     }
 
     public function setDadosPessoais(DadosPessoais $dados_usuario){
@@ -176,57 +172,19 @@ class Usuario {
     */
     public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
         $perfis_com_endereco = ['municipe', 'representante'];
-        if (UtilService::perfilExiste($perfis_com_endereco, $this->getPerfil())) {
+        if (!UtilService::perfilExiste($perfis_com_endereco, $this->getPerfil())) { // visitante
             $this->endereco = new Endereco(
-                cidade: null,
-                estado: null // não informado
+                cidade: "visitante",
+                estado: "NI" // não informado
             );
-        } else {
-            // o endereço foi criado?
-            if ($endereco != null){// sim
-                // o estado foi enviado?
-                if ($cidade != null){
-                    $endereco->setCidade($cidade);
-                }
-
-                // a cidade foi enviada
-                if ($estado != null) {
-                    $endereco->setEstado($estado);
-                }
-
-                // salva o endereço
-                $this->endereco = $endereco;
-            } else {// não
-                // ja temos um endereço salvo?
-                if (!$this->endereco == null){ // não
-                    // cria um novo endereço
-                    $endereco = new Endereco();
-
-                    // a cidade foi enviada
-                    if ($cidade != null){
-                        $endereco->setCidade($cidade);
-                    }
-
-                    // o estado foi enviado?
-                    if ($estado != null){
-                        $endereco->setEstado($estado);
-                    }
-
-                    // salva o endereço
-                    $this->endereco = $endereco;
-                } else {// sim
-                    // a cidade foi enviada
-                    if ($cidade != null){
-                        $this->endereco->setCidade($cidade);
-                    }
-
-                    // o estado foi enviado?
-                    if ($estado != null){
-                        $this->endereco->setEstado($estado);
-                    }
-                }
-            }
+            return;
         }
+
+        if ($endereco != null) $this->endereco = $endereco;
+        if ($this->endereco == null) $this->endereco = new Endereco();
+        if ($cidade != null) $this->endereco->setCidade($cidade);
+        if ($estado != null) $this->endereco->setEstado($estado);
+        
     }
 
     public function getEndereco(): Endereco {

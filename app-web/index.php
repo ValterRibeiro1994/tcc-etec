@@ -27,6 +27,7 @@ try {
 } catch (Exception $erro) {
     $dados = RespostaProcesso::salvarErro($erro);
     $resposta = RespostaProcesso::resposta($dados['mensagem'], false, $dados);
+    header("Content-type: application/json; charset=utf-8");
     echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit();
 }

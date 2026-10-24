@@ -6,7 +6,7 @@
 */
 
 const DEBUG = true;
-
+const RAIZ = "../app-web/";
 // função para desconectar 
 async function desconectar() {
      // se não existe um token ou um perfil, desconecte o usuario
@@ -42,7 +42,7 @@ async function obterDados() {
         dados_post.append("cargo", localStorage.getItem("cargo"));
     }
 
-    let servidor = await fetch("./user", {
+    let servidor = await fetch(RAIZ + "user", {
         method: "POST",
         body: dados_post
     });
@@ -62,14 +62,14 @@ if (!perfil || !token){
     await desconectar();
     localStorage.clear();
     alert("Faça login antes de acessar seu perfil");
-    window.location.href = "../login";
+    window.location.href = RAIZ + "login";
 }
 
 //solicita os dados de perfil para o servidor
 if (perfil == "visitante"){
     // redireciona o visitante, essa não é area dele
     alert("Faça login antes de acessar um perfil");
-    window.location.href = "../login";
+    window.location.href = RAIZ + "login";
 }
 
 // obtem os dados do usuario e de denuncias do usuario
@@ -83,10 +83,18 @@ if (dados.resposta){
        console.log("\n-> Resposta : " + JSON.stringify(dados.dados));
        console.log("\n-> Dados usuario: " + JSON.stringify(dados.dados.usuario));
        console.log("\n-> Dados denuncia: " + JSON.stringify(dados.dados.denuncias));
+       console.log("\n\n\t\t--- LISTANDO DADOS ---\n\n");
     }
 
     // armazena os dados do usuario no localstorage
+    
     let dados_usuario = dados.dados.usuario;
+    if (DEBUG){
+        console.log("\tListando dados de usuario\n");
+        if (dados_usuario.length == 0){
+            console.log("Lista de usuario vazia");
+        }
+    }
     Object.entries(dados_usuario).forEach(([chave, valor]) => {
         if (DEBUG){
             console.log(`Chave: "${chave}": Valor: "${valor}"`);
@@ -95,6 +103,13 @@ if (dados.resposta){
     })
 
     let dados_denuncias = dados.dados.denuncias;
+    if (DEBUG){
+        console.log("\tListando dados de denuncias\n");
+        if (dados_denuncias.length == 0){
+            console.log("Lista de denuncias vazia");
+        }
+    }
+    
     if (dados_denuncias.length > 0){
         Object.entries(dados_denuncias).forEach(([chave, valor]) => {
             if (DEBUG){
