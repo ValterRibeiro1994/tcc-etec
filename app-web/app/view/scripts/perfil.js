@@ -6,7 +6,7 @@
 */
 
 const DEBUG = true;
-const RAIZ = "../app-web/";
+const RAIZ = new URL("../../../", import.meta.url).pathname; // resolve localhost e hospedagem sem duplicar /app-web/
 // função para desconectar 
 async function desconectar() {
      // se não existe um token ou um perfil, desconecte o usuario
@@ -135,7 +135,7 @@ if (dados.resposta){
     'use strict';
 
     // Lido agora (durante a execução do script) para montar as URLs corretamente
-    const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
+    const SRC_DO_SCRIPT = import.meta.url; // Em módulos, document.currentScript é null.
 
     // Raiz do projeto: app/view/scripts/perfil.js -> ../../../
     function urlApp(rota) {
@@ -276,49 +276,91 @@ if (dados.resposta){
         // texto usado pela caixa "Pesquisar"
         linha.dataset.busca = (denuncia.titulo + ' ' + denuncia.local + ' ' + denuncia.categoria + ' ' + denuncia.descricao).toLowerCase();
         linha.dataset.idDenuncia = denuncia.id;
+        linha.dataset.descricaoCompleta = denuncia.descricao || '';
+        if (denuncia.removivel === false) {
+            const botao = linha.querySelector('[data-acao="remover"]');
+            if (botao) { botao.disabled = true; botao.title = 'Não é possível remover denúncias concluídas'; }
+        }
 
         return linha;
     }
 
-    async function carregarDenuncias() {
+    let paginaPerfil = 1;
+    let sequenciaPerfil = 0;
+
+    async function carregarDenuncias(pagina = 1) {
         if (!elLista || !elModelo) return;
-
+        const requisicao = ++sequenciaPerfil;
+        mostrarMensagem('Carregando suas denúncias...');
+        const parametros = new URLSearchParams({
+            pagina: String(pagina), busca: elBusca?.value.trim() || ''
+        });
         try {
-            const json = await buscarJson('denuncia/minhas');
-
-            if (!json.resposta) {
-                console.error('Erro ao listar denúncias do perfil:', json);
-                mostrarMensagem(json.mensagem || 'Não foi possível carregar as suas denúncias.', true);
-                return;
-            }
-
-            const denuncias = json.dados || [];
-            elLista.innerHTML = '';
-
-            if (denuncias.length === 0) {
-                mostrarMensagem('Você ainda não registrou nenhuma denúncia.');
-                return;
-            }
-
+            const json = await buscarJson('denuncia/minhas?' + parametros);
+            if (requisicao !== sequenciaPerfil) return;
+            if (!json.resposta) throw new Error(json.mensagem || 'Erro ao consultar');
+            paginaPerfil = json.paginacao.pagina;
+            elLista.replaceChildren();
             const fragmento = document.createDocumentFragment();
-            denuncias.forEach(function (denuncia) { fragmento.appendChild(montarLinha(denuncia)); });
+            (json.dados || []).forEach(d => fragmento.appendChild(montarLinha(d)));
             elLista.appendChild(fragmento);
+            mostrarMensagem(json.dados.length ? '' : 'Nenhuma denúncia encontrada.');
+            RelatePaginacao.mostrar('paginacao-perfil', json.paginacao,
+                paginaNova => carregarDenuncias(paginaNova)
+            );
         } catch (erro) {
-            console.error('Erro de rede ao carregar as denúncias do perfil:', erro);
-            mostrarMensagem('Erro de conexão ao carregar as suas denúncias.');
+            if (requisicao !== sequenciaPerfil) return;
+            console.error('Erro ao carregar denúncias do perfil:', erro);
+            mostrarMensagem('Não foi possível carregar suas denúncias.');
         }
     }
 
-    /* ---------- Pesquisar (filtra a lista já carregada) ---------- */
-
-    if (elBusca) {
-        elBusca.addEventListener('input', function () {
-            const termo = elBusca.value.trim().toLowerCase();
-            elLista.querySelectorAll('li').forEach(function (linha) {
-                linha.style.display = (!termo || (linha.dataset.busca || '').indexOf(termo) !== -1) ? '' : 'none';
+    async function removerDenuncia(linha, botao) {
+        const titulo = linha.querySelector('[data-campo="titulo"]')?.textContent || '';
+        if (!confirm(`Deseja realmente remover a denúncia "${titulo}"?`)) return;
+        const corpo = new FormData();
+        corpo.append('metodo','POST');
+        corpo.append('id-denuncia',linha.dataset.idDenuncia);
+        botao.disabled = true;
+        try {
+            const resposta = await fetch(urlApp('denuncia/remover'), {
+                method:'POST', headers:{Authorization: token}, body:corpo
             });
+            const texto = await resposta.text();
+            let json;
+            try { json = JSON.parse(texto); }
+            catch (erro) { console.error('Resposta PHP não JSON:', texto); throw new Error('Resposta inválida do servidor'); }
+            if (!json.resposta) throw new Error(json.mensagem || 'Erro ao remover');
+            await carregarDenuncias(paginaPerfil);
+        } catch(erro) {
+            alert(erro.message || 'Erro ao remover a denúncia.');
+            botao.disabled = false;
+        }
+    }
+
+    if (elLista) {
+        elLista.addEventListener('click', evento => {
+            const linha = evento.target.closest('li[data-id-denuncia]');
+            if (!linha) return;
+            const botao = evento.target.closest('[data-acao]');
+            if (botao?.disabled) return;
+            const id = encodeURIComponent(linha.dataset.idDenuncia);
+            if (!botao || botao.dataset.acao === 'ver-mais') {
+                window.location.href = urlApp('denuncia/ver?id=' + id);
+            } else if (botao.dataset.acao === 'editar') {
+                window.location.href = urlApp('denuncia/editar?id=' + id);
+            } else if (botao.dataset.acao === 'remover') {
+                removerDenuncia(linha,botao);
+            }
         });
     }
+
+    // Busca em TODAS as páginas (filtro SQL), com debounce.
+    let atrasoPesquisa;
+    if (elBusca) elBusca.addEventListener('input', () => {
+        clearTimeout(atrasoPesquisa);
+        atrasoPesquisa = setTimeout(() => carregarDenuncias(1),260);
+    });
 
     if (btnNova) {
         btnNova.addEventListener('click', function () {

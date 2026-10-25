@@ -1,0 +1,370 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['raiz-app'];
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="stylesheet" href= "<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/home-mural.css">
+    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/criar-denuncia.css">
+  
+    
+    <title>RelateSBC - Editar denúncia</title>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+</head>
+<body>
+    
+   <header class="navbar-header">
+        <nav class="navbar">
+            <a href="<?= $raiz ?>home" class="logo-link">
+                <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+            </a>
+
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
+            </ul>
+
+            <div class="nav-actions" id="convidado">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                    Entrar
+                </a>
+                    <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                    Cadastre-se
+                </a>
+            </div>
+
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+            </div>
+        
+
+            <div class="mobile-menu-icon">
+                <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"   class="bi bi-list" viewBox="0 0 16 16">
+
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg></i></button>
+            </div>
+        </nav>
+
+        <!-- MENU MOBILE -->
+
+        <div class="mobile-menu">
+            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                  Entrar
+                </a>
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                  Cadastre-se
+                </a>
+                
+                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                    <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </header>
+
+<!--CONTEUDO-->
+  <main class="pagina-denuncia">
+
+    <section class="formulario-denuncia">
+
+        <div class="cabecalho-formulario">
+            <div class="icone-denuncia">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+            </div>
+
+            <div>
+                <h1>Editar denúncia</h1>
+                <p>
+                    Corrija as informações da sua denúncia ou atualize o status.
+                </p>
+            </div>
+        </div>
+
+        <!--FORMULARIO-->
+        <!-- ADICIONADO: página de edição, copiada do criar-denuncia.html. Os campos e ids são os mesmos;
+             quem preenche e envia o formulário é o editar-denuncia.js -->
+        <form id="form-denuncia" enctype="multipart/form-data">
+
+            <!-- ADICIONADO: id da denúncia que está sendo editada (o editar-denuncia.js preenche com o ?id= da URL) -->
+            <input type="hidden" id="id-denuncia" name="id-denuncia" value="">
+
+            <!-- TÍTULO -->
+            <div class="campo-denuncia">
+                <label for="titulo-denuncia">Título</label>
+
+                <input  type="text"
+                        id="titulo-denuncia"
+                        name="titulo-denuncia"
+                        placeholder="Ex: Buraco na rua, poste caído, lixo acumulado..."
+                        required >
+            </div>
+
+
+            <!-- DESCRIÇÃO -->
+            <div class="campo-denuncia">
+                <label for="descricao-denuncia">Descrição</label>
+
+                <textarea
+                    id="descricao-denuncia"
+                    name="descricao-denuncia"
+                    placeholder="Descreva o que está acontecendo com mais detalhes..."
+                    required
+                ></textarea>
+            </div>
+
+
+            <!-- ALTERADO: antes era "CATEGORIA E STATUS".
+                 - As categorias agora vêm da tabela tb_categoria (o editar-denuncia.js preenche o select),
+                   pois o valor enviado precisa ser igual a nome_categoria (chave estrangeira).
+                 - O campo STATUS foi removido: toda denúncia nova nasce como "pendente" (padrão do banco).
+                 - O campo "Data da ocorrência" foi movido para esta linha. -->
+            <div class="linha">
+
+                <div class="campo-denuncia">
+                    <label for="categoria-denuncia">Categoria</label>
+
+                    <select id="categoria-denuncia" name="categoria-denuncia" required>
+                        <option value="" selected disabled>
+                            Carregando categorias...
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo-denuncia">
+                    <label for="data-denuncia">Data da ocorrência</label>
+                    <input
+                        type="date"
+                        id="data-denuncia"
+                        name="data-denuncia"
+                        readonly
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="status-denuncia">Status</label>
+
+                    <select id="status-denuncia" name="status-denuncia" required>
+                        <option value="pendente">Pendente</option>
+                        <option value="em analise">Em análise</option>
+                        <option value="em andamento">Em andamento</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- ENDEREÇO -->
+            <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
+                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
+                 Campos novos: rua-denuncia e complemento-denuncia. -->
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="estado-denuncia">Estado (UF)</label>
+
+                    <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
+                    <input
+                        type="text"
+                        id="estado-denuncia"
+                        name="estado-denuncia"
+                        placeholder="Ex: SP"
+                        maxlength="2"
+                        pattern="[A-Za-z]{2}"
+                        title="Informe a sigla do estado com 2 letras, por exemplo SP"
+                        required
+                    >
+                </div>
+            
+            
+                <div class="campo-denuncia">
+                    <label for="cidade-denuncia">Cidade</label>
+
+                    <input
+                        type="text"
+                        id="cidade-denuncia"
+                        name="cidade-denuncia"
+                        placeholder="Digite a cidade do local.."
+                        maxlength="50"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- ADICIONADO: rua (parte do logradouro) -->
+            <div class="campo-denuncia">
+                <label for="rua-denuncia">Rua / Avenida</label>
+
+                <input
+                    type="text"
+                    id="rua-denuncia"
+                    name="rua-denuncia"
+                    placeholder="Ex: Rua das Flores"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="numero-denuncia">Número</label>
+
+                    <input
+                        type="text"
+                        id="numero-denuncia"
+                        name="numero-denuncia"
+                        placeholder="Número do local (ou S/N)"
+                        maxlength="30"
+                        required
+                    >
+                </div>
+
+                <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
+                <div class="campo-denuncia">
+                    <label for="complemento-denuncia">Complemento (opcional)</label>
+
+                    <input
+                        type="text"
+                        id="complemento-denuncia"
+                        name="complemento-denuncia"
+                        placeholder="Ex: Apto 4, em frente ao mercado.."
+                        maxlength="100"
+                    >
+                </div>
+            </div>
+
+            <div class="linha">
+                <div class="campo-denuncia">
+                    <label for="bairro-denuncia">Bairro</label>
+
+                    <input
+                        type="text"
+                        id="bairro-denuncia"
+                        name="bairro-denuncia"
+                        placeholder="Digite o bairro do local.."
+                        maxlength="80"
+                        required
+                    >
+                </div>
+
+                <div class="campo-denuncia">
+                    <label for="cep-denuncia">CEP</label>
+
+                    <input
+                        type="text"
+                        id="cep-denuncia"
+                        name="cep-denuncia"
+                        placeholder="00000-000"
+                        maxlength="9"
+                        inputmode="numeric"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo editar-denuncia.js, só para conferência) -->
+            <div class="campo-denuncia">
+                <small style="color: #5b6b62;">
+                    Logradouro registrado:
+                    <strong id="previa-logradouro">preencha rua, número e bairro</strong>
+                </small>
+            </div>
+
+            <!-- FOTO -->
+            <div class="campo-denuncia">
+                <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
+                    Foto
+                </label>
+
+                <!-- ADICIONADO: mostra a foto que já está gravada (o editar-denuncia.js preenche e exibe).
+                     Se nenhuma foto nova for escolhida, a atual é mantida. -->
+                <div id="foto-atual" class="mb-2 d-none">
+                    <img id="foto-atual-img" alt="Foto atual da denúncia" style="max-width: 100%; max-height: 180px; border-radius: 8px;">
+                    <small class="d-block" style="color: #5b6b62;">Foto atual — escolha outra abaixo apenas se quiser substituí-la.</small>
+                </div>
+
+                <div class="upload-foto">
+
+                    <input
+                        type="file"
+                        id="foto-denuncia"
+                        name="foto-denuncia"
+                        accept="image/png, image/jpeg"
+                    >
+
+                    <div class="upload-conteudo">
+                        <div class="icone-upload">↑</div>
+
+                        <div>
+                            <strong>
+                                Clique para selecionar uma imagem
+                            </strong>
+
+                            <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
+                            <small id="foto-info">
+                                JPG ou PNG — tamanho máximo de 5MB
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo editar-denuncia.js -->
+            <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
+
+            <!-- BOTÃO -->
+            <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
+            <div class="linha linha-botoes">
+                <!-- ALTERADO: texto do botão (era "Enviar denúncia") -->
+                <button type="submit" class="btn-enviar" id="btn-enviar">
+                    Salvar alterações
+                </button>
+            
+                <button type="button" class="btn-cancelar" id="btn-cancelar">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+
+    </section>
+
+  </main>
+
+  <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
+  <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+  <script src="<?= $raiz ?>app/view/scripts/editar-denuncia.js"></script>
+
+</body>
+</html>

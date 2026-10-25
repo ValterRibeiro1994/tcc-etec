@@ -11,6 +11,7 @@ $raiz = $GLOBALS['raiz-app'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/paginacao.css">
     <title>RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
@@ -165,6 +166,7 @@ $raiz = $GLOBALS['raiz-app'];
 
     <!-- Lista de denúncias -->
     <ul class="list-group list-group-flush d-flex" id="lista-denuncias-perfil"></ul>
+    <nav id="paginacao-perfil" class="paginacao-relate" aria-label="Paginação do perfil"></nav>
 
     <template id="modelo-denuncia-perfil">
       <li class="list-group-item d-flex flex-wrap align-items-center py-3">
@@ -178,9 +180,9 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
         <div class="text-muted small text-center" style="min-width:90px;" data-campo="data">Data</div>
         <div class="d-flex gap-3">
-          <button class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
-          <button class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
-          <button class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
+          <button type="button" data-acao="editar" class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
+          <button type="button" data-acao="remover" class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
+          <button type="button" data-acao="ver-mais" class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
         </div>
       </li>
     </template>
@@ -256,6 +258,7 @@ $raiz = $GLOBALS['raiz-app'];
     
 <!-- ADICIONADO: navbar.js (menu mobile e botão Sair) e perfil.js (dados do usuário + denúncias dele) -->
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
     <script type="module" src="<?= $raiz ?>app/view/scripts/perfil.js"></script>
 
 </body>

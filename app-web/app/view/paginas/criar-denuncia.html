@@ -326,6 +326,17 @@ $raiz = $GLOBALS['raiz-app'];
             </div>
 
 
+            <!-- Denúncia anônima: definida somente ao registrar, imutável na edição. -->
+            <div class="anonimato-opcao">
+                <label for="anonima-denuncia">
+                    <input type="checkbox" id="anonima-denuncia" name="anonima-denuncia" value="1">
+                    <strong>Publicar denúncia anonimamente</strong>
+                </label>
+                <p>Seu nome não aparecerá no mural nem nos detalhes públicos.
+                   Sua conta continuará vinculada para acompanhamento.
+                   Essa escolha não pode ser alterada após o envio.</p>
+            </div>
+
             <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
             <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
 

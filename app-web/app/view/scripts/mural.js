@@ -106,6 +106,40 @@
         }
     }
 
+    // Expansão: navega para a denúncia com estado do mural preservado.
+    let paginaMural = 1;
+    let paginaMinhas = 1;
+    function irParaDetalhe(id) {
+        const area = document.querySelector('.conteudo-principal');
+        const ativa = document.querySelector('.conteudo-principal .tela.ativa');
+        const estado = {
+            pagina: ativa?.id.replace('tela-', '') || 'mural',
+            paginaMural, paginaMinhas,
+            rolagem: area?.scrollTop || 0,
+            busca: campoBusca?.value || '',
+            categoria: selCategoria?.value || '',
+            bairro: selBairro?.value || '',
+            status: selStatusMural?.value || '',
+            filtroMinhas: filtroAtual,
+            filtrosExtras: !!(painelExtras && !painelExtras.classList.contains('d-none'))
+        };
+        try { sessionStorage.setItem('mural-retorno', JSON.stringify(estado)); }
+        catch (erro) { console.warn('Não foi possível salvar retorno do mural:', erro); }
+        window.location.href = urlApp('denuncia/ver?id=' + encodeURIComponent(id));
+    }
+
+    async function enviarPost(rota, token, dados) {
+        const corpo = new FormData();
+        corpo.append('metodo', 'POST');
+        Object.entries(dados).forEach(([chave, valor]) => corpo.append(chave, valor));
+        const resposta = await fetch(urlApp(rota), {
+            method: 'POST', credentials: 'same-origin', headers: { Authorization: token }, body: corpo
+        });
+        const texto = await resposta.text();
+        try { return JSON.parse(texto); }
+        catch (erro) { console.error('Resposta inválida:', texto); throw new Error('Resposta inválida do servidor'); }
+    }
+
     // ALTERADO: o link "perfil" leva para a página de perfil, e só se estiver logado
     function irParaPerfil() {
         if (!lerToken()) {
@@ -175,6 +209,9 @@
 
         card.dataset.idDenuncia = denuncia.id;
         card.style.display = '';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'link');
+        card.setAttribute('aria-label', 'Abrir denúncia: ' + denuncia.titulo);
 
         // textContent (e não innerHTML) evita injeção de HTML vindo do banco
         titulo.textContent    = denuncia.titulo;
@@ -201,49 +238,69 @@
         badge.textContent = info.texto;
         status.appendChild(badge);
         card.dataset.categoria = denuncia.categoria || '';
-        card.dataset.bairro    = bairroDoLocal(denuncia.local);
+        card.dataset.bairro    = denuncia.bairro || bairroDoLocal(denuncia.local);
         card.dataset.status    = info.filtro || '';
         card.dataset.busca     = normalizarTexto([denuncia.titulo, denuncia.categoria, denuncia.local, denuncia.autor].join(' '));
         return card;
     }
 
-    async function carregarMural() {
+    // Cards funcionam com mouse e teclado (Enter/Espaço).
+    const gradeMural = document.getElementById('grid-denuncias');
+    if (gradeMural) {
+        function abrirCard(evento) {
+            const card = evento.target.closest('.card[data-id-denuncia]');
+            if (!card || !gradeMural.contains(card)) return;
+            irParaDetalhe(card.dataset.idDenuncia);
+        }
+        gradeMural.addEventListener('click', abrirCard);
+        gradeMural.addEventListener('keydown', evento => {
+            if (evento.key === 'Enter' || evento.key === ' ') {
+                evento.preventDefault();
+                abrirCard(evento);
+            }
+        });
+    }
+
+    let modeloCardMural = null;
+    let sequenciaMural = 0;
+    async function carregarMural(pagina = 1) {
         const grade = document.getElementById('grid-denuncias');
-        const modelo = document.getElementById('card-mural');
-        if (!grade || !modelo) return;
-
-        // O card de exemplo vira só um modelo: sai da tela e é copiado para cada denúncia.
-        const copiaModelo = modelo.cloneNode(true);
-        modelo.remove();
-
+        if (!grade) return;
+        if (!modeloCardMural) {
+            const original = document.getElementById('card-mural');
+            if (!original) return;
+            modeloCardMural = original.cloneNode(true);
+            original.remove();
+        }
+        const requisicao = ++sequenciaMural;
         mostrarMensagemMural('Carregando denúncias...');
-
+        const parametros = new URLSearchParams({
+            pagina: String(pagina), busca: campoBusca?.value || '',
+            categoria: selCategoria?.value || '', bairro: selBairro?.value || '',
+            status: selStatusMural?.value || ''
+        });
         try {
-            const json = await buscarJson('denuncia/listar');
-
-            if (!json.resposta) {
-                console.error('Erro ao listar denúncias:', json);
-                mostrarMensagemMural('Não foi possível carregar as denúncias agora. Tente novamente mais tarde.');
-                return;
-            }
-
+            const json = await buscarJson('denuncia/listar?' + parametros);
+            if (requisicao !== sequenciaMural) return;
+            if (!json.resposta) throw new Error(json.mensagem || 'Falha ao consultar denúncias');
+            paginaMural = json.paginacao.pagina;
             const denuncias = json.dados || [];
-            if (denuncias.length === 0) {
-                mostrarMensagemMural('Nenhuma denúncia registrada ainda.');
-                return;
-            }
-
-            mostrarMensagemMural('');
-            preencherOpcoes(selCategoria, denuncias.map(function (d) { return d.categoria; }));
-            preencherOpcoes(selBairro, denuncias.map(function (d) { return bairroDoLocal(d.local); }));
+            preencherOpcoes(selCategoria, json.opcoes?.categorias || []);
+            preencherOpcoes(selBairro, json.opcoes?.bairros || []);
+            grade.replaceChildren();
             const fragmento = document.createDocumentFragment();
-            denuncias.forEach(function (denuncia) {
-                fragmento.appendChild(montarCard(copiaModelo, denuncia));
-            });
+            denuncias.forEach(d => fragmento.appendChild(montarCard(modeloCardMural, d)));
             grade.appendChild(fragmento);
+            mostrarMensagemMural(denuncias.length ? '' : 'Nenhuma denúncia encontrada.');
+            RelatePaginacao.mostrar('paginacao-mural', json.paginacao,
+                novaPagina => carregarMural(novaPagina).then(() => {
+                    document.querySelector('.conteudo-principal')?.scrollTo({top:0,behavior:'smooth'});
+                })
+            );
         } catch (erro) {
-            console.error('Erro de rede ao carregar o mural:', erro);
-            mostrarMensagemMural('Erro de conexão ao carregar as denúncias.');
+            if (requisicao !== sequenciaMural) return;
+            console.error('Erro ao carregar mural:', erro);
+            mostrarMensagemMural('Não foi possível carregar as denúncias.');
         }
     }
 
@@ -259,62 +316,34 @@
     const painelExtras   = document.getElementById('filtros-extras');
     const btnLimpar      = document.getElementById('btn-limpar-filtros');
 
-    // Mantém só a 1ª opção ("Todas as...") e cria as outras, sem repetir e em ordem alfabética
+    // Filtros do mural são enviados ao banco; seleção preservada ao repopular.
     function preencherOpcoes(select, valores) {
         if (!select) return;
+        const anterior = select.value;
         while (select.options.length > 1) select.remove(1);
-
-        Array.from(new Set(valores.filter(Boolean)))
-            .sort(function (a, b) { return a.localeCompare(b, 'pt-BR'); })
-            .forEach(function (valor) { select.add(new Option(valor, valor)); });
+        [...new Set(valores.filter(Boolean))].sort((a,b) => a.localeCompare(b,'pt-BR'))
+            .forEach(valor => select.add(new Option(valor,valor)));
+        if (anterior && ![...select.options].some(o => o.value === anterior))
+            select.add(new Option(anterior, anterior));
+        select.value = anterior;
     }
-
-    // Lê os 4 filtros e mostra/esconde cada card do mural
-    function aplicarFiltrosMural() {
-        const cards     = document.querySelectorAll('#grid-denuncias .card');
-        const busca     = normalizarTexto(campoBusca ? campoBusca.value : '');
-        const categoria = selCategoria ? selCategoria.value : '';
-        const bairro    = selBairro ? selBairro.value : '';
-        const status    = selStatusMural ? selStatusMural.value : '';
-        let visiveis = 0;
-
-        cards.forEach(function (card) {
-            const mostrar =
-                (busca === ''     || card.dataset.busca.includes(busca)) &&
-                (categoria === '' || card.dataset.categoria === categoria) &&
-                (bairro === ''    || card.dataset.bairro === bairro) &&
-                (status === ''    || card.dataset.status === status);
-
-            card.style.display = mostrar ? '' : 'none';
-            if (mostrar) visiveis++;
-        });
-
-        if (cards.length > 0) {
-            mostrarMensagemMural(visiveis === 0 ? 'Nenhuma denúncia encontrada com esses filtros.' : '');
-        }
-    }
-
-    if (campoBusca) campoBusca.addEventListener('input', aplicarFiltrosMural);
-
-    [selCategoria, selBairro, selStatusMural].forEach(function (select) {
+    function aplicarFiltrosMural() { return carregarMural(1); }
+    let atrasoBusca;
+    if (campoBusca) campoBusca.addEventListener('input', () => {
+        clearTimeout(atrasoBusca);
+        atrasoBusca = setTimeout(aplicarFiltrosMural, 260);
+    });
+    [selCategoria,selBairro,selStatusMural].forEach(select => {
         if (select) select.addEventListener('change', aplicarFiltrosMural);
     });
-
-    if (btnMaisFiltros && painelExtras) {
-        btnMaisFiltros.addEventListener('click', function () {
-            painelExtras.classList.toggle('d-none');
-        });
-    }
-
-    if (btnLimpar) {
-        btnLimpar.addEventListener('click', function () {
-            if (campoBusca) campoBusca.value = '';
-            [selCategoria, selBairro, selStatusMural].forEach(function (select) {
-                if (select) select.value = '';
-            });
-            aplicarFiltrosMural();
-        });
-    }
+    if (btnMaisFiltros && painelExtras) btnMaisFiltros.addEventListener('click', () => {
+        painelExtras.classList.toggle('d-none');
+    });
+    if (btnLimpar) btnLimpar.addEventListener('click', () => {
+        if (campoBusca) campoBusca.value = '';
+        [selCategoria,selBairro,selStatusMural].forEach(select => { if (select) select.value=''; });
+        aplicarFiltrosMural();
+    });
 
     let filtroAtual = 'todas';
 
@@ -338,18 +367,13 @@
         if (elemento) elemento.textContent = valor;
     }
 
-    // Números do resumo (Concluídas / Em andamento / Em análise / Pendentes)
-    function atualizarResumo(denuncias) {
-        const contagem = { concluida: 0, andamento: 0, analise: 0, pendente: 0 };
-        denuncias.forEach(function (denuncia) {
-            const info = STATUS[denuncia.status];
-            if (info) contagem[info.filtro]++;
-        });
-
-        definirTexto('resumo-concluidas', contagem.concluida);
-        definirTexto('resumo-andamento', contagem.andamento);
-        definirTexto('resumo-analise', contagem.analise);
-        definirTexto('resumo-pendentes', contagem.pendente);
+    // Contagem é feita no banco (COUNT/GROUP BY), nunca apenas com as 10 linhas.
+    function atualizarResumo(resumo = {}) {
+        definirTexto('resumo-concluidas', resumo.concluida ?? 0);
+        definirTexto('resumo-andamento', resumo.andamento ?? 0);
+        definirTexto('resumo-analise', resumo.analise ?? 0);
+        definirTexto('resumo-pendentes', resumo.pendente ?? 0);
+        definirTexto('total-minhas', resumo.total ?? 0);
     }
 
     function resumirTexto(texto, maximo) {
@@ -366,6 +390,12 @@
         item.dataset.status = info.filtro; // a cor da borda/etiqueta vem do CSS por esse atributo
         item.dataset.idDenuncia = denuncia.id;
         item.dataset.descricaoCompleta = denuncia.descricao || '';
+        item.tabIndex = 0;
+        item.setAttribute('role','link');
+        if (denuncia.removivel === false) {
+            const remover = item.querySelector('[data-acao="remover"]');
+            if (remover) { remover.disabled = true; remover.title = 'Denúncia concluída não pode ser removida'; }
+        }
 
         campo('titulo').textContent    = denuncia.titulo;
         campo('descricao').textContent = resumirTexto(denuncia.descricao, 110);
@@ -376,124 +406,115 @@
         return item;
     }
 
-    // Mostra/esconde os itens conforme o chip escolhido. Calcula na hora do clique,
-    // porque os itens são criados depois que a página carrega.
-    function aplicarFiltro() {
-        const itens = document.querySelectorAll('#lista-minhas-denuncias .denuncia-item');
-        let visiveis = 0;
-
-        itens.forEach(function (item) {
-            const mostrar = filtroAtual === 'todas' || item.dataset.status === filtroAtual;
-            item.style.display = mostrar ? '' : 'none';
-            if (mostrar) visiveis++;
-        });
-
-        if (itens.length > 0) {
-            mostrarMensagemMinhas(visiveis === 0 ? 'Nenhuma denúncia com este status.' : '');
-        }
-    }
-
-    document.querySelectorAll('.filtro-chip').forEach(function (chip) {
-        chip.addEventListener('click', function () {
-            document.querySelectorAll('.filtro-chip').forEach(function (c) { c.classList.remove('ativo'); });
-            chip.classList.add('ativo');
+    // Filtros e ações: a consulta abrange todas as denúncias do usuário.
+    function aplicarFiltro() { return carregarMinhasDenuncias(1); }
+    document.querySelectorAll('.filtro-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('.filtro-chip').forEach(c => c.classList.toggle('ativo',c===chip));
             filtroAtual = chip.dataset.filtro;
             aplicarFiltro();
         });
     });
-
     const listaMinhas = document.getElementById('lista-minhas-denuncias');
     if (listaMinhas) {
-        listaMinhas.addEventListener('click', function (evento) {
+        listaMinhas.addEventListener('click', evento => {
             const botao = evento.target.closest('[data-acao]');
-            if (!botao) return;
-
-            const item = botao.closest('.denuncia-item');
-
-            if (botao.dataset.acao === 'ver-mais') {
-                const texto = item.querySelector('[data-campo="descricao"]');
-                const aberto = item.dataset.expandido === 'sim';
-                texto.textContent = aberto ? resumirTexto(item.dataset.descricaoCompleta, 110) : item.dataset.descricaoCompleta;
-                item.dataset.expandido = aberto ? 'nao' : 'sim';
-                botao.textContent = aberto ? 'Ver mais' : 'Ver menos';
-                return;
+            const item = evento.target.closest('.denuncia-item[data-id-denuncia]');
+            if (!item) return;
+            if (!botao || botao.dataset.acao === 'ver-mais') {
+                irParaDetalhe(item.dataset.idDenuncia);
+            } else if (botao.dataset.acao === 'editar') {
+                window.location.href = urlApp('denuncia/editar?id='+encodeURIComponent(item.dataset.idDenuncia));
+            } else if (botao.dataset.acao === 'remover' && !botao.disabled) {
+                removerDenuncia(item,botao);
             }
-
-            // Editar e Remover: o servidor ainda não tem essas rotas (denuncia/editar e denuncia/remover)
-            alert('Esta função ainda não está disponível.');
         });
     }
-
-    async function carregarMinhasDenuncias() {
+    async function removerDenuncia(item, botao) {
+        const token = lerToken();
+        if (!token) { irParaLogin('Faça login para remover uma denúncia.'); return; }
+        const titulo = item.querySelector('[data-campo="titulo"]')?.textContent || '';
+        if (!confirm(`Deseja realmente remover a denúncia "${titulo}"?`)) return;
+        botao.disabled = true;
+        try {
+            const json = await enviarPost('denuncia/remover',token,{'id-denuncia':item.dataset.idDenuncia});
+            if (!json.resposta) throw new Error(json.mensagem || 'Não foi possível remover');
+            await Promise.all([carregarMinhasDenuncias(paginaMinhas), carregarMural(paginaMural)]);
+        } catch (erro) {
+            alert(erro.message || 'Erro ao remover denúncia.');
+            botao.disabled = false;
+        }
+    }
+    let sequenciaMinhas = 0;
+    async function carregarMinhasDenuncias(pagina=1) {
         const lista = document.getElementById('lista-minhas-denuncias');
         const modelo = document.getElementById('modelo-minha-denuncia');
         if (!lista || !modelo) return;
-
-        const token = lerToken();
+        const token=lerToken();
         if (!token) {
-            atualizarResumo([]);
-            mostrarMensagemMinhas('Faça login para ver as suas denúncias.', true);
+            atualizarResumo(); lista.replaceChildren();
+            mostrarMensagemMinhas('Faça login para ver as suas denúncias.',true);
+            RelatePaginacao.mostrar('paginacao-minhas',null,()=>{});
             return;
         }
-
+        const requisicao=++sequenciaMinhas;
         mostrarMensagemMinhas('Carregando suas denúncias...');
-
+        const params=new URLSearchParams({pagina:String(pagina), status:filtroAtual==='todas'?'':filtroAtual});
         try {
-            const json = await buscarJson('denuncia/minhas', token);
-
-            if (!json.resposta) {
-                console.error('Erro ao listar minhas denúncias:', json);
-                atualizarResumo([]);
-                mostrarMensagemMinhas(json.mensagem || 'Não foi possível carregar as suas denúncias.', true);
-                return;
-            }
-
-            const denuncias = json.dados || [];
-            lista.innerHTML = '';
-            atualizarResumo(denuncias);
-
-            if (denuncias.length === 0) {
-                mostrarMensagemMinhas('Você ainda não registrou nenhuma denúncia.');
-                return;
-            }
-
-            mostrarMensagemMinhas('');
-
-            const fragmento = document.createDocumentFragment();
-            denuncias.forEach(function (denuncia) {
-                fragmento.appendChild(montarItemMinhaDenuncia(modelo, denuncia));
-            });
+            const json=await buscarJson('denuncia/minhas?'+params,token);
+            if(requisicao!==sequenciaMinhas)return;
+            if(!json.resposta)throw new Error(json.mensagem||'Falha ao consultar suas denúncias');
+            paginaMinhas=json.paginacao.pagina;
+            atualizarResumo(json.resumo);
+            lista.replaceChildren();
+            const fragmento=document.createDocumentFragment();
+            (json.dados||[]).forEach(d => fragmento.appendChild(montarItemMinhaDenuncia(modelo,d)));
             lista.appendChild(fragmento);
-            aplicarFiltro();
-        } catch (erro) {
-            console.error('Erro de rede ao carregar minhas denúncias:', erro);
-            mostrarMensagemMinhas('Erro de conexão ao carregar as suas denúncias.');
+            mostrarMensagemMinhas(json.dados.length?'':'Nenhuma denúncia encontrada neste filtro.');
+            RelatePaginacao.mostrar('paginacao-minhas',json.paginacao,
+                n => carregarMinhasDenuncias(n).then(()=>document.querySelector('.conteudo-principal')?.scrollTo({top:0,behavior:'smooth'})));
+        }catch(erro){
+            if(requisicao!==sequenciaMinhas)return;
+            console.error('Erro ao carregar minhas denúncias:',erro);
+            mostrarMensagemMinhas('Não foi possível carregar suas denúncias.');
         }
     }
 
     /* ---------- Início ---------- */
 
     document.addEventListener('DOMContentLoaded', function () {
-        function atualizarBotoesDoTopo() {
         const logado = !!lerToken();
-
-        document.querySelectorAll('#btn-entrar, #btn-cadastro').forEach(function (botao) {
-            botao.style.display = logado ? 'none' : '';
-        });
-        document.querySelectorAll('#usuario-logado').forEach(function (bloco) {
-            bloco.style.display = logado ? '' : 'none';
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        atualizarBotoesDoTopo(); // ADICIONADO
-        mostrarPagina('mural');
-        carregarMural();
-        carregarMinhasDenuncias();
-    });
-        mostrarPagina('mural');
-        carregarMural();
-        carregarMinhasDenuncias();
+        document.querySelectorAll('#btn-entrar, #btn-cadastro').forEach(
+            botao => botao.style.display = logado ? 'none' : '');
+        document.querySelectorAll('#usuario-logado').forEach(
+            bloco => bloco.style.display = logado ? '' : 'none');
+        let retorno=null;
+        try {
+            retorno=JSON.parse(sessionStorage.getItem('mural-retorno')||'null');
+            sessionStorage.removeItem('mural-retorno');
+        }catch(erro){console.warn('Estado de navegação inválido:',erro);}
+        if(retorno){
+            if(campoBusca)campoBusca.value=retorno.busca||'';
+            function selecionar(select,valor){
+                if(!select||!valor)return;
+                if(![...select.options].some(o=>o.value===valor))select.add(new Option(valor,valor));
+                select.value=valor;
+            }
+            selecionar(selCategoria,retorno.categoria);
+            selecionar(selBairro,retorno.bairro);
+            selecionar(selStatusMural,retorno.status);
+            filtroAtual=retorno.filtroMinhas||'todas';
+            document.querySelectorAll('.filtro-chip').forEach(
+                chip=>chip.classList.toggle('ativo',chip.dataset.filtro===filtroAtual));
+            if(painelExtras)painelExtras.classList.toggle('d-none',!retorno.filtrosExtras);
+        }
+        mostrarPagina(retorno?.pagina || 'mural');
+        Promise.all([carregarMural(retorno?.paginaMural||1),carregarMinhasDenuncias(retorno?.paginaMinhas||1)])
+            .then(()=>{
+                if(!retorno)return;
+                const area=document.querySelector('.conteudo-principal');
+                requestAnimationFrame(()=>{ if(area)area.scrollTop=Number(retorno.rolagem)||0; });
+            });
     });
 })();
 

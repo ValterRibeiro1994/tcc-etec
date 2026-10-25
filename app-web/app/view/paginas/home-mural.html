@@ -23,6 +23,7 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/paginacao.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 
   
@@ -242,6 +243,7 @@ $raiz = $GLOBALS['raiz-app'];
             </div>
 
             <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+            <nav id="paginacao-mural" class="paginacao-relate" aria-label="Paginação do mural"></nav>
     </section>
         <!-- MINHAS DENÚNCIAS -->
     
@@ -279,6 +281,8 @@ $raiz = $GLOBALS['raiz-app'];
             <p id="minhas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
 
         <div class="lista-denuncias" id="lista-minhas-denuncias"></div>
+        <p class="text-secondary small mt-3">Total de denúncias registradas: <strong id="total-minhas">0</strong></p>
+        <nav id="paginacao-minhas" class="paginacao-relate" aria-label="Paginação das minhas denúncias"></nav>
 
         <template id="modelo-minha-denuncia">
             <article class="denuncia-item" data-status="pendente">
@@ -694,6 +698,7 @@ $raiz = $GLOBALS['raiz-app'];
 </main>
     
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/configuracoes.js"></script>
     
