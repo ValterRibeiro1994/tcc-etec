@@ -4,10 +4,17 @@ html, body{
     margin: 0;
     padding: 0;
     height: 100%;
-
+ 
 }
-
-
+ 
+/* body cresce com o conteúdo (min-height em vez de height fixo):
+   senão a navbar fixa (sticky) só acompanha a primeira tela */
+body{
+    height: auto;
+    min-height: 100%;
+}
+ 
+ 
 body{
     display: grid;
     grid-template-columns: 1fr;
@@ -26,6 +33,11 @@ main{
 footer{
     grid-area: footer;
 }
+ 
+ 
+ 
+ 
+ 
 
 
 

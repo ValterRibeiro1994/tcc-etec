@@ -78,6 +78,13 @@ class TesteController {
             formato: "html", pagina: "app/view/paginas/informacoes-legais.html"
         );
     }
+
+    public function contato(array $requisicao){
+        return RespostaProcesso::resposta(
+            mensagem: "nome da pagina", resposta: true, 
+            formato: "html", pagina: "app/view/paginas/fale-conosco.html"
+        );
+    }
     
 
 

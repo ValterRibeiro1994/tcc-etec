@@ -1,0 +1,185 @@
+<?php $raiz = $GLOBALS['raiz-app']; ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        try {
+            if (localStorage.getItem('tema') === 'escuro') {
+                document.documentElement.setAttribute('data-tema', 'escuro');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/fale-conosco.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+    <title>Fale conosco | RelateSBC</title>
+</head>
+<body>
+
+<header class="navbar-header">
+    <nav class="navbar">
+        <a href="<?= $raiz ?>home" class="logo-link">
+            <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item active"><a href="<?= $raiz ?>home">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
+        </ul>
+
+        <div class="nav-actions" id="convidado">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">Entrar</a>
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">Cadastre-se</a>
+        </div>
+
+        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height: fit-content;">
+            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
+        </div>
+
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></svg></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <ul class="tabela-de-links">
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">Entrar</a>
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">Cadastre-se</a>
+            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height: fit-content;">
+                <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="contato">
+
+    <!-- TOPO -->
+    <section class="contato-topo">
+        <div class="contato-container">
+            <span class="contato-etiqueta">Fale conosco</span>
+            <h1>Como podemos ajudar?</h1>
+            <p>Envie sua dúvida, sugestão ou conte um problema no site. Respondemos o mais breve possível.</p>
+        </div>
+    </section>
+
+    <section class="contato-container contato-grade">
+
+        <!-- FORMULÁRIO -->
+        <form class="contato-card" id="form-contato" novalidate>
+
+            <div class="contato-card-topo">
+                <span class="contato-card-icone">
+                    <svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                </span>
+                <div>
+                    <h2>Envie uma mensagem</h2>
+                    <p class="contato-desc">Os campos com * são obrigatórios.</p>
+                </div>
+            </div>
+
+            <div class="contato-campos">
+                <div>
+                    <label class="form-label" for="contato-nome">Nome *</label>
+                    <input class="form-control" type="text" id="contato-nome" maxlength="100" autocomplete="name" placeholder="Seu nome">
+                </div>
+                <div>
+                    <label class="form-label" for="contato-email">E-mail *</label>
+                    <input class="form-control" type="email" id="contato-email" maxlength="150" autocomplete="email" placeholder="voce@exemplo.com">
+                </div>
+            </div>
+
+            <div class="contato-campo">
+                <span class="form-label" id="rotulo-tipo">Qual o motivo do contato? *</span>
+                <div class="contato-tipos" role="radiogroup" aria-labelledby="rotulo-tipo">
+                    <label class="contato-tipo"><input type="radio" name="tipo" value="duvida" checked><span>Dúvida</span></label>
+                    <label class="contato-tipo"><input type="radio" name="tipo" value="problema"><span>Problema no site</span></label>
+                    <label class="contato-tipo"><input type="radio" name="tipo" value="sugestao"><span>Sugestão</span></label>
+                    <label class="contato-tipo"><input type="radio" name="tipo" value="elogio"><span>Elogio</span></label>
+                    <label class="contato-tipo"><input type="radio" name="tipo" value="outro"><span>Outro</span></label>
+                </div>
+            </div>
+
+            <div class="contato-campo">
+                <label class="form-label" for="contato-assunto">Assunto *</label>
+                <input class="form-control" type="text" id="contato-assunto" maxlength="100" placeholder="Ex.: Não consigo registrar minha denúncia">
+            </div>
+
+            <div class="contato-campo">
+                <label class="form-label" for="contato-mensagem">Mensagem *</label>
+                <textarea class="form-control" id="contato-mensagem" rows="6" maxlength="1000" placeholder="Conte com detalhes como podemos ajudar..."></textarea>
+                <div class="contato-contador" id="contato-contador">0/1000</div>
+            </div>
+
+            <!-- Armadilha para robôs: não remova, e não preencha -->
+            <div class="contato-armadilha" aria-hidden="true">
+                <label>Não preencha este campo <input type="text" id="contato-site" tabindex="-1" autocomplete="off"></label>
+            </div>
+
+            <div class="contato-acoes">
+                <span class="contato-nota">Respondemos no e-mail informado.</span>
+                <button type="submit" class="contato-btn" id="contato-enviar">
+                    <svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                    Enviar mensagem
+                </button>
+            </div>
+            <p class="contato-msg" id="contato-msg" role="status" hidden></p>
+        </form>
+
+        <!-- INFORMAÇÕES -->
+        <aside class="contato-lado">
+
+            <div class="contato-info" data-cor="verde">
+                <span class="contato-icone"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+                <div>
+                    <strong>E-mail</strong>
+                    <!-- EDITE: coloque o e-mail real do projeto -->
+                    <p>contato@seudominio.com.br</p>
+                </div>
+            </div>
+
+            <div class="contato-info" data-cor="azul">
+                <span class="contato-icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <div>
+                    <strong>Prazo de resposta</strong>
+                    <!-- EDITE: ajuste ao que vocês conseguem cumprir -->
+                    <p>Respondemos em até 2 dias úteis.</p>
+                </div>
+            </div>
+
+            <div class="contato-info" data-cor="amarelo">
+                <span class="contato-icone"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></span>
+                <div>
+                    <strong>Antes de escrever</strong>
+                    <p>Para registrar um problema do seu bairro, use "Nova denúncia" no mural. Para dúvidas de uso, veja a Central de ajuda no menu lateral do mural.</p>
+                </div>
+            </div>
+
+            <div class="contato-aviso">
+                <strong>Em caso de emergência, não use o site.</strong>
+                Ligue 190 (Polícia), 192 (SAMU) ou 193 (Bombeiros).
+            </div>
+        </aside>
+    </section>
+</main>
+
+<script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+<script src="<?= $raiz ?>app/view/scripts/contato.js"></script>
+</body>
+</html>

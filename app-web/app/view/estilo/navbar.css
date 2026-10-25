@@ -1,121 +1,139 @@
-/* ==============================
-   NAVBAR
-   ============================== */
-
-   
 .navbar-header {
     width: 100%;
 }
-
-
+ 
+/* ==============================
+   NAVBAR FIXA AO ROLAR (todas as páginas, menos o mural)
+   O mural tem menu lateral e controla a própria rolagem, por isso é excluído com :has().
+   As regras de html/body abaixo existem porque position: sticky não funciona
+   se o body tiver altura fixa ou rolagem própria (geral.css, criar-denuncia.css...).
+   ============================== */
+.navbar-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+ 
+html:not(:has(.menu-lateral)) {
+    overflow-y: auto !important;
+}
+ 
+body:not(:has(.menu-lateral)) {
+    height: auto !important;
+    min-height: 100%;
+    overflow-y: visible !important;
+    overflow-x: clip;
+}
+ 
+ 
 /* CONTAINER DA NAVBAR */
-
+ 
 .navbar {
     width: 100%;
-
+ 
     display: flex;
     align-items: center;
-
+ 
     background-color: #1a321b;
-
+ 
     padding: 12px max(5%, calc((100% - 1400px) / 2));
-
+ 
     box-sizing: border-box;
-
+ 
 }
-
-
+ 
+ 
 /* LOGO */
-
+ 
 .logo-item {
     display: flex;
     align-items: center;
-
+ 
     text-decoration: none;
 }
-
+ 
 .logo-relatesbc {
     width: 170px;
     height: auto;
 }
-
-
+ 
+ 
 /* MENU */
-
+ 
 .tabela-de-links {
     display: flex;
     align-items: center;
-
+ 
     gap: 20px;
-
+ 
     margin: 0 auto;
     padding: 0;
-
+ 
     list-style: none;
 }
-
-
+ 
+ 
 /* LINKS */
-
+ 
 .nav-item a {
-
+ 
     text-decoration: none;
-
+ 
     color: white;
-
+ 
     font-size: 20px;
     font-weight: 600;
-
+ 
     padding: 0 0;
-
+ 
     transition: color 0.3s ease;
 }
-
-
-
-
+ 
+ 
+ 
+ 
 /* EFEITO DOS LINKS */
-
+ 
 .nav-item a::after {
     content: '';
-
+ 
     width: 0;
     height: 3px;
-
+ 
     border-radius: 10px;
-
+ 
     background-color: #f4f4f4;
-
+ 
     transition: width 0.3s ease;
 }
-
-
+ 
+ 
 /* HOVER */
-
+ 
 .nav-item a:hover {
     color: #d9f5dc;
 }
-
+ 
 .nav-item a:hover::after {
     width: 100%;
 }
-
-
+ 
+ 
 /* PÁGINA ATUAL */
-
+ 
 .nav-item.active a::after {
     width: 100%;
 }
-
+ 
 /* CONTAINER DOS BOTÕES NA NAVBAR */
 .nav-actions {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-
+ 
 /* ESTILO BASE PARA AMBOS OS BOTÕES */
-
+ 
 .nav-btn {
     align-items: center;
     justify-content: center;
@@ -127,48 +145,48 @@
     cursor: pointer;
     transition: all 0.25s ease;
 }
-
+ 
 .nav-btn-secondary {
     background-color: transparent;
     color: #ffffff;
     border: 1.5px solid rgba(255, 255, 255, 0.4);
 }
-
+ 
 .nav-btn-secondary:hover {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: #ffffff;
     color: #d9f5dc;
     transform: translateY(-2px);
 }
-
+ 
 .nav-btn-primary {
     background-color: #24812c;
     color: #ffffff;
     border: none;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-
+ 
 .nav-btn-primary:hover {
     background-color: #189c4f;
     transform: translateY(-2px);
 }
-
-
-
-
+ 
+ 
+ 
+ 
 /* RESPONSIVIDADE MOBILE */
-
-
+ 
+ 
 .mobile-menu-icon{
     display: none;
-
+ 
 }
-
+ 
 .mobile-menu{
     display: none;
 }
-
-
+ 
+ 
 @media screen and (max-width: 730px){
     .navbar{
         justify-content: space-between;
@@ -177,43 +195,43 @@
     .nav-item{
         display: none;
     }
-
+ 
     .nav-btn{    
         display: inline-flex;
         padding: 0 12px;
         height: 36px;
         font-size: 14px;
     }
-
+ 
     .mobile-menu-icon{
         display: block;
     }
-
+ 
     .mobile-menu-icon button {
         background-color: transparent;
         border: none;
         cursor: pointer;
         color: white;
     }
-
+ 
     
     .mobile-menu{
         display: none;
         background-color: #1a321b;
         width: 100%;
     }
-
+ 
     .mobile-menu ul{
         display: flex;
         flex-direction: column;
         text-align: center;
         padding-bottom: 1rem;
     }
-
+ 
     .mobile-menu .nav-item {
         display: block;
     }
-
+ 
     .mobile-menu .nav-actions{
         display: flex;
         padding: 0.5rem 1rem;
@@ -225,19 +243,19 @@
         width: 100%;
         box-sizing: border-box;
     }
-
+ 
     .abrir{
         display: block;
     }
 }
-
+ 
  @media (max-width: 440px) {
-
+ 
     .logo-relatesbc {
         width: 140px;
         height: auto;
     }
-
+ 
      .nav-btn{    
         display: inline-flex;
         padding: 0 12px;
@@ -245,26 +263,26 @@
         font-size: 12px;
     }
  }
-
+ 
 @media (max-width: 390px) {
-
+ 
     .logo-relatesbc {
         width: 120px;
         height: auto;
     }
-
+ 
     /* Esconde os botões da barra superior */
     .navbar .nav-actions {
         display: none;
     }
-
+ 
     .mobile-menu .nav-actions {
         display: flex;
         flex-direction: column;
         width: 100%;
         gap: 10px;
     }
-
+ 
     
     .mobile-menu .nav-actions .nav-btn {
         width: 100%;
@@ -272,17 +290,17 @@
         justify-content: center; 
         box-sizing: border-box;  
     }
-
+ 
 }
-
+ 
 @media (min-width: 391px) {
     .mobile-menu .nav-actions {
         display: none;
     }
-
+ 
 }
-
-
+ 
+ 
 /*FOOTER*/
 @media (min-width: 2000px) {
   footer .container.pt-5 {
@@ -295,7 +313,7 @@
     padding-bottom: 3rem !important;
   }
 }
-
+ 
 /* TELAS MÉDIAS E GRANDES: logo | links (no centro exato) | botões */
 @media screen and (min-width: 731px) {
     .navbar {
@@ -303,13 +321,13 @@
         grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
         column-gap: 16px;
     }
-
+ 
     .navbar .logo-link { grid-column: 1; grid-row: 1; justify-self: start; }
     .navbar .tabela-de-links { grid-column: 2; grid-row: 1; margin: 0; justify-content: center; }
     .navbar .nav-actions { grid-column: 3; grid-row: 1; justify-self: end; }
     .navbar .nav-actions:empty { display: none; }
 }
-
+ 
 /* telas intermediárias: menu mais compacto para caber os 5 links */
 @media screen and (min-width: 731px) and (max-width: 1100px) {
     .tabela-de-links { gap: 14px; }

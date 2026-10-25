@@ -217,8 +217,10 @@ html[data-tema="escuro"] .btn-outline-dark:hover { background-color: #334155; co
 html[data-tema="escuro"] .list-group-item { background-color: transparent; border-color: #334155; color: #e2e8f0; }
 html[data-tema="escuro"] .text-muted { color: #94a3b8 !important; }
 
-/* A imagem do topo da tela inicial é clara nos dois temas: o texto sobre ela continua escuro */
-html[data-tema="escuro"] .fundo-img { color: #212529; }
+/* Imagem do topo da tela inicial: no tema escuro troca para a versão noturna e o texto fica claro */
+html[data-tema="escuro"] .fundo-img { color: #f1f5f9; }
+html[data-tema="escuro"] .fundo-img .img-claro { display: none; }
+html[data-tema="escuro"] .fundo-img .img-escuro { display: block; }
  
  
 /* ============================================================
