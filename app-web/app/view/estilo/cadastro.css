@@ -1,226 +1,295 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
-
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-
+ 
+/* ---------- Cores da tela ---------- */
+:root {
+    --cad-faixa: #4fae52;        /* verde da faixa de fundo */
+    --cad-texto: #10240f;        /* texto escuro sobre o verde */
+    --cad-botao: #1b3d22;        /* verde-escuro do botão */
+    --cad-botao-hover: #132c18;
+    --cad-icone: #1f2a22;
+    --cad-fonte: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+ 
+/* ---------- Base ----------
+   A página ocupa sempre a altura inteira da janela: a navbar fica no topo
+   e a faixa verde (main) cresce para preencher o que sobrar. Assim não há
+   espaço em branco em telas grandes. */
 body {
     min-height: 100vh;
-    background-color: darkseagreen;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    background-color: #f4f6f4;
 }
-
-/* BOTÃO VOLTAR */
-.auth-header {
+ 
+/* A navbar mantém a altura dela; só o main cresce */
+.navbar-header {
+    flex: 0 0 auto;
+}
+ 
+/* ---------- Faixa verde principal ---------- */
+.cadastro-page {
+    flex: 1 1 auto;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 0 !important;          /* anula o min-vh-100 do Bootstrap */
+    padding-top: clamp(16px, 3vh, 36px) !important;
+    padding-bottom: clamp(16px, 3vh, 36px) !important;
+    background-color: var(--cad-faixa);
+}
+ 
+.cadastro-page,
+.cadastro-page * {
+    font-family: var(--cad-fonte);
+}
+ 
+.cadastro-page > .container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px 30px;
 }
-
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    color: #ffffff;
-    background-color: darkolivegreen;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+ 
+/* Sem rolagem em telas de computador: trava a altura na janela.
+   Em celular/tablet ou janelas muito baixas a rolagem continua,
+   para nada ficar cortado. */
+@media (min-width: 992px) and (min-height: 640px) {
+    html,
+    body {
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+    }
 }
-
-.btn-back:hover {
-    background-color: #189c4f;
+ 
+/* ---------- Apresentação (lado esquerdo) ---------- */
+.cadastro-brand h1 {
+    max-width: 14ch;
+    color: var(--cad-texto);
+    font-size: clamp(1.9rem, 2.9vw, 2.7rem);
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
 }
-
-/* LAYOUT SPLIT (2 COLUNAS PRINCIPAIS) */
-.page-split-container {
-    width: 100%;
-    max-width: 1150px;
-    margin: auto;
-    padding: 20px 30px;
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: 50px;
-    align-items: center;
-}
-
-/* SEÇÃO ESQUERDA */
-.brand-info {
-    color: #1b3d22;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.brand-title {
-    font-size: 38px;
-    font-weight: 800;
-    line-height: 1.2;
-    color: #143019;
-}
-
-.brand-description {
-    font-size: 17px;
+ 
+.cadastro-brand .lead {
+    max-width: 40ch;
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
     font-weight: 500;
     line-height: 1.5;
-    color: #1d4223;
+    color: var(--cad-texto) !important;
 }
-
-.brand-illustration {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
+ 
+/* Árvore centralizada abaixo do texto, como na imagem */
+.cadastro-brand .d-flex {
+    justify-content: center !important;
+    margin-top: clamp(14px, 4vh, 36px) !important;
 }
-
-.brand-illustration i {
-    font-size: 130px;
-    color: darkolivegreen;
+ 
+.cadastro-arvore {
+    width: clamp(72px, 11vh, 105px);
+    height: auto;
+    color: #1d4a1f;
 }
-
-/* CARD DO FORMULÁRIO */
-.form-container {
-    background-color: #f6f8ff;
-    padding: 35px;
+ 
+/* ---------- Card do formulário ---------- */
+.cadastro-card {
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    background-color: var(--bs-body-bg, #ffffff);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18) !important;
+    border: 0 !important;
 }
-
-.form-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+ 
+.cadastro-card .card-body {
+    padding: clamp(16px, 3vh, 28px) clamp(20px, 2.4vw, 32px) !important;
 }
-
-.form-header h2 {
-    font-family: 'Poppins', serif;
-    font-size: 28px;
-    color: #272727;
+ 
+/* Espaço entre os campos (diminui sozinho em telas baixas) */
+.cadastro-card .row {
+    --bs-gutter-x: 0.9rem;
+    --bs-gutter-y: clamp(0.4rem, 1.4vh, 0.8rem);
 }
-
-.login-link {
-    font-size: 14px;
+ 
+.cadastro-card .mb-4 {
+    margin-bottom: clamp(10px, 2vh, 18px) !important;
+}
+ 
+.cadastro-card h2 {
+    font-size: 1.5rem;
+    font-weight: 800 !important;
+    color: var(--cad-texto);
+}
+ 
+.cadastro-card .cadastro-login-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cad-texto);
+}
+ 
+.cadastro-card .cadastro-login-link:hover {
+    color: var(--cad-botao);
+    text-decoration: underline !important;
+}
+ 
+/* ---------- Rótulos e campos ---------- */
+.cadastro-card .form-label {
+    margin-bottom: 4px;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: darkolivegreen;
-    text-decoration: none;
+    color: #3a3a3f;
 }
-
-.login-link:hover {
-    color: #189c4f;
-    text-decoration: underline;
-}
-
-/* CAMPOS EM GRID 2 COLUNAS */
-#form-cadastro-denunciante {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.fields-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.form-field {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.form-field span {
-    font-size: 13px;
-    font-weight: 500;
-    color: #404044;
-}
-
-.form-field input {
-    width: 100%;
-    padding: 11px;
-    padding-right: 40px;
-    font-size: 14px;
-    color: #272727;
+ 
+.cadastro-card .form-control,
+.cadastro-card .form-select {
+    padding: clamp(7px, 1.15vh, 10px) 12px;
+    font-size: 0.82rem;
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e6e6e9;
     border-radius: 8px;
-    outline: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    transition: 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-.form-field:focus-within input {
-    outline: 2px solid #189c4f;
+ 
+.cadastro-card .form-select {
+    padding-right: 32px;
 }
-
-.form-field > i {
+ 
+.cadastro-card .form-control::placeholder {
+    color: #a3a3aa;
+}
+ 
+.cadastro-card .form-control:focus,
+.cadastro-card .form-select:focus {
+    border-color: var(--cad-faixa);
+    box-shadow: 0 0 0 3px rgba(79, 174, 82, 0.28);
+}
+ 
+/* ---------- Ícone dentro do campo ---------- */
+.campo {
+    position: relative;
+}
+ 
+.campo .form-control {
+    padding-right: 38px;
+}
+ 
+.campo-icone,
+.campo-olho {
     position: absolute;
-    top: 36px;
+    top: 50%;
     right: 12px;
-    color: #404044;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--cad-icone);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
 }
-
-.form-field .fa-eye-slash,
-.form-field .fa-eye {
+ 
+/* Botão de mostrar/ocultar senha */
+.campo-olho {
+    padding: 0;
+    background: none;
+    border: 0;
     cursor: pointer;
+    pointer-events: auto;
 }
-
-.form-field .fa-eye-slash:hover,
-.form-field .fa-eye:hover {
-    color: #189c4f;
-}
-
-/* BOTÃO DE SUBMIT */
-.submit-btn {
+ 
+.campo-olho svg {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px;
-    background-color: darkolivegreen;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+.campo-olho:hover {
+    color: var(--cad-botao);
+}
+ 
+.campo-olho:focus-visible {
+    outline: 2px solid var(--cad-faixa);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+ 
+/* Alterna entre olho aberto e riscado */
+.campo-olho .olho-aberto { display: none; }
+.campo-olho.ativo .olho-aberto { display: inline; }
+.campo-olho.ativo .olho-riscado { display: none; }
+ 
+/* ---------- Mensagem de resposta ---------- */
+.cadastro-card #respostaProcesso {
+    margin-top: 0.6rem !important;
+    font-size: 0.82rem;
     font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
 }
-
-.submit-btn:hover {
-    background-color: #189c4f;
+ 
+.cadastro-card #respostaProcesso:empty {
+    display: none;
 }
-
-/* RESPONSIVIDADE */
-@media screen and (max-width: 900px) {
-    .page-split-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
+ 
+/* ---------- Botão ---------- */
+.cadastro-card .btn-cadastrar {
+    --bs-btn-bg: var(--cad-botao);
+    --bs-btn-border-color: var(--cad-botao);
+    --bs-btn-hover-bg: var(--cad-botao-hover);
+    --bs-btn-hover-border-color: var(--cad-botao-hover);
+    --bs-btn-active-bg: #0d2012;
+    --bs-btn-active-border-color: #0d2012;
+    --bs-btn-focus-shadow-rgb: 27, 61, 34;
+ 
+    margin-top: clamp(12px, 2.2vh, 20px) !important;
+    padding: clamp(9px, 1.4vh, 12px) 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.18);
+}
+ 
+.btn-cadastrar svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+/* ---------- Responsivo ---------- */
+@media (max-width: 991px) {
+    .cadastro-page {
+        padding-top: 28px !important;
+        padding-bottom: 28px !important;
     }
-
-    .brand-info {
-        text-align: center;
-    }
-
-    .brand-illustration {
-        display: none;
+ 
+    .cadastro-brand h1,
+    .cadastro-brand .lead {
+        max-width: none;
     }
 }
-
-@media screen and (max-width: 500px) {
-    .fields-group {
-        grid-template-columns: 1fr;
+ 
+@media (max-width: 575px) {
+    .cadastro-card .card-body {
+        padding: 22px 18px !important;
+    }
+ 
+    .cadastro-brand h1 {
+        font-size: 1.9rem;
+    }
+ 
+    .cadastro-arvore {
+        width: 72px;
     }
 }
+ 
