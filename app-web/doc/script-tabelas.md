@@ -1,60 +1,77 @@
-# Tabelas salvas diretamente no infinity
-## por isso não tem a definição para o BD 
+CREATE DATABASE IF NOT EXISTS relate_sbc
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
-create database if not exists relate_sbc;
-use relate_sbc;
+USE relate_sbc;
 
-create table if not exists tb_usuario (
-	id_usuario int not null primary key auto_increment,
-    perfil_usuario enum('municipe', 'representante', 'visitante') not null,
-    nome_usuario varchar(20) not null,
-    sobrenome_usuario varchar(60) not null,
-    email_usuario varchar(120) not null unique,
-    cpf_usuario char(11) not null unique,
-    senha_usuario varchar(60) not null,
-    cidade_usuario varchar(50) not null,
-    estado_usuario char(2) not null,
-    orgao_usuario varchar(120) not null,
-    cargo_usuario varchar(120) not null,
-);
+CREATE TABLE IF NOT EXISTS tb_usuario (
+    id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    perfil_usuario ENUM('municipe', 'representante') NOT NULL,
+    nome_usuario VARCHAR(20) NOT NULL,
+    sobrenome_usuario VARCHAR(60) NOT NULL,
+    email_usuario VARCHAR(120) NOT NULL UNIQUE,
+    cpf_usuario CHAR(11) NOT NULL UNIQUE,
+    senha_usuario VARCHAR(60) NOT NULL,
+    cidade_usuario VARCHAR(50) NOT NULL,
+    estado_usuario CHAR(2) NOT NULL,
+    orgao_usuario VARCHAR(120) DEFAULT NULL,
+    cargo_usuario VARCHAR(120) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-create table if not exists tb_categoria (
-	id_categoria int not null primary key auto_increment,
-    nome_categoria varchar(30) unique
-);
 
-create table if not exists tb_denuncia (
-	id_denuncia int not null primary key auto_increment,
-    id_usuario int not null,
-    titulo_denuncia varchar(60) not null,
-    data_denuncia datetime not null,
-    descricao_denuncia text not null,
-    imagem_denuncia blob,
-    nome_categoria varchar(30) not null,
-    cidade_denuncia varchar(50) not null,
-    estado_denuncia char(2) not null,
-    logradouro_denuncia varchar(150) not null,
-    numero_denuncia varchar(30),
-    bairro_denuncia varchar(80) not null,
-    cep_denuncia char(8) not null,
-    status_denuncia enum('em andamento','concluida','em analise', 'pendente') default 'pendente' not null,
-    perfil_usuario enum('municipe', 'representante') not null,
-    complemento_denuncia varchar(100),
-    
-    
-    
-    foreign key (id_usuario) references tb_usuario(id_usuario),
-    foreign key (nome_categoria) references tb_categoria (nome_categoria)
-);
+CREATE TABLE IF NOT EXISTS tb_categoria (
+    id_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_categoria VARCHAR(30) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-create table if not exists tb_resposta (
-	id_resposta int primary key auto_increment,
-    id_usuario int not null,
-    id_denuncia int not null,
-    descricao_resposta text not null,
-    criada_em datetime not null,
-    
-    foreign key (id_usuario) references tb_usuario (id_usuario),
-    foreign key (id_denuncia) references tb_denuncia (id_denuncia)
-    
-);
+
+CREATE TABLE IF NOT EXISTS tb_denuncia (
+    id_denuncia INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_usuario INT NOT NULL,
+    titulo_denuncia VARCHAR(60) NOT NULL,
+    data_denuncia DATETIME NOT NULL,
+    descricao_denuncia TEXT NOT NULL,
+    imagem_denuncia BLOB,
+    nome_categoria VARCHAR(30) NOT NULL,
+    cidade_denuncia VARCHAR(50) NOT NULL,
+    estado_denuncia CHAR(2) NOT NULL,
+    logradouro_denuncia VARCHAR(150) NOT NULL,
+    numero_denuncia VARCHAR(30) DEFAULT NULL,
+    bairro_denuncia VARCHAR(80) NOT NULL,
+    cep_denuncia CHAR(8) NOT NULL,
+    status_denuncia ENUM(
+        'em andamento',
+        'concluida',
+        'em analise',
+        'pendente'
+    ) NOT NULL DEFAULT 'pendente',
+    perfil_usuario ENUM(
+        'municipe',
+        'representante'
+    ) NOT NULL,
+    complemento_denuncia VARCHAR(100) DEFAULT NULL,
+    anonima_denuncia TINYINT(1) NOT NULL DEFAULT 0,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES tb_usuario(id_usuario),
+
+    FOREIGN KEY (nome_categoria)
+        REFERENCES tb_categoria(nome_categoria)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS tb_resposta (
+    id_resposta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_usuario INT NOT NULL,
+    id_denuncia INT NOT NULL,
+    descricao_resposta TEXT NOT NULL,
+    criada_em DATETIME NOT NULL,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES tb_usuario(id_usuario),
+
+    FOREIGN KEY (id_denuncia)
+        REFERENCES tb_denuncia(id_denuncia)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
