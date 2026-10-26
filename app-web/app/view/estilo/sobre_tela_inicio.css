@@ -102,3 +102,11 @@ body{
     }
 }
 
+/* Telas grandes: card e linha divisória alinhados com a nav */
+@media (min-width: 1556px) {
+    .card-sobre-container { max-width: 1400px; width: 100%; }
+    main > hr {
+        margin-left: var(--margem-lateral) !important;
+        margin-right: var(--margem-lateral) !important;
+    }
+}

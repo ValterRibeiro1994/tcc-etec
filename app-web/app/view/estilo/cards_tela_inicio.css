@@ -169,3 +169,12 @@
         flex-direction: column;       
 }
 }
+
+/* Telas grandes: a fileira de cards segue a largura da nav */
+@media (min-width: 1556px) {
+    .conteiner-cards { max-width: 1400px; margin: 0 auto; }
+    .cards-tela-inicial { max-width: none; height: auto !important; }
+}
+@media (min-width: 1700px) {
+    .cards-tela-inicial { min-height: 150px !important; }
+}

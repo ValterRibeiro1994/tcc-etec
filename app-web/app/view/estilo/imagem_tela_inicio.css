@@ -188,3 +188,14 @@
     }
 }
 
+/* Telas grandes: textos da imagem alinhados com a logo */
+@media (min-width: 1556px) {
+    .tag-zeladoria,
+    .minha-denuncia,
+    .fundo-img p-maior,
+    .fundo-img p-menor { left: var(--margem-lateral); }
+
+    /* evita que a caixa de texto passe da borda da tela */
+    .minha-denuncia,
+    .fundo-img p-maior { width: auto; }
+}
