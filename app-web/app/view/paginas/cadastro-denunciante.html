@@ -9,21 +9,16 @@ $raiz = $GLOBALS['raiz-app'];
 <!DOCTYPE html>
 <html lang="pt-br">
  
-<!-- CABEÇALHO DA PÁGINA (META E LINKS) -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
-    <!-- ALTERADO: ordem dos estilos (Bootstrap antes do navbar.css, senão ele sobrescreve a navbar) -->
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cadastro.css">
     <title>Cadastro - RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
-    <!-- ADICIONADO: fonte da imagem de referência (usada só na área do cadastro) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
  
  <body>
@@ -35,7 +30,7 @@ $raiz = $GLOBALS['raiz-app'];
                 <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
             </a>
  
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
+           
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -64,7 +59,7 @@ $raiz = $GLOBALS['raiz-app'];
  
         <!-- MENU MOBILE -->
         <div class="mobile-menu">
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
+            
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -246,10 +241,8 @@ $raiz = $GLOBALS['raiz-app'];
     </main>
  
     <!-- SCRIPTS -->
-    <!-- ADICIONADO: navbar.js (menu mobile e botão Sair) -->
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/cadastro-denunciante.js"></script>
-    <!-- ADICIONADO: apenas alterna a visibilidade da senha (não altera o envio) -->
     <script>
         document.querySelectorAll(".campo-olho").forEach(function (btn) {
             btn.addEventListener("click", function () {

@@ -345,3 +345,4 @@ body:not(:has(.menu-lateral)) {
 @media (min-width: 1556px) {
     footer .container { max-width: 1424px; }
 }
+

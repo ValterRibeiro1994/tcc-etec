@@ -293,3 +293,19 @@ body {
     }
 }
  
+/* Navbar nas telas de cadastro: neutraliza o efeito do Bootstrap e do reset */
+.navbar-header .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1;
+    text-decoration: none;
+}
+
+/* mantém a fonte/tamanho dos links igual às outras telas */
+.navbar-header,
+.navbar-header * {
+    font-family: inherit;
+}
+

@@ -6,16 +6,17 @@
 $raiz = $GLOBALS['raiz-app'];
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="pagina-longa">
 
 <!-- CABEÇALHO DA PÁGINA (META E LINKS) -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <!-- ALTERADO: bootstrap carregado ANTES do cadastro.css (mesma ordem da tela do munícipe) -->
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cadastro.css">
-    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <title>Cadastro - RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 </head>
@@ -80,11 +81,12 @@ $raiz = $GLOBALS['raiz-app'];
 
     <!-- CONTEÚDO PRINCIPAL -->
 
-    <main class="container-fluid min-vh-100 d-flex align-items-center py-5">
+    <main class="cadastro-page container-fluid min-vh-100 d-flex align-items-center py-5">
         <div class="container">
             <div class="row justify-content-center align-items-center g-5">
 
-                <section class="col-12 col-lg-5 text-center text-lg-start">
+                <!-- APRESENTAÇÃO -->
+                <section class="cadastro-brand col-12 col-lg-5 text-center text-lg-start">
                     <h1 class="display-5 fw-bold">
                         Ajude a melhorar nossa cidade.
                     </h1>
@@ -94,15 +96,16 @@ $raiz = $GLOBALS['raiz-app'];
                     </p>
 
                     <div class="d-flex justify-content-center justify-content-lg-start mt-4">
-                        <div class="display-1 text-primary">
-                            <i class="fa-solid fa-tree"></i>
-                        </div>
+                        <svg class="cadastro-arvore" viewBox="0 0 64 80" fill="currentColor" aria-hidden="true">
+                            <path d="M32 2 L50 26 H41 L56 46 H44 L60 66 H4 L20 46 H8 L23 26 H14 Z"/>
+                            <rect x="28" y="66" width="8" height="12" rx="2"/>
+                        </svg>
                     </div>
                 </section>
 
                 <!-- FORMULÁRIO -->
                 <section class="col-12 col-md-10 col-lg-6 col-xl-5">
-                    <div class="card shadow-sm border-0">
+                    <div class="cadastro-card card shadow-sm border-0">
                         <div class="card-body p-4 p-md-5">
 
                             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -110,7 +113,7 @@ $raiz = $GLOBALS['raiz-app'];
                                     Cadastro
                                 </h2>
 
-                                <a href="<?= $raiz ?>login" class="text-decoration-none">
+                                <a href="<?= $raiz ?>login" class="cadastro-login-link text-decoration-none">
                                     Já tem conta?
                                 </a>
                             </div>
@@ -121,25 +124,37 @@ $raiz = $GLOBALS['raiz-app'];
                                     <!-- NOME -->
                                     <div class="col-12 col-md-6">
                                         <label for="nome" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="nome" name="nome" value="teste" placeholder="Seu nome" required>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" id="nome" name="nome" value="teste" placeholder="Seu nome" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                                        </div>
                                     </div>
 
                                     <!-- SOBRENOME -->
                                     <div class="col-12 col-md-6">
                                         <label for="sobrenome" class="form-label">Sobrenome</label>
-                                        <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="treste" placeholder="Seu sobrenome" required>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="treste" placeholder="Seu sobrenome" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                                        </div>
                                     </div>
 
                                     <!-- E-MAIL -->
-                                    <div class="col-12">
+                                    <div class="col-12 col-md-6">
                                         <label for="email" class="form-label">E-mail</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="teste2@email.com" placeholder="exemplo@gmail.com" required>
+                                        <div class="campo">
+                                            <input type="email" class="form-control" id="email" name="email" value="teste2@email.com" placeholder="exemplo@gmail.com" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                                        </div>
                                     </div>
 
                                     <!-- CPF -->
                                     <div class="col-12 col-md-6">
                                         <label for="cpf" class="form-label">CPF</label>
-                                        <input type="text" class="form-control" id="cpf" name="cpf" value="111.111.111-11" placeholder="000.000.000-00" required>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" id="cpf" name="cpf" value="111.111.111-11" placeholder="000.000.000-00" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h5M14 14h5"/></svg>
+                                        </div>
                                     </div>
 
                                     <!-- ESTADO -->
@@ -178,55 +193,35 @@ $raiz = $GLOBALS['raiz-app'];
                                     </div>
 
                                     <!-- CIDADE -->
-                                    <div class="col-12">
+                                    <div class="col-12 col-md-6">
                                         <label for="cidade" class="form-label">Cidade</label>
-                                        <input type="text" class="form-control" id="cidade" name="cidade" value="nome da cidade" placeholder="Cidade de residência" required>
-                                    </div>
-                                    
-                                    <div class="col-12">
-                                        <label for="orgao" class="form-label">Prefeitura</label>
-                                        <input type="text" class="form-control" name="orgao" id="orgao" value="prefeitura" placeholder="Informe o nome da Prefeitura que voce trabalha" required>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" id="cidade" name="cidade" value="nome da cidade" placeholder="Cidade de residência" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                                        </div>
                                     </div>
 
+                                    <!-- PREFEITURA -->
+                                    <div class="col-12">
+                                        <label for="orgao" class="form-label">Prefeitura</label>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" name="orgao" id="orgao" value="prefeitura" placeholder="Informe o nome da Prefeitura que voce trabalha" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>
+                                        </div>
+                                    </div>
+
+                                    <!-- CARGO -->
                                     <div class="col-12">
                                         <label for="cargo" class="form-label">Cargo</label>
-                                        <input type="text" class="form-control" id="cargo" name="cargo" value="Função exercida no orgão publico da sua cidade" placeholder="Função exercida no orgão publico da sua cidade" required>
+                                        <div class="campo">
+                                            <input type="text" class="form-control" id="cargo" name="cargo" value="Função exercida no orgão publico da sua cidade" placeholder="Função exercida no orgão publico da sua cidade" required>
+                                            <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M3 13h18"/></svg>
+                                        </div>
                                     </div>
 
                                     <!-- SENHA -->
                                     <div class="col-12 col-md-6">
                                         <label for="senha" class="form-label">Senha</label>
-                                        <input type="password" class="form-control" id="senha" name="senha" value="@Ts123456" placeholder="Sua senha" minlength="8" required>
-                                    </div>
-
-                                    <!-- CONFIRMAR SENHA -->
-                                    <div class="col-12 col-md-6">
-                                        <label for="confirmar-senha" class="form-label">Confirmar Senha</label>
-                                        <input type="password" class="form-control" id="confirmar-senha" name="confirmar-senha" value="@Ts123456" placeholder="Confirme a senha" minlength="8" required>
-                                    </div>
-
-                                </div>
-
-                                <!-- RESPOSTA DO PROCESSO -->
-                                <p id="respostaProcesso" class="mt-3 mb-0"></p>
-
-                                <!-- BOTÃO -->
-                                <button type="submit" class="btn btn-primary w-100 mt-4 d-flex justify-content-center align-items-center gap-2">
-                                    Criar conta
-                                </button>
-                            </form>
-
-                        </div>
-                    </div>
-                </section>
-
-            </div>
-        </div>
-    </main>
-
-    <!-- SCRIPTS -->
-    <!-- ADICIONADO: navbar.js (menu mobile e botão Sair) -->
-    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
-    <script src="<?= $raiz ?>app/view/scripts/cadastro-representante.js"></script>
-</body>
-</html>
+                                        <div class="campo">
+                                            <input type="password" class="form-control" id="senha" name="senha" value="@Ts123456" placeholder="Sua senha" minlength="8" required>
+                                            <button type="button" class="campo-olho"
