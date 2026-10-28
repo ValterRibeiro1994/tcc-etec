@@ -11,9 +11,6 @@ $raiz = $GLOBALS['raiz-app'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ALTERADO: esta página é SÓ o conteúdo do modal do mural.
-         - Dentro do modal (iframe): marca o <html> com "em-modal" já no <head> (sem piscar a navbar).
-         - Aberta direto (link do rodapé, perfil, digitando a URL): volta para o mural, que abre o modal. -->
     <script>
         if (window.self === window.top) {
             window.location.replace('<?= $raiz ?>denuncia/mural?nova=1');
@@ -24,7 +21,6 @@ $raiz = $GLOBALS['raiz-app'];
 
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <!-- REMOVIDO: navbar.css e home-mural.css (não há mais navbar nesta página) -->
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/criar-denuncia.css">
 
@@ -32,9 +28,6 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 </head>
 <body>
-    
-    <!-- REMOVIDO: <header> com a navbar, o menu mobile e a barra "Mural de denúncias".
-         Sem navbar não há como navegar pelo site de dentro do modal. -->
 
 <!--CONTEUDO-->
   <main class="pagina-denuncia">
@@ -57,10 +50,8 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
 
         <!--FORMULARIO-->
-        <!-- ALTERADO: adicionado id="form-denuncia" e enctype (necessário para enviar a foto). O envio é feito pelo criar-denuncia.js -->
         <form id="form-denuncia" enctype="multipart/form-data">
 
-            <!-- ADICIONADO: .corpo-formulario = área dos campos, é a única parte que rola -->
             <div class="corpo-formulario">
 
             <!-- TÍTULO -->
@@ -87,14 +78,9 @@ $raiz = $GLOBALS['raiz-app'];
                 ></textarea>
             </div>
 
-
-            <!-- ALTERADO: antes era "CATEGORIA E STATUS".
-                 - As categorias agora vêm da tabela tb_categoria (o criar-denuncia.js preenche o select),
-                   pois o valor enviado precisa ser igual a nome_categoria (chave estrangeira).
-                 - O campo STATUS foi removido: toda denúncia nova nasce como "pendente" (padrão do banco).
-                 - O campo "Data da ocorrência" foi movido para esta linha. -->
             <div class="linha">
 
+                <!-- CATEGORIAS-->
                 <div class="campo-denuncia">
                     <label for="categoria-denuncia">Categoria</label>
 
@@ -118,16 +104,11 @@ $raiz = $GLOBALS['raiz-app'];
 
             </div>
 
-
             <!-- ENDEREÇO -->
-            <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
-                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
-                 Campos novos: rua-denuncia e complemento-denuncia. -->
             <div class="linha">
                 <div class="campo-denuncia">
                     <label for="estado-denuncia">Estado (UF)</label>
 
-                    <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
                     <input
                         type="text"
                         id="estado-denuncia"
@@ -139,7 +120,6 @@ $raiz = $GLOBALS['raiz-app'];
                         required
                     >
                 </div>
-            
             
                 <div class="campo-denuncia">
                     <label for="cidade-denuncia">Cidade</label>
@@ -155,7 +135,6 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-            <!-- ADICIONADO: rua (parte do logradouro) -->
             <div class="campo-denuncia">
                 <label for="rua-denuncia">Rua / Avenida</label>
 
@@ -183,7 +162,6 @@ $raiz = $GLOBALS['raiz-app'];
                     >
                 </div>
 
-                <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
                 <div class="campo-denuncia">
                     <label for="complemento-denuncia">Complemento (opcional)</label>
 
@@ -226,7 +204,6 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-            <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo criar-denuncia.js, só para conferência) -->
             <div class="campo-denuncia">
                 <small style="color: #5b6b62;">
                     Logradouro registrado:
@@ -236,7 +213,7 @@ $raiz = $GLOBALS['raiz-app'];
 
             <!-- FOTO -->
             <div class="campo-denuncia">
-                <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
+                <label for="foto-denuncia">
                     Foto
                 </label>
 
@@ -257,7 +234,6 @@ $raiz = $GLOBALS['raiz-app'];
                                 Clique para selecionar uma imagem
                             </strong>
 
-                            <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
                             <small id="foto-info">
                                 JPG ou PNG — tamanho máximo de 5MB
                             </small>
@@ -267,8 +243,7 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-
-            <!-- Denúncia anônima: definida somente ao registrar, imutável na edição. -->
+            <!-- Denúncia anônima -->
             <div class="anonimato-opcao">
                 <label for="anonima-denuncia">
                     <input type="checkbox" id="anonima-denuncia" name="anonima-denuncia" value="1">
@@ -278,14 +253,10 @@ $raiz = $GLOBALS['raiz-app'];
                    Sua conta continuará vinculada para acompanhamento.
                    Essa escolha não pode ser alterada após o envio.</p>
             </div>
-
-            <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
             <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
 
             </div>
-            <!-- /corpo-formulario -->
 
-            <!-- ALTERADO: botões agora ficam num rodapé fixo (.rodape-formulario), Cancelar à esquerda e Enviar à direita -->
             <div class="rodape-formulario">
                 <button type="button" class="btn-cancelar" id="btn-cancelar">
                     Cancelar
@@ -301,7 +272,6 @@ $raiz = $GLOBALS['raiz-app'];
 
   </main>
 
-  <!-- scripts da página (navbar.js removido: não existe mais navbar aqui) -->
   <script src="<?= $raiz ?>app/view/scripts/criar-denuncia.js"></script>
 
 </body>

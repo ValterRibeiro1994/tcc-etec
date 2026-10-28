@@ -634,7 +634,7 @@ window.addEventListener('message', function (evento) {
     let filtro = 'todas';
     let estado = 'ok'; // 'ok' | 'sem-login' | 'erro'
 
-    /* ---------- Sessão e servidor (igual ao mural.js) ---------- */
+
 
     function lerToken() {
         const token = localStorage.getItem('token');

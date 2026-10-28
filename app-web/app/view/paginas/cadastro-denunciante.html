@@ -4,7 +4,7 @@
 // Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
 // rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
 $raiz = $GLOBALS['raiz-app'];
-// <!-- var_dump($raiz); // saida : 'C:\wamp64\www\app-web\app\' -->
+// 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -243,6 +243,8 @@ $raiz = $GLOBALS['raiz-app'];
     <!-- SCRIPTS -->
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/cadastro-denunciante.js"></script>
+
+    <!-- ESCONDER SENHA-->
     <script>
         document.querySelectorAll(".campo-olho").forEach(function (btn) {
             btn.addEventListener("click", function () {

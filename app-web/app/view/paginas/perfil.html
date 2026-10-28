@@ -15,7 +15,7 @@ $raiz = $GLOBALS['raiz-app'];
     <title>RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
-    <!-- ALTERADO: o <style> que ficava depois do </html> foi movido para dentro do <head> -->
+  
     <style>
         html { height: 100%; }
     
@@ -41,7 +41,6 @@ $raiz = $GLOBALS['raiz-app'];
             <img src="../app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
         </a>
 
-        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
         <ul class="tabela-de-links">
             <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
             <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -70,7 +69,6 @@ $raiz = $GLOBALS['raiz-app'];
     <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -97,71 +95,85 @@ $raiz = $GLOBALS['raiz-app'];
     <h2 class="fw-bold mb-4">Perfil</h2>
 
     <div class="d-flex flex-wrap mb-4 gap-3">
+
       <div class="d-flex align-items-center gap-3">
         <!-- não sei pelo que trocar o tamanho da imagem, ent vou deixar assim por enquanto -->
         <!--<span class="d-flex rounded-circle bg-secondary" style="width: 64px; height: 64px;">-->
          <!-- <img src="" class="rounded-circle" style="width: 64px;" alt="">-->
         <!-- </span> -->
         <div>
+
           <div class="d-flex gap-2">
-            <!-- ALTERADO: ids perfil-nome, perfil-badge e perfil-local. O perfil.js preenche com os dados do banco (./user/dados) -->
             <span class="fs-5 fw-bold" id="perfil-nome">Carregando...</span>
             <span class="badge text-light rounded-pill border border-success align-self-center" style="background-color: rgb(64, 146, 71);" id="perfil-badge">...</span>
           </div>
+
           <div class="text-muted small" id="perfil-local">&nbsp;</div>
+
         </div>
       </div>
 
       
 
       <div class="d-flex align-items-center gap-4 tgap">
+
         <div class="form-check form-switch mb-0">
           <input type="checkbox" class="form-check-input" id="toggle-tema" role="switch">
           <label for="toggle-tema" class="form-check-label">Modo Escuro</label>
         </div>
+
         <button type="button" class="btn btn-dark fw-bold btn-sm" id="btn-editar-perfil">
           EDITAR PERFIL
         </button>
-        <!-- ALTERADO: id="btn-nova-denuncia" (o perfil.js leva para o formulário de denúncia) -->
+       
         <button type="button" class="btn btn-success fw-bold btn-sm" id="btn-nova-denuncia">
           CRIAR NOVA DENÚNCIA
         </button>
+
       </div>
+
     </div>
 
     <hr>
 
     <div class="row mb-4">
+
       <div class="col-md-4">
         <label class="fw-semibold small">Pesquisar</label>
-        <!-- ALTERADO: id="busca-perfil" (filtra a lista abaixo pelo texto digitado) -->
         <input type="text" class="form-control" placeholder="Buscar denúncia..." id="busca-perfil">
       </div>
+
       <div class="col-md-5">
         <label class="fw-semibold small">Categorias</label>
+
         <div class="d-flex gap-2">
+
           <select class="form-select">
             <option>Buracos</option>
             <option>Iluminação</option>
             <option>Lixo</option>
           </select>
+
         </div>
       </div>
+
       <div class="col-md-3">
         <label class="fw-semibold small">Ordem por:</label>
+
         <div class="d-flex gap-2">
+
           <select class="form-select">
             <option class="bg-dark">Data</option>
           </select>
           <select class="form-select">
             <option>Status</option>
           </select>
+
         </div>
+
       </div>
     </div>
 
-    <!-- ALTERADO: o exemplo fixo foi removido. O perfil.js lista aqui SÓ as denúncias do usuário logado
-         (./denuncia/minhas), copiando o modelo "modelo-denuncia-perfil". Ids: perfil-mensagem, lista-denuncias-perfil -->
     <p id="perfil-mensagem" class="text-secondary text-center my-3" style="display: none;"></p>
 
     <!-- Lista de denúncias -->
@@ -169,29 +181,36 @@ $raiz = $GLOBALS['raiz-app'];
     <nav id="paginacao-perfil" class="paginacao-relate" aria-label="Paginação do perfil"></nav>
 
     <template id="modelo-denuncia-perfil">
+
       <li class="list-group-item d-flex flex-wrap align-items-center py-3">
         <div>
           <div class="fw-semibold" data-campo="titulo">Título</div>
           <div class="text-muted small" data-campo="descricao">Descrição</div>
         </div>
+
         <div class="text-muted small text-center" style="min-width:150px;" data-campo="local">Local</div>
+
         <div class="text-center" style="min-width:140px;">
           <span class="badge bg-secondary rounded-pill" data-campo="status">STATUS</span>
         </div>
+
         <div class="text-muted small text-center" style="min-width:90px;" data-campo="data">Data</div>
+
         <div class="d-flex gap-3">
           <button type="button" data-acao="editar" class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
           <button type="button" data-acao="remover" class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
           <button type="button" data-acao="ver-mais" class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
         </div>
       </li>
+
     </template>
 
   </div>
 </main>
 
-<!-- ALTERADO: links do rodapé completos (todas as páginas, menos home-denuncias) e com as rotas reais -->
+<!-- RODAPE-->
 <footer class="bg-dark text-light">
+
   <div class="container pt-5">
     <div class="row">
 
@@ -205,58 +224,64 @@ $raiz = $GLOBALS['raiz-app'];
 
       <div class="col-md-3">
         <h5 style="font-weight: bold;">Para você</h5>
+
         <ul class="list-unstyled">
           <li><a href="<?= $raiz ?>login" class="link-light small">Já tem uma conta?</a></li>
           <li><a href="<?= $raiz ?>cadastro" class="link-light small">Cadastre-se</a></li>
           <li><a href="<?= $raiz ?>cadastro/municipe" class="link-light small">Sou um denunciante</a></li>
           <li><a href="<?= $raiz ?>cadastro/representante" class="link-light small">Sou um representante</a></li>
         </ul>
+        
       </div>
-
-        <!-- Coloquei isso só para encher e ficar mais bonito, pq o modelo que eu segui tinha mais link  -->   
 
       <div class="col-md-3">
         <h5 style="font-weight: bold;">Denúncias</h5>
+
         <ul class="list-unstyled">
           <li><a href="<?= $raiz ?>home" class="link-light small">Início</a></li>
           <li><a href="<?= $raiz ?>denuncia/mural" class="link-light small">Mural de denúncias</a></li>
           <li><a href="<?= $raiz ?>denuncia/criar" class="link-light small">Registrar denúncia</a></li>
           <li><a href="<?= $raiz ?>user/perfil" class="link-light small">Meu perfil</a></li>
         </ul>
+
       </div>
 
       <div class="col-md-2">
         <h5 style="font-weight: bold;">
           Contato
         </h5>
+
         <ul class="list-unstyled">
         <li>
           <a href="#" class="link-light small">Fale Conosco</a>
         </li>
+
         <li>
           <a href="<?= $raiz ?>teste/informacoes" class="link-light small">Privacidade e termos de uso</a>
         </li>
+
         </ul>
       </div>
 
     </div>
   </div>
          
-   
   <hr>
+
     <div class="container py-3 d-flex flex-wrap justify-content-between gap-2">
       <span class="text-secondary small">
         ©2026 RelateSBC
       </span>
+
       <div class="d-flex gap-3">
         <a href="#" class="link-secondary small">
           Privacidade e termos de uso
         </a>
       </div>
+
     </div>
 </footer>
     
-<!-- ADICIONADO: navbar.js (menu mobile e botão Sair) e perfil.js (dados do usuário + denúncias dele) -->
     <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
     <script type="module" src="<?= $raiz ?>app/view/scripts/perfil.js"></script>

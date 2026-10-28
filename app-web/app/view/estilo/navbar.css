@@ -3,16 +3,10 @@
 }
 
 :root {
-    /* margem lateral do conteúdo: 5% da tela, mas o conteúdo nunca passa de 1400px (centralizado) */
     --margem-lateral: max(5%, calc((100% - 1400px) / 2));
 }
  
-/* ==============================
-   NAVBAR FIXA AO ROLAR (todas as páginas, menos o mural)
-   O mural tem menu lateral e controla a própria rolagem, por isso é excluído com :has().
-   As regras de html/body abaixo existem porque position: sticky não funciona
-   se o body tiver altura fixa ou rolagem própria (geral.css, criar-denuncia.css...).
-   ============================== */
+
 .navbar-header {
     position: sticky;
     top: 0;
@@ -320,7 +314,6 @@ body:not(:has(.menu-lateral)) {
   }
 }
  
-/* TELAS MÉDIAS E GRANDES: logo | links (no centro) | botões */
 @media screen and (min-width: 1001px) {
     .navbar {
         display: grid;

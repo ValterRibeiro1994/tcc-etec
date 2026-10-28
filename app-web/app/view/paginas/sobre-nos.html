@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script>
     try {
         if (localStorage.getItem('tema') === 'escuro') {
@@ -12,12 +13,14 @@
         }
     } catch (e) {}
     </script>
+
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/sobre-nos.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
     <title>Sobre | RelateSBC</title>
+
 </head>
 <body>
 
@@ -70,7 +73,6 @@
 
 <main class="sobre">
  
-    <!-- TOPO: texto à esquerda, mosaico de imagens à direita -->
     <section class="sobre-hero">
         <div class="sobre-container">
             <div class="sobre-hero-grid">
@@ -84,12 +86,8 @@
                         <a href="#como-funciona" class="sobre-btn sobre-btn-secundario">Como funciona</a>
                     </div>
                 </div>
- 
-                <!--
-                    EDITE: para colocar uma imagem em um quadrado, apague o <span class="sobre-foto-vazio">
-                    e escreva no lugar:
-                    <img src="<?= $raiz ?>app/recursos/imagens/NOME-DA-IMAGEM.jpg" alt="descrição da imagem">
-                -->
+
+                <!-- Alterar informações FOTO INTEGRANTES-->
                 <div class="sobre-mosaico">
                     <div class="sobre-foto">
                        <img src="<?= $raiz ?>app/recursos/imagens/001img.jpg" alt="Vista da cidade">
@@ -192,12 +190,12 @@
     <section class="sobre-secao">
         <div class="sobre-container">
             <h2>Quem está por trás do projeto</h2>
-            <!-- EDITE: conte quem criou o projeto, o curso/instituição e o objetivo -->
+            
+            <!-- Alterar informações-->
             <p class="sobre-intro">O RelateSBC foi criado por [sua equipe], [curso / instituição], com o objetivo de aproximar moradores e poder público.</p>
  
+            <!-- Alterar informações-->
             <div class="sobre-grade">
-                <!-- EDITE: repita este bloco para cada pessoa (iniciais, nome e função).
-                     Para usar foto, troque as iniciais por <img src="..." alt="Nome"> dentro do sobre-avatar -->
                 <div class="sobre-card sobre-pessoa">
                     <span class="sobre-avatar">NN</span>
                     <h3>Nome Sobrenome</h3>
@@ -225,7 +223,6 @@
         </div>
     </section>
  
-    <!-- CONVITE FINAL: texto à esquerda, quadrados de imagem à direita -->
     <section class="sobre-secao">
         <div class="sobre-container">
             <div class="sobre-cta">
@@ -238,7 +235,7 @@
                     </div>
                 </div>
  
-                <!-- EDITE: mesma regra do topo, troque o <span> por uma <img> -->
+               <!-- Alterar informações-->
                 <div class="sobre-cta-fotos">
                     <div class="sobre-foto">
                         <span class="sobre-foto-vazio">

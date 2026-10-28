@@ -9,11 +9,9 @@
 (function () {
     'use strict';
 
-    // ADICIONADO: fora do modal (iframe) a página só redireciona para o mural (ver <head> do HTML).
-    // Sem isso, quem não está logado veria o alert/redirecionamento antes do redirect acontecer.
+   
     if (window.self === window.top) return;
 
-    // Lido agora (durante a execução do script) para montar as URLs corretamente
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
     // Página para onde o usuário vai depois de enviar (ou cancelar)

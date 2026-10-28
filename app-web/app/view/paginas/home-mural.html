@@ -105,7 +105,7 @@ $raiz = $GLOBALS['raiz-app'];
         </nav>
     </header>
 
-
+ <!--MENU LATERAL (MURAL)-->
     <div class="main-container">
         
         <aside class="menu-lateral">
@@ -113,13 +113,11 @@ $raiz = $GLOBALS['raiz-app'];
               ×
             </button>
             
-            <!-- ALTERADO: adicionado id="btn-nova-denuncia-lateral" -->
             <button class="menu-lateral-btn-criar" id="btn-nova-denuncia-lateral">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 Nova denúncia
             </button>
             
-            <!-- ALTERADO: cada link ganhou data-pagina e id. O link "perfil" abre a página de perfil, só para usuário logado (mural.js) -->
             <nav class="menu-lateral-navegacao">
                 <a href="#" class="menu-lateral-link ativo" data-pagina="mural" id="link-mural">
                     <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -164,7 +162,7 @@ $raiz = $GLOBALS['raiz-app'];
             </div>
         </aside>
         
-        <!--CONTEUDO DA PAGINA-->
+        <!--CONTEUDO PAGINA PRINCIPAL (MURAL)-->
     
 <main class="conteudo-principal" style="flex: 1; padding: 40px;">
     <section id="tela-mural" class="tela ativa">
@@ -225,12 +223,12 @@ $raiz = $GLOBALS['raiz-app'];
             <div class="grid-denuncias" id="grid-denuncias">
                 <div class="card" id="card-mural">
                     <div class="card-img-wrapper">
-                            <div class="card-img text-center" id="img-card">Imagem</div> <!-- ALTERADO: removido o background-image de exemplo (a imagem real vem do banco via mural.js) -->
+                            <div class="card-img text-center" id="img-card">Imagem</div> 
                     </div>
                     <div class="card-body">
                             <span class="tag-categoria" id="categoria-denuncia">Categoria</span>
                             <h3 class="card-title" id="titulo-denuncia">titulo</h3>
-                            <!-- ADICIONADO: autor da denúncia. O nome vem do INNER JOIN com tb_usuario e é preenchido pelo mural.js -->
+            
                             <p class="mb-2 small text-secondary">Por <strong id="autor-denuncia">Autor</strong></p>
                             <div class="card-info">
                                 <span id="local-denuncia">Local</span>
@@ -246,7 +244,7 @@ $raiz = $GLOBALS['raiz-app'];
             <p id="mural-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
             <nav id="paginacao-mural" class="paginacao-relate" aria-label="Paginação do mural"></nav>
     </section>
-        <!-- MINHAS DENÚNCIAS -->
+        <!-- MINHAS DENÚNCIAS (MURAL) -->
     
     <section id="tela-denuncias" class="tela">
 
@@ -311,7 +309,7 @@ $raiz = $GLOBALS['raiz-app'];
         </template>
     </section>
 
-        <!-- INICIO SESSÃO NOTIFICAÇÕES -->
+        <!-- INICIO SESSÃO NOTIFICAÇÕES (MURAL)-->
     <section id="tela-notificacoes" class="tela">
         
             <div class="mural-descricao">
@@ -353,7 +351,7 @@ $raiz = $GLOBALS['raiz-app'];
     </section>
     <!-- FIM SESSÃO NOTIFICAÇÕES -->
 
-    <!-- INICIO SESSÃO CENTRAL DE AJUDA -->
+    <!-- INICIO SESSÃO CENTRAL DE AJUDA (MURAL) -->
     <section id="tela-central-de-ajuda" class="tela">
 
         <div class="mural-descricao">
@@ -449,7 +447,7 @@ $raiz = $GLOBALS['raiz-app'];
     </section>
     <!-- FIM SESSÃO CENTRAL DE AJUDA -->
 
-        <!-- INICIO SESSÃO CONFIGURAÇÕES -->
+        <!-- INICIO SESSÃO CONFIGURAÇÕES (MURAL)-->
 <section id="tela-configuracoes" class="tela">
 
     <div class="mural-descricao">
@@ -461,7 +459,6 @@ $raiz = $GLOBALS['raiz-app'];
         Faça login para alterar os dados da sua conta. <a href="<?= $raiz ?>login">Entrar</a>
     </div>
 
-    <!-- APARÊNCIA -->
     <div class="config-card">
         <h3>Aparência</h3>
         <p class="config-desc">Escolha como o site aparece para você.</p>
@@ -477,7 +474,7 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
     </div>
 
-    <!-- NOTIFICAÇÕES -->
+  
     <div class="config-card" data-requer-login>
         <h3>Notificações</h3>
         <div class="config-linha">
@@ -578,6 +575,7 @@ $raiz = $GLOBALS['raiz-app'];
     </form>
 </section>
 <!-- FIM SESSÃO CONFIGURAÇÕES -->
+ 
  <!-- INICIO SESSÃO INFORMAÇÕES LEGAIS -->
 <section id="tela-informacoes-legais" class="tela">
  

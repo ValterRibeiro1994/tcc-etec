@@ -62,7 +62,6 @@ $raiz = $GLOBALS['raiz-app'];
         <!-- MENU MOBILE -->
 
         <div class="mobile-menu">
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -109,11 +108,8 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
 
         <!--FORMULARIO-->
-        <!-- ADICIONADO: página de edição, copiada do criar-denuncia.html. Os campos e ids são os mesmos;
-             quem preenche e envia o formulário é o editar-denuncia.js -->
         <form id="form-denuncia" enctype="multipart/form-data">
 
-            <!-- ADICIONADO: id da denúncia que está sendo editada (o editar-denuncia.js preenche com o ?id= da URL) -->
             <input type="hidden" id="id-denuncia" name="id-denuncia" value="">
 
             <!-- TÍTULO -->
@@ -140,12 +136,6 @@ $raiz = $GLOBALS['raiz-app'];
                 ></textarea>
             </div>
 
-
-            <!-- ALTERADO: antes era "CATEGORIA E STATUS".
-                 - As categorias agora vêm da tabela tb_categoria (o editar-denuncia.js preenche o select),
-                   pois o valor enviado precisa ser igual a nome_categoria (chave estrangeira).
-                 - O campo STATUS foi removido: toda denúncia nova nasce como "pendente" (padrão do banco).
-                 - O campo "Data da ocorrência" foi movido para esta linha. -->
             <div class="linha">
 
                 <div class="campo-denuncia">
@@ -171,6 +161,7 @@ $raiz = $GLOBALS['raiz-app'];
 
             </div>
 
+              <!-- STATUS DENUNCIA-->
             <div class="linha">
                 <div class="campo-denuncia">
                     <label for="status-denuncia">Status</label>
@@ -184,16 +175,10 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-
-            <!-- ENDEREÇO -->
-            <!-- ALTERADO: não existe campo "logradouro". O servidor monta o logradouro juntando
-                 rua + número + complemento + bairro (ex.: "Rua das Flores, 123, Apto 4 - Centro").
-                 Campos novos: rua-denuncia e complemento-denuncia. -->
             <div class="linha">
                 <div class="campo-denuncia">
                     <label for="estado-denuncia">Estado (UF)</label>
 
-                    <!-- ALTERADO: aceita só a sigla com 2 letras, como o banco espera (char(2)) -->
                     <input
                         type="text"
                         id="estado-denuncia"
@@ -221,7 +206,6 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-            <!-- ADICIONADO: rua (parte do logradouro) -->
             <div class="campo-denuncia">
                 <label for="rua-denuncia">Rua / Avenida</label>
 
@@ -249,7 +233,6 @@ $raiz = $GLOBALS['raiz-app'];
                     >
                 </div>
 
-                <!-- ADICIONADO: complemento (opcional, parte do logradouro) -->
                 <div class="campo-denuncia">
                     <label for="complemento-denuncia">Complemento (opcional)</label>
 
@@ -292,7 +275,6 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-            <!-- ADICIONADO: prévia do logradouro que será gravado (preenchida pelo editar-denuncia.js, só para conferência) -->
             <div class="campo-denuncia">
                 <small style="color: #5b6b62;">
                     Logradouro registrado:
@@ -302,12 +284,10 @@ $raiz = $GLOBALS['raiz-app'];
 
             <!-- FOTO -->
             <div class="campo-denuncia">
-                <label for="foto-denuncia"> <!-- ALTERADO: for ajustado para o id real do input -->
+                <label for="foto-denuncia">
                     Foto
                 </label>
 
-                <!-- ADICIONADO: mostra a foto que já está gravada (o editar-denuncia.js preenche e exibe).
-                     Se nenhuma foto nova for escolhida, a atual é mantida. -->
                 <div id="foto-atual" class="mb-2 d-none">
                     <img id="foto-atual-img" alt="Foto atual da denúncia" style="max-width: 100%; max-height: 180px; border-radius: 8px;">
                     <small class="d-block" style="color: #5b6b62;">Foto atual — escolha outra abaixo apenas se quiser substituí-la.</small>
@@ -330,7 +310,6 @@ $raiz = $GLOBALS['raiz-app'];
                                 Clique para selecionar uma imagem
                             </strong>
 
-                            <!-- ALTERADO: adicionado id="foto-info" (o script mostra aqui o nome do arquivo escolhido) -->
                             <small id="foto-info">
                                 JPG ou PNG — tamanho máximo de 5MB
                             </small>
@@ -340,14 +319,10 @@ $raiz = $GLOBALS['raiz-app'];
                 </div>
             </div>
 
-
-            <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo editar-denuncia.js -->
             <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
 
             <!-- BOTÃO -->
-            <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
             <div class="linha linha-botoes">
-                <!-- ALTERADO: texto do botão (era "Enviar denúncia") -->
                 <button type="submit" class="btn-enviar" id="btn-enviar">
                     Salvar alterações
                 </button>
@@ -356,13 +331,13 @@ $raiz = $GLOBALS['raiz-app'];
                     Cancelar
                 </button>
             </div>
+
         </form>
 
     </section>
 
   </main>
 
-  <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
   <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
   <script src="<?= $raiz ?>app/view/scripts/editar-denuncia.js"></script>
 

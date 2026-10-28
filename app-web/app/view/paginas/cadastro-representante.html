@@ -8,12 +8,12 @@ $raiz = $GLOBALS['raiz-app'];
 <!DOCTYPE html>
 <html lang="pt-br" class="pagina-longa">
 
-<!-- CABEÇALHO DA PÁGINA (META E LINKS) -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
-    <!-- ALTERADO: bootstrap carregado ANTES do cadastro.css (mesma ordem da tela do munícipe) -->
+
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cadastro.css">
@@ -30,7 +30,6 @@ $raiz = $GLOBALS['raiz-app'];
                 <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
             </a>
 
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
@@ -59,7 +58,6 @@ $raiz = $GLOBALS['raiz-app'];
 
         <!-- MENU MOBILE -->
         <div class="mobile-menu">
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
             <ul class="tabela-de-links">
                 <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
