@@ -9,6 +9,10 @@
 (function () {
     'use strict';
 
+    // ADICIONADO: fora do modal (iframe) a página só redireciona para o mural (ver <head> do HTML).
+    // Sem isso, quem não está logado veria o alert/redirecionamento antes do redirect acontecer.
+    if (window.self === window.top) return;
+
     // Lido agora (durante a execução do script) para montar as URLs corretamente
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
@@ -26,6 +30,13 @@
         return './' + rota;
     }
 
+    // Se esta página estiver dentro do modal do mural (iframe), avisa a página de origem.
+    // Retorna true quando o aviso foi enviado (nesse caso quem fecha é o mural).
+    function avisarModal(tipo) {
+        if (window.self === window.top) return false;
+        window.parent.postMessage({ tipo: tipo }, window.location.origin);
+        return true;
+    }
     /* ---------- Sessão: só usuário logado cria denúncia ---------- */
 
     // Lê o payload do JWT (a validação de verdade é feita no servidor)
@@ -47,7 +58,8 @@
     const token = lerToken();
     if (!token) {
         alert('Faça login para registrar uma denúncia.');
-        window.location.href = urlApp(PAGINA_LOGIN);
+        // ALTERADO: navega a janela principal; antes a tela de login abria DENTRO do modal
+        window.top.location.href = urlApp(PAGINA_LOGIN);
         return;
     }
 
@@ -230,6 +242,9 @@
             enviado = true;
             mostrarMensagem('Denúncia registrada com sucesso! Redirecionando para o mural...', 'success');
             setTimeout(function () {
+
+                 // dentro do modal do mural, quem atualiza e fecha é o mural
+                if (avisarModal('denuncia:criada')) return;
                 // ALTERADO: se o formulário foi aberto em popup pelo mural, atualiza o mural e fecha o popup
                 try {
                     if (window.opener && !window.opener.closed) {
@@ -252,6 +267,8 @@
     });
 
     btnCancelar.addEventListener('click', function () {
+         // dentro do modal do mural, apenas pede para o mural fechar o modal
+        if (avisarModal('denuncia:fechar')) return;
         // ALTERADO: em popup, apenas fecha; fora dele, volta para o mural
         if (window.opener && !window.opener.closed) {
             window.close();

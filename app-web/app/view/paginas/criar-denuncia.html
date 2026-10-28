@@ -10,92 +10,31 @@ $raiz = $GLOBALS['raiz-app'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ALTERADO: esta página é SÓ o conteúdo do modal do mural.
+         - Dentro do modal (iframe): marca o <html> com "em-modal" já no <head> (sem piscar a navbar).
+         - Aberta direto (link do rodapé, perfil, digitando a URL): volta para o mural, que abre o modal. -->
+    <script>
+        if (window.self === window.top) {
+            window.location.replace('<?= $raiz ?>denuncia/mural?nova=1');
+        } else {
+            document.documentElement.classList.add('em-modal');
+        }
+    </script>
+
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
-    <link rel="stylesheet" href= "<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/navbar.css">
-    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/geral.css">
-    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/home-mural.css">
-    <link rel="stylesheet" href= "<?= $raiz ?>app/view/estilo/criar-denuncia.css">
-  
-    
-    <title>RelateSBC</title>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <!-- REMOVIDO: navbar.css e home-mural.css (não há mais navbar nesta página) -->
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/criar-denuncia.css">
+
+    <title>Registrar uma denúncia - RelateSBC</title>
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
 </head>
 <body>
     
-   <header class="navbar-header">
-    <nav class="navbar">
-        <a href="<?= $raiz ?>home" class="logo-link">
-            <img src= "<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
-        </a>
-
-        <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
-        <ul class="tabela-de-links">
-            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-            <li class="nav-item"><a href="#">Sobre</a></li>
-            <li class="nav-item"><a href="#">Dicas</a></li>
-            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
-        </ul>
-
-        <div class="nav-actions" id="convidado">
-            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content; display: none;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
-                Entrar
-            </a>
-            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content; display: none;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
-                Cadastre-se
-            </a>
-
-            
-        </div>
-
-        <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
-            <button class="nav-btn nav-btn-primary py-2" id="logout-btn" style="width: 140px;">Sair</button>
-        </div>
-        
-
-        <div class="mobile-menu-icon">
-            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg></i></button>
-        </div>
-    </nav>
-
-    <!-- MENU MOBILE -->
-
-        <div class="mobile-menu">
-            <!-- ALTERADO: menu padronizado, com as rotas reais do projeto -->
-            <ul class="tabela-de-links">
-                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
-                <li class="nav-item"><a href="#">Sobre</a></li>
-                <li class="nav-item"><a href="#">Dicas</a></li>
-                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
-            </ul>
-
-            <div class="nav-actions">
-              <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
-                  Entrar
-              </a>
-              <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
-                  Cadastre-se
-              </a>
-                
-            <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
-            <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
-        </div>
-                
-            </div>
-        </div>
-
-        
-
-        <nav class="navbar-pagina-mobile">
-            <button type="button" onclick="abrirSidebar()">
-                ☰
-            </button>
-            <span>Mural de denúncias</span>
-        </nav>
-  </header>
+    <!-- REMOVIDO: <header> com a navbar, o menu mobile e a barra "Mural de denúncias".
+         Sem navbar não há como navegar pelo site de dentro do modal. -->
 
 <!--CONTEUDO-->
   <main class="pagina-denuncia">
@@ -120,6 +59,9 @@ $raiz = $GLOBALS['raiz-app'];
         <!--FORMULARIO-->
         <!-- ALTERADO: adicionado id="form-denuncia" e enctype (necessário para enviar a foto). O envio é feito pelo criar-denuncia.js -->
         <form id="form-denuncia" enctype="multipart/form-data">
+
+            <!-- ADICIONADO: .corpo-formulario = área dos campos, é a única parte que rola -->
+            <div class="corpo-formulario">
 
             <!-- TÍTULO -->
             <div class="campo-denuncia">
@@ -340,15 +282,17 @@ $raiz = $GLOBALS['raiz-app'];
             <!-- ADICIONADO: área de mensagens (erro/sucesso) exibida pelo criar-denuncia.js -->
             <div id="mensagem-formulario" class="alert d-none" role="alert"></div>
 
-            <!-- BOTÃO -->
-            <!-- ALTERADO: ids adicionados; o botão Cancelar era type="submit" (enviava o formulário) e agora é type="button" -->
-            <div class="linha linha-botoes">
-                <button type="submit" class="btn-enviar" id="btn-enviar">
-                    Enviar denúncia
-                </button>
-            
+            </div>
+            <!-- /corpo-formulario -->
+
+            <!-- ALTERADO: botões agora ficam num rodapé fixo (.rodape-formulario), Cancelar à esquerda e Enviar à direita -->
+            <div class="rodape-formulario">
                 <button type="button" class="btn-cancelar" id="btn-cancelar">
                     Cancelar
+                </button>
+
+                <button type="submit" class="btn-enviar" id="btn-enviar">
+                    Enviar denúncia
                 </button>
             </div>
         </form>
@@ -357,8 +301,7 @@ $raiz = $GLOBALS['raiz-app'];
 
   </main>
 
-  <!-- ADICIONADO: fechamento do <main> (estava faltando) e scripts da página -->
-  <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+  <!-- scripts da página (navbar.js removido: não existe mais navbar aqui) -->
   <script src="<?= $raiz ?>app/view/scripts/criar-denuncia.js"></script>
 
 </body>

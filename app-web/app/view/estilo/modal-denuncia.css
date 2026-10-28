@@ -1,0 +1,136 @@
+body.modal-denuncia-aberto {
+    overflow: hidden;
+}
+
+/* ---------- Fundo desfocado ---------- */
+.modal-denuncia {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(15, 23, 42, 0.55);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-denuncia.aberto {
+    opacity: 1;
+}
+
+/* ---------- Card ---------- */
+.modal-denuncia-card {
+    position: relative;
+    width: min(760px, 100%);
+    height: min(94vh, 820px);   /* ALTERADO: 88vh -> 94vh (igual à imagem de referência) */
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    transform: translateY(14px) scale(0.98);
+    transition: transform 0.2s ease;
+}
+
+.modal-denuncia.aberto .modal-denuncia-card {
+    transform: none;
+}
+
+/* ADICIONADO: card no tema escuro (o iframe também fica escuro) */
+html[data-tema="escuro"] .modal-denuncia-card {
+    background: #1e293b;
+}
+
+html[data-tema="escuro"] .modal-denuncia-fechar {
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Indicador de carregamento (some quando o formulário abre) */
+.modal-denuncia-card::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 3px solid #d5e5da;
+    border-top-color: #16a34a;
+    border-radius: 50%;
+    animation: modal-denuncia-gira 0.8s linear infinite;
+}
+
+.modal-denuncia-card.pronto::before {
+    display: none;
+}
+
+@keyframes modal-denuncia-gira {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------- Formulário (iframe) ---------- */
+.modal-denuncia-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-denuncia-card.pronto .modal-denuncia-frame {
+    opacity: 1;
+}
+
+/* ---------- Botão de fechar ---------- */
+.modal-denuncia-fechar {
+    position: absolute;
+    top: 16px;                   /* ALTERADO: 12/14px -> 16px */
+    right: 16px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: #475569;
+    background: rgba(15, 23, 42, 0.06);
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-denuncia-fechar:hover {
+    color: #0f172a;
+    background: rgba(15, 23, 42, 0.14);
+}
+
+.modal-denuncia-fechar:focus-visible {
+    outline: 3px solid #16a34a;
+    outline-offset: 2px;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 575.98px) {
+    .modal-denuncia {
+        padding: 8px;
+    }
+
+    .modal-denuncia-card {
+        height: 94vh;
+        border-radius: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-denuncia,
+    .modal-denuncia-card,
+    .modal-denuncia-frame {
+        transition: none;
+    }
+}
