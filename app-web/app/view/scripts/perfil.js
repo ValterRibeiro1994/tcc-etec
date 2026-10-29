@@ -1,9 +1,3 @@
-/**
- * Sabemos que start-app.js cuida da parte do token
- * precisamos garantir que nessa pagina o acesso seja bloqueado para visitantes
- * precisamos garantir que os dados recebidos do servidor sejam persistidos
- * precisamos editar os dados da pagina com os campos recebidos
-*/
 
 const DEBUG = true;
 const RAIZ = new URL("../../../", import.meta.url).pathname; // resolve localhost e hospedagem sem duplicar /app-web/
@@ -124,20 +118,14 @@ if (dados.resposta){
 }
 
 
-/* ==========================================================
-   PERFIL - RelateSBC  (perfil.html)
-   - Exige usuário logado (senão vai para o login)
-   - Preenche nome, tipo de perfil e local com os dados do banco (./user/dados)
-   - Lista só as denúncias do próprio usuário (./denuncia/minhas)
-   ========================================================== */
+/* PERFIL */
 
 (function () {
     'use strict';
 
-    // Lido agora (durante a execução do script) para montar as URLs corretamente
-    const SRC_DO_SCRIPT = import.meta.url; // Em módulos, document.currentScript é null.
+    
+    const SRC_DO_SCRIPT = import.meta.url; 
 
-    // Raiz do projeto: app/view/scripts/perfil.js -> ../../../
     function urlApp(rota) {
         if (SRC_DO_SCRIPT) return new URL('../../../' + rota, SRC_DO_SCRIPT).href;
         return './' + rota;
@@ -367,9 +355,7 @@ if (dados.resposta){
             window.location.href = urlApp('denuncia/criar');
         });
     }
-
-    /* ---------- Início ---------- */
-
+    
     carregarDados();
     carregarDenuncias();
 })();

@@ -81,7 +81,7 @@
 
     function mostrarMensagem(texto, tipo) {
         caixaMsg.textContent = texto;
-        caixaMsg.className = 'alert alert-' + tipo; // alert-danger | alert-success
+        caixaMsg.className = 'alert alert-' + tipo;
         caixaMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -90,8 +90,7 @@
         caixaMsg.className = 'alert d-none';
     }
 
-    // Volta para onde o usuário estava: fecha o popup (e atualiza o mural), volta para a página
-    // de onde veio (ex.: perfil) ou, na falta de ambos, vai para o mural.
+    // Volta para onde o usuário estava
     function sairDaEdicao(atualizar) {
         try {
             if (window.opener && !window.opener.closed) {
@@ -99,14 +98,14 @@
                 window.close();
                 return;
             }
-        } catch (erroOpener) { /* sem acesso à janela de origem: segue para o redirecionamento */ }
+        } catch (erroOpener) {}
 
         try {
             if (document.referrer && new URL(document.referrer).origin === window.location.origin) {
                 window.location.href = document.referrer;
                 return;
             }
-        } catch (erroReferrer) { /* referrer inválido: segue para o mural */ }
+        } catch (erroReferrer) {}
 
         window.location.href = urlApp(PAGINA_MURAL);
     }
@@ -145,7 +144,7 @@
 
             categorias.forEach(function (categoria) {
                 const opcao = document.createElement('option');
-                opcao.value = categoria.nome_categoria; // o banco usa o nome como chave estrangeira
+                opcao.value = categoria.nome_categoria; 
                 opcao.textContent = categoria.nome_categoria;
                 selectCateg.appendChild(opcao);
             });
@@ -268,7 +267,6 @@
             }
 
             if (!json.resposta) {
-                // mensagens do servidor: não encontrada, não é sua, status não permite editar, sessão expirada...
                 mostrarMensagem(json.mensagem || 'Não foi possível carregar a denúncia.', 'danger');
                 return;
             }
@@ -290,7 +288,7 @@
         const dados = new FormData(form); // já leva o id-denuncia (campo oculto) e a foto, se escolhida
         dados.append('metodo', 'POST'); // o roteador exige essa chave
 
-        let enviado = false; // depois de salvar, o botão continua desativado (evita enviar duas vezes)
+        let enviado = false;
         btnEnviar.disabled = true;
         const textoOriginal = btnEnviar.textContent;
         btnEnviar.textContent = 'Salvando...';
@@ -302,8 +300,6 @@
                 body: dados
             });
 
-            // Lê como texto primeiro: se o PHP devolver um erro em HTML (e não JSON),
-            // mostramos o que o servidor respondeu em vez de um erro genérico.
             const texto = await resposta.text();
             let json;
             try {
@@ -338,8 +334,5 @@
         sairDaEdicao(false);
     });
 
-    /* ---------- Início ---------- */
-
-    // as categorias precisam estar no <select> antes de escolher a categoria da denúncia
     carregarCategorias().then(carregarDenuncia);
 })();

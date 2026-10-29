@@ -82,7 +82,7 @@
 
     function mostrarMensagem(texto, tipo) {
         caixaMsg.textContent = texto;
-        caixaMsg.className = 'alert alert-' + tipo; // alert-danger | alert-success
+        caixaMsg.className = 'alert alert-' + tipo;
         caixaMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -115,7 +115,7 @@
 
             categorias.forEach(function (categoria) {
                 const opcao = document.createElement('option');
-                opcao.value = categoria.nome_categoria; // o banco usa o nome como chave estrangeira
+                opcao.value = categoria.nome_categoria;
                 opcao.textContent = categoria.nome_categoria;
                 selectCateg.appendChild(opcao);
             });
@@ -233,7 +233,6 @@
             mostrarMensagem('Denúncia registrada com sucesso! Redirecionando para o mural...', 'success');
             setTimeout(function () {
 
-                 // dentro do modal do mural, quem atualiza e fecha é o mural
                 if (avisarModal('denuncia:criada')) return;
 
                 try {
@@ -242,7 +241,7 @@
                         window.close();
                         return;
                     }
-                } catch (erroOpener) { /* sem acesso à janela de origem: segue para o redirecionamento */ }
+                } catch (erroOpener) {}
                 window.location.href = urlApp(PAGINA_MURAL);
             }, 1500);
         } catch (erro) {
@@ -257,7 +256,7 @@
     });
 
     btnCancelar.addEventListener('click', function () {
-         // dentro do modal do mural, apenas pede para o mural fechar o modal
+    
         if (avisarModal('denuncia:fechar')) return;
         if (window.opener && !window.opener.closed) {
             window.close();
@@ -265,8 +264,6 @@
         }
         window.location.href = urlApp(PAGINA_MURAL);
     });
-
-    /* ---------- Início ---------- */
 
     carregarCategorias();
 })();

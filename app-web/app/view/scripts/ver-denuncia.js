@@ -8,10 +8,8 @@
 (function () {
     'use strict';
 
-    // Lido agora (durante a execução do script) para montar as URLs corretamente
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
-    // Raiz do projeto: app/view/scripts/ver-denuncia.js -> ../../../
     function urlApp(rota) {
         if (SRC_DO_SCRIPT) return new URL('../../../' + rota, SRC_DO_SCRIPT).href;
         return './' + rota;
@@ -96,19 +94,17 @@
         return;
     }
 
-    // "Voltar": volta para a página de onde veio (mural, perfil...) quando for do próprio site
+    // "Voltar": volta para a página de onde veio (mural, perfil...)
     if (btnVoltar) {
         btnVoltar.addEventListener('click', function (evento) {
 
             try {
-                // Quando o usuário veio do mural, o estado
-                // salvo será restaurado ao voltar.
+                // Quando o usuário veio do mural, o estado salvo será restaurado ao voltar.
                 if (sessionStorage.getItem('mural-retorno')) {
-                    return; // o link para o mural restaurará a seção e a paginação.
+                    return;
                 }
 
-                // Se veio de outra página interna, como
-                // o perfil, retorna à página anterior.
+                // Se veio de outra página interna, como o perfil, retorna à página anterior.
                 if (
                     document.referrer &&
                     new URL(document.referrer).origin === location.origin
@@ -118,8 +114,7 @@
                 }
 
             } catch (erro) {
-                // Se não houver histórico utilizável,
-                // segue normalmente para o mural.
+                // Se não houver histórico utilizável, segue normalmente para o mural.
             }
         });
     }
@@ -185,7 +180,7 @@
 
     function mostrarMensagemComentario(texto, tipo) {
         caixaMsg.textContent = texto;
-        caixaMsg.className = texto ? 'alert alert-' + tipo : 'alert d-none'; // alert-danger | alert-success
+        caixaMsg.className = texto ? 'alert alert-' + tipo : 'alert d-none';
     }
 
     function montarComentario(c) {
