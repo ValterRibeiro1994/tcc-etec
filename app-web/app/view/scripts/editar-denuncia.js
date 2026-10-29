@@ -1,4 +1,4 @@
-/* ==========================================================
+/*
    EDITAR DENÚNCIA - RelateSBC  (editar-denuncia.html)
    - Exige usuário logado (token no localStorage)
    - Pega o id da denúncia na URL (?id=12)
@@ -6,12 +6,11 @@
    - Carrega as categorias do banco (./categoria/categorias)
    - Envia as alterações para ./denuncia/editar (POST) com o token
    Baseado no criar-denuncia.js (mesmas regras de campos, foto e prévia).
-   ========================================================== */
+ */
 
 (function () {
     'use strict';
 
-    // Lido agora (durante a execução do script) para montar as URLs corretamente
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
     const PAGINA_MURAL = 'denuncia/mural';
@@ -21,7 +20,6 @@
     const TIPOS_FOTO = ['image/jpeg', 'image/png'];
     const TEXTO_FOTO_PADRAO = 'JPG ou PNG — tamanho máximo de 5MB';
 
-    // Raiz do projeto: app/view/scripts/editar-denuncia.js -> ../../../
     function urlApp(rota) {
         if (SRC_DO_SCRIPT) return new URL('../../../' + rota, SRC_DO_SCRIPT).href;
         return './' + rota;
@@ -177,7 +175,6 @@
     });
 
     /* ---------- Prévia do logradouro ---------- */
-    // Mesmo formato montado no servidor (Endereco::getLogradouro):
     // "Rua, número, complemento - bairro". Serve só para conferência.
 
     function atualizarPrevia() {

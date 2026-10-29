@@ -1,10 +1,10 @@
-/* ==========================================================
+/* 
    CRIAR DENÚNCIA - RelateSBC
    - Exige usuário logado (token no localStorage)
    - Carrega as categorias do banco (./categoria/categorias)
    - Mostra a prévia do logradouro (rua, número, complemento - bairro)
    - Envia o formulário para ./denuncia/criar (POST) com o token
-   ========================================================== */
+*/
 
 (function () {
     'use strict';
@@ -15,27 +15,25 @@
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
     // Página para onde o usuário vai depois de enviar (ou cancelar)
-    // ALTERADO: rota oficial do mural (antes 'teste/homemural')
     const PAGINA_MURAL = 'denuncia/mural';
     const PAGINA_LOGIN = 'login';
 
     const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024; // 5 MB
     const TIPOS_FOTO = ['image/jpeg', 'image/png'];
 
-    // Raiz do projeto: app/view/scripts/criar-denuncia.js -> ../../../
     function urlApp(rota) {
         if (SRC_DO_SCRIPT) return new URL('../../../' + rota, SRC_DO_SCRIPT).href;
         return './' + rota;
     }
 
-    // Se esta página estiver dentro do modal do mural (iframe), avisa a página de origem.
     // Retorna true quando o aviso foi enviado (nesse caso quem fecha é o mural).
     function avisarModal(tipo) {
         if (window.self === window.top) return false;
         window.parent.postMessage({ tipo: tipo }, window.location.origin);
         return true;
     }
-    /* ---------- Sessão: só usuário logado cria denúncia ---------- */
+
+    /* Sessão: só usuário logado cria denúncia */
 
     // Lê o payload do JWT (a validação de verdade é feita no servidor)
     function lerToken() {
@@ -56,7 +54,6 @@
     const token = lerToken();
     if (!token) {
         alert('Faça login para registrar uma denúncia.');
-        // ALTERADO: navega a janela principal; antes a tela de login abria DENTRO do modal
         window.top.location.href = urlApp(PAGINA_LOGIN);
         return;
     }
@@ -148,9 +145,6 @@
     });
 
     /* ---------- Prévia do logradouro ---------- */
-    // Mesmo formato montado no servidor (Endereco::getLogradouro):
-    // "Rua, número, complemento - bairro". Serve só para conferência.
-
     function atualizarPrevia() {
         const rua = inputRua.value.trim().replace(/\s+/g, ' ');
         const numero = inputNumero.value.trim();
@@ -219,8 +213,6 @@
                 body: dados
             });
 
-            // Lê como texto primeiro: se o PHP devolver um erro em HTML (e não JSON),
-            // mostramos o que o servidor respondeu em vez de um erro genérico.
             const texto = await resposta.text();
             let json;
             try {
@@ -243,7 +235,7 @@
 
                  // dentro do modal do mural, quem atualiza e fecha é o mural
                 if (avisarModal('denuncia:criada')) return;
-                // ALTERADO: se o formulário foi aberto em popup pelo mural, atualiza o mural e fecha o popup
+
                 try {
                     if (window.opener && !window.opener.closed) {
                         window.opener.location.reload();
@@ -267,7 +259,6 @@
     btnCancelar.addEventListener('click', function () {
          // dentro do modal do mural, apenas pede para o mural fechar o modal
         if (avisarModal('denuncia:fechar')) return;
-        // ALTERADO: em popup, apenas fecha; fora dele, volta para o mural
         if (window.opener && !window.opener.closed) {
             window.close();
             return;
