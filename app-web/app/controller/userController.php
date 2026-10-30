@@ -78,6 +78,7 @@ class UserController {
         foreach($atributos as $atributo){
             if ($payload[$atributo] != SessaoService::obterAtributoUsuario($atributo)){
                 // os mesmos dados de sessão são passados para o token, algum deles foi alterado
+                SessaoService::destruirSessao();
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Token invalido", resposta: false,
                     formato: "json"
@@ -107,7 +108,7 @@ class UserController {
                 );
             }
 
-            // retorna a pagina index, apenas usuario cadastrado pode ter perfil
+            // retorna a pagina index, apenas usuario cadastrado e ativo pode ter perfil
             return RespostaProcesso::resposta(
                 mensagem: "Perfil disponivel apenas para cadastrados", resposta: false,
                 formato: "html",
