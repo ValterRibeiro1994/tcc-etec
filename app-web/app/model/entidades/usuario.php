@@ -74,6 +74,9 @@ class Usuario {
     public function __construct(DadosPessoais $dados_usuario)
     {
         $this->dados_usuario = $dados_usuario;
+        $this->endereco = new Endereco();
+        $this->prefeitura = new Prefeitura();
+
     }
 
     public function setDadosPessoais(DadosPessoais $dados_usuario){
@@ -181,7 +184,6 @@ class Usuario {
         }
 
         if ($endereco != null) $this->endereco = $endereco;
-        if ($this->endereco == null) $this->endereco = new Endereco();
         if ($cidade != null) $this->endereco->setCidade($cidade);
         if ($estado != null) $this->endereco->setEstado($estado);
         
@@ -204,6 +206,7 @@ class Usuario {
         if ($this->endereco == null){
             $this->setEndereco();
         }
+
 
         return $this->endereco->getCidade();
     }

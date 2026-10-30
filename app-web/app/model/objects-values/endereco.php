@@ -14,6 +14,12 @@ class Endereco {
         if ($estado !== null) $this->setEstado($estado);
 
     }
+
+    // funções auxiliares
+    private function validar(string $texto, int $limite){
+        // função para validar se uma string está vazia e seu limite
+        return (!empty(mb_trim($texto, encoding: "utf-8")) && mb_strlen($texto, encoding: "utf-8") <= $limite);
+    }
     
     // ==================================================================
     // ALTERADO: o logradouro NÃO é mais informado diretamente.
@@ -27,22 +33,31 @@ class Endereco {
         $this->rua = $rua;
     }
  
-    public function setBairro(string $bairro, int $limite = 80){
-        $bairro = trim($bairro);
-        if ($bairro === "") throw new Exception("Bairro Invalido");
-        if (mb_strlen($bairro) > $limite) throw new Exception("Bairro muito longo (máximo de $limite caracteres)");
+    public function setBairro(string $bairro, int $limite = 80, bool $validar = false){
+        if ($validar){
+            if (!$this->validar($bairro, $limite)){
+                throw new Exception("Cliente: Bairro invalido");
+            }
+            $this->bairro = $bairro;
+            return;
+        }
+
         $this->bairro = $bairro;
     }
 
-    public function setNumero(string $numero, int $limite = 30){
-        $numero = trim($numero);
-        if ($numero === "") throw new Exception("Numero Invalido");
-        if (mb_strlen($numero) > $limite) throw new Exception("Número muito longo (máximo de $limite caracteres)");
+    public function setNumero(string $numero, int $limite = 30, bool $validar = false){
+        if (!$validar){
+            $this->numero = $numero;
+            return;
+        }
+
+        if (!$this->validar($numero, $limite)) throw new Exception("Cliente: Endereço, número invalido");
         $this->numero = $numero;
+        return;
     }
 
     // O complemento é opcional: texto vazio ou null deixam o complemento sem valor
-    public function setComplemento(string|null $complemento, int $limite = 100){
+    public function setComplemento(string $complemento, int $limite = 100){
         $complemento = trim(preg_replace('/\s+/', ' ', (string) $complemento));
         if ($complemento === "") {
             $this->complemento = null;
@@ -101,29 +116,34 @@ class Endereco {
     }
 
     public function getBairro(): string {
-        if ($this->bairro === null) throw new Exception("Bairro não informado");
+        if ($this->bairro === null) return "";
         return $this->bairro;
     }
 
     public function getNumero(): string {
-        if ($this->numero === null) throw new Exception("Número não informado");
+        if ($this->numero === null) return "";
         return $this->numero;
     }
 
-    public function getComplemento(): string|null {
+    public function getComplemento(): string {
+        if ($this->complemento === null) return "";
         return $this->complemento;
     }
 
     public function getCidade(): string {
+        if ($this->cidade === null) {
+            return "";
+        }
         return $this->cidade;
     }
 
     public function getEstado(): string {
+        if ($this->estado === null) return "";// não informado
         return $this->estado;
     }
 
     public function getCep(): string {
-        if ($this->cep === null) throw new Exception("Cep não informado");
+        if ($this->cep === null) return "";
         return $this->cep;
     }
     
