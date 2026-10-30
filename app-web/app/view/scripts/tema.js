@@ -1,11 +1,6 @@
-/*
- * Tema claro / escuro - carregue este arquivo no <head> (sem defer) para a página
- * já abrir no tema certo, sem piscar branco.
- *
- * - Lê a escolha salva em localStorage ('tema' = 'claro' | 'escuro') e aplica no <html>.
- * - Qualquer <input type="checkbox" id="toggle-tema"> da página liga/desliga o tema escuro.
- * - Se o tema mudar em outra aba, esta aba acompanha.
- */
+
+/*Tema claro / escuro */
+
 (function () {
     'use strict';
 
@@ -33,8 +28,8 @@
     function sincronizarControles() {
         var escuro = html.getAttribute('data-tema') === 'escuro';
         var chk = document.getElementById('toggle-tema');
+        
         if (chk) chk.checked = escuro;
-        // botões da tela de configurações (home-mural) continuam funcionando
         document.querySelectorAll('#config-tema .config-opcao').forEach(function (b) {
             b.classList.toggle('ativo', b.dataset.tema === (escuro ? 'escuro' : 'claro'));
         });

@@ -1,8 +1,7 @@
 const formLogin = window.document.getElementById("form-login-main");
 const tagResposta = window.document.getElementById("resposta-formulario");
 const debug = true;
-// console.clear();
-// Inicializa o fluxo
+
 main();
 
 function main() {
@@ -23,7 +22,7 @@ function prepararEventoLogin() {
     if (!formLogin) return;
 
     formLogin.addEventListener("submit", async function(evento) {
-        evento.preventDefault(); // Evita recarregar a página
+        evento.preventDefault();
 
         // Prepara e valida localmente
         const validacao = prepararFormulario(formLogin);
@@ -108,7 +107,6 @@ function prepararFormulario(form) {
         dados.append("lembrar", "false");
     }
 
-    // Corrigido: enviando 'dados' para a validação
     if (validarEntradas(campos_esperados, dados) === false) {
         return { resposta: false, mensagem: "Erro: Todos os campos devem ser preenchidos" };
     }

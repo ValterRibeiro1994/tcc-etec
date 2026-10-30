@@ -1,15 +1,3 @@
-/* ==========================================================
-   NAVBAR - RelateSBC
-   - menuAbrir / abrirSidebar / fecharSidebar (usadas pelos onclick do HTML)
-   - botão Sair (logout)
-   ALTERADO: as URLs agora são montadas a partir da posição deste arquivo,
-   então funcionam em qualquer página, não importa em que pasta ela esteja
-   (antes "./user/logout" e "./home" quebravam nas páginas de 2 níveis).
-   Os botões Entrar/Cadastre-se já são links <a href>, não precisam de JavaScript
-   (removidos os alert de teste e o redirecionamento duplicado).
-   ========================================================== */
-
-// ---------- funções globais (chamadas pelos onclick do HTML) ----------
 
 function menuAbrir() {
     let menuMobile = document.querySelector('.mobile-menu');
@@ -32,10 +20,8 @@ function fecharSidebar() {
 (function () {
     'use strict';
 
-    // Lido agora (durante a execução do script) para montar as URLs corretamente
     const SRC_DO_SCRIPT = document.currentScript ? document.currentScript.src : '';
 
-    // Raiz do projeto: app/view/scripts/navbar.js -> ../../../
     function urlApp(rota) {
         if (SRC_DO_SCRIPT) return new URL('../../../' + rota, SRC_DO_SCRIPT).href;
         return './' + rota;
