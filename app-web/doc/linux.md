@@ -1,3 +1,0 @@
-entrando pelo kali linux 
-
-
