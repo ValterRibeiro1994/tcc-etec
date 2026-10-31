@@ -7,12 +7,12 @@ class LoginController {
             if ($this->estaLogado())
                 // o usuario não pode acessar login se está autenticado 
                 return RespostaProcesso::resposta(
-                mensagem: "Controller: Usuario Conectado",
+                mensagem: "Cliente: Usuario redirecionado.",
                 pagina: "app/view/paginas/index.html", resposta: true, 
                 formato: "html");
 
             return RespostaProcesso::resposta(
-                mensagem: "Controller: Enviando documento html", resposta: true,
+                mensagem: "Cliente: Carregando Login.", resposta: true,
                 dados: [], formato: "html",
                 pagina: "app/view/paginas/login.html"
             );
@@ -20,7 +20,7 @@ class LoginController {
         if ($requisicao['metodo'] == "POST") {
             if ($this->estaLogado()){
                 return RespostaProcesso::resposta(
-                    mensagem: "Controller: Usuario Conectado", resposta: false,
+                    mensagem: "Cliente: Usuário conectado.", resposta: false,
                     dados: [], formato: "json"
                 );
             }
@@ -44,17 +44,17 @@ class LoginController {
 
     private function efetuarLogin(array $requisicao){
         $tentativas = SessaoService::obterTentativasLogin();
-        if ($tentativas > 3){
+        if ($tentativas > 3) {
             // coloque em espera para proxima tentativa
             SessaoService::editarTempoEspera(3);
             if (SessaoService::espera()){
                 return RespostaProcesso::resposta(
-                    mensagem: "Controller: Limite de tentativas Excedido, aguarde um pouco antes de tentar novamente",
+                    mensagem: "Cliente: Limite de tentativas Excedido, aguarde um pouco antes de tentar novamente",
                     resposta: false, dados: ['tentativas' => $tentativas],
                     formato: "json"
                 );
             }
-            
+
             SessaoService::resetarTentativasLogin();
             SessaoService::resetarTempoInicio();
         } else {
@@ -66,7 +66,7 @@ class LoginController {
             $entrada = $campos[$x];
             if (!array_key_exists($entrada, $requisicao)) {
                 return RespostaProcesso::resposta(
-                    mensagem: "Controller: Campo $entrada não encontrado", resposta: false, 
+                    mensagem: "Cliente: Campo $entrada não encontrado", resposta: false, 
                     dados: $requisicao, formato: "json"
                 );
             }
@@ -74,27 +74,25 @@ class LoginController {
 
         // valida os dados recebidos pelo front-end
         $email = new Email($requisicao['email']);
-        $email->validarEmail();
+        $email->validarEmail(); // lança um erro 
 
         $senha = new Senha($requisicao['senha']);
         $senha->validarSenha();
 
         // iniciar repositorio
         $repositorio = new UsuarioRepositorio(new Conexao());
-        
+
         // Localiza o usuario pelo email recebido
         $resposta = $repositorio->obterUsuario($email->getEmail());
-        if (!$resposta['resposta']) return $resposta;
-        
-        // destroi o repositorio que foi aberto
-        // $repositorio = null;
-        $usuario_db = $resposta['dados'];
+        if (!$resposta['resposta']) return $resposta; 
+        $usuario_db = $resposta['dados']; // dados do usuario armazenado no banco
+
         // captura a senha do banco
         $senha = $usuario_db['senha']; // hash armazenado no banco
 
         if (!password_verify($requisicao['senha'], $senha)) {
             return RespostaProcesso::resposta(
-                mensagem: "Controller: Senha inválida", resposta: false,
+                mensagem: "Cliente: Senha inválida", resposta: false,
                 dados: $requisicao, formato: "json"
             );
         }
@@ -106,8 +104,7 @@ class LoginController {
         SessaoService::destruirSessao();
 
         // cria uma nova sessão para o usuario autenticado
-        $resposta = SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
-        if (!$resposta['resposta']) return $resposta;
+        SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
 
         // cria o token para o usuario
         $resposta = TokenService::criarToken($usuario, $requisicao['lembrar'] ? 86400 : $GLOBALS['tempo-sessao']);
