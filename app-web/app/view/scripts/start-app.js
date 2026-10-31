@@ -1,5 +1,5 @@
 const DEBUG = true;
-const RAIZ = "../app-web/";
+const RAIZ = "../";
 
 async function gerenciarAutenticacaoEPerfil() {
     // 1. Fase de Autenticação / Token (Primeira Parte)
@@ -78,7 +78,7 @@ async function gerenciarAutenticacaoEPerfil() {
 // Funções Auxiliares
 
 async function criarVisitante() {
-    let servidor = await fetch("./token/criar/?perfil=visitante&nome=visitante&sobrenome=visitante&email=visitante@gmail.com&lembrar=false", {
+    let servidor = await fetch("token/criar/?perfil=visitante&nome=visitante&sobrenome=visitante&email=visitante@gmail.com&lembrar=false", {
         method: "GET",
     });
 
@@ -132,7 +132,7 @@ async function validarToken() {
         'cargo': CARGO
     });
 
-    let servidor = await fetch("./token/validar", {
+    let servidor = await fetch("token/validar", {
         method: "POST",
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         body: dados
@@ -147,7 +147,7 @@ async function validarToken() {
     if (!resposta.resposta) {
         if (resposta.dados && resposta.dados.status === "expirado") {
             dados.set("metodo", "PUT");
-            let servidorRenovacao = await fetch("./token/renovar", {
+            let servidorRenovacao = await fetch("token/renovar", {
                 method: "POST",
                 body: dados
             });
@@ -184,7 +184,7 @@ async function validarToken() {
 }
 
 async function desconectar() {
-    await fetch("../user/logout", {
+    await fetch("user/logout", {
         method: "GET"
     });
 }

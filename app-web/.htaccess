@@ -1,7 +1,10 @@
 RewriteEngine On
 
-RewriteBase /app-web
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# BEGIN InfinityFree Managed Code
+# DO NOT EDIT - MANAGED BY THE MEMBERS AREA
+php_value display_errors On
+# END InfinityFree Managed Code
