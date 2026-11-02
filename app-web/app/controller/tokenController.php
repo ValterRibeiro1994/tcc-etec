@@ -164,14 +164,7 @@ class TokenController {
         }
 
         // inicia uma sessão para o usuario
-        $sessao = SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
-        if (!$sessao['resposta']){
-            return RespostaProcesso::resposta(
-                mensagem: "Controller: Falha ao iniciar sessão", resposta: false,
-                dados: $sessao['dados'], formato: "json"
-            );
-        }
-
+        SessaoService::registrarUsuario($usuario, $requisicao['lembrar']);
         return RespostaProcesso::resposta(
             mensagem: "Controller: Sessão iniciada com sucesso", resposta: true,
             dados: $token['dados'], formato: "json"

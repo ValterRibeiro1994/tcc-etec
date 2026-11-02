@@ -48,9 +48,6 @@ class SessaoService {
     }
 
     public static function registrarUsuario(Usuario $usuario, bool $lembrar){
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
         $expira = $lembrar ? 86400 : $GLOBALS['tempo-sessao'];
         self::destruirSessao(); // destroi a sessão atual seja de visitante ou não
         self::iniciarSessao($usuario, $expira);
