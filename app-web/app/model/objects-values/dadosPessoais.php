@@ -7,46 +7,26 @@ class DadosPessoais {
     private Email $email;
 
     public function __construct(Perfil $perfil = null, Nome $nome = null, Sobrenome $sobrenome = null, Email $email = null) {
-        $this->perfil = new Perfil();
-        if ($perfil != null) $this->perfil = $perfil;
-
-        $this->nome = new Nome();
-        if ($nome != null) $this->setNome($nome);
-
-        $this->sobrenome = new Sobrenome();
-        if ($sobrenome != null) $this->setSobrenome($sobrenome);
-
-        $this->email = new Email();
-        if ($email != null) $this->setEmail($email);
+        $this->perfil = new Perfil() ?? $perfil;
+        $this->nome = new Nome() ?? $nome;
+        $this->sobrenome = new Sobrenome() ?? $sobrenome;
+        $this->email = new Email() ?? $email;
     }
 
 
     public function getPerfil(): string {
-        if ($this->perfil == null){
-            $this->setPerfil("visitante");
-        }
-
         return $this->perfil->getPerfil();
     }
 
     public function getNome(): string {
-        if ($this->nome == null) {
-            $this->setNome("visitante");
-        }
         return $this->nome->getNome();
     }
         
     public function getSobrenome(): string {
-        if ($this->sobrenome == null) {
-            $this->setSobrenome("visitante");
-        }
         return $this->sobrenome->getSobrenome();
     }
 
     public function getEmail(): string {
-        if ($this->email == null){
-            $this->setEmail("visitante@gmail.com");
-        };
         return $this->email->getEmail();
     }
 
