@@ -1,6 +1,6 @@
 <?php
 // caminhos
-$GLOBALS['raiz-app'] =  '/';
+$GLOBALS['raiz-app'] =  '/app-web/'; // branch main use '/app-web/' | branch produção use '/'
 
 // dados de acesso ao banco de dados
 $GLOBALS['usuario_banco'] = "if0_43311871";
