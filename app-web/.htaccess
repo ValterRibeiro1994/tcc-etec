@@ -1,4 +1,6 @@
 RewriteEngine On
+# Comentar essa linha ao subir em produção
+ReWriteBase /app-web
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
