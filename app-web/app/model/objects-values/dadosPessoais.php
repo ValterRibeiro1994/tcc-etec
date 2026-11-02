@@ -7,10 +7,10 @@ class DadosPessoais {
     private Email $email;
 
     public function __construct(Perfil $perfil = null, Nome $nome = null, Sobrenome $sobrenome = null, Email $email = null) {
-        $this->perfil = new Perfil() ?? $perfil;
-        $this->nome = new Nome() ?? $nome;
-        $this->sobrenome = new Sobrenome() ?? $sobrenome;
-        $this->email = new Email() ?? $email;
+        $this->perfil = $perfil ? $perfil : new Perfil();
+        $this->nome = $nome ? $nome : new Nome();
+        $this->sobrenome = $sobrenome ? $sobrenome : new Sobrenome();
+        $this->email =  $email ? $email : new Email();
     }
 
 

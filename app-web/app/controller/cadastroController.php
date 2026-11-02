@@ -19,7 +19,6 @@ class CadastroController {
         }
         
         if ($requisicao['metodo'] == "POST"){
-            $requisicao = json_decode(file_get_contents('php://input'), true);
             if (!array_key_exists("token", $requisicao)){
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Token não enviado para cadastro", resposta: false,

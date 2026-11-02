@@ -67,6 +67,20 @@ class UsuarioRepositorio {
             );
 
         } catch (Exception $erro) {
+            if ($erro->getCode() == "23000"){
+                $chaves_unicas = ['email', 'cpf'];
+                $msg_erro = mb_strtolower($erro->getMessage(), "utf-8");
+                foreach ($chaves_unicas as $chave) {
+                    if (str_contains($msg_erro, "duplicate") && str_contains($msg_erro, $chave)) {
+                        return RespostaProcesso::resposta(
+                            mensagem: "Cliente: Não é possivel registrar o " . mb_strtoupper($chave, 'utf-8') . ", ele já existe no sistema.",
+                            resposta: false, dados: RespostaProcesso::salvarErro($erro)
+
+                        );
+                    }
+                }
+                return RespostaProcesso::resposta($msg_erro, dados: RespostaProcesso::salvarErro($erro));
+            }
             return RespostaProcesso::resposta(
                 mensagem: "Database: Erro ao registrar usuario", resposta: false,
                 dados: RespostaProcesso::salvarErro($erro)

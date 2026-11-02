@@ -9,6 +9,7 @@ class UtilService {
     }
 
     public static function criarUsuario(array $dados){
+        
         // como parte de todo usuario os campos abaixos são obrigatorios em todo processo
         if (array_key_exists("perfil", $dados)){
             if ($dados['perfil'] == "visitante"){

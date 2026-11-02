@@ -1,5 +1,5 @@
-const DEBUG = true;
-const RAIZ = "../";
+const DEBUG = false;
+const RAIZ = "../app-web/";
 
 async function gerenciarAutenticacaoEPerfil() {
     // 1. Fase de Autenticação / Token (Primeira Parte)
