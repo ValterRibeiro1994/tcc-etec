@@ -3,10 +3,10 @@
 $GLOBALS['raiz-app'] =  '/app-web/'; // branch main use '/app-web/' | branch produção use '/'
 
 // dados de acesso ao banco de dados
-$GLOBALS['usuario_banco'] = "if0_43311871";
-$GLOBALS['senha_banco'] = "c2bNRADchtX";
-$GLOBALS['host_banco'] = "sql211.infinityfree.com";
-$GLOBALS['database_banco'] = "if0_43311871_relate_sbc";
+$GLOBALS['usuario_banco'] = "root";
+$GLOBALS['senha_banco'] = "";
+$GLOBALS['host_banco'] = "localhost";
+$GLOBALS['database_banco'] = "relate_sbc";
 
 //tabelas do banco de dados
 $GLOBALS['usuario'] = "tb_usuario";
@@ -17,7 +17,7 @@ $GLOBALS['categorias'] = "tb_categoria";
 $GLOBALS['debug'] = true;
 
 // tempo de sessao
-$GLOBALS['tempo-sessao'] = 3000;
+$GLOBALS['tempo-sessao'] = 120;
 
 // formato padrão para data e hora do sistema
 $GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';
