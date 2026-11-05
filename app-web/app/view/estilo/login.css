@@ -189,3 +189,65 @@ main.container footer a:hover {
         padding: 30px !important;
     }
 }
+
+/* ===== Aviso do formulário (login efetuado / erro) ===== */
+.login-aviso {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.login-aviso[hidden] {
+    display: none;
+}
+
+.login-aviso::before {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.login-aviso-ok {
+    background-color: #e8f5e9;
+    border-color: #a5d6a7;
+    color: #1b5e20;
+}
+.login-aviso-ok::before {
+    content: "\2713";
+    background-color: #2e7d32;
+}
+
+.login-aviso-erro {
+    background-color: #fdecea;
+    border-color: #f5c2c0;
+    color: #8a1c1c;
+}
+.login-aviso-erro::before {
+    content: "!";
+    background-color: #c62828;
+}
+
+/* Tema escuro */
+html[data-tema="escuro"] .login-aviso-ok {
+    background-color: rgba(74, 222, 128, 0.12);
+    border-color: #166534;
+    color: #86efac;
+}
+html[data-tema="escuro"] .login-aviso-erro {
+    background-color: rgba(248, 113, 113, 0.12);
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}

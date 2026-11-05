@@ -35,8 +35,6 @@ $raiz = $GLOBALS['raiz-app'];
             <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
             <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
             <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
-            <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
-            
         </ul>
 
         <div class="nav-actions">
@@ -65,7 +63,6 @@ $raiz = $GLOBALS['raiz-app'];
                 <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
                 <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
-                <li class="nav-item"><a href="<?= $raiz ?>teste/informacoes">Informações legais</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -217,6 +214,38 @@ $raiz = $GLOBALS['raiz-app'];
             </div>
         </div>
         
+        <!--BAIXE O APLICATIVO (os links das lojas entram nos href="#" quando o app estiver publicado)-->
+<section class="app-mobile" id="baixar-app">
+    <div class="app-mobile-texto">
+        <span class="app-mobile-tag">Aplicativo mobile</span>
+        <h2 class="app-mobile-titulo">Leve o RelateSBC<br><span>no seu bolso</span></h2>
+        <p class="app-mobile-descricao">
+            Registre e acompanhe denúncias direto do celular, na hora em que o problema aparece.
+        </p>
+
+        <div class="app-mobile-botoes">
+            <!-- Para ativar: coloque o link em href e apague a classe "em-breve" -->
+            <a href="#" class="btn-loja em-breve" id="link-google-play" aria-disabled="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.3a1.6 1.6 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.3-9.7L3.6 2.3zm10.4 8.7 2.6-2.7L5.4 2l8.6 9zm0 2 -8.6 9 11.2-6.3L14 13zm3.7-1.9 3.1 1.7c.9.5.9 1.3 0 1.8l-3.1 1.7-2.9-3 2.9-2.2z"/></svg>
+                <span><small>Disponível no</small><strong>Google Play</strong></span>
+            </a>
+            <a href="#" class="btn-loja em-breve" id="link-app-store" aria-disabled="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.5.8 1.2 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.5-4zM14.1 5.7c.6-.8 1.1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.5 2.8-1.3z"/></svg>
+                <span><small>Baixar na</small><strong>App Store</strong></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="app-mobile-celular" aria-hidden="true">
+        <div class="celular">
+            <div class="celular-tela">
+                <svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                RelateSBC
+            </div>
+        </div>
+    </div>
+</section>
+
         <hr style="margin-left: 200px; margin-right: 200px;">
   
     </main>

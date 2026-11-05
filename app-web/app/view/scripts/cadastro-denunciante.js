@@ -4,30 +4,32 @@ const DEBUG = true;
 const form = document.getElementById("form-cadastro-denunciante");
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
-    
+
     let dadosForm = new FormData(form);
     dadosForm.append('metodo', 'POST');
     dadosForm.append('perfil', 'municipe');
     dadosForm.append('orgao', 'não informado');
     dadosForm.append('cargo', 'não informado');
     dadosForm.append("token", localStorage.getItem("token"));
-    
+
     try {
         let resposta = await fetch("../cadastro/municipe", {
             method: 'POST',
             body: dadosForm
         });
-        
+
         let resultado = await resposta.json();
         console.log(resultado);
 
-        
-
         let paragrafo = document.getElementById("respostaProcesso");
-        paragrafo.textContent = resultado.mensagem;
+        paragrafo.textContent = resultado.mensagem.replace(/^Cliente:\s*/, "");
 
         if (resultado.resposta){
             paragrafo.classList.add("alert", "alert-success");
+            // vai para o login depois de 1,5 segundo
+            setTimeout(function () {
+                window.location.href = "../login";
+            }, 1500);
         } else {
             paragrafo.classList.add("alert", "alert-warning");
         }
@@ -36,4 +38,3 @@ form.addEventListener("submit", async function (event) {
         console.error('Erro ao enviar', error);
     }
 })
-

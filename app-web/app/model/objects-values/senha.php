@@ -8,37 +8,24 @@ class Senha {
     }
 
     public function validarSenha() {
-        $senha = $this->senha;
-        $n = strlen($senha);
-        if ($n < 8) throw new InvalidArgumentException("Cliente: Senha invalida");
-        $maiuscula = false;
-        $minuscula = false;
-        $numero = false;
-        $caracteres = false;
-        // enquanto as condições forem falsas e tiver letras para percorrer
-        while (!($maiuscula && $minuscula && $numero && $caracteres) && ($n > 0)){
-            $x = ($n - 1); // se a senha tenho 8 digitos o array tem espaços de 0 a 7
-            $letra = $senha[$x];
-            if (ctype_digit($letra)) {
-                $numero = true;
-            }
-            else if (ctype_lower($letra)) {
-                $minuscula = true;
-            }
-            else if (ctype_upper($letra)) {
-                $maiuscula = true;
-            }
-            else if (ctype_punct($letra)){
-                $caracteres = true;
-            } else {
-                throw new InvalidArgumentException("Cliente: Senha inválida");
-            }
-            $n -= 1;
-        }
+    $senha = $this->senha;
+    $faltando = [];
 
-        $resposta = ($maiuscula && $minuscula && $numero && $caracteres);
-        if (!$resposta) throw new InvalidArgumentException("Cliente: Senha Invalida");
+    if (strlen($senha) < 8) $faltando[] = "no mínimo 8 caracteres";
+    if (!preg_match('/[A-Z]/', $senha)) $faltando[] = "uma letra maiúscula";
+    if (!preg_match('/[a-z]/', $senha)) $faltando[] = "uma letra minúscula";
+    if (!preg_match('/[0-9]/', $senha)) $faltando[] = "um número";
+    if (!preg_match('/[[:punct:]]/', $senha)) $faltando[] = "um caractere especial (ex: @ # $ % !)";
+
+    if (count($faltando) > 0) {
+        throw new InvalidArgumentException("Cliente: Senha fraca. A senha precisa ter " . implode(", ", $faltando) . ".");
     }
+
+    // não aceita espaços, acentos ou outros símbolos fora do teclado padrão
+    if (preg_match('/[^A-Za-z0-9[:punct:]]/', $senha)) {
+        throw new InvalidArgumentException("Cliente: A senha não pode ter espaços ou letras com acento.");
+    }
+}
 
     public function setSenha(string $senha = ""){
         $this->senha = $senha;

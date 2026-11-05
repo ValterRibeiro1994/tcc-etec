@@ -14,6 +14,13 @@ function main() {
         return;
     }
 
+    // Aviso deixado pela tela de cadastro ("Conta criada com sucesso!")
+    const avisoCadastro = sessionStorage.getItem("aviso-login");
+    if (avisoCadastro) {
+        sessionStorage.removeItem("aviso-login");
+        exibirResposta(true, avisoCadastro);
+    }
+
     // Ativa o escutador de eventos do formulário de login
     prepararEventoLogin();
 }
@@ -59,8 +66,8 @@ function prepararEventoLogin() {
                     localStorage.setItem('cargo', dados_token.cargo);
                 }
 
-                exibirResposta(true, "Sucesso: Login efetuado com sucesso");
-               window.location.href = "denuncia/mural";
+               exibirResposta(true, "Login efetuado com sucesso!");
+                setTimeout(function () { window.location.href = "denuncia/mural"; }, 900);
                 return;
             }
 
@@ -138,14 +145,10 @@ function existeToken() {
 function exibirResposta(resposta, mensagem) {
     console.log(resposta, mensagem);
     if (!tagResposta) return;
-    
-    tagResposta.textContent = message = mensagem;
-    // Reseta as classes antes de aplicar a nova
-    tagResposta.classList.remove("bg-success", "bg-warning", "text-white");
-    
-    if (resposta) {
-        tagResposta.classList.add("text-white", "bg-success");
-    } else {
-        tagResposta.classList.add("text-white", "bg-danger");
-    }
+
+    tagResposta.textContent = mensagem;
+    tagResposta.hidden = false;
+    // O visual do aviso está em login.css (.login-aviso)
+    tagResposta.classList.remove("login-aviso-ok", "login-aviso-erro");
+    tagResposta.classList.add(resposta ? "login-aviso-ok" : "login-aviso-erro");
 }

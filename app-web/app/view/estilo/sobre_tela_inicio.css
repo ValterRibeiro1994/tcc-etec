@@ -110,3 +110,115 @@ body{
         margin-right: var(--margem-lateral) !important;
     }
 }
+
+/* Seção "Baixe o aplicativo" da página inicial */
+.app-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 5vw, 70px);
+
+    max-width: 1300px;
+    width: calc(100% - 40px);
+    margin: 40px auto;
+    padding: clamp(30px, 3vw, 50px) clamp(30px, 6vw, 90px);
+    box-sizing: border-box;
+
+    background-color: #eaf4eb;
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.app-mobile-texto { flex: 1 1 auto; max-width: 560px; }
+
+.app-mobile-tag {
+    display: inline-block;
+    background-color: #24812c;
+    color: #fff;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+
+.app-mobile-titulo {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: bold;
+    line-height: 1.15;
+    color: #1a1a1a;
+    margin: 0 0 14px;
+}
+.app-mobile-titulo span { color: #24812c; }
+
+.app-mobile-descricao {
+    font-size: clamp(14px, 1.1vw, 16.5px);
+    color: #444;
+    margin: 0 0 24px;
+}
+
+.app-mobile-botoes { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* Botão de loja. Para ativar: troque href="#" pelo link e remova a classe "em-breve" */
+.btn-loja {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: #111;
+    color: #fff;
+    border-radius: 12px;
+    text-decoration: none;
+    line-height: 1.15;
+    transition: transform .15s, box-shadow .15s;
+}
+.btn-loja:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.2); }
+.btn-loja svg { width: 26px; height: 26px; fill: currentColor; flex: none; }
+.btn-loja small { display: block; font-size: 11px; opacity: .8; }
+.btn-loja strong { font-size: 16px; }
+
+.btn-loja.em-breve { opacity: .65; cursor: default; pointer-events: none; position: relative; }
+.btn-loja.em-breve::after {
+    content: "Em breve";
+    position: absolute;
+    top: -9px; right: -6px;
+    background: #24812c;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* Celular decorativo */
+.app-mobile-celular { flex: 0 0 auto; }
+.celular {
+    width: clamp(130px, 14vw, 180px);
+    aspect-ratio: 9 / 18;
+    background: #1a1a1a;
+    border-radius: 28px;
+    padding: 8px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .25);
+    box-sizing: border-box;
+}
+.celular-tela {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #2f9e3a, #1c5e22);
+    border-radius: 21px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    color: #fff; font-weight: bold; font-size: 15px; text-align: center;
+}
+.celular-tela svg { width: 42%; fill: none; stroke: #fff; stroke-width: 1.8; }
+
+@media (max-width: 768px) {
+    .app-mobile { flex-direction: column-reverse; text-align: center; }
+    .app-mobile-botoes { justify-content: center; }
+}
+
+/* Tema escuro */
+html[data-tema="escuro"] .app-mobile { background-color: #1e293b; }
+html[data-tema="escuro"] .app-mobile-titulo { color: #f1f5f9; }
+html[data-tema="escuro"] .app-mobile-descricao { color: #cbd5e1; }
+html[data-tema="escuro"] .btn-loja { background: #0f172a; border: 1px solid #334155; }

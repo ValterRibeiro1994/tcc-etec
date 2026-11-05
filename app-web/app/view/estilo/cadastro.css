@@ -15,10 +15,6 @@
     --cad-fonte: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
  
-/* ---------- Base ----------
-   A página ocupa sempre a altura inteira da janela: a navbar fica no topo
-   e a faixa verde (main) cresce para preencher o que sobrar. Assim não há
-   espaço em branco em telas grandes. */
 body {
     min-height: 100vh;
     min-height: 100dvh;
@@ -32,6 +28,11 @@ body {
     flex: 0 0 auto;
 }
  
+body:not(:has(.menu-lateral)) {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+}
+
 /* ---------- Faixa verde principal ---------- */
 .cadastro-page {
     flex: 1 1 auto;
@@ -52,9 +53,7 @@ body {
     width: 100%;
 }
  
-/* Sem rolagem em telas de computador: trava a altura na janela.
-   Em celular/tablet ou janelas muito baixas a rolagem continua,
-   para nada ficar cortado. */
+
 @media (min-width: 992px) and (min-height: 640px) {
     html,
     body {

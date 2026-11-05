@@ -17,15 +17,18 @@ form.addEventListener("submit", async function (event) {
         let resultado = await resposta.json();
         console.log(resultado);
 
-        let paragrafo = document.getElementById("respostaProcesso");
-        paragrafo.textContent = resultado.mensagem;
+       let paragrafo = document.getElementById("respostaProcesso");
+paragrafo.textContent = resultado.mensagem.replace(/^Cliente:\s*/, "");
 
-        if (resultado.resposta){
-            paragrafo.classList.add("alert", "alert-success");
-        } else {
-            paragrafo.classList.add("alert", "alert-warning");
-        }
-
+if (resultado.resposta){
+    paragrafo.classList.add("alert", "alert-success");
+    localStorage.clear(); 
+    setTimeout(function () {
+        window.location.href = "/app-web/login"; 
+    }, 1500);
+} else {
+    paragrafo.classList.add("alert", "alert-warning");
+}
     } catch (error) {
         console.error('Erro ao enviar', error);
     }

@@ -172,6 +172,14 @@ class CadastroController {
             );
 
         } catch (Exception $erro) {
+            if (str_starts_with($erro->getMessage(), "Cliente:")) {
+                
+            return RespostaProcesso::resposta(
+                mensagem: $erro->getMessage(), resposta: false,
+                dados: [], formato: "json"
+            );
+
+            }
             return RespostaProcesso::resposta(
                 mensagem: "Controller: Erro ao cadastrar usuario", resposta: false,
                 dados: RespostaProcesso::salvarErro($erro), formato: "json"
