@@ -358,11 +358,6 @@
     /* ---------- Início ---------- */
     
     document.addEventListener('DOMContentLoaded', function () {
-        const logado = !!lerToken();
-        document.querySelectorAll('#btn-entrar, #btn-cadastro').forEach(
-            botao => botao.style.display = logado ? 'none' : '');
-        document.querySelectorAll('#usuario-logado').forEach(
-            bloco => bloco.style.display = logado ? '' : 'none');
         let retorno=null;
         try {
             retorno=JSON.parse(sessionStorage.getItem('mural-retorno')||'null');

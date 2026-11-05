@@ -45,6 +45,7 @@ $raiz = $GLOBALS['raiz-app'];
                 <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
                     Cadastre-se
                 </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn" style="display: none;">Sair</button>
             </div>
 
             <div class="mobile-menu-icon">
@@ -67,12 +68,13 @@ $raiz = $GLOBALS['raiz-app'];
             </ul>
 
             <div class="nav-actions">
-                <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar-mob" role="button">
                     Entrar
                 </a>
-                <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro-mob" role="button">
                     Cadastre-se
                 </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn-mob" style="display: none;">Sair</button>
             </div>
         </div>
     </header>
@@ -221,5 +223,57 @@ $raiz = $GLOBALS['raiz-app'];
                                     <div class="col-12 col-md-6">
                                         <label for="senha" class="form-label">Senha</label>
                                         <div class="campo">
-                                            <input type="password" class="form-control" id="senha" name="senha" value="@Ts123456" placeholder="Sua senha" minlength="8" required>
-                                            <button type="button" class="campo-olho"
+                                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Sua senha" minlength="8" required>
+                                            <button type="button" class="campo-olho" data-alvo="senha" aria-label="Mostrar ou ocultar senha"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="olho-aberto"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><g class="olho-riscado"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></g></svg></button>
+                                        </div>
+                                    </div>
+ 
+                                    <!-- CONFIRMAR SENHA -->
+                                    <div class="col-12 col-md-6">
+                                        <label for="confirmar-senha" class="form-label">Confirmar Senha</label>
+                                        <div class="campo">
+                                            <input type="password" class="form-control" id="confirmar-senha" name="confirmar-senha" placeholder="Confirme a senha" minlength="8" required>
+                                            <button type="button" class="campo-olho" data-alvo="confirmar-senha" aria-label="Mostrar ou ocultar senha"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="olho-aberto"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><g class="olho-riscado"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></g></svg></button>
+                                        </div>
+                                    </div>
+ 
+                                </div>
+ 
+                                <!-- RESPOSTA DO PROCESSO -->
+                                <p id="respostaProcesso" class="mt-3 mb-0"></p>
+ 
+                                <!-- BOTÃO -->
+                                <button type="submit" class="btn btn-primary btn-cadastrar w-100 mt-4 d-flex justify-content-center align-items-center gap-2">
+                                    <span>Criar conta</span>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+                                </button>
+                            </form>
+ 
+                        </div>
+                    </div>
+                </section>
+ 
+            </div>
+        </div>
+    </main>
+ 
+    <!-- SCRIPTS -->
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/cadastro-representante.js"></script>
+
+    <!-- ESCONDER SENHA-->
+    <script>
+        document.querySelectorAll(".campo-olho").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var campo = document.getElementById(btn.dataset.alvo);
+                var mostrar = campo.type === "password";
+                campo.type = mostrar ? "text" : "password";
+                btn.classList.toggle("ativo", mostrar);
+            });
+        });
+    </script>
+ 
+ 
+</body>
+</html>
+ 

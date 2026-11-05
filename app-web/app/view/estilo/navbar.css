@@ -188,6 +188,10 @@ body:not(:has(.menu-lateral)) {
  
  
 @media screen and (max-width: 1000px){
+    .navbar .nav-actions {
+        display: none;
+    }
+
     .navbar{
         justify-content: space-between;
     }
@@ -293,12 +297,7 @@ body:not(:has(.menu-lateral)) {
  
 }
  
-@media (min-width: 391px) {
-    .mobile-menu .nav-actions {
-        display: none;
-    }
- 
-}
+
  
  
 /*FOOTER*/

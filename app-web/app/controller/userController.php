@@ -205,4 +205,112 @@ class UserController {
         $repositorio = new PerfilRepositorio();
         return $repositorio->obterDadosPerfil($resposta['dados']['email']);
     }
+
+    public function preferencias(array $requisicao): array {
+        return $this->configurarConta($requisicao, 'preferencias');
+    }
+
+    public function alterarEmail(array $requisicao): array {
+        return $this->configurarConta($requisicao, 'email');
+    }
+
+    public function alterarSenha(array $requisicao): array {
+        return $this->configurarConta($requisicao, 'senha');
+    }
+
+    public function alterarLocal(array $requisicao): array {
+        return $this->configurarConta($requisicao, 'local');
+    }
+
+    public function excluir(array $requisicao): array {
+        return $this->configurarConta($requisicao, 'excluir');
+    }
+
+    private function configurarConta(array $requisicao, string $opcao): array {
+        $metodo = $_SERVER['REQUEST_METHOD'];
+        foreach ($requisicao as $valor) {
+            if (!is_string($valor)) return RespostaProcesso::resposta('Dados inválidos.');
+        }
+        if ($metodo !== 'POST' && !($metodo === 'GET' && $opcao === 'preferencias')) {
+            return RespostaProcesso::resposta('Método inválido.');
+        }
+
+        $login = UsuarioLogadoService::obter();
+        if (!$login['resposta']) return $login;
+
+        $emailAtual = $login['dados']['email'];
+        if (!SessaoService::estaOnline() || SessaoService::obterAtributoUsuario('email') !== $emailAtual) {
+            return RespostaProcesso::resposta('Entre novamente para continuar.');
+        }
+
+        try {
+            $repositorio = new PerfilRepositorio();
+            $conta = $repositorio->buscarConta($emailAtual);
+            if (!$conta) return RespostaProcesso::resposta('Conta não encontrada.');
+            $id = (int) $conta['id'];
+
+            if ($opcao === 'preferencias') {
+                if ($metodo === 'GET') {
+                    return RespostaProcesso::resposta('Preferência carregada.', true, [
+                        'avisos_email' => (int) $conta['avisos_email']
+                    ]);
+                }
+                $avisos = $requisicao['avisos_email'] ?? '';
+                if (!in_array($avisos, ['0', '1'], true)) {
+                    return RespostaProcesso::resposta('Preferência inválida.');
+                }
+                $repositorio->alterarCampo($id, 'avisos_email', (int) $avisos);
+                return RespostaProcesso::resposta('Preferência salva.', true);
+            }
+
+            if ($opcao === 'local') {
+                $estado = strtoupper(trim((string) ($requisicao['estado'] ?? '')));
+                $cidade = trim((string) ($requisicao['cidade'] ?? ''));
+                $estados = explode(' ', 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO');
+                if (!in_array($estado, $estados, true) || $cidade === '' || mb_strlen($cidade) > 50) {
+                    return RespostaProcesso::resposta('Informe um estado e uma cidade válidos.');
+                }
+                $repositorio->alterarLocal($id, $estado, $cidade);
+            } else {
+                $campoSenha = $opcao === 'senha' ? 'senha_atual' : 'senha';
+                $senhaAtual = (string) ($requisicao[$campoSenha] ?? '');
+                if (!password_verify($senhaAtual, $conta['senha'])) {
+                    return RespostaProcesso::resposta('Senha atual incorreta.');
+                }
+
+                if ($opcao === 'email') {
+                    $email = trim((string) ($requisicao['email'] ?? ''));
+                    if (strlen($email) > 120 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        return RespostaProcesso::resposta('Informe um e-mail válido.');
+                    }
+                    $repositorio->alterarCampo($id, 'email_usuario', $email);
+                }
+
+                if ($opcao === 'senha') {
+                    $novaSenha = (string) ($requisicao['senha_nova'] ?? '');
+                    if (strlen($novaSenha) > 72 || $novaSenha === $senhaAtual) {
+                        return RespostaProcesso::resposta('Use uma senha diferente, com até 72 bytes.');
+                    }
+                    $senha = new Senha($novaSenha);
+                    $senha->validarSenha();
+                    $repositorio->alterarCampo($id, 'senha_usuario', $senha->hashSenha());
+                }
+
+                if ($opcao === 'excluir') {
+                    $repositorio->excluirConta($id);
+                }
+            }
+
+            SessaoService::destruirSessao();
+            return RespostaProcesso::resposta('Alteração concluída.', true, ['novo_login' => true]);
+        } catch (InvalidArgumentException $erro) {
+            return RespostaProcesso::resposta('Use pelo menos 8 caracteres, com maiúscula, minúscula, número e símbolo.');
+        } catch (PDOException $erro) {
+            if ($opcao === 'email' && (int) ($erro->errorInfo[1] ?? 0) === 1062) {
+                return RespostaProcesso::resposta('Esse e-mail já está em uso.');
+            }
+            error_log($erro->getMessage());
+            return RespostaProcesso::resposta('Não foi possível salvar a alteração.');
+        }
+    }
 }

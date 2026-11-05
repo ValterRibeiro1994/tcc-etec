@@ -32,6 +32,35 @@ function fecharSidebar() {
         document.getElementById('logout-btn-mob')
     ];
 
+    let logado = false;
+    try {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const parte = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            const dados = JSON.parse(atob(parte));
+            logado = ['municipe', 'representante'].includes(dados.perfil)
+                && dados.exp * 1000 > Date.now();
+        }
+    } catch (erro) {
+        // Um token inválido deixa o menu no modo visitante.
+    }
+
+    const botoesVisitante = document.querySelectorAll(
+        '#btn-entrar, #btn-cadastro, #btn-entrar-mob, #btn-cadastro-mob'
+    );
+    for (const botao of botoesVisitante) {
+        botao.style.display = logado ? 'none' : '';
+    }
+
+    const grupos = document.querySelectorAll('#usuario-logado, #usuario-logado-mob');
+    for (const grupo of grupos) {
+        grupo.style.display = logado ? '' : 'none';
+    }
+
+    for (const botao of botoesLogout) {
+        if (botao) botao.style.display = logado ? '' : 'none';
+    }
+
     botoesLogout.forEach(function (botao) {
         if (!botao) return;
 
@@ -41,7 +70,7 @@ function fecharSidebar() {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    localStorage.clear();
+                    localStorage.removeItem('token');
                     console.error('Não foi encontrado um token para encerrar a sessão.');
                     return;
                 }
@@ -52,7 +81,7 @@ function fecharSidebar() {
                 });
 
                 const json = await resposta.json();
-                localStorage.clear();
+                localStorage.removeItem('token');
 
                 if (json.resposta === true) {
                     alert('Usuario Desconectado');

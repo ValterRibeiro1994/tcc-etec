@@ -250,7 +250,7 @@ html, body {
 
 .grid-denuncias {
     display: grid;
-    grid-template-columns: repeat(3, 340px);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 320px));
     gap: 28px;
     margin-bottom: 40px;
 }
@@ -607,4 +607,16 @@ html, body {
     #card-mural {
         width: 100%;
     }
+}
+.grid-denuncias > .card {
+    width: 100%;
+    max-width: 320px;
+    height: 430px;
+}
+
+.grid-denuncias .card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }

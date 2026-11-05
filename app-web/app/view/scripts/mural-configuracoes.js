@@ -1,16 +1,12 @@
 (function () {
     'use strict';
 
-    // true = não chama o backend (só simula o salvamento) e mostra todas as seções sem exigir login.
-    // >>> TROQUE PARA false QUANDO AS ROTAS EXISTIREM <<<
-    const USAR_EXEMPLO = true;
-
     const ROTAS = {
-        preferencias: 'usuario/preferencias',   // GET -> { resposta, dados: { avisos_email: 0|1 } } | POST { avisos_email }
-        email:        'usuario/alterar-email',  // POST { email, senha }
-        senha:        'usuario/alterar-senha',  // POST { senha_atual, senha_nova }
-        local:        'usuario/alterar-local',  // POST { estado, cidade }
-        excluir:      'usuario/excluir'         // POST { senha }
+        preferencias: 'user/preferencias',   // GET -> { resposta, dados: { avisos_email: 0|1 } } | POST { avisos_email }
+        email:        'user/alterarEmail',  // POST { email, senha }
+        senha:        'user/alterarSenha',  // POST { senha_atual, senha_nova }
+        local:        'user/alterarLocal',  // POST { estado, cidade }
+        excluir:      'user/excluir'         // POST { senha }
     };
     const TAMANHO_MINIMO_SENHA = 8; // ajuste conforme a regra do cadastro
 
@@ -47,7 +43,7 @@
     }
 
     const sessao = lerSessao();
-    const logado = USAR_EXEMPLO || !!sessao;
+    const logado = !!sessao;
 
     // Quem não está logado só vê a aparência
     document.querySelectorAll('[data-requer-login]').forEach(el => { el.hidden = !logado; });
@@ -76,7 +72,6 @@
 
     // O roteador lê $_POST e exige o campo "metodo", por isso o corpo vai como formulário.
     async function salvar(rota, corpo) {
-        if (USAR_EXEMPLO) return { resposta: true };
         const resposta = await fetch(urlApp(rota), {
             method: 'POST',
             credentials: 'same-origin',
@@ -101,7 +96,12 @@
         try {
             const json = await salvar(rota, corpo);
             if (!json.resposta) throw new Error(json.mensagem || 'Não foi possível salvar.');
-            if (json.token) localStorage.setItem('token', json.token); // o token guarda cidade/estado
+            if (json.dados && json.dados.novo_login) {
+                localStorage.removeItem('token');
+                alert(textoOk + ' Entre novamente para continuar.');
+                window.location.href = urlApp('login');
+                return;
+            }
             mensagem(msgId, textoOk, true);
             if (aoSucesso) aoSucesso();
         } catch (erro) {
@@ -147,7 +147,7 @@
         try {
             const json = await salvar(ROTAS.preferencias, { avisos_email: ligado ? 1 : 0 });
             if (!json.resposta) throw new Error(json.mensagem || 'Não foi possível salvar.');
-            mensagem('msg-avisos', ligado ? 'Você vai receber avisos por e-mail.' : 'Avisos por e-mail desativados.', true);
+            mensagem('msg-avisos', ligado ? 'Preferência salva. O envio de e-mails ainda não está disponível.' : 'Avisos por e-mail desativados.', true);
         } catch (erro) {
             console.error(erro);
             chkEmail.checked = !ligado; // desfaz se o servidor não confirmou
@@ -158,7 +158,7 @@
     });
 
     async function carregarPreferencias() {
-        if (USAR_EXEMPLO || !sessao) return;
+        if (!sessao) return;
         try {
             const json = await buscar(ROTAS.preferencias);
             if (json.resposta && json.dados) chkEmail.checked = Number(json.dados.avisos_email) === 1;
@@ -264,18 +264,14 @@
         e.preventDefault();
         if (!confirm('Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.')) return;
 
-        if (USAR_EXEMPLO) {
-            mensagem('msg-excluir', 'Modo exemplo: nenhuma conta foi excluída.', true);
-            return;
-        }
-
         const botao = this.querySelector('button[type="submit"]');
         botao.disabled = true;
         mensagem('msg-excluir', '', true);
         try {
             const json = await salvar(ROTAS.excluir, { senha: $('config-excluir-senha').value });
             if (!json.resposta) throw new Error(json.mensagem || 'Não foi possível excluir a conta.');
-            sair();
+            localStorage.removeItem('token');
+            window.location.href = urlApp('home');
         } catch (erro) {
             console.error(erro);
             mensagem('msg-excluir', erro.message || 'Erro de conexão. Tente novamente.', false);

@@ -56,4 +56,57 @@ class PerfilRepositorio {
             );
         }
     }
+
+    public function buscarConta(string $email): array|false {
+        $conexao = (new Conexao())->getConexao();
+        $sql = $conexao->prepare(
+            'SELECT id_usuario AS id, senha_usuario AS senha, avisos_email FROM tb_usuario WHERE email_usuario = :email'
+        );
+        $sql->execute([':email' => $email]);
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // O nome da coluna só pode vir desta lista fixa, nunca direto do navegador.
+    public function alterarCampo(int $id, string $campo, string|int $valor): void {
+        $conexao = (new Conexao())->getConexao();
+        if (!in_array($campo, ['avisos_email', 'email_usuario', 'senha_usuario'], true))
+            throw new RuntimeException('Campo não permitido.');
+        $sql = $conexao->prepare("UPDATE tb_usuario SET $campo = :valor WHERE id_usuario = :id");
+        $sql->execute([':valor' => $valor, ':id' => $id]);
+    }
+
+    public function alterarLocal(int $id, string $estado, string $cidade): void {
+        $conexao = (new Conexao())->getConexao();
+        $sql = $conexao->prepare(
+            'UPDATE tb_usuario SET estado_usuario = :estado, cidade_usuario = :cidade WHERE id_usuario = :id'
+        );
+        $sql->execute([':estado' => $estado, ':cidade' => $cidade, ':id' => $id]);
+    }
+
+    public function excluirConta(int $id): void {
+        $conexao = (new Conexao())->getConexao();
+        // Primeiro removemos as respostas ligadas às denúncias deste usuário.
+        $conexao->beginTransaction();
+        try {
+            $sql = $conexao->prepare(
+                'DELETE FROM tb_resposta WHERE id_denuncia IN
+                 (SELECT id_denuncia FROM tb_denuncia WHERE id_usuario = :id)'
+            );
+            $sql->execute([':id' => $id]);
+
+            // Depois as respostas escritas por ele em denúncias de outras pessoas.
+            $sql = $conexao->prepare('DELETE FROM tb_resposta WHERE id_usuario = :id');
+            $sql->execute([':id' => $id]);
+
+            $sql = $conexao->prepare('DELETE FROM tb_denuncia WHERE id_usuario = :id');
+            $sql->execute([':id' => $id]);
+
+            $sql = $conexao->prepare('DELETE FROM tb_usuario WHERE id_usuario = :id');
+            $sql->execute([':id' => $id]);
+            $conexao->commit();
+        } catch (Throwable $erro) {
+            $conexao->rollBack();
+            throw $erro;
+        }
+    }
 }

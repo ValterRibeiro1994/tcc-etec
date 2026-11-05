@@ -281,21 +281,6 @@
     });
 
     /* ---------- Início ---------- */
-    // Atualiza os botões da navbar padrão do site
-    const logado = !!lerToken();
-
-    document.querySelectorAll(
-        '#btn-entrar, #btn-cadastro, #btn-entrar-mob, #btn-cadastro-mob'
-    ).forEach(function (elemento) {
-        elemento.style.display = logado ? 'none' : '';
-    });
-
-    document.querySelectorAll(
-        '#usuario-logado, #usuario-logado-mob'
-    ).forEach(function (elemento) {
-        elemento.style.display = logado ? '' : 'none';
-    });
-
     // quem não está logado vê os comentários, mas não o campo para escrever
     if (!lerToken()) {
         form.classList.add('d-none');

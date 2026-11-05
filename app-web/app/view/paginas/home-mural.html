@@ -82,14 +82,14 @@ $raiz = $GLOBALS['raiz-app'];
             </ul>
 
             <div class="nav-actions">
-                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar" role="button">
+                <a href="<?= $raiz ?>login" style="text-decoration: none; display: none;" class="nav-btn nav-btn-secondary" id="btn-entrar-mob" role="button">
                   Entrar
                 </a>
-                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro" role="button">
+                <a href="<?= $raiz ?>cadastro" style="text-decoration: none; display: none;" class="nav-btn nav-btn-primary" id="btn-cadastro-mob" role="button">
                   Cadastre-se
                 </a>
                 
-                <div class="nav-actions" id="usuario-logado" style="text-decoration: none; height:fit-content;">
+                <div class="nav-actions" id="usuario-logado-mob" style="text-decoration: none; height:fit-content;">
                     <button class="nav-btn nav-btn-primary py-2" id="logout-btn-mob" style="width: 140px;">Sair</button>
                 </div>
             </div>
@@ -220,7 +220,7 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
          <!--CARD-->
 
-            <div class="grid-denuncias d-flex flex-wrap" id="grid-denuncias">
+            <div class="grid-denuncias" id="grid-denuncias">
                 <div class="card" id="card-mural" >
                     <div class="card-img-wrapper">
                             <div class="card-img text-center" id="img-card">Imagem</div> 
@@ -480,7 +480,7 @@ $raiz = $GLOBALS['raiz-app'];
         <div class="config-linha">
             <div>
                 <strong>Receber avisos por e-mail</strong>
-                <p>Enviamos um e-mail quando o status mudar ou a prefeitura responder.</p>
+                <p>Sua preferência fica salva. O envio de e-mails ainda não está disponível.</p>
             </div>
             <label class="config-switch">
                 <input type="checkbox" id="config-avisos-email" aria-label="Receber avisos por e-mail">
