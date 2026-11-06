@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS tb_usuario (
     cidade_usuario VARCHAR(50) NOT NULL,
     estado_usuario CHAR(2) NOT NULL,
     orgao_usuario VARCHAR(120) DEFAULT NULL,
-    cargo_usuario VARCHAR(120) DEFAULT NULL
+    cargo_usuario VARCHAR(120) DEFAULT NULL,
+    avisos_email TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

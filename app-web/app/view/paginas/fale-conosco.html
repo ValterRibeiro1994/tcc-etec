@@ -81,7 +81,12 @@
     <section class="contato-container contato-grade">
 
         <!-- FORMULÁRIO -->
-        <form class="contato-card" id="form-contato" novalidate>
+        <form
+            class="contato-card"
+            id="form-contato"
+            method="post"
+            action="<?= $raiz ?>contato/enviar">
+            <input type="hidden" name="metodo" value="POST">
 
             <div class="contato-card-topo">
                 <span class="contato-card-icone">
@@ -96,11 +101,27 @@
             <div class="contato-campos">
                 <div>
                     <label class="form-label" for="contato-nome">Nome *</label>
-                    <input class="form-control" type="text" id="contato-nome" maxlength="100" autocomplete="name" placeholder="Seu nome">
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="contato-nome"
+                        name="nome"
+                        maxlength="100"
+                        required
+                        placeholder="Seu nome"
+                    >
                 </div>
                 <div>
                     <label class="form-label" for="contato-email">E-mail *</label>
-                    <input class="form-control" type="email" id="contato-email" maxlength="150" autocomplete="email" placeholder="voce@exemplo.com">
+                    <input
+                        class="form-control"
+                        type="email"
+                        id="contato-email"
+                        name="email"
+                        maxlength="150"
+                        required
+                        placeholder="voce@exemplo.com"
+                    >
                 </div>
             </div>
 
@@ -117,17 +138,41 @@
 
             <div class="contato-campo">
                 <label class="form-label" for="contato-assunto">Assunto *</label>
-                <input class="form-control" type="text" id="contato-assunto" maxlength="100" placeholder="Ex.: Não consigo registrar minha denúncia">
+                <input
+                    class="form-control"
+                    type="text"
+                    id="contato-assunto"
+                    name="assunto"
+                    maxlength="100"
+                    required
+                    placeholder="Assunto da mensagem"
+                >
             </div>
 
             <div class="contato-campo">
                 <label class="form-label" for="contato-mensagem">Mensagem *</label>
-                <textarea class="form-control" id="contato-mensagem" rows="6" maxlength="1000" placeholder="Conte com detalhes como podemos ajudar..."></textarea>
+                <textarea
+                    class="form-control"
+                    id="contato-mensagem"
+                    name="mensagem"
+                    rows="6"
+                    maxlength="1000"
+                    required
+                    placeholder="Escreva sua mensagem..."
+                ></textarea>
                 <div class="contato-contador" id="contato-contador">0/1000</div>
             </div>
 
             <div class="contato-armadilha" aria-hidden="true">
-                <label>Não preencha este campo <input type="text" id="contato-site" tabindex="-1" autocomplete="off"></label>
+                <label>Não preencha este campo 
+                    <input
+                    type="text"
+                    id="contato-site"
+                    name="site"
+                    tabindex="-1"
+                    autocomplete="off"
+                    >
+                </label>
             </div>
 
             <div class="contato-acoes">

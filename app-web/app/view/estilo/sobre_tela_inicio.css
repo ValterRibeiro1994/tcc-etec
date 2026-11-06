@@ -175,22 +175,58 @@ body{
 .sa-status-analise   { background: #0d6efd; color: #fff; }
 .sa-status-concluida { background: #198754; color: #fff; }
 
-/* aplicativo: faixa discreta */
+/* ALTERADO: aplicativo mobile (seção verde dentro do card) */
 .sa-app {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px;
-    margin-top: clamp(24px, 3vw, 36px); padding-top: 20px; border-top: 1px solid #e2e8f0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(20px, 4vw, 56px);
+    margin-top: clamp(28px, 3.5vw, 44px);
+    padding: clamp(26px, 3.5vw, 44px) clamp(24px, 6vw, 80px);
+    background: #eaf3e8;
+    border-radius: 22px;
 }
-.sa-app p { margin: 0; font-size: 14px; color: #555; }
-.sa-app p strong { color: #1a1a1a; }
-.sa-app-botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.sa-app-texto { max-width: 520px; }
+.sa-app-titulo {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: bold;
+    line-height: 1.12;
+    color: #1a1a1a;
+    margin: 0 0 12px;
+}
+.sa-app-desc { font-size: clamp(14px, 1.1vw, 16px); color: #444; line-height: 1.5; margin: 0 0 22px; }
+.sa-app-botoes { display: flex; flex-wrap: wrap; gap: 14px; }
+
 .btn-loja {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 7px 14px; border: 1px solid #cbd5e1; border-radius: 10px;
-    font-size: 13.5px; font-weight: 600; color: #334155; text-decoration: none;
+    position: relative;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 16px; background: #5f645f; color: #fff;
+    border-radius: 10px; text-decoration: none; line-height: 1.15;
 }
-.btn-loja svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
-.btn-loja em { font-style: normal; font-weight: 500; font-size: 11.5px; color: #24812c; }
+.btn-loja svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
+.btn-loja span { display: flex; flex-direction: column; }
+.btn-loja small { font-size: 10.5px; opacity: .85; }
+.btn-loja strong { font-size: 15px; font-weight: 700; }
+.btn-loja em {
+    position: absolute; top: -9px; right: -6px;
+    padding: 1px 8px; border-radius: 999px;
+    background: #4f9a3a; color: #fff;
+    font-style: normal; font-size: 10px; font-weight: 700;
+}
 .btn-loja.em-breve { cursor: default; pointer-events: none; }
+
+/* celular decorativo */
+.sa-app-celular {
+    justify-self: center;
+    width: 124px; height: 210px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    border: 6px solid #111; border-radius: 26px;
+    background: linear-gradient(180deg, #4fa000, #2e6b0e);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .18);
+    color: #fff; font-size: 14px; font-weight: 700;
+}
+.sa-app-celular svg { width: 38px; height: 38px; }
 
 @media (max-width: 992px) {
     .sa-topo { grid-template-columns: 1fr; align-items: start; }
