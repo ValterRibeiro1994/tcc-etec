@@ -191,60 +191,78 @@ $raiz = $GLOBALS['raiz-app'];
         </div>
         </section>
         
-        <!--CONTEUDO SOBRE-->
-       <div class="card-sobre-container">
-           
-            <div class="sobre-conteudo">
-                <span class="tag-sobre">Sobre o RelateSBC</span>
+ <!--SOBRE + MURAL (prévia) + APLICATIVO-->
+<div class="sobre-app" id="sobre-app">
 
-                <h2 class="zelar-cuidar">
-                    Zelar, cuidar e<br>
-                    <span class="denuncia-cor">transformar</span><br>
-                    nossa cidade
-                </h2>
-
-                <p class="texto-menor">
-                    O RelateSBC nasceu para aproximar a população dos órgãos responsáveis,
-                    tornando a comunicação mais eficiente e as soluções mais rápidas.
-                </p>
-            </div>
-
-            <div class="sobre-imagem">
-                <img src="<?= $raiz ?>app/recursos/imagens/celular-fundo04.jpg" alt="Pessoa a tirar foto a um buraco com o telemóvel">
+    <div class="sa-topo">
+        <div class="sa-titulo">
+            <span class="tag-sobre">Sobre o RelateSBC</span>
+            <h2 class="zelar-cuidar">
+                Zelar, cuidar e <span class="denuncia-cor">transformar</span> nossa cidade
+            </h2>
+        </div>
+        <div class="sa-intro">
+            <p class="texto-menor">
+                O RelateSBC aproxima a população dos órgãos responsáveis. Você registra o problema
+                com foto e endereço, a denúncia vai para o mural e você acompanha cada etapa até a solução.
+            </p>
+            <div class="sa-acoes">
+                <a href="<?= $raiz ?>denuncia/mural" class="sa-btn sa-btn-primario">Ver o mural completo</a>
+                <a href="<?= $raiz ?>denuncia/criar" class="sa-btn sa-btn-contorno">Registrar denúncia</a>
             </div>
         </div>
-        
-        <!--BAIXE O APLICATIVO (os links das lojas entram nos href="#" quando o app estiver publicado)-->
-<section class="app-mobile" id="baixar-app">
-    <div class="app-mobile-texto">
-        <span class="app-mobile-tag">Aplicativo mobile</span>
-        <h2 class="app-mobile-titulo">Leve o RelateSBC<br><span>no seu bolso</span></h2>
-        <p class="app-mobile-descricao">
-            Registre e acompanhe denúncias direto do celular, na hora em que o problema aparece.
-        </p>
+    </div>
 
-        <div class="app-mobile-botoes">
-            <!-- Para ativar: coloque o link em href e apague a classe "em-breve" -->
+    <div class="sa-mural-cab">
+        <strong>Assim aparecem as denúncias no mural</strong>
+        <span>Exemplos ilustrativos</span>
+    </div>
+
+    <div class="sa-cards">
+        <a class="sa-card" href="<?= $raiz ?>denuncia/mural">
+            <img src="<?= $raiz ?>app/recursos/imagens/exemplo-buraco.jpg" alt="Buraco com água no asfalto" loading="lazy">
+            <div class="sa-card-corpo">
+                <span class="sa-card-cat">Buracos e vias</span>
+                <h3>Buraco grande na pista, acumula água</h3>
+                <p class="sa-card-local">Rua Marechal Deodoro · Centro</p>
+                <div class="sa-card-pe"><small>Há 2 dias</small><span class="sa-status sa-status-andamento">Em andamento</span></div>
+            </div>
+        </a>
+        <a class="sa-card" href="<?= $raiz ?>denuncia/mural">
+            <img src="<?= $raiz ?>app/recursos/imagens/exemplo-poste.jpg" alt="Poste de iluminação pública" loading="lazy">
+            <div class="sa-card-corpo">
+                <span class="sa-card-cat">Iluminação pública</span>
+                <h3>Poste sem luz há mais de uma semana</h3>
+                <p class="sa-card-local">Av. Kennedy · Baeta Neves</p>
+                <div class="sa-card-pe"><small>Há 5 dias</small><span class="sa-status sa-status-analise">Em análise</span></div>
+            </div>
+        </a>
+        <a class="sa-card" href="<?= $raiz ?>denuncia/mural">
+            <img src="<?= $raiz ?>app/recursos/imagens/exemplo-calcada.jpg" alt="Calçada quebrada" loading="lazy">
+            <div class="sa-card-corpo">
+                <span class="sa-card-cat">Buracos e vias</span>
+                <h3>Calçada quebrada na esquina</h3>
+                <p class="sa-card-local">Rua Jurubatuba · Rudge Ramos</p>
+                <div class="sa-card-pe"><small>Há 12 dias</small><span class="sa-status sa-status-concluida">Concluída</span></div>
+            </div>
+        </a>
+    </div>
+
+    <!-- APLICATIVO MOBILE: para ativar, coloque o link em href e apague a classe "em-breve" -->
+    <div class="sa-app" id="baixar-app">
+        <p><strong>Leve o RelateSBC no bolso.</strong> Aplicativo para Android e iOS.</p>
+        <div class="sa-app-botoes">
             <a href="#" class="btn-loja em-breve" id="link-google-play" aria-disabled="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.3a1.6 1.6 0 0 0-.6 1.3v16.8c0 .5.2 1 .6 1.3l9.3-9.7L3.6 2.3zm10.4 8.7 2.6-2.7L5.4 2l8.6 9zm0 2 -8.6 9 11.2-6.3L14 13zm3.7-1.9 3.1 1.7c.9.5.9 1.3 0 1.8l-3.1 1.7-2.9-3 2.9-2.2z"/></svg>
-                <span><small>Disponível no</small><strong>Google Play</strong></span>
+                Google Play <em>em breve</em>
             </a>
             <a href="#" class="btn-loja em-breve" id="link-app-store" aria-disabled="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.5.8 1.2 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.5-4zM14.1 5.7c.6-.8 1.1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.5 2.8-1.3z"/></svg>
-                <span><small>Baixar na</small><strong>App Store</strong></span>
+                App Store <em>em breve</em>
             </a>
         </div>
     </div>
-
-    <div class="app-mobile-celular" aria-hidden="true">
-        <div class="celular">
-            <div class="celular-tela">
-                <svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                RelateSBC
-            </div>
-        </div>
-    </div>
-</section>
+</div>
 
         <hr style="margin-left: 200px; margin-right: 200px;">
   

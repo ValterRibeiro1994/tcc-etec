@@ -111,114 +111,116 @@ body{
     }
 }
 
-/* Seção "Baixe o aplicativo" da página inicial */
-.app-mobile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(24px, 5vw, 70px);
-
+/* =====================================================================
+   SOBRE + PRÉVIA DO MURAL + APLICATIVO
+   ===================================================================== */
+.sobre-app {
     max-width: 1300px;
     width: calc(100% - 40px);
     margin: 40px auto;
-    padding: clamp(30px, 3vw, 50px) clamp(30px, 6vw, 90px);
+    padding: clamp(28px, 4vw, 56px) clamp(24px, 6vw, 90px);
     box-sizing: border-box;
-
-    background-color: #eaf4eb;
+    background: #fff;
+    border: 1px solid #e2e8f0;
     border-radius: 22px;
-    overflow: hidden;
 }
 
-.app-mobile-texto { flex: 1 1 auto; max-width: 560px; }
-
-.app-mobile-tag {
-    display: inline-block;
-    background-color: #24812c;
-    color: #fff;
-    font-size: clamp(12px, 1vw, 14px);
-    font-weight: bold;
-    padding: 6px 16px;
-    border-radius: 20px;
-    margin-bottom: 16px;
+.sa-topo {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(20px, 4vw, 64px);
+    align-items: end;
 }
-
-.app-mobile-titulo {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(28px, 3vw, 42px);
-    font-weight: bold;
-    line-height: 1.15;
-    color: #1a1a1a;
-    margin: 0 0 14px;
+.sa-intro .texto-menor { max-width: 52ch; }
+.sa-acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.sa-btn {
+    display: inline-block; padding: 10px 20px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: background .15s, color .15s;
 }
-.app-mobile-titulo span { color: #24812c; }
+.sa-btn-primario { background: #24812c; color: #fff; border: 1px solid #24812c; }
+.sa-btn-primario:hover { background: #1c6823; color: #fff; }
+.sa-btn-contorno { color: #24812c; border: 1px solid #24812c; }
+.sa-btn-contorno:hover { background: #24812c; color: #fff; }
 
-.app-mobile-descricao {
-    font-size: clamp(14px, 1.1vw, 16.5px);
-    color: #444;
-    margin: 0 0 24px;
+.sa-mural-cab {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    margin: clamp(28px, 3.5vw, 44px) 0 14px;
+    padding-top: 22px; border-top: 1px solid #e2e8f0;
 }
+.sa-mural-cab strong { font-size: 15px; color: #1a1a1a; }
+.sa-mural-cab span { font-size: 12.5px; color: #777; }
 
-.app-mobile-botoes { display: flex; flex-wrap: wrap; gap: 14px; }
-
-/* Botão de loja. Para ativar: troque href="#" pelo link e remova a classe "em-breve" */
-.btn-loja {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 20px;
-    background: #111;
-    color: #fff;
-    border-radius: 12px;
-    text-decoration: none;
-    line-height: 1.15;
-    transition: transform .15s, box-shadow .15s;
-}
-.btn-loja:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.2); }
-.btn-loja svg { width: 26px; height: 26px; fill: currentColor; flex: none; }
-.btn-loja small { display: block; font-size: 11px; opacity: .8; }
-.btn-loja strong { font-size: 16px; }
-
-.btn-loja.em-breve { opacity: .65; cursor: default; pointer-events: none; position: relative; }
-.btn-loja.em-breve::after {
-    content: "Em breve";
-    position: absolute;
-    top: -9px; right: -6px;
-    background: #24812c;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 10px;
-}
-
-/* Celular decorativo */
-.app-mobile-celular { flex: 0 0 auto; }
-.celular {
-    width: clamp(130px, 14vw, 180px);
-    aspect-ratio: 9 / 18;
-    background: #1a1a1a;
-    border-radius: 28px;
-    padding: 8px;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, .25);
-    box-sizing: border-box;
-}
-.celular-tela {
-    width: 100%; height: 100%;
-    background: linear-gradient(160deg, #2f9e3a, #1c5e22);
-    border-radius: 21px;
+.sa-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.sa-card {
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 10px;
-    color: #fff; font-weight: bold; font-size: 15px; text-align: center;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+    overflow: hidden; text-decoration: none; color: inherit;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+    transition: transform .2s, box-shadow .2s;
 }
-.celular-tela svg { width: 42%; fill: none; stroke: #fff; stroke-width: 1.8; }
+.sa-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0, 0, 0, .10); color: inherit; }
+.sa-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.sa-card-corpo { padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.sa-card-cat { font-size: 11px; font-weight: 700; color: green; text-transform: uppercase; letter-spacing: .5px; }
+.sa-card h3 { font-size: 16.5px; font-weight: 600; line-height: 1.3; margin: 0; color: #111; }
+.sa-card-local { font-size: 13px; color: #6b7280; margin: 0; }
+.sa-card-pe {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: auto; padding-top: 12px; border-top: 1px solid #eef2f6;
+}
+.sa-card-pe small { font-size: 12.5px; color: #6b7280; }
+.sa-status { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.sa-status-andamento { background: #ffc107; color: #000; }
+.sa-status-analise   { background: #0d6efd; color: #fff; }
+.sa-status-concluida { background: #198754; color: #fff; }
 
-@media (max-width: 768px) {
-    .app-mobile { flex-direction: column-reverse; text-align: center; }
-    .app-mobile-botoes { justify-content: center; }
+/* aplicativo: faixa discreta */
+.sa-app {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px;
+    margin-top: clamp(24px, 3vw, 36px); padding-top: 20px; border-top: 1px solid #e2e8f0;
+}
+.sa-app p { margin: 0; font-size: 14px; color: #555; }
+.sa-app p strong { color: #1a1a1a; }
+.sa-app-botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn-loja {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border: 1px solid #cbd5e1; border-radius: 10px;
+    font-size: 13.5px; font-weight: 600; color: #334155; text-decoration: none;
+}
+.btn-loja svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.btn-loja em { font-style: normal; font-weight: 500; font-size: 11.5px; color: #24812c; }
+.btn-loja.em-breve { cursor: default; pointer-events: none; }
+
+@media (max-width: 992px) {
+    .sa-topo { grid-template-columns: 1fr; align-items: start; }
+    .sa-cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; padding-bottom: 8px; margin: 0 -4px; padding-inline: 4px; }
+    .sa-card { flex: 0 0 min(78%, 300px); scroll-snap-align: start; }
+    .sa-mural-cab { flex-direction: column; gap: 2px; }
+    .sa-app { justify-content: center; text-align: center; }
+}
+@media (max-width: 600px) {
+    .sobre-app { padding: 24px 18px; margin: 20px auto; }
+}
+@media (min-width: 1556px) {
+    .sobre-app { max-width: 1400px; width: 100%; }
 }
 
-/* Tema escuro */
-html[data-tema="escuro"] .app-mobile { background-color: #1e293b; }
-html[data-tema="escuro"] .app-mobile-titulo { color: #f1f5f9; }
-html[data-tema="escuro"] .app-mobile-descricao { color: #cbd5e1; }
-html[data-tema="escuro"] .btn-loja { background: #0f172a; border: 1px solid #334155; }
+/* tema escuro */
+html[data-tema="escuro"] .sobre-app { background: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .sa-mural-cab,
+html[data-tema="escuro"] .sa-app { border-top-color: #334155; }
+html[data-tema="escuro"] .sa-mural-cab strong,
+html[data-tema="escuro"] .sa-app p strong { color: #f1f5f9; }
+html[data-tema="escuro"] .sa-mural-cab span,
+html[data-tema="escuro"] .sa-app p { color: #94a3b8; }
+html[data-tema="escuro"] .sa-card { background: #0f172a; border-color: #334155; box-shadow: none; }
+html[data-tema="escuro"] .sa-card h3 { color: #f1f5f9; }
+html[data-tema="escuro"] .sa-card-cat { color: #4ade80; }
+html[data-tema="escuro"] .sa-card-local,
+html[data-tema="escuro"] .sa-card-pe small { color: #94a3b8; }
+html[data-tema="escuro"] .sa-card-pe { border-top-color: #334155; }
+html[data-tema="escuro"] .sa-btn-contorno { color: #4ade80; border-color: #4ade80; }
+html[data-tema="escuro"] .sa-btn-contorno:hover { background: #4ade80; color: #0f172a; }
+html[data-tema="escuro"] .btn-loja { border-color: #334155; color: #cbd5e1; }
+html[data-tema="escuro"] .btn-loja em { color: #4ade80; }
