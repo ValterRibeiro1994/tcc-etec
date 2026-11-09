@@ -1,2 +1,3 @@
 app-mobile/.idea/misc.xml
-app-web/app/email-config.php
+app-web/app/config-email.php
+app-web/vendor/
