@@ -100,17 +100,25 @@
 
         <article id="detalhe-conteudo" class="d-none">
 
+          <!-- COLUNAS: CONTEÚDO À ESQUERDA / ACOMPANHAMENTO À DIREITA -->
+<div class="detalhe-colunas">
+
+    <div class="detalhe-principal">
+
             <!-- IMAGEM PRINCIPAL -->
-            <div class="detalhe-foto">
+            <div class="detalhe-foto" id="detalhe-foto">
                 <img
                     id="detalhe-imagem"
                     class="d-none"
-                    alt="Fotografia enviada com a denúncia">
+                    alt="Fotografia enviada com a denúncia"
+                    title="Clique para ampliar">
 
                 <div id="detalhe-sem-imagem">
                     Esta denúncia não possui fotografia.
                 </div>
             </div>
+
+            <div class="detalhe-cabecalho">
 
             <!-- CATEGORIA E STATUS -->
             <div class="detalhe-etiquetas">
@@ -151,10 +159,7 @@
                 </a>
             </nav>
 
-            <!-- DETALHES EM COLUNAS -->
-            <div class="detalhe-colunas">
-
-                <div class="detalhe-principal">
+             </div> <!-- fim do detalhe-cabecalho -->
 
                     <!-- DESCRIÇÃO -->
                     <section class="detalhe-painel" id="aba-detalhes">
@@ -168,13 +173,14 @@
                     </section>
 
                     <!-- ENDEREÇO -->
-                    <section class="detalhe-painel">
-                        <h2>
-                            <span class="detalhe-icone">●</span>
-                            Informações da ocorrência
-                        </h2>
+                <section class="detalhe-painel detalhe-ocorrencia">
+                    <h2>
+                        <span class="detalhe-icone">●</span>
+                        Informações da ocorrência
+                    </h2>
 
-                        <dl class="detalhe-lista">
+                    <dl class="detalhe-lista">
+
                             <div>
                                 <dt>Local</dt>
                                 <dd id="detalhe-local"></dd>
@@ -190,8 +196,10 @@
                                 <dd id="detalhe-cep"></dd>
                             </div>
                         </dl>
-                    </section>
-                </div>
+                </section>
+            </div>
+
+                <div class="detalhe-lateral">
 
                 <!-- RESUMO LATERAL -->
                 <aside class="detalhe-painel detalhe-resumo"
@@ -224,7 +232,17 @@
                         ao registro da denúncia.
                     </p>
                 </aside>
+
+                <!-- DICA: AMPLIAR IMAGEM -->
+                <div class="detalhe-painel detalhe-dica" id="detalhe-dica" hidden>
+                    <span class="detalhe-icone">⤢</span>
+                    <p>Clique na foto para ampliar e ver todos os detalhes.</p>
+                </div>
+
+                </div>
             </div>
+            
+
 
             <!-- COMENTÁRIOS -->
             <section id="aba-comentarios"
@@ -322,6 +340,21 @@
         </article>
     </div>
 </main>
+
+<!-- MODAL: IMAGEM AMPLIADA -->
+<div class="modal fade" id="modal-imagem" tabindex="-1" aria-label="Imagem da denúncia ampliada" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content modal-imagem-conteudo">
+            <button type="button"
+                    class="btn-close btn-close-white modal-imagem-fechar"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"></button>
+            <img id="modal-imagem-src"
+                 class="modal-imagem-grande"
+                 alt="Fotografia enviada com a denúncia, em tamanho ampliado">
+        </div>
+    </div>
+</div>
 
 <script src="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>

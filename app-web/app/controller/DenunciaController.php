@@ -379,9 +379,12 @@ class DenunciaController {
             $endereco->setCep($requisicao['cep-denuncia']);
             $endereco->getLogradouro(); // confere agora se a junção cabe em 150 caracteres
 
-            // foto opcional (JPG/PNG até 5MB)
+                        // foto obrigatória (JPG/PNG até 5MB)
             $imagem = new Imagem($_FILES['foto-denuncia'] ?? null);
-
+            if (!$imagem->temFoto()) {
+                throw new Exception("Anexe uma foto da ocorrência");
+            }
+            
             $denuncia = new Denuncia(
                 usuario: $usuario,
                 endereco: $endereco,

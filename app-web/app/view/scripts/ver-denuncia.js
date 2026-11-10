@@ -152,6 +152,14 @@
             imagem.src = d.imagem;
             imagem.classList.remove('d-none');
 
+            // fundo desfocado (desktop) e ampliação ao clicar
+            const foto = document.getElementById('detalhe-foto');
+            foto.classList.add('tem-foto');
+            foto.style.setProperty('--foto-bg', 'url(' + JSON.stringify(d.imagem) + ')');
+            configurarAmpliacao(d.imagem);
+
+            document.getElementById('detalhe-dica').hidden = false;
+
             document.getElementById('detalhe-sem-imagem').hidden = true;
         }
 
@@ -159,6 +167,31 @@
         mensagem.style.display = 'none';
         conteudo.classList.remove('d-none');
     }
+
+    function configurarAmpliacao(src) {
+    const modalEl = document.getElementById('modal-imagem');
+    const modalImg = document.getElementById('modal-imagem-src');
+    if (!modalEl || !modalImg || typeof bootstrap === 'undefined') return;
+
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    const abrir = function () {
+        modalImg.src = src;
+        modal.show();
+    };
+
+    imagem.setAttribute('role', 'button');
+    imagem.setAttribute('tabindex', '0');
+    imagem.classList.add('detalhe-imagem-ampliavel');
+
+    imagem.addEventListener('click', abrir);
+    imagem.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            abrir();
+        }
+    });
+}
 
     async function carregarDetalhe() {
         try {

@@ -192,6 +192,20 @@
         fotoInfo.textContent = arquivo.name;
     });
 
+        /* ---------- Foto obrigatória: aviso e destaque ---------- */
+
+    const caixaFoto = inputFoto.closest('.upload-foto');
+
+    inputFoto.addEventListener('invalid', function () {
+        inputFoto.setCustomValidity('Anexe uma foto da ocorrência.');
+        caixaFoto.classList.add('invalido');
+    });
+
+    inputFoto.addEventListener('change', function () {
+        inputFoto.setCustomValidity('');
+        caixaFoto.classList.remove('invalido');
+    });
+
     /* ---------- Envio ---------- */
 
     form.addEventListener('submit', async function (evento) {

@@ -73,7 +73,9 @@ html[data-tema="escuro"] .pagina-detalhe {
 /* IMAGEM */
 
 .detalhe-foto {
-    height: 285px;
+    position: relative;
+    min-height: 200px;
+    max-height: 420px;
     overflow: hidden;
     border-radius: 15px;
     background: var(--dt-verde-suave);
@@ -84,10 +86,22 @@ html[data-tema="escuro"] .pagina-detalhe {
     margin-bottom: 22px;
 }
 
+.detalhe-foto.tem-foto::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    background-image: var(--foto-bg);
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px) brightness(0.65);
+}
+
 .detalhe-foto img {
-    height: 100%;
+    position: relative;
     width: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
     display: block;
 }
 
@@ -98,6 +112,64 @@ html[data-tema="escuro"] .pagina-detalhe {
 #detalhe-sem-imagem {
     color: var(--dt-subtexto);
     font-weight: 600;
+}
+
+/* IMAGEM - DESKTOP: aparece inteira, sem cortar */
+
+.detalhe-imagem-ampliavel {
+    cursor: zoom-in;
+}
+
+@media (min-width: 801px) {
+    .detalhe-foto {
+    position: relative;
+    height: auto;
+    min-height: 200px;
+    max-height: 420px;
+}
+
+.detalhe-foto.tem-foto::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    background-image: var(--foto-bg);
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px) brightness(0.65);
+}
+
+.detalhe-foto img {
+    position: relative;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+}
+}
+
+/* MODAL DA IMAGEM */
+
+.modal-imagem-conteudo {
+    background: transparent;
+    border: none;
+    align-items: center;
+}
+
+.modal-imagem-grande {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.modal-imagem-fechar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 50%;
+    opacity: 1;
 }
 
 /* CATEGORIA E STATUS */
@@ -197,10 +269,96 @@ html[data-tema="escuro"] .pagina-detalhe {
 }
 
 .detalhe-principal {
-    display: grid;
-    gap: 18px;
+    display: contents;
 }
 
+.detalhe-cabecalho {
+    min-width: 0;
+}
+
+/* DESKTOP: grade de 12 colunas
+   linha 1: foto (8) + coluna lateral (4: Acompanhamento + dica), mesma altura
+   linha 2: categoria, título e abas (largura total)
+   linha 3: Descrição (6) + Informações da ocorrência (6), mesmo tamanho */
+
+.detalhe-lateral {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+}
+
+.detalhe-dica {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+}
+
+.detalhe-dica[hidden] {
+    display: none;
+}
+
+.detalhe-dica .detalhe-icone {
+    flex-shrink: 0;
+}
+
+.detalhe-dica .detalhe-icone {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.detalhe-dica p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--dt-texto);
+}
+
+@media (min-width: 801px) {
+    .pagina-detalhe .detalhe-colunas {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .pagina-detalhe .detalhe-foto {
+        grid-column: 1 / span 8;
+        grid-row: 1;
+        align-self: stretch;
+        min-height: 320px;
+        margin-bottom: 0;
+    }
+
+    .pagina-detalhe .detalhe-lateral {
+        grid-column: 9 / span 4;
+        grid-row: 1;
+        align-self: stretch;
+    }
+
+    .pagina-detalhe .detalhe-dica {
+        flex: 1;
+    }
+
+    .pagina-detalhe .detalhe-cabecalho {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .pagina-detalhe #aba-detalhes {
+        grid-column: 1 / span 6;
+        grid-row: 3;
+        align-self: stretch;
+    }
+
+    .pagina-detalhe .detalhe-ocorrencia {
+        grid-column: 7 / span 6;
+        grid-row: 3;
+        align-self: stretch;
+    }
+}
 /* CARDS */
 
 .detalhe-painel {
@@ -415,9 +573,13 @@ html[data-tema="escuro"] .pagina-detalhe {
     }
 
     .detalhe-foto {
-        height: 210px;
+        margin-bottom: 4px;
     }
 
+    .detalhe-dica {
+        display: none;
+    }
+    
     .detalhe-painel {
         padding: 18px;
     }

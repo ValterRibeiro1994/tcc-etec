@@ -182,6 +182,11 @@ body{
     background: #f8fcfa;
 }
 
+.upload-foto.invalido {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
 .upload-foto input {
     position: absolute;
 
