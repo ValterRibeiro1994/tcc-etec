@@ -391,3 +391,48 @@ html[data-tema="escuro"] footer.text-light hr { border-color: #334155; opacity: 
 html[data-tema="escuro"] footer.text-light h5 { color: #f1f5f9; }
 html[data-tema="escuro"] footer.text-light .link-light { color: #94a3b8 !important; text-decoration: none; }
 html[data-tema="escuro"] footer.text-light .link-light:hover { color: #4ade80 !important; }
+
+
+/* ============================================================
+   ABA MENSAGENS (CHAT)
+   ============================================================ */
+html[data-tema="escuro"] .chat-layout { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .chat-lista-painel,
+html[data-tema="escuro"] .chat-lista-topo { border-color: #334155; }
+html[data-tema="escuro"] .chat-conversa-item + .chat-conversa-item { border-top-color: #334155; }
+html[data-tema="escuro"] .chat-conversa-corpo { color: #e2e8f0; }
+html[data-tema="escuro"] .chat-conversa-corpo:hover { background-color: #0f172a; }
+html[data-tema="escuro"] .chat-conversa-item.ativa .chat-conversa-corpo { background-color: rgba(74, 222, 128, 0.10); border-left-color: #4ade80; }
+html[data-tema="escuro"] .chat-conversa-titulo,
+html[data-tema="escuro"] .chat-conversa-item.nao-lida .chat-conversa-titulo,
+html[data-tema="escuro"] .chat-conversa-item.nao-lida .chat-conversa-previa { color: #f1f5f9; }
+html[data-tema="escuro"] .chat-conversa-previa,
+html[data-tema="escuro"] .chat-conversa-meta { color: #94a3b8; }
+html[data-tema="escuro"] .chat-conversa-item.nao-lida .chat-conversa-meta time { color: #4ade80; }
+html[data-tema="escuro"] .chat-avatar { background-color: rgba(22, 163, 74, 0.2); color: #4ade80; }
+html[data-tema="escuro"] .chat-avatar.prefeitura { background-color: rgba(37, 99, 235, 0.2); color: #60a5fa; }
+html[data-tema="escuro"] .chat-selo[data-status="aberta"] { background-color: rgba(22, 163, 74, 0.2); color: #4ade80; }
+html[data-tema="escuro"] .chat-selo[data-status="encerrada"] { background-color: #334155; color: #94a3b8; }
+html[data-tema="escuro"] .chat-contador { background-color: #166534; }
+ 
+html[data-tema="escuro"] .chat-painel { background-color: #0f172a; }
+html[data-tema="escuro"] .chat-cabecalho,
+html[data-tema="escuro"] .chat-form { background-color: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .chat-cabecalho-titulo { color: #f1f5f9; }
+html[data-tema="escuro"] .chat-cabecalho-sub { color: #94a3b8; }
+html[data-tema="escuro"] .chat-link-denuncia { color: #4ade80; }
+html[data-tema="escuro"] .chat-voltar { color: #cbd5e1; }
+html[data-tema="escuro"] .chat-voltar:hover { background-color: #334155; }
+html[data-tema="escuro"] .chat-dia { background-color: #334155; color: #cbd5e1; }
+html[data-tema="escuro"] .chat-bolha.deles { background-color: #1e293b; border-color: #334155; color: #e2e8f0; box-shadow: none; }
+html[data-tema="escuro"] .chat-bolha.deles .chat-bolha-hora { color: #94a3b8; }
+html[data-tema="escuro"] .chat-bolha.minha { background-color: #166534; }
+html[data-tema="escuro"] .chat-sistema { background-color: rgba(217, 119, 6, 0.2); color: #fbbf24; }
+html[data-tema="escuro"] .chat-campo textarea { background-color: #0f172a; border-color: #475569; color: #e2e8f0; }
+html[data-tema="escuro"] .chat-campo textarea:focus { border-color: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2); }
+html[data-tema="escuro"] .chat-form.desativado { background-color: #1e293b; }
+html[data-tema="escuro"] .chat-form.desativado textarea { background-color: #334155; border-color: #334155; color: #64748b; }
+html[data-tema="escuro"] .chat-aviso-encerrada { background-color: #1e293b; border-top-color: #334155; color: #94a3b8; }
+html[data-tema="escuro"] .chat-vazio { color: #94a3b8; }
+html[data-tema="escuro"] .chat-vazio strong { color: #f1f5f9; }
+ 

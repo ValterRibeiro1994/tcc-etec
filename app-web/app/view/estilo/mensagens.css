@@ -1,0 +1,482 @@
+/* =====================================================
+   ABA "MENSAGENS" (CHAT REPRESENTANTE x DENUNCIANTE)
+   Segue o padrão das demais telas do mural: cards brancos,
+   borda #e2e8f0, raio 14px, verde #166534.
+   O tema escuro fica no final do tema-escuro.css.
+   ===================================================== */
+ 
+/* ---------- Layout em duas colunas ---------- */
+.chat-layout {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    height: calc(100vh - 220px);
+    min-height: 480px;
+    margin-bottom: 40px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+ 
+/* ---------- Coluna da esquerda: lista de conversas ---------- */
+.chat-lista-painel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    border-right: 1px solid #e2e8f0;
+}
+ 
+.chat-lista-topo {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.chat-lista-topo .filtro-status { margin-bottom: 0; }
+ 
+.chat-lista {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ 
+.chat-conversa-item + .chat-conversa-item { border-top: 1px solid #eef2f6; }
+ 
+.chat-conversa-corpo {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    border: 0;
+    border-left: 4px solid transparent;
+    background: transparent;
+    text-align: left;
+    font: inherit;
+    color: #0f172a;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.chat-conversa-corpo:hover { background: #f8fafc; }
+.chat-conversa-item.ativa .chat-conversa-corpo {
+    background: #f0fdf4;
+    border-left-color: #166534;
+}
+ 
+/* Avatar com iniciais */
+.chat-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+.chat-avatar.prefeitura { background: #dbeafe; color: #2563eb; }
+.chat-avatar svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+.chat-conversa-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+.chat-conversa-titulo {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-conversa-previa {
+    font-size: 13px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-conversa-item.nao-lida .chat-conversa-titulo,
+.chat-conversa-item.nao-lida .chat-conversa-previa { font-weight: 700; color: #0f172a; }
+ 
+.chat-conversa-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748b;
+    white-space: nowrap;
+}
+.chat-conversa-item.nao-lida .chat-conversa-meta time { color: #166534; font-weight: 700; }
+ 
+/* Contador de não lidas (mesmo estilo do .menu-badge) */
+.chat-contador {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #166534;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+}
+.chat-contador[hidden] { display: none; }
+ 
+/* Selo de status: aberta / encerrada */
+.chat-selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+.chat-selo::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.chat-selo[data-status="aberta"]    { background: #dcfce7; color: #16a34a; }
+.chat-selo[data-status="encerrada"] { background: #f1f5f9; color: #64748b; }
+ 
+/* ---------- Coluna da direita: conversa ---------- */
+.chat-painel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: #f8fafc;
+}
+ 
+.chat-conversa {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+.chat-conversa[hidden] { display: none; }
+ 
+.chat-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+}
+.chat-cabecalho-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+.chat-cabecalho-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-cabecalho-sub {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    font-size: 13px;
+    color: #64748b;
+}
+.chat-link-denuncia {
+    color: #166534;
+    font-weight: 600;
+    text-decoration: none;
+}
+.chat-link-denuncia:hover { text-decoration: underline; }
+ 
+.chat-cabecalho-acoes { display: flex; gap: 8px; flex-shrink: 0; }
+ 
+/* Botão voltar: só aparece no celular */
+.chat-voltar {
+    display: none;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #475569;
+    cursor: pointer;
+}
+.chat-voltar:hover { background: #f1f5f9; }
+.chat-voltar svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+/* Histórico */
+.chat-mensagens {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px;
+    overflow-y: auto;
+}
+ 
+.chat-dia {
+    align-self: center;
+    margin: 10px 0 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+ 
+.chat-bolha {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: min(72%, 560px);
+    padding: 9px 13px 7px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.45;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap; /* respeita quebras de linha (o texto entra via textContent) */
+}
+.chat-bolha-hora {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    line-height: 1;
+    white-space: normal;
+}
+ 
+/* Mensagem do outro */
+.chat-bolha.deles {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 4px;
+    color: #0f172a;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+.chat-bolha.deles .chat-bolha-hora { color: #94a3b8; }
+ 
+/* Minha mensagem */
+.chat-bolha.minha {
+    align-self: flex-end;
+    background: #166534;
+    border-bottom-right-radius: 4px;
+    color: #fff;
+}
+.chat-bolha.minha .chat-bolha-hora { color: rgba(255, 255, 255, 0.75); }
+ 
+/* Mensagem ainda sendo enviada / falha */
+.chat-bolha.enviando { opacity: 0.65; }
+.chat-bolha.falhou { background: #dc2626; }
+.chat-bolha.falhou .chat-bolha-hora { color: #fff; font-weight: 700; }
+ 
+/* Marca de lida (✓✓) */
+.chat-check { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.chat-bolha.minha.lida .chat-check { stroke: #bbf7d0; }
+ 
+/* Aviso do sistema no meio do histórico (ex.: "Conversa encerrada") */
+.chat-sistema {
+    align-self: center;
+    max-width: 90%;
+    margin: 8px 0;
+    padding: 6px 14px;
+    border-radius: 10px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+ 
+/* Campo de envio */
+.chat-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 14px 20px;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+}
+.chat-campo { position: relative; flex: 1; min-width: 0; }
+.chat-campo textarea {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    max-height: 140px;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #fff;
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #0f172a;
+    resize: none;
+}
+.chat-campo textarea::placeholder { color: #94a3b8; }
+.chat-campo textarea:focus {
+    outline: none;
+    border-color: #166534;
+    box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15);
+}
+.chat-limite {
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+    font-size: 11px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+.chat-limite.perto { color: #d97706; font-weight: 700; }
+ 
+.chat-enviar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: #166534;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.chat-enviar:hover { background: #15803d; }
+.chat-enviar:disabled { opacity: 0.5; cursor: default; background: #166534; }
+.chat-enviar svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+/* Conversa encerrada: campo de envio desativado */
+.chat-form.desativado { background: #f1f5f9; }
+.chat-form.desativado textarea {
+    background: #e2e8f0;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+.chat-aviso-encerrada {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #f1f5f9;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #64748b;
+}
+.chat-aviso-encerrada[hidden] { display: none; }
+.chat-aviso-encerrada svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+ 
+/* ---------- Estados vazios ---------- */
+/* "Nenhuma conversa" (denunciante) e "selecione uma conversa" usam o mesmo
+   visual do .notificacoes-vazio, só que sem a borda externa. */
+.chat-vazio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: 1;
+    padding: 40px 24px;
+    text-align: center;
+    color: #64748b;
+}
+.chat-vazio[hidden] { display: none; }
+.chat-vazio svg { width: 44px; height: 44px; color: #94a3b8; }
+.chat-vazio strong { color: #0f172a; font-size: 16px; }
+.chat-vazio p { margin: 0; max-width: 340px; font-size: 14px; }
+ 
+/* Quando o usuário não tem nenhuma conversa, a tela vira um único cartão centralizado */
+.chat-layout.sem-conversas { grid-template-columns: 1fr; height: auto; min-height: 340px; }
+.chat-layout.sem-conversas .chat-lista-painel,
+.chat-layout.sem-conversas .chat-painel { display: none; }
+.chat-layout:not(.sem-conversas) .chat-vazio-geral { display: none; }
+ 
+/* Botão "Ver conversa" em Minhas denúncias reaproveita .btn-acao */
+ 
+/* ---------- Celular / tablet: uma coluna por vez ---------- */
+@media (max-width: 900px) {
+    .chat-layout {
+        grid-template-columns: 1fr;
+        height: calc(100dvh - 300px);
+        min-height: 420px;
+    }
+    /* Por padrão mostra só a lista; ao abrir uma conversa, mostra só ela */
+    .chat-layout .chat-painel { display: none; }
+    .chat-layout.conversa-aberta .chat-lista-painel { display: none; }
+    .chat-layout.conversa-aberta .chat-painel { display: flex; }
+    .chat-lista-painel { border-right: 0; }
+    .chat-voltar { display: grid; }
+    .chat-bolha { max-width: 86%; }
+}
+ 
+@media (max-width: 600px) {
+    .chat-cabecalho { padding: 12px 14px; flex-wrap: wrap; }
+    .chat-cabecalho-acoes { width: 100%; }
+    .chat-cabecalho-acoes .btn-acao { flex: 1; }
+    .chat-mensagens { padding: 14px; }
+    .chat-form { padding: 12px 14px; }
+}
+ 

@@ -17,6 +17,9 @@
     const btnTodas = document.getElementById('btn-marcar-todas');
     const filtros = document.getElementById('filtro-notificacoes');
 
+    const barra = document.getElementById('notificacoes-barra');
+    const mensagemLogin = document.getElementById('notificacoes-mensagem');
+
     const SRC = document.currentScript ? document.currentScript.src : '';
     const urlApp = rota => SRC ? new URL('../../../' + rota, SRC).href : './' + rota;
 
@@ -113,12 +116,24 @@
         lista.innerHTML = '';
         vazio.hidden = true;
 
+        // deslogado: Aviso 
+        const semLogin = estado === 'sem-login';
+        barra.style.display = semLogin ? 'none' : '';
+        mensagemLogin.style.display = semLogin ? 'block' : 'none';
+        if (semLogin) {
+            const link = document.createElement('a');
+            link.href = urlApp('login');
+            link.textContent = 'Entrar';
+            mensagemLogin.textContent = 'Faça login para ver as suas notificações. ';
+            mensagemLogin.appendChild(link);
+        }
+
         const naoLidas = estado === 'ok' ? notificacoes.filter(n => !n.lida).length : 0;
         badge.textContent = naoLidas > 99 ? '99+' : naoLidas;
         badge.hidden = naoLidas === 0;
         btnTodas.disabled = naoLidas === 0;
 
-        if (estado === 'sem-login') return mostrarVazio('Entre para ver suas notificações', 'Faça login para acompanhar o andamento das suas denúncias.', true);
+        if (semLogin) return;
         if (estado === 'erro') return mostrarVazio('Não foi possível carregar', 'Tente novamente em alguns instantes.');
 
         const visiveis = notificacoes
@@ -209,11 +224,12 @@
         estado = 'ok';
         notificacoes = [];
 
-        if (USAR_EXEMPLO) {
-            notificacoes = dadosExemplo().map(normalizar);
-        } else if (!lerToken()) {
-            estado = 'sem-login';
+        if (!lerToken()) {
+                estado = 'sem-login'; 
+        } else if (USAR_EXEMPLO) {
+                notificacoes = dadosExemplo().map(normalizar);
         } else {
+
             try {
                 const json = await requisitar(ROTA_LISTAR);
                 if (!json.resposta) throw new Error(json.mensagem || 'Erro ao listar notificações');

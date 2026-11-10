@@ -23,6 +23,7 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/mensagens.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/paginacao.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/modal-denuncia.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
@@ -130,6 +131,12 @@ $raiz = $GLOBALS['raiz-app'];
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
                      Notificações
                  <span class="menu-badge" id="badge-notificacoes" hidden>0</span>
+                </a>
+
+                <a href="#" class="menu-lateral-link" data-pagina="mensagens" id="link-mensagens">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Mensagens
+                    <span class="menu-badge" id="badge-mensagens" hidden>0</span>
                 </a>
                 
                 <a href="#" class="menu-lateral-link" data-pagina="perfil" id="link-perfil">
@@ -315,13 +322,15 @@ $raiz = $GLOBALS['raiz-app'];
                 <p>Veja o que mudou nas suas denúncias e as respostas da prefeitura.</p>
             </div>
 
-            <div class="notificacoes-barra">
+            <div class="notificacoes-barra" id="notificacoes-barra">
                 <div class="filtro-status" id="filtro-notificacoes">
                     <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
                     <button type="button" class="notif-chip" data-filtro="nao-lidas">Não lidas</button>
                 </div>
                     <button type="button" class="btn-acao" id="btn-marcar-todas">Marcar todas como lidas</button>
             </div>
+
+            <p id="notificacoes-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
 
             <div id="lista-notificacoes"></div>
 
@@ -348,6 +357,120 @@ $raiz = $GLOBALS['raiz-app'];
         </template>
     </section>
     <!-- FIM SESSÃO NOTIFICAÇÕES -->
+
+    <!-- INICIO SESSÃO MENSAGENS (CHAT) -->
+    <section id="tela-mensagens" class="tela">
+ 
+        <div class="mural-descricao">
+            <h2>Mensagens</h2>
+            <p>Converse com a prefeitura sobre as denúncias registradas.</p>
+        </div>
+ 
+        <!-- Classes de estado (controladas pelo mensagens.js):
+             .sem-conversas   -> mostra só o aviso "Nenhuma conversa"
+             .conversa-aberta -> no celular, mostra a conversa no lugar da lista -->
+        <div class="chat-layout" id="chat-layout">
+ 
+            <!-- Aviso quando não há nenhuma conversa -->
+            <div class="chat-vazio chat-vazio-geral" id="chat-vazio-geral" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <strong>Nenhuma conversa por aqui</strong>
+                <p id="chat-vazio-geral-texto">Quando a prefeitura responder uma denúncia sua, a conversa aparece aqui.</p>
+            </div>
+ 
+            <!-- Coluna da esquerda: lista de conversas -->
+            <div class="chat-lista-painel">
+                <div class="chat-lista-topo">
+                    <div class="filtro-status" id="filtro-conversas">
+                        <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
+                        <button type="button" class="notif-chip" data-filtro="nao-lidas">Não lidas</button>
+                        <button type="button" class="notif-chip" data-filtro="abertas">Abertas</button>
+                    </div>
+                </div>
+                <ul class="chat-lista" id="lista-conversas"></ul>
+            </div>
+ 
+            <!-- Coluna da direita: conversa -->
+            <div class="chat-painel" id="chat-painel">
+ 
+                <!-- Nenhuma conversa selecionada -->
+                <div class="chat-vazio" id="chat-vazio-selecione">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+                    <strong>Selecione uma conversa</strong>
+                    <p>Escolha uma conversa na lista ao lado para ver as mensagens.</p>
+                </div>
+ 
+                <!-- Conversa aberta (o JS tira o hidden ao selecionar uma conversa) -->
+                <div class="chat-conversa" id="chat-conversa" hidden>
+ 
+                    <div class="chat-cabecalho">
+                        <button type="button" class="chat-voltar" id="chat-voltar" aria-label="Voltar para a lista">
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <span class="chat-avatar prefeitura" id="chat-cab-avatar" aria-hidden="true">PR</span>
+                        <div class="chat-cabecalho-texto">
+                            <span class="chat-cabecalho-titulo" id="chat-cab-titulo">Título da denúncia</span>
+                            <span class="chat-cabecalho-sub">
+                                <span id="chat-cab-interlocutor">Prefeitura</span>
+                                <span class="chat-selo" id="chat-cab-selo" data-status="aberta">Aberta</span>
+                                <a href="#" class="chat-link-denuncia" id="chat-cab-link">Ver denúncia</a>
+                            </span>
+                        </div>
+                        <div class="chat-cabecalho-acoes">
+                            <!-- Só o representante vê este botão (validado também no servidor) -->
+                            <button type="button" class="btn-acao btn-acao-perigo" id="btn-encerrar-conversa" hidden>Encerrar conversa</button>
+                        </div>
+                    </div>
+ 
+                    <div class="chat-mensagens" id="chat-mensagens" aria-live="polite"></div>
+ 
+                    <div class="chat-aviso-encerrada" id="chat-aviso-encerrada" hidden>
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Esta conversa foi encerrada. O histórico continua disponível, mas não é possível enviar novas mensagens.
+                    </div>
+ 
+                    <form class="chat-form" id="chat-form" autocomplete="off">
+                        <div class="chat-campo">
+                            <textarea id="chat-texto" rows="1" maxlength="1000" placeholder="Escreva uma mensagem..." aria-label="Mensagem"></textarea>
+                            <span class="chat-limite" id="chat-limite" hidden>0/1000</span>
+                        </div>
+                        <button type="submit" class="chat-enviar" id="chat-enviar" aria-label="Enviar mensagem">
+                            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- Modelos usados pelo mensagens.js -->
+        <template id="modelo-conversa">
+            <li class="chat-conversa-item">
+                <button type="button" class="chat-conversa-corpo">
+                    <span class="chat-avatar" data-campo="avatar" aria-hidden="true">?</span>
+                    <span class="chat-conversa-texto">
+                        <span class="chat-conversa-titulo" data-campo="titulo">Título da denúncia</span>
+                        <span class="chat-conversa-previa" data-campo="previa">Prévia da última mensagem</span>
+                        <span><span class="chat-selo" data-campo="selo" data-status="aberta">Aberta</span></span>
+                    </span>
+                    <span class="chat-conversa-meta">
+                        <time data-campo="hora">agora</time>
+                        <span class="chat-contador" data-campo="contador" hidden>0</span>
+                    </span>
+                </button>
+            </li>
+        </template>
+ 
+        <template id="modelo-mensagem">
+            <div class="chat-bolha">
+                <span data-campo="texto"></span>
+                <span class="chat-bolha-hora">
+                    <time data-campo="hora">00:00</time>
+                    <svg class="chat-check" data-campo="check" viewBox="0 0 24 24" hidden><polyline points="2 13 7 18 15 8"/><polyline points="10 15 12 17 22 7"/></svg>
+                </span>
+            </div>
+        </template>
+    </section>
+    <!-- FIM SESSÃO MENSAGENS -->
 
     <!-- INICIO SESSÃO CENTRAL DE AJUDA (MURAL) -->
     <section id="tela-central-de-ajuda" class="tela">
