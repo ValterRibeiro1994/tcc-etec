@@ -32,13 +32,13 @@ class UsuarioRepositorio {
                 nome_usuario, sobrenome_usuario, perfil_usuario, 
                 email_usuario, cidade_usuario, estado_usuario,
                 orgao_usuario, cargo_usuario, senha_usuario,
-                cpf_usuario
+                cpf_usuario, area_atuacao_usuario
             )
             VALUES (
                 :nome, :sobrenome, :perfil, 
                 :email, :cidade, :estado,
                 :orgao, :cargo, :senha,
-                :cpf
+                :cpf, :area
             )
         ";
 
@@ -60,6 +60,8 @@ class UsuarioRepositorio {
             $cursor->bindValue(":cargo", $usuario->getPrefeitura()->getCargo());
             $cursor->bindValue(":senha", $usuario->obterHashSenha());
             $cursor->bindValue(":cpf", $usuario->getCpf());
+            // área de atuação (categoria) do representante; NULL para munícipe
+            $cursor->bindValue(":area", $usuario->getPrefeitura()->getArea());
             $cursor->execute();
 
             return RespostaProcesso::resposta(
@@ -89,6 +91,21 @@ class UsuarioRepositorio {
             $this->pdo = null;
         }
 
+    }
+
+        // Devolve o nome da categoria como está em tb_categoria (ou null se não existir)
+    public function obterNomeCategoria(string $nome): ?string {
+        try {
+            $tabela = $GLOBALS['categorias'];
+            $conexao = (new Conexao())->getConexao();
+            $cursor = $conexao->prepare("SELECT nome_categoria FROM $tabela WHERE nome_categoria = :nome LIMIT 1");
+            $cursor->bindValue(":nome", $nome);
+            $cursor->execute();
+            $achado = $cursor->fetchColumn();
+            return $achado === false ? null : (string) $achado;
+        } catch (Exception $erro) {
+            return null;
+        }
     }
 
     public function obterUsuario(string $email){

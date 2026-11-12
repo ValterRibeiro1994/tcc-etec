@@ -6,6 +6,7 @@
 //   GET  ./denuncia/minhas  ->  JSON só com as denúncias do usuário logado (token no cabeçalho Authorization)
 //   GET  ./denuncia/criar   ->  página do formulário "Registrar uma denúncia"
 //   POST ./denuncia/criar   ->  grava a denúncia (exige usuário logado)
+//   GET  ./denuncia/recebidas ->  JSON com as denúncias da cidade do REPRESENTANTE (só perfil representante)
 class DenunciaController {
 
     // ADICIONADO: rota oficial da página do mural
@@ -46,6 +47,29 @@ class DenunciaController {
             'busca' => mb_substr(trim((string)($requisicao['busca'] ?? '')), 0, 150)
         ];
         return (new DenunciasRepositorio())->listarDenunciasDoUsuario(
+            $resposta['dados']['email'], $pagina, $filtros
+        );
+    }
+
+        // Área do representante: denúncias da cidade dele. Só perfil "representante".
+    public function recebidas(array $requisicao){
+        if ($requisicao['metodo'] !== 'GET') {
+            return RespostaProcesso::resposta('Método inválido');
+        }
+        $resposta = UsuarioLogadoService::obter();
+        if (!$resposta['resposta']) return $resposta;
+
+        // validado no servidor pelo perfil do token (o banco confere de novo no repositório)
+        if (($resposta['dados']['perfil'] ?? '') !== 'representante') {
+            return RespostaProcesso::resposta('Acesso restrito a representantes');
+        }
+
+        $pagina = max(1, min(1000000, (int)($requisicao['pagina'] ?? 1)));
+        $filtros = [
+            'status' => $requisicao['status'] ?? '',
+            'busca' => mb_substr(trim((string)($requisicao['busca'] ?? '')), 0, 150)
+        ];
+        return (new DenunciasRepositorio())->listarDenunciasParaRepresentante(
             $resposta['dados']['email'], $pagina, $filtros
         );
     }

@@ -47,7 +47,8 @@ class UtilService {
             $usuario->setPrefeitura(
                 new Prefeitura(
                     orgao: $dados['orgao'],
-                    cargo: $dados['cargo']
+                    cargo: $dados['cargo'],
+                    area: $dados['area'] ?? null   // opcional aqui: login/token também usam este método
                 )
             );
         }

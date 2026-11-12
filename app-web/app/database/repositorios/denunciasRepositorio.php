@@ -671,6 +671,170 @@ class DenunciasRepositorio {
     }
 }
 
+        // Denúncias que o REPRESENTANTE enxerga: todas as da cidade/estado dele (tb_usuario).
+    // O perfil é conferido no banco, além do token. Não devolve o nome de quem denunciou.
+    public function listarDenunciasParaRepresentante(
+        string $email,
+        int $pagina = 1,
+        array $filtros = []
+    ): array {
+
+        $td = $GLOBALS['denuncia'];
+        $tu = $GLOBALS['usuario'];
+        $porPagina = 10;
+        $pagina = max(1, $pagina);
+
+        $status = [
+            'pendente' => 'pendente',
+            'analise' => 'em analise',
+            'andamento' => 'em andamento',
+            'concluida' => 'concluida'
+        ];
+
+        try {
+            $conexao = (new Conexao())->getConexao();
+
+            $executar = function (
+                string $sql,
+                array $valores = []
+            ) use ($conexao): PDOStatement {
+                $stmt = $conexao->prepare($sql);
+                foreach ($valores as $chave => $valor) {
+                    $stmt->bindValue(
+                        $chave,
+                        $valor,
+                        is_int($valor) ? PDO::PARAM_INT : PDO::PARAM_STR
+                    );
+                }
+                $stmt->execute();
+                return $stmt;
+            };
+
+            // quem é o representante e qual cidade ele atende
+            $representante = $executar(
+                "SELECT perfil_usuario, cidade_usuario, estado_usuario, area_atuacao_usuario
+                   FROM $tu
+                  WHERE email_usuario = :email",
+                [':email' => $email]
+            )->fetch(PDO::FETCH_ASSOC);
+
+            if (!$representante || $representante['perfil_usuario'] !== 'representante') {
+                return RespostaProcesso::resposta('Acesso restrito a representantes');
+            }
+
+            $escopo = 'd.cidade_denuncia = :cidade AND d.estado_denuncia = :estado';
+            $paramsEscopo = [
+                ':cidade' => $representante['cidade_usuario'],
+                ':estado' => $representante['estado_usuario']
+            ];
+
+            // se o representante escolheu uma área no cadastro, só enxerga essa categoria
+            $area = $representante['area_atuacao_usuario'] ?? null;
+            if ($area !== null && $area !== '') {
+                $escopo .= ' AND d.nome_categoria = :area';
+                $paramsEscopo[':area'] = $area;
+            }
+
+            $where = [$escopo];
+            $params = $paramsEscopo;
+
+            if (isset($status[$filtros['status'] ?? ''])) {
+                $where[] = 'd.status_denuncia = :status';
+                $params[':status'] = $status[$filtros['status']];
+            }
+
+            $busca = trim((string) ($filtros['busca'] ?? ''));
+            if ($busca !== '') {
+                $where[] = '(d.titulo_denuncia LIKE :busca1
+                    OR d.descricao_denuncia LIKE :busca2
+                    OR d.logradouro_denuncia LIKE :busca3
+                    OR d.nome_categoria LIKE :busca4)';
+                for ($i = 1; $i <= 4; $i++) {
+                    $params[':busca' . $i] = '%' . $busca . '%';
+                }
+            }
+
+            $condicao = ' WHERE ' . implode(' AND ', $where);
+
+            // Contagem geral da cidade, sem paginação nem filtros de tela.
+            $resumo = $executar(
+                "SELECT d.status_denuncia, COUNT(*) quantidade
+                   FROM $td d
+                  WHERE $escopo
+                  GROUP BY d.status_denuncia",
+                $paramsEscopo
+            )->fetchAll(PDO::FETCH_ASSOC);
+
+            $contagens = ['concluida' => 0, 'andamento' => 0, 'analise' => 0, 'pendente' => 0];
+            $tipos = array_flip($status);
+            foreach ($resumo as $linha) {
+                $chave = $tipos[$linha['status_denuncia']] ?? null;
+                if ($chave !== null) {
+                    $contagens[$chave] = (int) $linha['quantidade'];
+                }
+            }
+            $contagens['total'] = array_sum($contagens);
+
+            $total = (int) $executar(
+                "SELECT COUNT(*) FROM $td d $condicao",
+                $params
+            )->fetchColumn();
+
+            $totalPaginas = max(1, (int) ceil($total / $porPagina));
+            $pagina = min($pagina, $totalPaginas);
+            $offset = ($pagina - 1) * $porPagina;
+
+            $linhas = $executar(
+                "SELECT
+                    d.id_denuncia,
+                    d.titulo_denuncia,
+                    d.descricao_denuncia,
+                    d.data_denuncia,
+                    d.nome_categoria,
+                    d.logradouro_denuncia,
+                    d.status_denuncia
+                 FROM $td d
+                 $condicao
+                 ORDER BY d.data_denuncia DESC, d.id_denuncia DESC
+                 LIMIT :limite OFFSET :offset",
+                array_merge($params, [':limite' => $porPagina, ':offset' => $offset])
+            )->fetchAll(PDO::FETCH_ASSOC);
+
+            $denuncias = [];
+            foreach ($linhas as $linha) {
+                $denuncias[] = [
+                    'id' => (int) $linha['id_denuncia'],
+                    'titulo' => $linha['titulo_denuncia'],
+                    'descricao' => $linha['descricao_denuncia'],
+                    'categoria' => $linha['nome_categoria'],
+                    'local' => $linha['logradouro_denuncia'],
+                    'data' => !empty($linha['data_denuncia'])
+                        ? (new DateTime($linha['data_denuncia']))->format($GLOBALS['formato-data-hora'])
+                        : '',
+                    'status' => $linha['status_denuncia']
+                    // (próxima etapa) 'conversa' => id da conversa, se já existir
+                ];
+            }
+
+            $retorno = RespostaProcesso::resposta('Denúncias da cidade consultadas', true, $denuncias);
+            $retorno['paginacao'] = [
+                'pagina' => $pagina,
+                'por_pagina' => $porPagina,
+                'total' => $total,
+                'total_paginas' => $totalPaginas
+            ];
+            $retorno['resumo'] = $contagens;
+            $retorno['area'] = ($area !== null && $area !== '') ? $area : null;
+            return $retorno;
+
+        } catch (Exception $erro) {
+            return RespostaProcesso::resposta(
+                'Erro ao buscar as denúncias',
+                false,
+                RespostaProcesso::salvarErro($erro)
+            );
+        }
+    }
 
     public function obterDetalhe(int $id): array
     {

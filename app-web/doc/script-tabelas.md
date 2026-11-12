@@ -76,3 +76,8 @@ CREATE TABLE IF NOT EXISTS tb_resposta (
         REFERENCES tb_denuncia(id_denuncia)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE tb_usuario
+    ADD COLUMN area_atuacao_usuario VARCHAR(30) DEFAULT NULL AFTER cargo_usuario,
+    ADD CONSTRAINT fk_usuario_area_atuacao
+        FOREIGN KEY (area_atuacao_usuario) REFERENCES tb_categoria(nome_categoria);

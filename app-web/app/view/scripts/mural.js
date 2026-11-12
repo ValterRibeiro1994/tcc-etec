@@ -58,6 +58,32 @@
         }
     }
 
+        // Perfil do usuário logado ('municipe', 'representante') ou null. Só para ajustar a tela;
+    // quem protege de verdade as rotas é o servidor.
+    function perfilLogado() {
+        const token = lerToken();
+        if (!token) return null;
+        try {
+            const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64)).perfil || null;
+        } catch (erro) {
+            return null;
+        }
+    }
+
+    // Representante não vê o mural nem cria denúncia; os demais não veem "Denúncias recebidas"
+    function ajustarMenuPorPerfil() {
+        const representante = perfilLogado() === 'representante';
+        const mostrar = (seletor, visivel) => {
+            const el = document.querySelector(seletor);
+            if (el) el.style.display = visivel ? '' : 'none';
+        };
+        mostrar('#link-recebidas', representante);
+        mostrar('#link-mural', !representante);
+        mostrar('#link-denuncias', !representante);
+        mostrar('#btn-nova-denuncia-lateral', !representante);
+    }
+
     // Busca um JSON no servidor (com o token, quando a rota exige login)
     async function buscarJson(rota, token) {
         const opcoes = { method: 'GET', credentials: 'same-origin' };
@@ -86,6 +112,7 @@
 
     // Abre o formulário de denúncia em popup, só para usuário logado
     function abrirFormularioDenuncia() {
+        if (perfilLogado() === 'representante') return;
         if (!lerToken()) {
             irParaLogin('Faça login para registrar uma denúncia.');
             return;
@@ -109,6 +136,7 @@
             bairro: selBairro?.value || '',
             status: selStatusMural?.value || '',
             ...RelateMinhas.estado(),
+            ...(window.RelateRecebidas ? window.RelateRecebidas.estado() : {}),
             filtrosExtras: !!(painelExtras && !painelExtras.classList.contains('d-none'))
         };
         try { sessionStorage.setItem('mural-retorno', JSON.stringify(estado)); }
@@ -138,6 +166,11 @@
     }
 
     function mostrarPagina(pagina) {
+
+        const representante = perfilLogado() === 'representante';
+        if (representante && ['mural', 'denuncias', 'criar-denuncia'].includes(pagina)) pagina = 'recebidas';
+        if (!representante && pagina === 'recebidas') pagina = 'mural';
+        
         if (pagina === 'criar-denuncia') { abrirFormularioDenuncia(); return; }
         if (pagina === 'perfil') { irParaPerfil(); return; }
 
@@ -351,7 +384,7 @@
     });
 
         window.RelateMural = {
-        urlApp, lerToken, buscarJson, enviarPost, irParaLogin, irParaDetalhe, STATUS,
+        urlApp, lerToken, perfilLogado, buscarJson, enviarPost, irParaLogin, irParaDetalhe, STATUS,
         recarregarMural: () => carregarMural(paginaMural)
     };
 
@@ -376,8 +409,14 @@
            
             if(painelExtras)painelExtras.classList.toggle('d-none',!retorno.filtrosExtras);
         }
-        mostrarPagina(retorno?.pagina || 'mural');
-        Promise.all([carregarMural(retorno?.paginaMural||1),RelateMinhas.iniciar(retorno)])
+                ajustarMenuPorPerfil();
+        const representante = perfilLogado() === 'representante';
+        mostrarPagina(retorno?.pagina || (representante ? 'recebidas' : 'mural'));
+        Promise.all([
+            carregarMural(retorno?.paginaMural||1),
+            representante ? null : RelateMinhas.iniciar(retorno),
+            representante ? window.RelateRecebidas.iniciar(retorno) : null
+        ])
             .then(()=>{
                 if(!retorno)return;
                 const area=document.querySelector('.conteudo-principal');

@@ -127,6 +127,12 @@ $raiz = $GLOBALS['raiz-app'];
                     Minhas denúncias
                 </a>
 
+                <!-- Só o representante vê -->
+                <a href="#" class="menu-lateral-link" data-pagina="recebidas" id="link-recebidas" style="display: none;">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                    Denúncias recebidas
+                </a>
+
                 <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
                      Notificações
@@ -313,6 +319,69 @@ $raiz = $GLOBALS['raiz-app'];
             </article>
         </template>
     </section>
+
+    <!-- INICIO SESSÃO DENÚNCIAS RECEBIDAS (SÓ REPRESENTANTE) -->
+    <section id="tela-recebidas" class="tela">
+
+        <div class="mural-descricao">
+            <h2>Denúncias recebidas</h2>
+            <p id="recebidas-descricao">Acompanhe as denúncias da sua cidade e responda os moradores.</p>
+        </div>
+
+        <div class="resumo-denuncias">
+            <div class="resumo-item" data-cor="verde">
+                <strong id="rec-resumo-concluidas">0</strong><span>Concluídas</span>
+            </div>
+            <div class="resumo-item" data-cor="amarelo">
+                <strong id="rec-resumo-andamento">0</strong><span>Em andamento</span>
+            </div>
+            <div class="resumo-item" data-cor="azul">
+                <strong id="rec-resumo-analise">0</strong><span>Em análise</span>
+            </div>
+            <div class="resumo-item" data-cor="vermelho">
+                <strong id="rec-resumo-pendentes">0</strong><span>Pendentes</span>
+            </div>
+        </div>
+
+        <!-- FILTROS (classe notif-chip: o "filtro-chip" é controlado pelo JS de Minhas denúncias) -->
+        <div class="filtro-status" id="filtro-recebidas">
+            <button type="button" class="notif-chip ativo" data-filtro="todas">Todas</button>
+            <button type="button" class="notif-chip" data-filtro="concluida">Concluídas</button>
+            <button type="button" class="notif-chip" data-filtro="andamento">Em andamento</button>
+            <button type="button" class="notif-chip" data-filtro="analise">Em análise</button>
+            <button type="button" class="notif-chip" data-filtro="pendente">Pendentes</button>
+        </div>
+
+        <p id="recebidas-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+
+        <div class="lista-denuncias" id="lista-recebidas"></div>
+        <p class="text-secondary small mt-3">Total de denúncias da cidade: <strong id="total-recebidas">0</strong></p>
+        <nav id="paginacao-recebidas" class="paginacao-relate" aria-label="Paginação das denúncias recebidas"></nav>
+
+        <template id="modelo-recebida">
+            <article class="denuncia-item" data-status="pendente">
+                <div class="denuncia-principal">
+                    <h3 data-campo="titulo">Título</h3>
+                    <p data-campo="descricao">Descrição</p>
+                </div>
+                <div class="denuncia-meta">
+                    <span class="meta-linha">
+                        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span data-campo="local">Local</span>
+                    </span>
+                    <span class="meta-linha">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span data-campo="data">Data</span>
+                    </span>
+                </div>
+                <span class="status-badge" data-campo="status">Status</span>
+                <div class="denuncia-acoes">
+                    <button type="button" class="btn-acao btn-acao-principal" data-acao="responder">Responder</button>
+                </div>
+            </article>
+        </template>
+    </section>
+    <!-- FIM SESSÃO DENÚNCIAS RECEBIDAS -->
 
         <!-- INICIO SESSÃO NOTIFICAÇÕES (MURAL)-->
     <section id="tela-notificacoes" class="tela">
@@ -821,6 +890,7 @@ $raiz = $GLOBALS['raiz-app'];
     <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-minhas-denuncias.js"></script>
+     <script src="<?= $raiz ?>app/view/scripts/mural-representante.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-configuracoes.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-notificacoes.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-popup-denuncia.js"></script>

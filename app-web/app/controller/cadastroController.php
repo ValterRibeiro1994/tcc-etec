@@ -154,6 +154,25 @@ class CadastroController {
                 );
             }
 
+            // representante: precisa dizer qual categoria de denúncia ele atende
+            if ($dados['perfil'] === "representante") {
+                $area = trim((string) ($dados['area'] ?? ''));
+                if ($area === '') {
+                    return RespostaProcesso::resposta(
+                        mensagem: "Cliente: Informe a área de atuação", resposta: false,
+                        dados: [], formato: "json"
+                    );
+                }
+                $nome_categoria = (new UsuarioRepositorio(new Conexao()))->obterNomeCategoria($area);
+                if ($nome_categoria === null) {
+                    return RespostaProcesso::resposta(
+                        mensagem: "Cliente: Área de atuação inválida", resposta: false,
+                        dados: [], formato: "json"
+                    );
+                }
+                $dados['area'] = $nome_categoria;  // grava exatamente como está na tabela de categorias
+            }
+
             $cpf = new Cpf($dados['cpf']);
             $cpf->validarCpf();
 
