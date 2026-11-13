@@ -23,6 +23,8 @@ $raiz = $GLOBALS['raiz-app'];
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/home-mural.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/notificacoes.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/painel.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/admin.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/mensagens.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/paginacao.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/modal-denuncia.css">
@@ -100,7 +102,7 @@ $raiz = $GLOBALS['raiz-app'];
             <button type="button" onclick="abrirSidebar()">
                 ☰
             </button>
-            <span>Mural de denúncias</span>
+            <span id="titulo-pagina-mobile">Mural de denúncias</span>
         </nav>
     </header>
 
@@ -127,13 +129,25 @@ $raiz = $GLOBALS['raiz-app'];
                     Minhas denúncias
                 </a>
 
+                <!-- Apenas o terceiro perfil 'administrador': controles gerais do sistema. -->
+                <a href="#" class="menu-lateral-link" data-pagina="admin" id="link-admin" style="display:none;">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8.4-8 10-4.5-1.6-8-5-8-10V6l8-4z"/><path d="M8 12l3 3 5-6"/></svg>
+                    Administração geral
+                </a>
+
+                <!-- Painel administrativo: só aparece para representantes autenticados. -->
+                <a href="#" class="menu-lateral-link" data-pagina="painel" id="link-painel" style="display: none;">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Painel do representante
+                </a>
+
                 <!-- Só o representante vê -->
                 <a href="#" class="menu-lateral-link" data-pagina="recebidas" id="link-recebidas" style="display: none;">
                     <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
                     Denúncias recebidas
                 </a>
 
-                <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes">
+                <a href="#" class="menu-lateral-link" data-pagina="notificacoes" id="link-notificacoes" style="display: none;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg>
                      Notificações
                  <span class="menu-badge" id="badge-notificacoes" hidden>0</span>
@@ -319,6 +333,120 @@ $raiz = $GLOBALS['raiz-app'];
             </article>
         </template>
     </section>
+
+    <!-- PAINEL ADMINISTRATIVO DO REPRESENTANTE (o servidor também verifica acesso) -->
+    <!-- Dashboard exclusivo do administrador-geral: o PHP também confirma a permissão. -->
+    <section id="tela-admin" class="tela" aria-labelledby="admin-titulo">
+        <div class="painel-cabecalho"><div>
+            <h2 id="admin-titulo">Administração geral</h2>
+            <p class="painel-escopo">Gerencie a aprovação de representantes e acompanhe os dados gerais do RelateSBC.</p>
+        </div></div>
+        <p id="admin-aviso" class="admin-aviso" role="status" hidden></p>
+        <div class="admin-metricas">
+            <div class="admin-metrica"><span>Munícipes</span><strong id="admin-municipes">—</strong></div>
+            <div class="admin-metrica"><span>Representantes</span><strong id="admin-representantes">—</strong></div>
+            <div class="admin-metrica"><span>Aguardando aprovação</span><strong id="admin-pendentes">—</strong></div>
+            <div class="admin-metrica"><span>Representantes aprovados</span><strong id="admin-aprovados">—</strong></div>
+            <div class="admin-metrica"><span>Denúncias cadastradas</span><strong id="admin-denuncias">—</strong></div>
+            <div class="admin-metrica"><span>Concluídas</span><strong id="admin-concluidas">—</strong></div>
+        </div>
+        <div class="admin-cards">
+            <section class="admin-card">
+                <div class="admin-card-top"><h3>Representantes</h3><button type="button" id="admin-atualizar">Atualizar</button></div>
+                <p>Somente contas aprovadas podem alterar o status das denúncias.</p>
+                <div class="admin-filtros">
+                    <label>Buscar por nome, e-mail ou cidade
+                        <input type="search" id="admin-busca" maxlength="100" placeholder="Pesquisar representante">
+                    </label>
+                    <label>Situação
+                        <select id="admin-filtro"><option value="todos">Todos</option><option value="pendentes">Aguardando</option><option value="aprovados">Aprovados</option></select>
+                    </label>
+                </div>
+                <div id="admin-lista" class="admin-lista" aria-live="polite"></div>
+                <div class="admin-paginacao"><button type="button" id="admin-anterior">Anterior</button><span id="admin-pagina">—</span><button type="button" id="admin-proximo">Próxima</button></div>
+            </section>
+            <section class="admin-card">
+                <h3>Denúncias por status</h3>
+                <div id="admin-status" class="admin-status"></div>
+                <h3>Atividades administrativas recentes</h3>
+                <div id="admin-auditoria" class="admin-auditoria"></div>
+                <h3>Últimas denúncias</h3>
+                <div id="admin-recentes" class="admin-recentes"></div>
+            </section>
+        </div>
+    </section>
+
+    <section id="tela-painel" class="tela" aria-labelledby="painel-titulo">
+        <div class="mural-descricao">
+            <h2 id="painel-titulo">Painel do representante</h2>
+            <p>Controle e acompanhe os atendimentos da sua região. As mudanças ficam registradas no histórico.</p>
+            <p id="painel-escopo" class="painel-escopo">Carregando sua área...</p>
+        </div>
+        <div id="painel-aviso" role="status" class="painel-aviso" hidden></div>
+        <div class="painel-resumo" aria-label="Indicadores das denúncias">
+            <div class="painel-metrica"><span>Total de denúncias</span><strong id="painel-total">0</strong></div>
+            <div class="painel-metrica"><span>Pendentes</span><strong id="painel-pendentes">0</strong></div>
+            <div class="painel-metrica"><span>Em análise</span><strong id="painel-analise">0</strong></div>
+            <div class="painel-metrica"><span>Em andamento</span><strong id="painel-andamento">0</strong></div>
+            <div class="painel-metrica"><span>Concluídas</span><strong id="painel-concluidas">0</strong></div>
+            <div class="painel-metrica"><span>Não concluídas há mais de 7 dias</span><strong id="painel-atrasadas">0</strong></div>
+            <div class="painel-metrica"><span>Concluídas neste mês</span><strong id="painel-fechadas-mes">0</strong></div>
+        </div>
+        <div class="painel-categoria-card">
+            <h3>Denúncias por categoria</h3>
+            <div id="painel-categorias" class="painel-categorias">Carregando...</div>
+        </div>
+        <div class="painel-linha-cabecalho">
+            <h3>Gerenciar denúncias</h3>
+            <div class="painel-acoes-gerais">
+                <button type="button" id="painel-atualizar" class="btn-acao">Atualizar</button>
+                <button type="button" id="painel-exportar" class="btn-acao btn-acao-principal">Exportar CSV</button>
+            </div>
+        </div>
+        <div class="painel-filtros">
+            <label>Buscar denúncia
+                <input type="search" id="painel-busca" placeholder="Título, rua ou bairro" maxlength="100">
+            </label>
+            <label>Status
+                <select id="painel-filtro-status">
+                    <option value="">Todos</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="em analise">Em análise</option>
+                    <option value="em andamento">Em andamento</option>
+                    <option value="concluida">Concluída</option>
+                </select>
+            </label>
+            <label>Categoria
+                <select id="painel-filtro-categoria"><option value="">Todas as categorias</option></select>
+            </label>
+        </div>
+        <div id="painel-lista" class="painel-lista" aria-live="polite"></div>
+        <nav id="paginacao-painel" aria-label="Paginação do painel"></nav>
+        <template id="modelo-painel-denuncia">
+            <article class="painel-denuncia">
+                <div class="painel-denuncia-topo">
+                    <div><h4 data-campo="titulo">Denúncia</h4><p data-campo="dados">Categoria e bairro</p></div>
+                    <span class="painel-status" data-campo="status">Pendente</span>
+                </div>
+                <div class="painel-botoes">
+                    <button type="button" data-acao="abrir" class="btn-acao">Ver denúncia</button>
+                    <button type="button" data-acao="responder" class="btn-acao">Responder no chat</button>
+                    <button type="button" data-acao="historico" class="btn-acao">Ver histórico</button>
+                </div>
+                <div class="painel-historico" hidden></div>
+                <div class="painel-edicao">
+                    <label>Novo status
+                        <select data-acao="status" aria-label="Escolha o novo status"></select>
+                    </label>
+                    <label>Justificativa da alteração (5 a 350 caracteres)
+                        <textarea rows="2" maxlength="350" data-acao="justificativa" placeholder="Explique o motivo da alteração"></textarea>
+                    </label>
+                    <button type="button" data-acao="salvar" class="btn-acao btn-acao-principal">Atualizar status</button>
+                </div>
+            </article>
+        </template>
+    </section>
+    <!-- FIM PAINEL -->
 
     <!-- INICIO SESSÃO DENÚNCIAS RECEBIDAS (SÓ REPRESENTANTE) -->
     <section id="tela-recebidas" class="tela">
@@ -891,6 +1019,8 @@ $raiz = $GLOBALS['raiz-app'];
     <script src="<?= $raiz ?>app/view/scripts/mural.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-minhas-denuncias.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-representante.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/mural-painel.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/mural-admin.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-mensagens.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-configuracoes.js"></script>
     <script src="<?= $raiz ?>app/view/scripts/mural-notificacoes.js"></script>

@@ -174,7 +174,7 @@ class Usuario {
      * PARA OS USUARIOS APENAS CIDADE E ESTADO SÃO NECESSARIOS
     */
     public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
-        $perfis_com_endereco = ['municipe', 'representante'];
+        $perfis_com_endereco = ['municipe', 'representante', 'administrador'];
         if (!UtilService::perfilExiste($perfis_com_endereco, $this->getPerfil())) { // visitante
             $this->endereco = new Endereco(
                 cidade: "visitante",
@@ -190,7 +190,7 @@ class Usuario {
     }
 
     public function getEndereco(): Endereco {
-        $perfis_com_endereco = ['municipe', 'representante'];
+        $perfis_com_endereco = ['municipe', 'representante', 'administrador'];
         if (!$this->validarPerfil($perfis_com_endereco)){
             $this->setEndereco();
         }
@@ -285,7 +285,7 @@ class Usuario {
     }
 
     public function getArray(){
-        $perfis_autorizados = ['visitante', 'municipe', 'representante'];
+        $perfis_autorizados = ['visitante', 'municipe', 'representante', 'administrador'];
         if (!UtilService::perfilExiste($perfis_autorizados, $this->getPerfil())){
             return RespostaProcesso::resposta(
                 mensagem: "Perfil não autorizado para essa função", resposta: false
@@ -300,11 +300,11 @@ class Usuario {
         ];
         
 
-        if ($this->getPerfil() == "visitante" || $this->getPerfil() == "municipe" || $this->getPerfil() == "representante" ){
+        if (in_array($this->getPerfil(), ["visitante", "municipe", "representante", "administrador"], true)){
             // padrão para o perfil de visitante
         }
 
-        if ($this->getPerfil() == "municipe" || $this->getPerfil() == "representante"){
+        if (in_array($this->getPerfil(), ["municipe", "representante", "administrador"], true)){
 
             // padrão para endereço representante e municipe
             $dados_usuario['cidade'] = $this->getEndereco()->getCidade();

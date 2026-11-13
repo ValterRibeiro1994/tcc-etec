@@ -46,6 +46,13 @@ class AutoLoadFiles
                 require_once $arquivo;
                 return;
             }
+            // Compatibilidade com servidores Linux: algumas classes existentes
+            // usam nome de arquivo com letra inicial maiúscula (DenunciaController.php).
+            $arquivoOriginal = __DIR__ . "/" . $pasta . $classe . ".php";
+            if (is_file($arquivoOriginal)) {
+                require_once $arquivoOriginal;
+                return;
+            }
         }
     }
 }

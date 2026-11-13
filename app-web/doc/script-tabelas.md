@@ -6,7 +6,7 @@ USE relate_sbc;
 
 CREATE TABLE IF NOT EXISTS tb_usuario (
     id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    perfil_usuario ENUM('municipe', 'representante') NOT NULL,
+    perfil_usuario ENUM('municipe', 'representante', 'administrador') NOT NULL,
     nome_usuario VARCHAR(20) NOT NULL,
     sobrenome_usuario VARCHAR(60) NOT NULL,
     email_usuario VARCHAR(120) NOT NULL UNIQUE,
@@ -120,4 +120,55 @@ CREATE TABLE IF NOT EXISTS tb_mensagem (
     FOREIGN KEY (id_autor)
         REFERENCES tb_usuario(id_usuario)
 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabelas acrescentadas para notificações e painel do representante
+-- EXECUTE UMA VEZ na aba SQL do phpMyAdmin, com o banco relate_sbc selecionado.
+-- Não apaga usuários, denúncias, comentários ou mensagens existentes.
+
+
+-- Aprovação administrativa MANUAL: criar conta "representante" no cadastro não concede permissão de gestão.
+-- O cadastro só vira autorizado quando seu id existir nesta tabela.
+CREATE TABLE IF NOT EXISTS tb_representante_aprovado (
+    id_usuario INT NOT NULL PRIMARY KEY,
+    aprovado_em DATETIME NOT NULL,
+    CONSTRAINT fk_representante_aprovado_usuario FOREIGN KEY (id_usuario)
+        REFERENCES tb_usuario (id_usuario) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- EXEMPLO DE APROVAÇÃO PELO RESPONSÁVEL PELO BANCO (preencha o e-mail real e execute separadamente):
+-- INSERT IGNORE INTO tb_representante_aprovado (id_usuario, aprovado_em)
+-- SELECT id_usuario, NOW() FROM tb_usuario
+-- WHERE email_usuario = 'representante-de-teste@example.com' AND perfil_usuario = 'representante';
+
+CREATE TABLE IF NOT EXISTS tb_notificacao (
+    id_notificacao INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_denuncia INT DEFAULT NULL,
+    tipo_notificacao ENUM('nova_denuncia', 'status', 'comentario', 'mensagem') NOT NULL,
+    titulo_notificacao VARCHAR(100) NOT NULL,
+    mensagem_notificacao VARCHAR(300) NOT NULL,
+    criada_em DATETIME NOT NULL,
+    lida_em DATETIME DEFAULT NULL,
+    INDEX idx_notificacao_usuario (id_usuario, id_notificacao),
+    INDEX idx_notificacao_pendentes (id_usuario, lida_em),
+    CONSTRAINT fk_notificacao_usuario FOREIGN KEY (id_usuario)
+        REFERENCES tb_usuario (id_usuario) ON DELETE CASCADE,
+    CONSTRAINT fk_notificacao_denuncia FOREIGN KEY (id_denuncia)
+        REFERENCES tb_denuncia (id_denuncia) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tb_historico_status (
+    id_historico INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_denuncia INT NOT NULL,
+    id_representante INT DEFAULT NULL,
+    status_anterior VARCHAR(30) NOT NULL,
+    status_novo VARCHAR(30) NOT NULL,
+    justificativa VARCHAR(350) NOT NULL,
+    alterado_em DATETIME NOT NULL,
+    INDEX idx_historico_denuncia (id_denuncia, alterado_em),
+    CONSTRAINT fk_historico_denuncia FOREIGN KEY (id_denuncia)
+        REFERENCES tb_denuncia (id_denuncia) ON DELETE CASCADE,
+    CONSTRAINT fk_historico_representante FOREIGN KEY (id_representante)
+        REFERENCES tb_usuario (id_usuario) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

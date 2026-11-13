@@ -74,14 +74,19 @@
     // Representante não vê o mural nem cria denúncia; os demais não veem "Denúncias recebidas"
     function ajustarMenuPorPerfil() {
         const representante = perfilLogado() === 'representante';
+        const administrador = perfilLogado() === 'administrador';
         const mostrar = (seletor, visivel) => {
             const el = document.querySelector(seletor);
             if (el) el.style.display = visivel ? '' : 'none';
         };
+        mostrar('#link-admin', administrador);
+        mostrar('#link-painel', representante);
         mostrar('#link-recebidas', representante);
-        mostrar('#link-mural', !representante);
-        mostrar('#link-denuncias', !representante);
-        mostrar('#btn-nova-denuncia-lateral', !representante);
+        mostrar('#link-notificacoes', !!lerToken());
+        mostrar('#link-mural', !representante && !administrador);
+        mostrar('#link-denuncias', !representante && !administrador);
+        mostrar('#link-mensagens', !administrador);
+        mostrar('#btn-nova-denuncia-lateral', !representante && !administrador);
     }
 
     // Busca um JSON no servidor (com o token, quando a rota exige login)
@@ -112,7 +117,7 @@
 
     // Abre o formulário de denúncia em popup, só para usuário logado
     function abrirFormularioDenuncia() {
-        if (perfilLogado() === 'representante') return;
+        if (['representante', 'administrador'].includes(perfilLogado())) return;
         if (!lerToken()) {
             irParaLogin('Faça login para registrar uma denúncia.');
             return;
@@ -168,8 +173,12 @@
     function mostrarPagina(pagina) {
 
         const representante = perfilLogado() === 'representante';
-        if (representante && ['mural', 'denuncias', 'criar-denuncia'].includes(pagina)) pagina = 'recebidas';
-        if (!representante && pagina === 'recebidas') pagina = 'mural';
+        const administrador = perfilLogado() === 'administrador';
+        if (administrador && ['mural', 'denuncias', 'criar-denuncia', 'painel', 'recebidas', 'mensagens'].includes(pagina)) pagina = 'admin';
+        if (representante && ['mural', 'denuncias', 'criar-denuncia'].includes(pagina)) pagina = 'painel';
+        if (!representante && ['recebidas', 'painel'].includes(pagina)) pagina = administrador ? 'admin' : 'mural';
+        if (!administrador && pagina === 'admin') pagina = representante ? 'painel' : 'mural';
+        if (!lerToken() && ['notificacoes', 'mensagens'].includes(pagina)) pagina = 'mural';
         
         if (pagina === 'criar-denuncia') { abrirFormularioDenuncia(); return; }
         if (pagina === 'perfil') { irParaPerfil(); return; }
@@ -181,6 +190,14 @@
 
         telas.forEach(function (tela) { tela.classList.remove('ativa'); });
         telaSelecionada.classList.add('ativa');
+        // Atualiza também o título da barra mobile conforme a seção aberta.
+        const tituloMobile = document.getElementById('titulo-pagina-mobile');
+        const nomes = { admin: 'Administração geral', painel: 'Painel do representante', recebidas: 'Denúncias recebidas',
+            mural: 'Mural de denúncias', denuncias: 'Minhas denúncias',
+            notificacoes: 'Notificações', mensagens: 'Mensagens',
+            configuracoes: 'Configurações', 'central-de-ajuda': 'Central de ajuda',
+            'informacoes-legais': 'Informações legais' };
+        if (tituloMobile) tituloMobile.textContent = nomes[pagina] || 'RelateSBC';
 
         links.forEach(function (link) { link.classList.remove('ativo'); });
         const linkSelecionado = document.querySelector('.menu-lateral-link[data-pagina="' + pagina + '"]');
@@ -411,11 +428,14 @@
         }
                 ajustarMenuPorPerfil();
         const representante = perfilLogado() === 'representante';
-        mostrarPagina(retorno?.pagina || (representante ? 'recebidas' : 'mural'));
+        const administrador = perfilLogado() === 'administrador';
+        mostrarPagina(retorno?.pagina || (administrador ? 'admin' : representante ? 'painel' : 'mural'));
         Promise.all([
             carregarMural(retorno?.paginaMural||1),
-            representante ? null : RelateMinhas.iniciar(retorno),
-            representante ? window.RelateRecebidas.iniciar(retorno) : null
+            (representante || administrador) ? null : RelateMinhas.iniciar(retorno),
+            representante ? window.RelateRecebidas.iniciar(retorno) : null,
+            representante && window.RelatePainel ? window.RelatePainel.carregar() : null,
+            administrador && window.RelateAdmin ? window.RelateAdmin.carregar() : null
         ])
             .then(()=>{
                 if(!retorno)return;

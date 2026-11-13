@@ -1,0 +1,4 @@
+
+# Chave JWT gerada no próprio servidor
+/app/segredo-jwt.php
+

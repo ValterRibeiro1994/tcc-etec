@@ -57,15 +57,23 @@ class DenunciasRepositorio {
             $sql->bindValue(':perfil', $autor['perfil_usuario']);
             $sql->bindValue(':complemento', $complemento, $complemento === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
             $sql->bindValue(':anonima', $anonima ? 1 : 0, PDO::PARAM_INT);
+            // Uma transação garante que denúncia e avisos sejam gravados juntos.
+            $conexao->beginTransaction();
             $sql->execute();
+            $novaDenuncia = (int) $conexao->lastInsertId();
+            NotificacoesRepositorio::avisarRepresentantes($conexao, $novaDenuncia, (int) $autor['id_usuario'],
+                'nova_denuncia', 'Nova denúncia na sua área',
+                'Uma denúncia #' . $novaDenuncia . ' foi registrada na sua região.');
+            $conexao->commit();
 
             return RespostaProcesso::resposta(
                 mensagem: "Denúncia registrada com sucesso",
                 resposta: true,
-                dados: ["id" => (int) $conexao->lastInsertId()]
+                dados: ["id" => $novaDenuncia]
             );
 
         } catch (PDOException $erro) {
+            if (isset($conexao) && $conexao->inTransaction()) $conexao->rollBack();
             // categoria inexistente (chave estrangeira de nome_categoria)
             if (str_contains(strtoupper($erro->getMessage()), "FOREIGN KEY")) {
                 return RespostaProcesso::resposta("Categoria inválida");
@@ -722,6 +730,14 @@ class DenunciasRepositorio {
                 return RespostaProcesso::resposta('Acesso restrito a representantes');
             }
 
+            // Cadastro como representante NÃO basta: aprovação feita no banco pela equipe.
+            $aprovado = $executar(
+                'SELECT 1 FROM tb_representante_aprovado WHERE id_usuario =
+                  (SELECT id_usuario FROM tb_usuario WHERE email_usuario = :email)',
+                [':email' => $email]
+            )->fetchColumn();
+            if (!$aprovado) return RespostaProcesso::resposta('Representante ainda não aprovado.');
+
             $escopo = 'd.cidade_denuncia = :cidade AND d.estado_denuncia = :estado';
             $paramsEscopo = [
                 ':cidade' => $representante['cidade_usuario'],
@@ -971,14 +987,19 @@ class DenunciasRepositorio {
             $sql->bindValue(':id_denuncia', $id, PDO::PARAM_INT);
             $sql->bindValue(':texto', $texto);
             $sql->bindValue(':criada_em', date($GLOBALS['formato-data-hora']));
+            $conexao->beginTransaction();
             $sql->execute();
+            $idComentario = (int) $conexao->lastInsertId();
+            NotificacoesRepositorio::avisarComentario($conexao, $id, (int) $autor['id_usuario']);
+            $conexao->commit();
 
             return RespostaProcesso::resposta(
                 mensagem: "Comentário publicado",
                 resposta: true,
-                dados: ["id" => (int) $conexao->lastInsertId()]
+                dados: ["id" => $idComentario]
             );
         } catch (PDOException $erro) {
+            if (isset($conexao) && $conexao->inTransaction()) $conexao->rollBack();
             return RespostaProcesso::resposta(
                 mensagem: "Erro ao publicar o comentário",
                 resposta: false,

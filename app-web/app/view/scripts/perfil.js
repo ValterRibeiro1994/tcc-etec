@@ -28,7 +28,7 @@ async function desconectar() {
         'concluida':    { texto: 'CONCLUÍDA',    classe: 'bg-success' }
     };
 
-    const ROTULO_PERFIL = { 'municipe': 'MUNÍCIPE', 'representante': 'REPRESENTANTE' };
+    const ROTULO_PERFIL = { 'municipe': 'MUNÍCIPE', 'representante': 'REPRESENTANTE', 'administrador': 'ADMINISTRADOR-GERAL' };
 
     /* ---------- Sessão: só usuário logado vê o perfil ---------- */
 

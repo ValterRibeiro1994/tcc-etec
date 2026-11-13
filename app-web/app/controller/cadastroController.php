@@ -143,6 +143,10 @@ class CadastroController {
             $senha = new Senha($dados['senha']);
             $senha->validarSenha();
 
+            // Cadastro público só aceita dois perfis. Administrador é promovido pelo banco.
+            if (!in_array($dados['perfil'], ['municipe', 'representante'], true)) {
+                return RespostaProcesso::resposta('Perfil não permitido no cadastro público.');
+            }
             // garanta que o perfil não seja de um visitante
             $perfil = new Perfil($dados['perfil']);
             $perfil->validarPerfil();

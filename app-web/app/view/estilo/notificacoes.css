@@ -514,3 +514,5 @@
 [data-tema="escuro"] .legal-emergencia p { color: #b6bfb8; }
 [data-tema="escuro"] .legal-icone { background: #2b3a2d; color: #bfe3c2; }
 [data-tema="escuro"] .legal-emergencia { background: #2a1b1d; border-color: #5c2b30; }
+.notificacao-icone[data-tipo="nova_denuncia"] { background:#dcfce7;color:#166534; }
+.notificacao-icone[data-tipo="mensagem"] { background:#f3e8ff;color:#7c3aed; }

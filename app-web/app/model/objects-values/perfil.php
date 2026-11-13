@@ -23,7 +23,7 @@ class Perfil {
         }
         
         $perfis_autorizados = [
-            "visitante", "municipe", "representante"
+            "visitante", "municipe", "representante", "administrador"
         ];
 
         if (!UtilService::perfilExiste($perfis_autorizados, $perfil)){

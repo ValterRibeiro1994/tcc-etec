@@ -33,6 +33,11 @@ class TokenController {
     }
 
     public function renovar(array $requisicao){
+        // Um token expirado NÃO é prova de identidade para emitir um token de conta.
+        // Evita que um cliente troque e-mail/perfil em POST para renovar sem senha.
+        if (($requisicao['perfil'] ?? '') !== 'visitante') {
+            return RespostaProcesso::resposta('Sessão expirada. Entre novamente com sua senha.');
+        }
         if (!array_key_exists("perfil", $requisicao)){
             return RespostaProcesso::resposta(
                     mensagem: "Controller: Chave 'perfil' de atributo não enviado", resposta: false,
@@ -145,6 +150,11 @@ class TokenController {
     }
 
     public function criar(array $requisicao){
+        // Segurança: este endpoint público SÓ pode criar sessão de visitante.
+        // Munícipe, representante e administrador precisam passar pelo login com senha.
+        if (($requisicao['perfil'] ?? '') !== 'visitante') {
+            return RespostaProcesso::resposta('Usuários cadastrados devem entrar pelo login.');
+        }
         // crio o usuario com os dados recebidos
         $usuario = UtilService::criarUsuario($requisicao);
         

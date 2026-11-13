@@ -82,6 +82,10 @@ class TokenService {
     }
 
     public static function renovarToken(Usuario $usuario, string $token_cliente){
+        // Renovação de contas sem fornecer senha não é permitida.
+        if ($usuario->getPerfil() !== 'visitante') {
+            return RespostaProcesso::resposta('Faça login novamente para renovar a sessão.');
+        }
         // recupera o payload do token recebido
         $payload = (array) JWT::decode($token_cliente, new Key($GLOBALS['token-chave'], $GLOBALS['tkn-algo']));
         

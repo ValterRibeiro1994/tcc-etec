@@ -84,13 +84,15 @@ class ChatRepositorio {
 
             $rep = $this->executar(
                 $conexao,
-                "SELECT perfil_usuario, cidade_usuario, estado_usuario, area_atuacao_usuario
-                   FROM $tu WHERE id_usuario = :id",
+                "SELECT u.perfil_usuario, u.cidade_usuario, u.estado_usuario, u.area_atuacao_usuario
+                   FROM $tu u
+                   INNER JOIN tb_representante_aprovado a ON a.id_usuario = u.id_usuario
+                   WHERE u.id_usuario = :id",
                 [':id' => $idRepresentante]
             )->fetch(PDO::FETCH_ASSOC);
 
             if (!$rep || $rep['perfil_usuario'] !== 'representante') {
-                return RespostaProcesso::resposta('Somente o representante pode iniciar uma conversa');
+                return RespostaProcesso::resposta('Somente representantes aprovados podem iniciar uma conversa');
             }
 
             $where = 'id_denuncia = :denuncia AND cidade_denuncia = :cidade AND estado_denuncia = :estado';
@@ -126,6 +128,7 @@ class ChatRepositorio {
             }
 
             try {
+                $conexao->beginTransaction();
                 $this->executar(
                     $conexao,
                     "INSERT INTO $tc (id_denuncia, id_representante, id_denunciante, status_conversa, criada_em)
@@ -138,11 +141,16 @@ class ChatRepositorio {
                     ]
                 );
                 $idNova = (int) $conexao->lastInsertId();
+                NotificacoesRepositorio::registrar($conexao, $idDenunciante, $idDenuncia,
+                    'mensagem', 'Prefeitura iniciou uma conversa',
+                    'Há uma nova conversa na denúncia #' . $idDenuncia . '.');
+                $conexao->commit();
                 return RespostaProcesso::resposta(
                     'Conversa iniciada', true,
                     ['conversa_id' => $idNova, 'criada' => true]
                 );
             } catch (Exception $erro) {
+                if ($conexao->inTransaction()) $conexao->rollBack();
                 // duas pessoas clicaram ao mesmo tempo: a UNIQUE barrou a segunda
                 if ($erro->getCode() == '23000') {
                     $existente = $this->buscarPorDenuncia($conexao, $idDenuncia);
@@ -205,6 +213,7 @@ class ChatRepositorio {
             }
 
             $agora = $this->agora();
+            $conexao->beginTransaction();
             $this->executar(
                 $conexao,
                 "INSERT INTO $tm (id_conversa, id_autor, texto_mensagem, enviada_em)
@@ -212,14 +221,23 @@ class ChatRepositorio {
                 [':conversa' => $idConversa, ':autor' => $idUsuario, ':texto' => $texto, ':agora' => $agora]
             );
 
+            $idMensagem = (int) $conexao->lastInsertId();
+            $outro = ((int) $conversa['id_representante'] === $idUsuario)
+                ? (int) $conversa['id_denunciante'] : (int) $conversa['id_representante'];
+            NotificacoesRepositorio::registrar($conexao, $outro, (int) $conversa['id_denuncia'],
+                'mensagem', 'Nova mensagem da conversa',
+                'Você recebeu uma mensagem sobre a denúncia #' . $conversa['id_denuncia'] . '.');
+            $conexao->commit();
+
             return RespostaProcesso::resposta('Mensagem enviada', true, [
-                'id' => (int) $conexao->lastInsertId(),
+                'id' => $idMensagem,
                 'minha' => true,
                 'texto' => $texto,
                 'enviada_em' => $agora
             ]);
 
         } catch (Exception $erro) {
+            if (isset($conexao) && $conexao->inTransaction()) $conexao->rollBack();
             return $this->erro('Erro ao enviar a mensagem', $erro);
         }
     }

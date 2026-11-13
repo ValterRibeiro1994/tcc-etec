@@ -49,7 +49,7 @@ class UserController {
         }
 
         // garanta que todos os atributos sejam validos
-        if (!UtilService::perfilExiste(perfis_validos: ['municipe', 'representante', 'visitante'], perfil_recebido: $payload['perfil'])){
+        if (!UtilService::perfilExiste(perfis_validos: ['municipe', 'representante', 'administrador', 'visitante'], perfil_recebido: $payload['perfil'])){
             // o perfil enviado no token não existe no sistema
             return RespostaProcesso::resposta(
                 mensagem: "Controller: Token invalido", resposta: false,

@@ -38,7 +38,7 @@ function fecharSidebar() {
         if (token) {
             const parte = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
             const dados = JSON.parse(atob(parte));
-            logado = ['municipe', 'representante'].includes(dados.perfil)
+            logado = ['municipe', 'representante', 'administrador'].includes(dados.perfil)
                 && dados.exp * 1000 > Date.now();
         }
     } catch (erro) {

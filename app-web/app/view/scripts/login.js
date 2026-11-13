@@ -133,7 +133,7 @@ function existeToken() {
             return false;
         }
 
-        const perfis_validos = ['municipe', 'representante'];
+        const perfis_validos = ['municipe', 'representante', 'administrador'];
         if (perfis_validos.includes(perfil)) {
             return true;
         }

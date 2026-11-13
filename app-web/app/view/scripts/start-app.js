@@ -21,7 +21,7 @@ async function gerenciarAutenticacaoEPerfil() {
         return;
     }
 
-    if (perfilAtual == "municipe" || perfilAtual == "representante") {
+    if (perfilAtual == "municipe" || perfilAtual == "representante" || perfilAtual == "administrador") {
         
         // Obtém os dados do usuário e de denúncias
         let dados = await obterDados();
