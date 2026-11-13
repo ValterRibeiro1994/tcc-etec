@@ -13,6 +13,9 @@ $GLOBALS['usuario'] = "tb_usuario";
 $GLOBALS['denuncia'] = "tb_denuncia";
 $GLOBALS['categorias'] = "tb_categoria";    
 
+$GLOBALS['conversa'] = "tb_conversa";
+$GLOBALS['mensagem'] = "tb_mensagem";
+
 // debug
 $GLOBALS['debug'] = true;
 

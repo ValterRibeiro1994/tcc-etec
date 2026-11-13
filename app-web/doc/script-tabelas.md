@@ -81,3 +81,43 @@ ALTER TABLE tb_usuario
     ADD COLUMN area_atuacao_usuario VARCHAR(30) DEFAULT NULL AFTER cargo_usuario,
     ADD CONSTRAINT fk_usuario_area_atuacao
         FOREIGN KEY (area_atuacao_usuario) REFERENCES tb_categoria(nome_categoria);
+
+
+CREATE TABLE IF NOT EXISTS tb_conversa (
+    id_conversa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_denuncia INT NOT NULL UNIQUE,
+    id_representante INT NOT NULL,
+    id_denunciante INT NOT NULL,
+    status_conversa ENUM('aberta', 'encerrada') NOT NULL DEFAULT 'aberta',
+    criada_em DATETIME NOT NULL,
+    encerrada_em DATETIME DEFAULT NULL,
+
+    FOREIGN KEY (id_denuncia)
+        REFERENCES tb_denuncia(id_denuncia),
+
+    FOREIGN KEY (id_representante)
+        REFERENCES tb_usuario(id_usuario),
+
+    FOREIGN KEY (id_denunciante)
+        REFERENCES tb_usuario(id_usuario)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS tb_mensagem (
+    id_mensagem INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_conversa INT NOT NULL,
+    id_autor INT NOT NULL,
+    texto_mensagem VARCHAR(1000) NOT NULL,
+    enviada_em DATETIME NOT NULL,
+    lida_em DATETIME DEFAULT NULL,
+
+    INDEX idx_mensagem_conversa (id_conversa, id_mensagem),
+
+    FOREIGN KEY (id_conversa)
+        REFERENCES tb_conversa(id_conversa),
+
+    FOREIGN KEY (id_autor)
+        REFERENCES tb_usuario(id_usuario)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
