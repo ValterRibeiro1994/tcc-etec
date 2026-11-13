@@ -314,6 +314,17 @@ class ChatRepositorio {
                 return RespostaProcesso::resposta('Esta conversa já foi encerrada');
             }
 
+            // regra: a conversa só pode ser encerrada depois que o munícipe marcar a denúncia como concluída
+            $td = $GLOBALS['denuncia'];
+            $statusDenuncia = $this->executar(
+                $conexao,
+                "SELECT status_denuncia FROM $td WHERE id_denuncia = :denuncia",
+                [':denuncia' => (int) $conversa['id_denuncia']]
+            )->fetchColumn();
+            if ($statusDenuncia !== 'concluida') {
+                return RespostaProcesso::resposta('Você só pode encerrar a conversa depois que o munícipe marcar a denúncia como concluída');
+            }
+
             $this->executar(
                 $conexao,
                 "UPDATE $tc SET status_conversa = 'encerrada', encerrada_em = :agora
@@ -342,8 +353,9 @@ class ChatRepositorio {
                 $conexao,
                 "SELECT
                     c.id_conversa, c.id_denuncia, c.id_representante, c.status_conversa, c.criada_em,
-                    d.titulo_denuncia, d.cidade_denuncia, d.anonima_denuncia,
+                    d.titulo_denuncia, d.cidade_denuncia, d.anonima_denuncia, d.status_denuncia,
                     u.nome_usuario, u.sobrenome_usuario,
+                    r.nome_usuario AS rep_nome, r.sobrenome_usuario AS rep_sobrenome,
                     (SELECT m.texto_mensagem FROM $tm m
                       WHERE m.id_conversa = c.id_conversa
                       ORDER BY m.id_mensagem DESC LIMIT 1) AS ultima_texto,
@@ -356,6 +368,7 @@ class ChatRepositorio {
                    FROM $tc c
                    JOIN $td d ON d.id_denuncia = c.id_denuncia
                    JOIN $tu u ON u.id_usuario = c.id_denunciante
+                   JOIN $tu r ON r.id_usuario = c.id_representante
                   WHERE c.id_representante = :rep OR c.id_denunciante = :den
                   ORDER BY COALESCE(
                       (SELECT MAX(m2.enviada_em) FROM $tm m2 WHERE m2.id_conversa = c.id_conversa),
@@ -375,9 +388,12 @@ class ChatRepositorio {
                     $interlocutor = !empty($linha['anonima_denuncia'])
                         ? 'Denunciante'
                         : $linha['nome_usuario'] . ' ' . mb_substr($linha['sobrenome_usuario'], 0, 1) . '.';
+                    $subtitulo = 'Denúncia: ' . $linha['titulo_denuncia'];
                     $semMensagens = 'Conversa iniciada. Envie a primeira mensagem.';
                 } else {
-                    $interlocutor = 'Prefeitura de ' . $linha['cidade_denuncia'];
+                    // o denunciante vê o nome do representante e, embaixo, a prefeitura
+                    $interlocutor = $linha['rep_nome'] . ' ' . $linha['rep_sobrenome'];
+                    $subtitulo = 'Prefeitura de ' . $linha['cidade_denuncia'];
                     $semMensagens = 'A prefeitura iniciou uma conversa.';
                 }
 
@@ -394,8 +410,10 @@ class ChatRepositorio {
                     'denuncia_id' => (int) $linha['id_denuncia'],
                     'titulo' => $linha['titulo_denuncia'],
                     'interlocutor' => $interlocutor,
+                    'subtitulo' => $subtitulo,
                     'sou_representante' => $souRepresentante,
                     'status' => $linha['status_conversa'],
+                    'denuncia_concluida' => $linha['status_denuncia'] === 'concluida',
                     'previa' => $previa,
                     'ultima_em' => $linha['ultima_em'] ?? $linha['criada_em'],
                     'nao_lidas' => $naoLidas

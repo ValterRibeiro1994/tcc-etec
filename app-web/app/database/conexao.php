@@ -15,6 +15,8 @@ class Conexao {
     public function getConexao(): PDO { 
         $conexao = new PDO("mysql:host={$this->host};dbname={$this->database};charset=utf8", $this->usuario, $this->senha); 
         $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        // mantém o MySQL no mesmo fuso do PHP (NOW(), CURRENT_TIMESTAMP etc.)
+        $conexao->exec("SET time_zone = '" . (new DateTime())->format('P') . "'");
         return $conexao; 
     }
 

@@ -22,6 +22,9 @@ $GLOBALS['debug'] = true;
 // tempo de sessao
 $GLOBALS['tempo-sessao'] = 1200000000000;
 
+// fuso horário do sistema (sem isso o PHP usa o padrão do servidor, geralmente UTC, e as horas saem erradas)
+date_default_timezone_set('America/Sao_Paulo');
+
 // formato padrão para data e hora do sistema
 $GLOBALS['formato-data-hora'] = 'Y-m-d H:i:s';
 
