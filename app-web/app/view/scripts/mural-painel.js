@@ -42,7 +42,7 @@
     }
 
     async function carregarResumo() {
-        const json = await buscarJson('painel/resumo', lerToken());
+        const json = await buscarJson('gestao/indicadores', lerToken());
         if (!json.resposta) throw new Error(json.mensagem);
         const dados = json.dados;
         elementos.escopo.textContent = dados.cidade + ' · ' + dados.area;
@@ -89,7 +89,7 @@
             if (!area.hidden) { area.hidden = true; return; }
             area.hidden = false; area.textContent = 'Carregando histórico...';
             try {
-                const ret = await buscarJson('painel/historico?id=' + encodeURIComponent(d.id), lerToken());
+                const ret = await buscarJson('gestao/trilha?id=' + encodeURIComponent(d.id), lerToken());
                 if (!ret.resposta) throw new Error(ret.mensagem);
                 area.replaceChildren();
                 if (!ret.dados.length) { area.textContent = 'Nenhuma mudança de status registrada ainda.'; return; }
@@ -112,7 +112,7 @@
             }
             evento.currentTarget.disabled = true;
             try {
-                const res = await enviarPost('painel/mudarStatus', lerToken(), { id: d.id, status: novo, justificativa });
+                const res = await enviarPost('gestao/atualizar', lerToken(), { id: d.id, status: novo, justificativa });
                 if (!res.resposta) throw new Error(res.mensagem);
                 avisar('Status da denúncia #' + d.id + ' atualizado. O autor receberá uma notificação.');
                 await Promise.all([carregarResumo(), carregarLista(paginaAtual)]);
@@ -127,7 +127,7 @@
     async function carregarLista(paginaSolicitada = 1) {
         const ordem = ++sequencia;
         const params = filtros(); params.set('pagina', String(paginaSolicitada));
-        const json = await buscarJson('painel/listar?' + params, lerToken());
+        const json = await buscarJson('gestao/registros?' + params, lerToken());
         if (ordem !== sequencia) return;
         if (!json.resposta) throw new Error(json.mensagem);
         paginaAtual = json.paginacao.pagina;
@@ -142,7 +142,27 @@
         if (!autorizado()) return;
         avisar('Carregando painel...');
         try { await carregarResumo(); await carregarLista(paginaAtual); avisar(''); }
-        catch (erro) { avisar(erro.message || 'Erro no painel.', true); console.error('Painel:', erro); }
+        catch (erro) {
+            const mensagem = erro.message || 'Erro no painel.';
+            const descricao = mensagem.toLowerCase();
+            const aguardandoAprovacao = descricao.includes('representantes aprovados') ||
+                descricao.includes('representante ainda não aprovado');
+
+            if (aguardandoAprovacao) {
+                // Cadastro de representante pendente é uma condição esperada.
+                // O PHP continua bloqueando o acesso; apenas evitamos tratar isso como falha no console.
+                elementos.escopo.textContent = 'Conta aguardando aprovação';
+                elementos.categorias.textContent = 'Dados disponíveis após a aprovação.';
+                elementos.lista.replaceChildren();
+                ultimaLista = [];
+                RelatePaginacao.mostrar('paginacao-painel', null, () => {});
+                avisar('Sua conta está aguardando aprovação do administrador-geral.');
+                return;
+            }
+
+            avisar(mensagem, true);
+            console.error('Painel:', erro);
+        }
     }
 
     // Protege CSV contra fórmulas que uma planilha poderia executar ao abrir o arquivo.
@@ -154,7 +174,7 @@
     document.getElementById('painel-exportar')?.addEventListener('click', async () => {
         if (!autorizado()) return;
         try {
-            const json = await buscarJson('painel/exportar?' + filtros(), lerToken());
+            const json = await buscarJson('gestao/arquivo?' + filtros(), lerToken());
             if (!json.resposta) throw new Error(json.mensagem);
             const linhas = [['ID','Título','Categoria','Bairro','Cidade','Status','Data','Anônima']];
             for (const d of json.dados) linhas.push([d.id,d.titulo,d.categoria,d.bairro,d.cidade,d.status,d.data,d.anonima ? 'Sim':'Não']);
