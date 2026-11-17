@@ -5,6 +5,9 @@
 class PainelRepositorio {
     private const STATUS = ['pendente', 'em analise', 'em andamento', 'concluida'];
 
+    // Status que o representante pode aplicar. 'concluida' fica de fora: só o autor da denúncia conclui.
+    private const STATUS_REPRESENTANTE = ['pendente', 'em analise', 'em andamento'];
+
     private function executar(PDO $conexao, string $sql, array $parametros = []): PDOStatement {
         $stmt = $conexao->prepare($sql);
         foreach ($parametros as $chave => $valor) {
@@ -164,10 +167,16 @@ class PainelRepositorio {
     }
 
     public function alterarStatus(string $email, int $id, string $statusNovo, string $justificativa): array {
-        if (!in_array($statusNovo, self::STATUS, true)) return RespostaProcesso::resposta('Status inválido.');
+       if ($statusNovo === 'concluida')
+            
+        return RespostaProcesso::resposta('Somente o autor da denúncia pode marcá-la como concluída.');
+
+        if (!in_array($statusNovo, self::STATUS_REPRESENTANTE, true)) return RespostaProcesso::resposta('Status inválido.');
+
         if (mb_strlen($justificativa) < 5 || mb_strlen($justificativa) > 350)
             return RespostaProcesso::resposta('A justificativa precisa ter entre 5 e 350 caracteres.');
         $db = null;
+
         try {
             $db = (new Conexao())->getConexao();
             $rep = $this->representante($db, $email);
@@ -175,6 +184,7 @@ class PainelRepositorio {
             [$onde, $args] = $this->escopo($rep);
             $args[':id'] = $id;
             $db->beginTransaction();
+
             // FOR UPDATE impede duas mudanças simultâneas de gravarem histórico incorreto.
             $denuncia = $this->executar($db,
                 "SELECT d.id_usuario, d.status_denuncia, d.titulo_denuncia FROM tb_denuncia d
@@ -184,6 +194,7 @@ class PainelRepositorio {
                 return RespostaProcesso::resposta('Denúncia não localizada na sua cidade ou área.');
             }
             $anterior = $denuncia['status_denuncia'];
+
             if ($anterior === $statusNovo) {
                 $db->rollBack();
                 return RespostaProcesso::resposta('A denúncia já está nesse status.');
@@ -198,6 +209,7 @@ class PainelRepositorio {
                 [':denuncia' => $id, ':rep' => (int) $rep['id_usuario'], ':antigo' => $anterior,
                  ':novo' => $statusNovo, ':motivo' => $justificativa,
                  ':agora' => date($GLOBALS['formato-data-hora'])]);
+
             if ((int) $denuncia['id_usuario'] !== (int) $rep['id_usuario']) {
                 NotificacoesRepositorio::registrar($db, (int) $denuncia['id_usuario'], $id, 'status',
                     'Status da sua denúncia atualizado',
@@ -206,6 +218,7 @@ class PainelRepositorio {
             $db->commit();
             return RespostaProcesso::resposta('Status atualizado, histórico salvo e autor notificado.', true,
                 ['id' => $id, 'status' => $statusNovo]);
+                
         } catch (Throwable $erro) {
             if ($db && $db->inTransaction()) $db->rollBack();
             error_log('Alteração de status: ' . $erro->getMessage());

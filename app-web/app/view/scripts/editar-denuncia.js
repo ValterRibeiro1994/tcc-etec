@@ -239,6 +239,9 @@
 
         selectStatus.value = denuncia.status || 'pendente';
 
+        // Categoria atual da denúncia (o backend devolve em "categoria")
+        selecionarCategoria(denuncia.categoria);
+
         if (denuncia.imagem) {
             fotoAtualImg.src = denuncia.imagem;
             fotoAtual.classList.remove('d-none');
@@ -246,6 +249,26 @@
 
         atualizarPrevia();
     }
+
+     // Marca no select a categoria já gravada. Se ela não estiver na lista
+    // (ex.: categoria removida depois), cria a opção para não perder o valor.
+    function selecionarCategoria(nomeCategoria) {
+        if (!nomeCategoria) return;
+
+        const existe = Array.prototype.some.call(selectCateg.options, function (opcao) {
+            return opcao.value === nomeCategoria;
+        });
+
+        if (!existe) {
+            const opcao = document.createElement('option');
+            opcao.value = nomeCategoria;
+            opcao.textContent = nomeCategoria;
+            selectCateg.appendChild(opcao);
+        }
+
+        selectCateg.value = nomeCategoria;
+    }
+
 
     async function carregarDenuncia() {
         btnEnviar.disabled = true;

@@ -251,3 +251,56 @@ html[data-tema="escuro"] .login-aviso-erro {
     border-color: #7f1d1d;
     color: #fca5a5;
 }
+
+/* ===== Botão "olho" do campo de senha ===== */
+.campo-senha {
+    position: relative;
+}
+
+#form-login-main .campo-senha .form-control {
+    padding-right: 3rem;
+}
+
+.btn-ver-senha {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #5b6b62;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-ver-senha:hover {
+    color: #2e7d32;
+    background-color: rgba(46, 125, 50, 0.08);
+}
+
+.btn-ver-senha:focus-visible {
+    outline: 2px solid #2e7d32;
+    outline-offset: 1px;
+}
+
+.btn-ver-senha svg[hidden] {
+    display: none;
+}
+
+/* Tema escuro */
+html[data-tema="escuro"] .btn-ver-senha {
+    color: #94a3b8;
+}
+html[data-tema="escuro"] .btn-ver-senha:hover {
+    color: #4ade80;
+    background-color: rgba(74, 222, 128, 0.1);
+}
+html[data-tema="escuro"] .btn-ver-senha:focus-visible {
+    outline-color: #4ade80;
+}
