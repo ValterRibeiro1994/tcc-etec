@@ -1,27 +1,12 @@
 <?php
 // caminhos
-// Pasta-base detectada pela URL do index.php reescrito pelo Apache.
-$diretorioWeb = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/index.php'));
-$GLOBALS['raiz-app'] = rtrim($diretorioWeb, '/') . '/'; // WAMP: /app-web/; servidor: /, quando reconhecido
-// Nesta hospedagem IIS, Web é a raiz pública; evita redirecionamentos para /app-web/.
-$hostAtual = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '')[0]);
-if ($hostAtual === 'tcc3edsmodetecgr6.websiteseguro.com') {
-    $GLOBALS['raiz-app'] = '/';
-}
+$GLOBALS['raiz-app'] =  '/app-web/'; // branch main use '/app-web/' | branch produção use '/'
 
 // dados de acesso ao banco de dados
-// Credenciais da hospedagem devem ficar APENAS em app/config-banco.php.
-$GLOBALS['usuario_banco'] = 'PREENCHER_USUARIO';
-$GLOBALS['senha_banco'] = 'PREENCHER_SENHA';
-$GLOBALS['host_banco'] = 'PREENCHER_HOST';
-$GLOBALS['database_banco'] = 'tcc_bd6';
-$arquivoBanco = __DIR__ . '/config-banco.php';
-if (is_file($arquivoBanco)) {
-    $banco = require $arquivoBanco;
-    foreach (['usuario_banco', 'senha_banco', 'host_banco', 'database_banco'] as $campo) {
-        if (isset($banco[$campo])) $GLOBALS[$campo] = (string) $banco[$campo];
-    }
-}
+$GLOBALS['usuario_banco'] = "root";
+$GLOBALS['senha_banco'] = "";
+$GLOBALS['host_banco'] = "localhost";
+$GLOBALS['database_banco'] = "relate_sbc";
 
 //tabelas do banco de dados
 $GLOBALS['usuario'] = "tb_usuario";
@@ -32,7 +17,7 @@ $GLOBALS['conversa'] = "tb_conversa";
 $GLOBALS['mensagem'] = "tb_mensagem";
 
 // debug
-$GLOBALS['debug'] = false; // Hospedagem pública: não mostrar erros internos ao visitante
+$GLOBALS['debug'] = true;
 
 // tempo de sessao
 $GLOBALS['tempo-sessao'] = 43200; // 12 horas (o valor anterior durava muitos anos)

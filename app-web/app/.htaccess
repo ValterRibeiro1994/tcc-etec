@@ -1,4 +1,0 @@
-# PHP interno: somente index.php da raiz deve receber requisições HTTP.
-<FilesMatch "\.php$">
-    Require all denied
-</FilesMatch>

@@ -24,7 +24,7 @@ if (resultado.resposta){
     paragrafo.classList.add("alert", "alert-success");
     localStorage.clear(); 
     setTimeout(function () {
-        window.location.href = new URL('../../../login', document.querySelector('script[src*="cadastro-representante.js"]').src).href; 
+        window.location.href = "/app-web/login"; 
     }, 1500);
 } else {
     paragrafo.classList.add("alert", "alert-warning");

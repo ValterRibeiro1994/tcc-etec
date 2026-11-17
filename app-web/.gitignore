@@ -1,15 +1,4 @@
-# Arquivos recriados pelo Composer (nao comitar)
-/vendor/
 
-# Credenciais privadas e chaves de autenticacao (nao comitar)
-/app/config-email.php
-/app/config-banco.php
+# Chave JWT gerada no próprio servidor
 /app/segredo-jwt.php
-/.env
-/.env.*
 
-# Logs e lixo local
-*.log
-*.tmp
-.DS_Store
-Thumbs.db

@@ -90,7 +90,6 @@ class TesteController {
 
     // TEMPORÁRIO: APAGAR antes de publicar o site. Gera token sem exigir senha.
 public function gerartoken(array $requisicao){
-        return RespostaProcesso::resposta("Rota de teste desativada na hospedagem.");
     // só funciona no seu computador (localhost)
     if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
         return RespostaProcesso::resposta("Disponível apenas em localhost");

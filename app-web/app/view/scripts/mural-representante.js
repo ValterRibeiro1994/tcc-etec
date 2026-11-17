@@ -150,22 +150,8 @@
                 n => carregar(n).then(() => document.querySelector('.conteudo-principal')?.scrollTo({ top: 0, behavior: 'smooth' })));
         } catch (erro) {
             if (requisicao !== sequencia) return;
-            const mensagem = erro.message || 'Não foi possível carregar as denúncias.';
-            const descricao = mensagem.toLowerCase();
-            const aguardandoAprovacao = descricao.includes('representantes aprovados') ||
-                descricao.includes('representante ainda não aprovado');
-
-            if (aguardandoAprovacao) {
-                // Esta resposta do PHP é esperada enquanto o administrador não aprovar a conta.
-                atualizarResumo();
-                lista.replaceChildren();
-                RelatePaginacao.mostrar('paginacao-recebidas', null, () => {});
-                mostrarMensagem('Sua conta de representante está aguardando aprovação do administrador-geral.');
-                return;
-            }
-
             console.error('Erro ao carregar denúncias recebidas:', erro);
-            mostrarMensagem(mensagem);
+            mostrarMensagem(erro.message || 'Não foi possível carregar as denúncias.');
         }
     }
 
