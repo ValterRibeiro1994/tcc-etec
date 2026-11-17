@@ -908,6 +908,109 @@ class DenunciasRepositorio {
         }
     }
 
+    // ==================================================================
+    // ADICIONADO: comentários de uma denúncia (tabela tb_resposta), do mais novo para o mais antigo.
+    // ==================================================================
+    public function listarComentarios(int $id): array
+    {
+        $tabela_usuario = $GLOBALS['usuario'];
+        $tabela_resposta = $GLOBALS['resposta'] ?? "tb_resposta";
+
+        try {
+            $conexao = (new Conexao())->getConexao();
+            $sql = $conexao->prepare(
+                "SELECT r.id_resposta, r.descricao_resposta, r.criada_em,
+                        u.nome_usuario, u.sobrenome_usuario, u.perfil_usuario
+                 FROM $tabela_resposta r
+                 INNER JOIN $tabela_usuario u ON u.id_usuario = r.id_usuario
+                 WHERE r.id_denuncia = :id
+                 ORDER BY r.criada_em DESC, r.id_resposta DESC"
+            );
+            $sql->bindValue(':id', $id, PDO::PARAM_INT);
+            $sql->execute();
+
+            $comentarios = [];
+            foreach ($sql->fetchAll(PDO::FETCH_ASSOC) as $linha) {
+                $comentarios[] = [
+                    "id" => (int) $linha['id_resposta'],
+                    "texto" => $linha['descricao_resposta'],
+                    "data" => (new DateTime($linha['criada_em']))->format("d/m/Y H:i"),
+                    "autor" => $this->nomeParaExibir($linha['nome_usuario'], $linha['sobrenome_usuario']),
+                    "perfil" => $linha['perfil_usuario']
+                ];
+            }
+
+            return RespostaProcesso::resposta(
+                mensagem: count($comentarios) . " comentário(s)",
+                resposta: true,
+                dados: $comentarios
+            );
+        } catch (PDOException $erro) {
+            return RespostaProcesso::resposta(
+                mensagem: "Erro ao buscar os comentários",
+                resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
+        }
+    }
+
+    // ==================================================================
+    // ADICIONADO: grava um comentário. O autor vem do e-mail do token (nunca do formulário).
+    // ==================================================================
+    public function salvarComentario(int $id, string $email, string $texto): array
+    {
+        $tabela_denuncia = $GLOBALS['denuncia'];
+        $tabela_usuario = $GLOBALS['usuario'];
+        $tabela_resposta = $GLOBALS['resposta'] ?? "tb_resposta";
+
+        try {
+            $conexao = (new Conexao())->getConexao();
+
+            $sql = $conexao->prepare("SELECT id_usuario FROM $tabela_usuario WHERE email_usuario = :email");
+            $sql->bindValue(':email', $email);
+            $sql->execute();
+            $autor = $sql->fetch(PDO::FETCH_ASSOC);
+            if (!$autor)
+                return RespostaProcesso::resposta("Usuário não localizado");
+
+            $sql = $conexao->prepare("SELECT id_denuncia FROM $tabela_denuncia WHERE id_denuncia = :id");
+            $sql->bindValue(':id', $id, PDO::PARAM_INT);
+            $sql->execute();
+            if (!$sql->fetch(PDO::FETCH_ASSOC))
+                return RespostaProcesso::resposta("Denúncia não encontrada");
+
+            $sql = $conexao->prepare(
+                "INSERT INTO $tabela_resposta (id_usuario, id_denuncia, descricao_resposta, criada_em)
+                 VALUES (:id_usuario, :id_denuncia, :texto, :criada_em)"
+            );
+            $sql->bindValue(':id_usuario', (int) $autor['id_usuario'], PDO::PARAM_INT);
+            $sql->bindValue(':id_denuncia', $id, PDO::PARAM_INT);
+            $sql->bindValue(':texto', $texto);
+            $sql->bindValue(':criada_em', date($GLOBALS['formato-data-hora']));
+            $conexao->beginTransaction();
+            $sql->execute();
+            $idComentario = (int) $conexao->lastInsertId();
+            NotificacoesRepositorio::avisarComentario($conexao, $id, (int) $autor['id_usuario']);
+            $conexao->commit();
+
+            return RespostaProcesso::resposta(
+                mensagem: "Comentário publicado",
+                resposta: true,
+                dados: ["id" => $idComentario]
+            );
+        } catch (PDOException $erro) {
+            if (isset($conexao) && $conexao->inTransaction()) $conexao->rollBack();
+            return RespostaProcesso::resposta(
+                mensagem: "Erro ao publicar o comentário",
+                resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
+        }
+    }
+
+
+
+
     // Nome público de quem denunciou: primeiro nome + inicial do sobrenome (ex.: "Maria S.").
     // Para mostrar o nome completo, troque o retorno por: $nome . " " . $sobrenome
     private function nomeParaExibir(string $nome, string $sobrenome): string {

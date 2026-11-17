@@ -22,8 +22,7 @@
         filtroCategoria: document.getElementById('painel-filtro-categoria'),
         paginacao: document.getElementById('paginacao-painel')
     };
-    // O representante não pode concluir: essa ação é do autor da denúncia.
-    const STATUS_REPRESENTANTE = ['pendente', 'em analise', 'em andamento'];
+    const STATUS = ['pendente', 'em analise', 'em andamento', 'concluida'];
     const ROTULOS = { 'pendente': 'Pendente', 'em analise': 'Em análise', 'em andamento': 'Em andamento', 'concluida': 'Concluída' };
     let paginaAtual = 1;
     let sequencia = 0;
@@ -77,14 +76,8 @@
         txt('dados').textContent = d.categoria + ' · ' + d.bairro + ' · ' + d.data;
         txt('status').textContent = ROTULOS[d.status] || d.status;
         const select = item.querySelector('[data-acao="status"]');
-        for (const nome of STATUS_REPRESENTANTE) select.add(new Option(ROTULOS[nome], nome));
-        if (!STATUS_REPRESENTANTE.includes(d.status)) {
-        // Denúncia já concluída pelo autor: mostra o status atual, mas sem permitir escolhê-lo.
-        const opcao = new Option(ROTULOS[d.status] || d.status, d.status);
-        opcao.disabled = true;
-        select.add(opcao);
-}
-select.value = d.status;
+        for (const nome of STATUS) select.add(new Option(ROTULOS[nome], nome));
+        select.value = d.status;
         item.querySelector('[data-acao="abrir"]').addEventListener('click', () => irParaDetalhe(d.id));
         item.querySelector('[data-acao="responder"]').addEventListener('click', () => {
             const chat = window.RelateChat;

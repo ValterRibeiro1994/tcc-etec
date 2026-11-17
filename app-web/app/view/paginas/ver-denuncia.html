@@ -146,6 +146,19 @@
                 <span id="detalhe-cidade-topo">Cidade</span>
             </p>
 
+            <!-- NAVEGAÇÃO INTERNA -->
+            <nav class="detalhe-abas" aria-label="Seções da denúncia">
+
+                <a href="#aba-detalhes">
+                    ▤ Detalhes
+                </a>
+
+                <a href="#aba-comentarios">
+                    ♧ Comentários
+                    (<span id="total-comentarios">0</span>)
+                </a>
+            </nav>
+
              </div> <!-- fim do detalhe-cabecalho -->
 
                     <!-- DESCRIÇÃO -->
@@ -228,6 +241,101 @@
 
                 </div>
             </div>
+            
+
+
+            <!-- COMENTÁRIOS -->
+            <section id="aba-comentarios"
+                     class="detalhe-painel detalhe-comentarios">
+
+                <h2>
+                    <span class="detalhe-icone">♧</span>
+                    Comentários
+                </h2>
+
+                <p class="detalhe-ajuda">
+                    Comentários são públicos e exibem o nome de
+                    quem comenta, mesmo em denúncias anônimas.
+                </p>
+
+                <p id="aviso-login"
+                   class="d-none detalhe-ajuda">
+                    Faça login para comentar.
+                    <a href="<?= $raiz ?>login">Entrar</a>
+                </p>
+
+                <!-- FORMULÁRIO -->
+                <form id="form-comentario">
+
+                    <label for="texto-comentario"
+                           class="visually-hidden">
+                        Escreva um comentário
+                    </label>
+
+                    <textarea
+                        id="texto-comentario"
+                        class="form-control"
+                        name="comentario"
+                        rows="3"
+                        maxlength="1000"
+                        placeholder="Escreva um comentário..."
+                        required></textarea>
+
+                    <div class="detalhe-acoes">
+                        <small id="contador-comentario">
+                            0/1000
+                        </small>
+
+                        <button type="submit"
+                                id="btn-comentar"
+                                class="detalhe-botao">
+                            ➤ Comentar
+                        </button>
+                    </div>
+                </form>
+
+                <div id="mensagem-comentario"
+                     class="alert d-none mt-3"
+                     role="alert"></div>
+
+                <!-- LISTA -->
+                <div id="lista-comentarios"
+                     class="detalhe-lista-comentarios"></div>
+
+                <p id="comentarios-vazio"
+                   class="detalhe-ajuda text-center mt-3">
+                    Nenhum comentário ainda. Seja o primeiro!
+                </p>
+
+                <!-- MODELO USADO PELO JAVASCRIPT -->
+                <template id="modelo-comentario">
+
+                    <article class="detalhe-comentario">
+
+                        <div class="detalhe-avatar"
+                             aria-hidden="true">
+                            ●
+                        </div>
+
+                        <div class="detalhe-comentario-corpo">
+
+                            <div class="detalhe-comentario-cabecalho">
+
+                                <strong data-campo="autor"></strong>
+
+                                <span class="detalhe-perfil"
+                                      data-campo="perfil">
+                                    Cidadão
+                                </span>
+
+                                <time data-campo="data"></time>
+                            </div>
+
+                            <p data-campo="texto"></p>
+                        </div>
+                    </article>
+                </template>
+            </section>
 
         </article>
     </div>

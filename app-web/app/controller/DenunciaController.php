@@ -206,7 +206,59 @@ class DenunciaController {
             );
         }
     }
+
+    // ADICIONADO: GET ./denuncia/comentarios?id=N -> JSON com os comentários da denúncia (público)
+    public function comentarios(array $requisicao){
+        if ($requisicao['metodo'] !== "GET") {
+            return RespostaProcesso::resposta("Requisição inválida para listar comentários");
+        }
+
+        try {
+            $id = $this->lerId($requisicao);
+            if ($id === null) return RespostaProcesso::resposta("Denúncia inválida");
+
+            $repositorio = new DenunciasRepositorio();
+            return $repositorio->listarComentarios($id);
+        } catch (Throwable $erro) {
+            return RespostaProcesso::resposta(
+                "Erro interno ao buscar os comentários: " . $erro->getMessage()
+                . " (" . basename($erro->getFile()) . ":" . $erro->getLine() . ")"
+            );
+        }
+    }
+
+    // ADICIONADO: POST ./denuncia/comentar -> publica um comentário (exige login).
+    // Espera "id-denuncia" e "comentario" (e o "metodo" que o roteador exige).
+    public function comentar(array $requisicao){
+        if ($requisicao['metodo'] !== "POST") {
+            return RespostaProcesso::resposta("Requisição inválida para comentar");
+        }
+
+        try {
+            $resposta = UsuarioLogadoService::obter();
+            if (!$resposta['resposta']) return $resposta;
+
+            $id = $this->lerId($requisicao);
+            if ($id === null) return RespostaProcesso::resposta("Denúncia inválida");
+
+            $texto = trim((string) ($requisicao['comentario'] ?? ""));
+            if ($texto === "") return RespostaProcesso::resposta("Escreva um comentário");
+            if (mb_strlen($texto) > 1000) return RespostaProcesso::resposta("Comentário muito longo (máximo de 1000 caracteres)");
+
+            $repositorio = new DenunciasRepositorio();
+            return $repositorio->salvarComentario($id, $resposta['dados']['email'], $texto);
+        } catch (Throwable $erro) {
+            return RespostaProcesso::resposta(
+                "Erro interno ao publicar o comentário: " . $erro->getMessage()
+                . " (" . basename($erro->getFile()) . ":" . $erro->getLine() . ")"
+            );
+        }
+    }
+
+
     
+
+
     private function atualizar(array $requisicao){
         $resposta = UsuarioLogadoService::obter();
         if (!$resposta['resposta']) return $resposta;

@@ -37,6 +37,31 @@ class NotificacoesRepositorio {
         }
     }
 
+    public static function avisarComentario(PDO $conexao, int $denuncia, int $autorEvento): void {
+        $sql = $conexao->prepare('SELECT id_usuario FROM tb_denuncia WHERE id_denuncia = :id');
+        $sql->execute([':id' => $denuncia]);
+        $autorDenuncia = (int) $sql->fetchColumn();
+        if ($autorDenuncia > 0 && $autorDenuncia !== $autorEvento) {
+            self::registrar($conexao, $autorDenuncia, $denuncia, 'comentario', 'Novo comentário',
+                'Uma pessoa comentou na sua denúncia #' . $denuncia . '.');
+        }
+        // Não repetir notificação ao dono, caso ele também seja representante.
+        $sql = $conexao->prepare(
+            "SELECT u.id_usuario FROM tb_usuario u
+             JOIN tb_representante_aprovado a ON a.id_usuario = u.id_usuario
+             JOIN tb_denuncia d ON d.id_denuncia = :denuncia
+             WHERE u.perfil_usuario = 'representante'
+               AND u.cidade_usuario = d.cidade_denuncia AND u.estado_usuario = d.estado_denuncia
+               AND (u.area_atuacao_usuario IS NULL OR u.area_atuacao_usuario = '' OR u.area_atuacao_usuario = d.nome_categoria)
+               AND u.id_usuario <> :evento AND u.id_usuario <> :dono"
+        );
+        $sql->execute([':denuncia' => $denuncia, ':evento' => $autorEvento, ':dono' => $autorDenuncia]);
+        foreach ($sql->fetchAll(PDO::FETCH_COLUMN) as $id) {
+            self::registrar($conexao, (int) $id, $denuncia, 'comentario', 'Novo comentário na área',
+                'Há um novo comentário na denúncia #' . $denuncia . '.');
+        }
+    }
+
     // O e-mail vem do token validado pelo servidor. O id é resolvido no banco.
     public function minhas(string $email): array {
         try {

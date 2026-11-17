@@ -4,8 +4,6 @@
 // além do JWT já conferido pelo controller. Nunca confia em cidade ou área recebida por POST.
 class PainelRepositorio {
     private const STATUS = ['pendente', 'em analise', 'em andamento', 'concluida'];
-    // Status que o representante pode aplicar. 'concluida' fica de fora: só o autor da denúncia conclui.
-    private const STATUS_REPRESENTANTE = ['pendente', 'em analise', 'em andamento'];
 
     private function executar(PDO $conexao, string $sql, array $parametros = []): PDOStatement {
         $stmt = $conexao->prepare($sql);
@@ -166,12 +164,7 @@ class PainelRepositorio {
     }
 
     public function alterarStatus(string $email, int $id, string $statusNovo, string $justificativa): array {
-        if ($statusNovo === 'concluida')
-            
-        return RespostaProcesso::resposta('Somente o autor da denúncia pode marcá-la como concluída.');
-
-        if (!in_array($statusNovo, self::STATUS_REPRESENTANTE, true)) return RespostaProcesso::resposta('Status inválido.');
-
+        if (!in_array($statusNovo, self::STATUS, true)) return RespostaProcesso::resposta('Status inválido.');
         if (mb_strlen($justificativa) < 5 || mb_strlen($justificativa) > 350)
             return RespostaProcesso::resposta('A justificativa precisa ter entre 5 e 350 caracteres.');
         $db = null;
