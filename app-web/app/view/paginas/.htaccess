@@ -1,0 +1,4 @@
+# Templates HTML são incluídos pelo PHP, não devem ser acessados diretamente.
+<FilesMatch "\.html$">
+    Require all denied
+</FilesMatch>
