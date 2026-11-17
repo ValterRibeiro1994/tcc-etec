@@ -2,17 +2,38 @@ const formLogin = window.document.getElementById("form-login-main");
 const tagResposta = window.document.getElementById("resposta-formulario");
 const debug = true;
 
+prepararOlhoSenha();
 main();
 
+// Botão "olho": alterna o campo de senha entre escondido (password) e visível (text)
+function prepararOlhoSenha() {
+    const campo = window.document.getElementById("campo-senha-login");
+    const botao = window.document.getElementById("btn-ver-senha");
+    if (!campo || !botao) return;
+
+    const iconeAberto = botao.querySelector(".icone-olho");
+    const iconeRiscado = botao.querySelector(".icone-olho-riscado");
+
+    botao.addEventListener("click", function () {
+        const mostrar = campo.type === "password";
+        campo.type = mostrar ? "text" : "password";
+
+        iconeAberto.hidden = mostrar;
+        iconeRiscado.hidden = !mostrar;
+
+        const rotulo = mostrar ? "Ocultar senha" : "Mostrar senha";
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
+        botao.setAttribute("aria-pressed", mostrar ? "true" : "false");
+
+        // devolve o foco ao campo, com o cursor no final do texto
+        campo.focus();
+        const fim = campo.value.length;
+        campo.setSelectionRange(fim, fim);
+    });
+}
+
 function main() {
-    if (existeToken()) {
-        if (debug) {
-            console.log("Usuário já registrou login");
-            window.location.href = "home";
-            return;
-        }
-        return;
-    }
 
     // Aviso deixado pela tela de cadastro ("Conta criada com sucesso!")
     const avisoCadastro = sessionStorage.getItem("aviso-login");

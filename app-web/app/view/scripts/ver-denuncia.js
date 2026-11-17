@@ -1,8 +1,6 @@
 /* ==========================================================
    VER DENÚNCIA - RelateSBC  (ver-denuncia.html)
    - Mostra todas as informações de UMA denúncia (./denuncia/detalhe?id=N) - qualquer pessoa pode ver
-   - Aba "Comentários": lista (./denuncia/comentarios?id=N) e publica (./denuncia/comentar, POST)
-   - Só usuário logado comenta (token no localStorage)
    ========================================================== */
 
 (function () {
@@ -74,17 +72,6 @@
     const elLocal = document.getElementById('detalhe-local');
     const elCidade = document.getElementById('detalhe-cidade');
     const elCep = document.getElementById('detalhe-cep');
-
-    const form = document.getElementById('form-comentario');
-    const campoTexto = document.getElementById('texto-comentario');
-    const btnComentar = document.getElementById('btn-comentar');
-    const contador = document.getElementById('contador-comentario');
-    const avisoLogin = document.getElementById('aviso-login');
-    const caixaMsg = document.getElementById('mensagem-comentario');
-    const lista = document.getElementById('lista-comentarios');
-    const vazio = document.getElementById('comentarios-vazio');
-    const modelo = document.getElementById('modelo-comentario');
-    const totalBadge = document.getElementById('total-comentarios');
 
     /* ---------- id da denúncia (vem da URL: ?id=12) ---------- */
 
@@ -321,5 +308,4 @@
     }
 
     carregarDetalhe();
-    carregarComentarios();
 })();
