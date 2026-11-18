@@ -173,5 +173,5 @@ function exibirResposta(resposta, mensagem) {
     tagResposta.classList.add(resposta ? "login-aviso-ok" : "login-aviso-erro");
 }
 
-main();
+// main();
 prepararOlhoSenha();

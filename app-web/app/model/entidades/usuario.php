@@ -15,24 +15,18 @@ class Usuario {
      */
 
     public function getId(){
-        // o usuario deve ter seu email registrado em sessão
-        if (!SessaoService::estaOnline()) {
-            throw new Exception("Usuario Desconectado");
+        $tb_usuario = $GLOBALS['usuario'];
+        // capturar o email do usuario registrado
+        $email = $this->getEmail();
+        if (empty($email)){
+            throw new Exception("Model: Email não registrado para esse usuario");
         }
 
-        // o usuario não pode ter o perfil de visitante
-        $resposta = SessaoService::obterUsuario();
-        if (!$resposta['resposta']){
-            return RespostaProcesso::resposta(
-                mensagem: "Usuario Desconectado", resposta: false,
-                dados: $resposta['dados']
-            );
-        }
+        // capturar o perfil do usuario
+        $perfil = $this->getPerfil();
 
-        $usuario = $resposta['dados'];
-        $perfil = $usuario['perfil'];
         if ($perfil == "visitante"){
-            throw new Exception("Visitante não possui Id registrado");
+            throw new Exception("Cliente: Faça Login antes de acessar a esse serviço");
         }
 
         $conexao = new Conexao();
@@ -40,25 +34,36 @@ class Usuario {
 
         $comando_sql = "
             SELECT 
-                id_usuario AS id,
+                id_usuario AS id
             FROM 
-                tb_usuario
+                $tb_usuario
             WHERE
                 email_usuario = :email
             ";
         
-        $cursor = $conexao->prepare($comando_sql);
-        $cursor->bindValue(":email", $usuario['email']);
-        $cursor->execute();
-        $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
-        if (!$resposta){
+        try {
+            $cursor = $conexao->prepare($comando_sql);
+            $cursor->bindValue(":email", $email);
+            $cursor->execute();
+            $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
+            if (!$resposta){
+                return RespostaProcesso::resposta(
+                    mensagem: "Cliente: Email não registrado", resposta: false
+                );
+            }
+            $id = (int) $resposta['id'];
+            $this->setId($id);
+            return $this->id;
+        } catch (Exception $erro) {
             return RespostaProcesso::resposta(
-                mensagem: "Cliente: Email não registrado", resposta: false
+                mensagem: "Model: Não foi possivel recuperar o id do usuario", resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
             );
+        } finally {
+            $cursor = null;
+            $conexao = null;
         }
-        $id = (int) $resposta['id'];
-        $this->setId($id);
-        return $this->id;
+        
     }
 
     public function setId(int $id){

@@ -1,7 +1,7 @@
-const DEBUG = false;
+const DEBUG = true;
 // Descobre a raiz pela URL do arquivo start-app.js, sem caminho fixo.
-const RAIZ = new URL('../../../', Array.from(document.scripts)
-    .find(script => script.src.includes('/app/view/scripts/start-app.js')).src).pathname;
+const RAIZ = "../app-web/" //new URL('../../../', Array.from(document.scripts)
+//    .find(script => script.src.includes('/app/view/scripts/start-app.js')).src).pathname;
 
 async function gerenciarAutenticacaoEPerfil() {
     // 1. Fase de Autenticação / Token (Primeira Parte)
@@ -19,7 +19,7 @@ async function gerenciarAutenticacaoEPerfil() {
         await desconectar();
         localStorage.clear();
         alert("Faça login antes de acessar seu perfil");
-        window.location.href = RAIZ + "login";
+        // window.location.href = RAIZ + "login";
         return;
     }
 
@@ -134,6 +134,7 @@ async function validarToken() {
         'cargo': CARGO
     });
 
+   
     let servidor = await fetch(RAIZ + "token/validar", {
         method: "POST",
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
@@ -232,4 +233,8 @@ async function obterDados() {
 }
 
 // Execução principal
-gerenciarAutenticacaoEPerfil();
+try {
+    gerenciarAutenticacaoEPerfil();    
+} catch (error) {
+    console.log(error)
+}

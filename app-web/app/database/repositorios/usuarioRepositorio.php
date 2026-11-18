@@ -119,7 +119,8 @@ class UsuarioRepositorio {
                         id_usuario AS id
                     FROM 
                         $tabela_usuario
-                    WHERE email_usuario = :email 
+                    WHERE 
+                        email_usuario = :email 
             ";
 
             $resposta = $this->iniciarConexao();
@@ -154,12 +155,53 @@ class UsuarioRepositorio {
 
     public function obterDenunciasUsuario(Usuario $usuario){
         $tb_denuncia = $GLOBALS['denuncia'];
+        $id = $usuario->getId();
+        if (is_array($id)){
+            $id['mensagem'] = "Database: Não foi possivel obter id do usuario: " . $id['mensagem'];
+            return $id;
+        }
+
         // capturar todas as denuncias relacionas ao usuario
         $comando = "
             SELECT 
                 id_denuncia, titulo_denuncia, data_denuncia, descricao_denuncia, imagem_denuncia,
-                nome_categoria, cidade_denuncia, estado_denuncia, logradouro_denuncia
+                nome_categoria, cidade_denuncia, estado_denuncia, logradouro_denuncia, numero_denuncia,
+                bairro_denuncia, cep_denuncia, status_denuncia, complemento_denuncia, anonima_denuncia
+            FROM
+                $tb_denuncia
+            WHERE
+                id_usuario = :id
         ";
+
+        try {
+            $conexao = $this->iniciarConexao();
+            if (!$conexao) return $conexao;
+            $cursor = $this->pdo->prepare($comando);
+            $cursor->bindValue(":id", $id);
+            $cursor->execute();
+            $resposta = $cursor->fetchAll();
+            if (!$resposta){
+                return RespostaProcesso::resposta(
+                    mensagem: "Database: Não existe denuncias cadastradas.", resposta: false,
+                    formato: "json"
+                );
+            }
+
+            return RespostaProcesso::resposta(
+                mensagem: "Denuncias carregadas", resposta: true,
+                dados: $resposta, formato: "json"
+            );
+        } catch (Exception $erro) {
+            return RespostaProcesso::resposta(
+                mensagem: "Database: Erro ao obter denuncias", resposta: false,
+                dados: RespostaProcesso::salvarErro($erro), formato: "json"
+            );
+        } finally {
+            $this->pdo = null;
+        }
+        
+
+
     }
 
     public function obterRespostasUsuario(Usuario $usuario){

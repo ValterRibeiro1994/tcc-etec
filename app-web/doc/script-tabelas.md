@@ -172,3 +172,6 @@ CREATE TABLE IF NOT EXISTS tb_historico_status (
     CONSTRAINT fk_historico_representante FOREIGN KEY (id_representante)
         REFERENCES tb_usuario (id_usuario) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+INSERT INTO tb_categoria(nome_categoria) VALUES ('Infraestrutura'), ('Iluminação Publica'), ('Saneamento')

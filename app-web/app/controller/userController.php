@@ -127,19 +127,16 @@ class UserController {
             $usuario = UtilService::criarUsuario($payload);
 
             // localizamos todas as denuncias do usuario
-            $repositorio = new DenunciasRepositorio();
+            $conexao = new Conexao();
+            $repositorio = new UsuarioRepositorio($conexao);
 
-            $denuncias = $repositorio->listarDenunciasDoUsuario($usuario->getEmail());
+            $denuncias = $repositorio->obterDenunciasUsuario($usuario);
             if (!$resposta['resposta']){
                 return RespostaProcesso::resposta(
                     mensagem: "Controller: Erro ao obter denuncias de usuario", resposta: false,
                     dados: $resposta['dados'], formato: "json"
                 );
             }
-
-
-            // localizamos todas as respostas relacionadas a esse usuario
-            
 
             $denuncias = $denuncias['dados'];
 
