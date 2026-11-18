@@ -71,8 +71,11 @@ class PerfilRepositorio {
         $conexao = (new Conexao())->getConexao();
         if (!in_array($campo, ['avisos_email', 'email_usuario', 'senha_usuario'], true))
             throw new RuntimeException('Campo não permitido.');
+
         $sql = $conexao->prepare("UPDATE tb_usuario SET $campo = :valor WHERE id_usuario = :id");
-        $sql->execute([':valor' => $valor, ':id' => $id]);
+        $sql->bindValue(":valor", $valor);
+        $sql->bindValue(":id", $valor);
+        $sql->execute();
     }
 
     public function alterarLocal(int $id, string $estado, string $cidade): void {
