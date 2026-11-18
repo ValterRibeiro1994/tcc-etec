@@ -27,7 +27,7 @@ if (is_file($arquivoBanco)) {
 $GLOBALS['usuario'] = "tb_usuario";
 $GLOBALS['denuncia'] = "tb_denuncia";
 $GLOBALS['categorias'] = "tb_categoria";    
-
+$GLOBALS['resposta_tb'] = "tb_resposta";
 $GLOBALS['conversa'] = "tb_conversa";
 $GLOBALS['mensagem'] = "tb_mensagem";
 

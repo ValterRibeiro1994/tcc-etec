@@ -137,6 +137,10 @@ class UserController {
                 );
             }
 
+
+            // localizamos todas as respostas relacionadas a esse usuario
+            
+
             $denuncias = $denuncias['dados'];
 
             $resposta = [

@@ -152,4 +152,20 @@ class UsuarioRepositorio {
         }
     }
 
+    public function obterDenunciasUsuario(Usuario $usuario){
+        $tb_denuncia = $GLOBALS['denuncia'];
+        // capturar todas as denuncias relacionas ao usuario
+        $comando = "
+            SELECT 
+                id_denuncia, titulo_denuncia, data_denuncia, descricao_denuncia, imagem_denuncia,
+                nome_categoria, cidade_denuncia, estado_denuncia, logradouro_denuncia
+        ";
+    }
+
+    public function obterRespostasUsuario(Usuario $usuario){
+        $tb_resposta = $GLOBALS['resposta_tb'];
+        // capturar todas as respostas relacionadas a um usuario
+        $comando = "";
+    }
+
 }
