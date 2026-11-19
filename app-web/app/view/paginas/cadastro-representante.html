@@ -194,7 +194,8 @@ $raiz = $GLOBALS['raiz-app'];
                                     <div class="col-12 col-md-6">
                                         <label for="cidade" class="form-label">Cidade</label>
                                         <div class="campo">
-                                            <input type="text" class="form-control" id="cidade" name="cidade" value="nome da cidade" placeholder="Cidade de residência" required>
+                                            <input type="text" class="form-control" id="cidade" name="cidade" list="lista-cidades" autocomplete="off" placeholder="Cidade de residência" required>
+                                            <datalist id="lista-cidades"></datalist>
                                             <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
                                         </div>
                                     </div>
