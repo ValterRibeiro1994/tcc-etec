@@ -1,0 +1,33 @@
+<?php
+include_once("app/config.php");
+include_once("app/autoload.php");
+include_once("app/roteador.php");
+
+new AutoLoadFiles();
+
+try {
+    $rotas = new Roteador();
+    $resposta = $rotas->getResposta();
+    // var_dump($resposta);
+    // var_dump($GLOBALS);
+    // exit();
+    if ($resposta['formato'] == "html"){
+        header("Content-type: text/html; charset=utf-8");
+        $pagina = $resposta['pagina'];
+        include_once($pagina);
+        exit();
+    }
+
+    // var_dump($resposta);
+    header("Content-type: application/json; charset=utf-8");
+    
+    echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit();
+
+} catch (Throwable $erro) {
+    $dados = RespostaProcesso::salvarErro($erro);
+    $resposta = RespostaProcesso::resposta($dados['mensagem'], false, $dados);
+    header("Content-type: application/json; charset=utf-8");
+    echo json_encode($resposta, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit();
+}

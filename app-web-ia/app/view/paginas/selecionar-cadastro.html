@@ -1,0 +1,186 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['raiz-app'];
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/imagem_tela_inicio.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/cards_tela_inicio.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/sobre_tela_inicio.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/selecionar-cadastro.css">
+    
+    <title>RelateSBC</title>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+</head>
+<body>
+    
+   <header class="navbar-header">
+    <nav class="navbar">
+        <a href="<?= $raiz ?>home" class="logo-link">
+            <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                Entrar
+            </a>
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                Cadastre-se
+            </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn" style="display: none;">Sair</button>
+        </div>
+
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></i></button>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE -->
+
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+            </ul>
+
+            <div class="nav-actions">
+              <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar-mob" role="button">
+                  Entrar
+              </a>
+              <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro-mob" role="button">
+                  Cadastre-se
+              </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn-mob" style="display: none;">Sair</button>
+            </div>
+        </div>
+  </header>
+
+  <main class="py-1">
+        <div class="escolha-perfil">
+            <h2 class="texto-escolha">Escolha o seu perfil:</h2>
+
+           <div class="secao-card-escolha">
+              <!--CARD 1 DENUNCIANTE-->
+                <div class="card-escolha ">
+                    <div class="circulo-denunciante">
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi          bi-person-circle" viewBox="0 0 16 16">
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                      </svg>
+
+                    </div>
+                    <h2 class="tipo-escolha-d">Denunciante</h2>
+                    <p class="descricao-escolha">Cadastre-se para realizar denuncias e ficar por dentro dos problemas em sua cidade</p>
+                     <a href="<?= $raiz ?>cadastro/municipe" class="btn-municipe">Cadastre-se</a>
+                </div>
+                <!--CARD 2 REPRESENTANTE-->
+                <div class="card-escolha">
+                    <div class="circulo-representante">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
+                        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5"/>
+                      </svg>
+                    </div>
+                    <h2 class="tipo-escolha-r">Representante</h2>
+                    <p class="descricao-escolha">Cadastre-se para responder a reclamações e ficar por dentro dos problemas ocorridos</p>
+                    <a href="<?= $raiz ?>cadastro/representante" class="btn-representante">Cadastre-se</a>
+
+                </div>
+            </div>
+            <div class="texto-login-cadastro">
+                <p>Já tem uma conta? <a href="<?= $raiz ?>login">Entrar</a></p>
+            </div>
+        </div>
+  </main>
+
+<!-- RODAPE-->
+<footer class="text-light" style="background-color: #354b37;">
+  <div class="container pt-5">
+    <div class="row">
+
+      <div class="col-md-4 mb-4">
+        <h5 style="font-weight: bold;">RelateSBC</h5>
+
+        <p class="text-light small mb-2"> 
+          Cidade limpa, segura e organizada é dever de todos: Sua denuncia faz diferença
+        </p>
+
+        <span class="small text-light" style="font-weight: bold; padding: 5px; border-radius: 15px; background-color: rgba(36, 129, 44, 0.5);">Denúncias públicas</span>
+      </div>
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">Para você</h5>
+        <ul class="list-unstyled">
+          <li><a href="<?= $raiz ?>login" class="link-light small">Já tem uma conta?</a></li>
+          <li><a href="<?= $raiz ?>cadastro" class="link-light small">Cadastre-se</a></li>
+          <li><a href="<?= $raiz ?>cadastro/municipe" class="link-light small">Sou um denunciante</a></li>
+          <li><a href="<?= $raiz ?>cadastro/representante" class="link-light small">Sou um representante</a></li>
+        </ul>
+      </div>
+
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">Denúncias</h5>
+        <ul class="list-unstyled">
+          <li><a href="<?= $raiz ?>home" class="link-light small">Início</a></li>
+          <li><a href="<?= $raiz ?>denuncia/mural" class="link-light small">Mural de denúncias</a></li>
+          <li><a href="<?= $raiz ?>denuncia/criar" class="link-light small">Registrar denúncia</a></li>
+          <li><a href="<?= $raiz ?>user/perfil" class="link-light small">Meu perfil</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-2">
+        <h5 style="font-weight: bold;">
+          Contato
+        </h5>
+        <ul class="list-unstyled">
+        <li>
+          <a href="#" class="link-light small">Fale Conosco</a>
+        </li>
+        <li>
+          <a href="<?= $raiz ?>teste/informacoes" class="link-light small">Privacidade e termos de uso</a>
+        </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+         
+   
+  <hr>
+    <div class="container py-3 d-flex flex-wrap justify-content-between gap-2">
+      <span class="text-light small"> ©2026 RelateSBC </span>
+
+      <div class="d-flex gap-3">
+        <a href="#" class="link-light small"> Privacidade e termos de uso </a>
+
+      </div>
+    </div>
+</footer>
+</body>
+    
+  <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+  <script src="<?= $raiz ?>app/view/scripts/start-app.js"></script>
+</html>

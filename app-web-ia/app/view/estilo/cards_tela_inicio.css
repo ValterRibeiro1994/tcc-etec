@@ -1,0 +1,180 @@
+
+/*SEÇÃO PARA ARMAZENAR OS CARDS*/
+
+.secao-conteiner {
+  background-color:#577559;
+  padding: 2rem 1.5%;     
+  display: flex;
+  flex-direction: column;       
+}
+
+.secao-conteiner h2{
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    margin-top: 0.1%;
+    margin-bottom: 1.5rem;
+}
+
+.conteiner-cards {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    justify-content: center;
+    flex-wrap: wrap !important; 
+}
+
+
+
+/* CRIANDO CARD */
+.cards-tela-inicial {
+    /* Força os cards a terem tamanho fixo em px e não em % */
+    flex: 1 1 240px !important; 
+    max-width: 280px;
+    height: auto; 
+    min-height: 100px !important;
+    width: auto !important; /* Anula o width: 18.5% anterior */
+    
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.60); 
+    
+    display: grid !important;
+    grid-template-columns: 60px 1fr !important; /* Fixa o espaço do ícone */
+    grid-template-rows: auto auto !important;
+    column-gap: 10px !important;
+    align-items: center !important;            
+    padding: 12px !important;         
+    box-sizing: border-box !important;
+}
+
+/*CONTEUDO DO CARD*/
+.conteudo-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 5%;
+}
+.titulo-card{
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+}
+.descricao-card{
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #555555;
+    margin: 0;
+    line-height: 1.2;
+}
+
+
+/*CAIXA PARA O ICONE*/
+.icone-card{
+    width: 50px;
+    height: 50px;
+    background-color: #18db18;
+    margin-left: 25.7%;
+    border-radius: 8px;
+    grid-row: span 2; 
+}
+
+/*CONFIGURAÇÃO DO ICONE*/
+.icone-card i{
+    font-size: 30px;
+    color: white;
+   
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+@media (min-width: 1700px) {
+    
+     .cards-tela-inicial {
+         max-width: 400px;
+         height: 150px !important;
+
+     }
+     .secao-conteiner h2{
+         font-size: 40px;
+         
+     }
+
+     .titulo-card{
+        font-size: 25px;
+        
+     }
+     .descricao-card{
+        font-size: 18px;
+        
+     }
+     .conteudo-card{
+        margin-left: 10px !important;
+     }
+     
+     
+}
+
+@media (max-width: 515px) {
+
+.secao-conteiner h2{
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+    margin-top: 0.1%;
+    margin-bottom: 1.5rem;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+.secao-conteiner h2{
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-top: 0.1%;
+    margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 350px) {
+
+.conteiner-cards {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    justify-content: center;
+    flex-wrap: wrap !important; 
+
+
+    max-width: 80%; 
+    margin: 0 auto; 
+    }
+
+    .secao-conteiner {
+        background-color:#577559;
+        padding: 2rem 1.5%;     
+        display: flex;
+        flex-direction: column;       
+}
+}
+
+/* Telas grandes: a fileira de cards segue a largura da nav */
+@media (min-width: 1556px) {
+    .conteiner-cards { max-width: 1400px; margin: 0 auto; }
+    .cards-tela-inicial { max-width: none; height: auto !important; }
+}
+@media (min-width: 1700px) {
+    .cards-tela-inicial { min-height: 150px !important; }
+}

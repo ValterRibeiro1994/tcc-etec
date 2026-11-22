@@ -1,0 +1,329 @@
+<?php
+
+class Usuario {
+    private DadosPessoais $dados_usuario;
+    private Senha $senha;
+    private Cpf $cpf;
+    private Endereco $endereco;
+    private Prefeitura $prefeitura;
+    private int $id;
+
+
+    /**
+     * O ID DO USUARIO DEVE SER ALCANÇADO APENAS PELO BANCO E PARA USOS ESPECIFICOS 
+     * 
+     */
+
+    public function getId(){
+        $tb_usuario = $GLOBALS['usuario'];
+        // capturar o email do usuario registrado
+        $email = $this->getEmail();
+        if (empty($email)){
+            throw new Exception("Model: Email não registrado para esse usuario");
+        }
+
+        // capturar o perfil do usuario
+        $perfil = $this->getPerfil();
+
+        if ($perfil == "visitante"){
+            throw new Exception("Cliente: Faça Login antes de acessar a esse serviço");
+        }
+
+        $conexao = new Conexao();
+        $conexao = $conexao->getConexao();
+
+        $comando_sql = "
+            SELECT 
+                id_usuario AS id
+            FROM 
+                $tb_usuario
+            WHERE
+                email_usuario = :email
+            ";
+        
+        try {
+            $cursor = $conexao->prepare($comando_sql);
+            $cursor->bindValue(":email", $email);
+            $cursor->execute();
+            $resposta = $cursor->fetch(PDO::FETCH_ASSOC);
+            if (!$resposta){
+                return RespostaProcesso::resposta(
+                    mensagem: "Cliente: Email não registrado", resposta: false
+                );
+            }
+            $id = (int) $resposta['id'];
+            $this->setId($id);
+            return $this->id;
+        } catch (Exception $erro) {
+            return RespostaProcesso::resposta(
+                mensagem: "Model: Não foi possivel recuperar o id do usuario", resposta: false,
+                dados: RespostaProcesso::salvarErro($erro)
+            );
+        } finally {
+            $cursor = null;
+            $conexao = null;
+        }
+        
+    }
+
+    public function setId(int $id){
+        if ($id <= 0) throw new Exception("Usuario: Id inválido");
+        $this->id = $id;
+    }
+    /**
+     * OS DADOS PESSOAIS OBRIGATORIOS 
+     * SÃO APENAS OS QUE PODEM SER REPASSADO PARA O CLIENTE
+     * O PERFIL É OBRIGATORIO SER PASSADO EM TODAS AS ETAPAS
+     * ELE VAI SER USADO PARA CONTROLAR AS PERMISSÕES DE CADA USUARIO
+     */
+    public function __construct(DadosPessoais $dados_usuario)
+    {
+        $this->dados_usuario = $dados_usuario;
+        $this->endereco = new Endereco();
+        $this->prefeitura = new Prefeitura();
+
+    }
+
+    public function setDadosPessoais(DadosPessoais $dados_usuario){
+        $this->dados_usuario = $dados_usuario;
+    }
+
+    /**
+     * PERFIL CONTROLA NIVEL DE ACESSO E PERMISSÕES
+     * ELE É OBRIGATORIO
+     */
+    public function setPerfil(Perfil|string $perfil){
+        $this->dados_usuario->setPerfil($perfil);
+    }
+
+    public function getPerfil(){
+        return $this->dados_usuario->getPerfil();
+    }
+
+    /**
+     * NOME, SOBRENOME E EMAIL TERÁ SEUS DADOS RECEBIDO PELO CLIENTE
+     * SERÃO ARMAZENADOS NO BANCO E ENQUANTO NÃO FIZEREM A AUTENTICAÇÃO
+     * TERÃO SEUS VALORES PADRONIZADOS ASSIM COMO O EMAIL 
+     */
+    public function setNome(Nome|string $nome){
+        $this->dados_usuario->getNome();
+    }
+
+    public function getNome(): string {
+        return $this->dados_usuario->getNome();
+    }
+
+    public function setSobrenome(Sobrenome|string $sobrenome){
+        $this->dados_usuario->setSobrenome($sobrenome);
+    }
+
+    public function getSobrenome(): string {
+        return $this->dados_usuario->getSobrenome();
+    }
+
+    public function getEmail(): string {
+        return $this->dados_usuario->getEmail();
+    }
+
+    public function setEmail(Email|string $email){
+        $this->dados_usuario->setEmail($email);
+    }
+
+    /**
+     * 
+     * SENHAS SÃO PASSADAS APENAS POR SETTERS 
+     * ELAS DEVEM SER COLETADAS APENAS NAS ETAPAS DE LOGIN E CADASTRO
+     * NUNCA DEVEM SER REENVIADAS PARA O CLIENTE
+     *      
+     **/
+    public function setSenha(Senha|string $senha){
+        if (is_string($senha)){
+            $senha = new Senha($senha);
+        }
+        
+        $this->senha = $senha;
+    }
+
+    public function obterSenha(): string {
+        if ($this->senha == null) return "Senha não informada";
+        return $this->senha->getSenha();
+    }
+
+    public function obterHashSenha(): string {
+        if ($this->senha == null) return "Hash da senha não informada";
+        return $this->senha->hashSenha();
+    }
+
+    /**
+     * O CPF APENAS CONFIRMA QUE A PESSOA EXISTE NA VIDA REAL
+     * O CPF DEPOIS DE RECEBIDO NO CADASTRO NUNCA MAIS DEVE SER UTLIZADO
+     * OU TRANPORTADO ENTRE CLIENTE-SERVIDOR
+     * 
+     */
+    public function getCpf(){
+        if ($this->cpf == null) return "Cpf não informado";
+        return $this->cpf->getCpf();
+    }
+
+    public function setCpf(Cpf|string $cpf){
+        if (is_string($cpf)){
+            $cpf = new Cpf($cpf);
+        }
+
+        $this->cpf = $cpf;
+    }
+
+    /**
+     * AMBOS O MUNICIPE E O REPRESENTANTE POSSUEM ENDEREÇOS,
+     * OUTROS PERFIS NÃO POSSUEM ESSA NECESSIDADE,
+     * PARA OS USUARIOS APENAS CIDADE E ESTADO SÃO NECESSARIOS
+    */
+    public function setEndereco(Endereco $endereco = null, string $cidade = null, string $estado = null){
+        $perfis_com_endereco = ['municipe', 'representante', 'administrador'];
+        if (!UtilService::perfilExiste($perfis_com_endereco, $this->getPerfil())) { // visitante
+            $this->endereco = new Endereco(
+                cidade: "visitante",
+                estado: "NI" // não informado
+            );
+            return;
+        }
+
+        if ($endereco != null) $this->endereco = $endereco;
+        if ($cidade != null) $this->endereco->setCidade($cidade);
+        if ($estado != null) $this->endereco->setEstado($estado);
+        
+    }
+
+    public function getEndereco(): Endereco {
+        $perfis_com_endereco = ['municipe', 'representante', 'administrador'];
+        if (!$this->validarPerfil($perfis_com_endereco)){
+            $this->setEndereco();
+        }
+
+        return $this->endereco;
+    }
+
+    public function setCidade(string $cidade){
+        $this->setEndereco(cidade: $cidade);
+    }
+
+    public function getCidade(): string {
+        if ($this->endereco == null){
+            $this->setEndereco();
+        }
+
+
+        return $this->endereco->getCidade();
+    }
+
+    public function setEstado(string $estado){
+        $this->setEndereco(estado: $estado);
+    }
+
+    public function getEstado(): string {
+        if ($this->endereco == null) $this->setEndereco();
+        return $this->endereco->getEstado();
+    }
+    /**
+     * APENAS O REPRESENTANTE POSSUI UM ORGÃO DE ATUAÇÃO E PODE RESPONDER AS DENUNCIAS
+     * A PREFEITURA POSSUI O CARGO DO REPRESENTANTE E O NOME DO ORGÃO
+     * 
+     */
+    public function getPrefeitura(): Prefeitura {
+        if ($this->getPerfil() != 'representante'){
+            $this->prefeitura = new Prefeitura();
+        }
+        return $this->prefeitura;
+    }
+
+    public function setPrefeitura(Prefeitura $prefeitura = null, string $orgao = null, string $cargo = null){
+        if ($this->getPerfil() != 'representante'){
+            $this->prefeitura = new Prefeitura();
+            return;
+        }
+
+        if ($prefeitura == null){
+            if ($this->prefeitura == null){
+                $prefeitura = new Prefeitura();
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            } else {
+                $prefeitura = $this->prefeitura;
+                if ($orgao != null){
+                    $prefeitura->setOrgao($orgao);
+                }
+
+                if ($cargo != null){
+                    $prefeitura->setCargo($cargo);
+                }
+            }
+        } else {
+            if ($orgao != null){
+                $prefeitura->setOrgao($orgao);
+            }
+
+            if ($cargo != null){
+                $prefeitura->setCargo($cargo);
+            }
+        }
+
+        $this->prefeitura = $prefeitura;
+    }
+
+    /**
+     * funções auxiliares
+     */
+    private function validarPerfil(array $perfis_permitido){
+        foreach($perfis_permitido as $perfil){
+            if ($perfil == $this->getPerfil()){
+                return true;
+            }
+        }
+        return false;
+
+
+    }
+
+    public function getArray(){
+        $perfis_autorizados = ['visitante', 'municipe', 'representante', 'administrador'];
+        if (!UtilService::perfilExiste($perfis_autorizados, $this->getPerfil())){
+            return RespostaProcesso::resposta(
+                mensagem: "Perfil não autorizado para essa função", resposta: false
+            );
+        }
+
+        $dados_usuario = [
+            "nome"=>$this->getNome(),
+            "sobrenome"=>$this->getSobrenome(),
+            "email"=>$this->getEmail(),
+            "perfil"=>$this->getPerfil()
+        ];
+        
+
+        if (in_array($this->getPerfil(), ["visitante", "municipe", "representante", "administrador"], true)){
+            // padrão para o perfil de visitante
+        }
+
+        if (in_array($this->getPerfil(), ["municipe", "representante", "administrador"], true)){
+
+            // padrão para endereço representante e municipe
+            $dados_usuario['cidade'] = $this->getEndereco()->getCidade();
+            $dados_usuario['estado'] = $this->getEndereco()->getEstado();
+        }
+
+        if ($this->getPerfil() == "representante"){
+
+            $dados_usuario['cargo'] = $this->getPrefeitura()->getCargo();
+            $dados_usuario['orgao'] = $this->getPrefeitura()->getOrgao();
+        }
+        return RespostaProcesso::resposta(
+            mensagem: $this->getPerfil() ." convertido para array com sucesso", resposta: true,
+            dados: $dados_usuario
+        );
+    }
+}

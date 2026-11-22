@@ -1,0 +1,43 @@
+<?php
+
+class CategoriaController {
+    public function categorias(array $requisicao){
+        if (!array_key_exists("metodo", $requisicao)){
+            return RespostaProcesso::resposta("Método não enviado");
+        }
+
+        if ($requisicao['metodo'] == "GET"){
+            return $this->getCategorias();
+        }
+
+        return RespostaProcesso::resposta("Requisição invalida");
+    }
+
+    private function getCategorias(){
+        $tabela = $GLOBALS['categorias'];
+        $comando = "SELECT id_categoria, nome_categoria FROM $tabela";
+        try {
+            $conexao = new Conexao();
+            $conexao = $conexao->getConexao();
+            $sql = $conexao->prepare($comando);
+            $sql->execute();
+            
+            $resposta = $sql->fetchAll(PDO::FETCH_ASSOC);
+            if ($sql->rowCount() == 0 || !$resposta){
+                return RespostaProcesso::resposta("Categorias não foram registradas", true);
+            }
+
+            return RespostaProcesso::resposta("Categorias obtidas", true, $resposta);
+
+        } catch (Exception $erro) {
+            return RespostaProcesso::resposta(
+                "Não foi possível carregar as categorias.",
+                false,
+                RespostaProcesso::salvarErro($erro)
+            );
+        } finally {
+            $sql = null;
+            $conexao = null;
+        }
+    }
+}

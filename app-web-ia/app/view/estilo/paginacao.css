@@ -1,0 +1,14 @@
+
+/* Paginação compartilhada – compatível com os temas existentes. */
+.paginacao-relate { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin:20px 0 30px; padding:12px 0; }
+.paginacao-resumo { font-size:14px; color:#64748b; }
+.paginacao-botoes { display:flex; gap:6px; flex-wrap:wrap; }
+.paginacao-btn { border:1px solid #dce5e0; background:#fff; color:#334155; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:14px; }
+.paginacao-btn:hover:not(:disabled) { border-color:#24812c; color:#166534; background:#ecfdf3; }
+.paginacao-btn.atual { background:#24812c; color:white; border-color:#24812c; }
+.paginacao-btn:disabled:not(.atual) { opacity:.45; cursor:not-allowed; }
+html[data-tema="escuro"] .paginacao-btn { background:#1e293b; color:#e2e8f0; border-color:#334155; }
+html[data-tema="escuro"] .paginacao-btn:hover:not(:disabled) { color:#86efac; border-color:#4ade80; background:#153d2c; }
+html[data-tema="escuro"] .paginacao-btn.atual { color:#fff; background:#166534; border-color:#4ade80; }
+html[data-tema="escuro"] .paginacao-resumo { color:#94a3b8; }
+@media(max-width:620px) { .paginacao-relate { justify-content:center; } }

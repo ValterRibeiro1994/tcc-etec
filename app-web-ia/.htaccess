@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Não defina RewriteBase: funciona tanto na raiz quanto em /app-web/.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Não expor arquivos de configuração e de build pela URL.
+<FilesMatch "^(composer\.(json|lock)|README.*|\.env.*)$">
+    Require all denied
+</FilesMatch>

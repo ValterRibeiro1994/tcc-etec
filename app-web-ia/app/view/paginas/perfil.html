@@ -1,0 +1,291 @@
+<?php
+// ADICIONADO: $raiz = pasta base do site, vinda do config.php (caminho_raiz_projeto).
+// Localhost: "/app-web/"  |  Hospedagem (InfinityFree): "/".
+// Os links do menu, do rodapé e dos scripts usam $raiz e por isso funcionam em qualquer
+// rota (home, login, denuncia/mural, user/perfil, cadastro/municipe...).
+$raiz = $GLOBALS['raiz-app'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/paginacao.css">
+    <title>RelateSBC</title>
+    <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/navbar.css">
+  
+    <style>
+        html { height: 100%; }
+    
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        footer {
+            margin-top: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/tema-escuro.css">
+</head>
+<body>
+    
+   <header class="navbar-header">
+    <nav class="navbar">
+        <a href="<?= $raiz ?>home" class="logo-link">
+            <img src="<?= $raiz ?>app/recursos/imagens/logo-relatesbc.png" alt="RelateSBC" class="logo-relatesbc">
+        </a>
+
+        <ul class="tabela-de-links">
+            <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+            <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="<?= $raiz ?>login" style="text-decoration: none; height: fit-content;" class="nav-btn nav-btn-secondary py-2" id="btn-entrar" role="button">
+                Entrar
+            </a>
+            <a href="<?= $raiz ?>cadastro" style="text-decoration: none; height:fit-content;" class="nav-btn nav-btn-primary py-2" id="btn-cadastro" role="button">
+                Cadastre-se
+            </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn" style="display: none;">Sair</button>
+        </div>
+
+        <div class="mobile-menu-icon">
+            <button onclick="menuAbrir() "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></i></button>
+        </div>
+    </nav>
+
+    <!-- MENU MOBILE -->
+
+        <div class="mobile-menu">
+            <ul class="tabela-de-links">
+                <li class="nav-item"><a href="<?= $raiz ?>home">Início</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/sobre">Sobre</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>denuncia/mural">Mural</a></li>
+                <li class="nav-item"><a href="<?= $raiz ?>teste/contato">Contato</a></li>
+            </ul>
+
+            <div class="nav-actions">
+              <a href="<?= $raiz ?>login" style="text-decoration: none;" class="nav-btn nav-btn-secondary" id="btn-entrar-mob" role="button">
+                  Entrar
+              </a>
+              <a href="<?= $raiz ?>cadastro" style="text-decoration: none;" class="nav-btn nav-btn-primary" id="btn-cadastro-mob" role="button">
+                  Cadastre-se
+              </a>
+              <button type="button" class="nav-btn nav-btn-secondary" id="logout-btn-mob" style="display: none;">Sair</button>
+            </div>
+        </div>
+  </header>
+
+    
+<main class="container py-5 my-3">
+  <div class="card shadow border p-4">
+
+    <h2 class="fw-bold mb-4">Perfil</h2>
+
+    <div class="d-flex flex-wrap mb-4 gap-3">
+
+      <div class="d-flex align-items-center gap-3">
+        <!-- não sei pelo que trocar o tamanho da imagem, ent vou deixar assim por enquanto -->
+        <!--<span class="d-flex rounded-circle bg-secondary" style="width: 64px; height: 64px;">-->
+         <!-- <img src="" class="rounded-circle" style="width: 64px;" alt="">-->
+        <!-- </span> -->
+        <div>
+
+          <div class="d-flex gap-2">
+            <span class="fs-5 fw-bold" id="perfil-nome">Carregando...</span>
+            <span class="badge text-light rounded-pill border border-success align-self-center" style="background-color: rgb(64, 146, 71);" id="perfil-badge">...</span>
+          </div>
+
+          <div class="text-muted small" id="perfil-local">&nbsp;</div>
+
+        </div>
+      </div>
+
+      
+
+      <div class="d-flex align-items-center gap-4 tgap">
+
+        <div class="form-check form-switch mb-0">
+          <input type="checkbox" class="form-check-input" id="toggle-tema" role="switch">
+          <label for="toggle-tema" class="form-check-label">Modo Escuro</label>
+        </div>
+
+        <button type="button" class="btn btn-dark fw-bold btn-sm" id="btn-editar-perfil">
+          EDITAR PERFIL
+        </button>
+       
+        <button type="button" class="btn btn-success fw-bold btn-sm" id="btn-nova-denuncia">
+          CRIAR NOVA DENÚNCIA
+        </button>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row mb-4">
+
+      <div class="col-md-4">
+        <label class="fw-semibold small">Pesquisar</label>
+        <input type="text" class="form-control" placeholder="Buscar denúncia..." id="busca-perfil">
+      </div>
+
+      <div class="col-md-5">
+        <label class="fw-semibold small">Categorias</label>
+
+        <div class="d-flex gap-2">
+
+          <select class="form-select">
+            <option>Buracos</option>
+            <option>Iluminação</option>
+            <option>Lixo</option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="fw-semibold small">Ordem por:</label>
+
+        <div class="d-flex gap-2">
+
+          <select class="form-select">
+            <option class="bg-dark">Data</option>
+          </select>
+          <select class="form-select">
+            <option>Status</option>
+          </select>
+
+        </div>
+
+      </div>
+    </div>
+
+    <p id="perfil-mensagem" class="text-secondary text-center my-3" style="display: none;"></p>
+
+    <!-- Lista de denúncias -->
+    <ul class="list-group list-group-flush d-flex" id="lista-denuncias-perfil"></ul>
+    <nav id="paginacao-perfil" class="paginacao-relate" aria-label="Paginação do perfil"></nav>
+
+    <template id="modelo-denuncia-perfil">
+
+      <li class="list-group-item d-flex flex-wrap align-items-center py-3">
+        <div>
+          <div class="fw-semibold" data-campo="titulo">Título</div>
+          <div class="text-muted small" data-campo="descricao">Descrição</div>
+        </div>
+
+        <div class="text-muted small text-center" style="min-width:150px;" data-campo="local">Local</div>
+
+        <div class="text-center" style="min-width:140px;">
+          <span class="badge bg-secondary rounded-pill" data-campo="status">STATUS</span>
+        </div>
+
+        <div class="text-muted small text-center" style="min-width:90px;" data-campo="data">Data</div>
+
+        <div class="d-flex gap-3">
+          <button type="button" data-acao="editar" class="btn btn-outline-dark btn-sm fw-bold">Editar</button>
+          <button type="button" data-acao="remover" class="btn btn-outline-danger btn-sm fw-bold">Remover</button>
+          <button type="button" data-acao="ver-mais" class="btn btn-outline-success btn-sm fw-bold">Ver mais</button>
+        </div>
+      </li>
+
+    </template>
+
+  </div>
+</main>
+
+<!-- RODAPE-->
+<footer class="bg-dark text-light">
+
+  <div class="container pt-5">
+    <div class="row">
+
+      <div class="col-md-4 mb-4">
+        <h5 style="font-weight: bold;">RelateSBC</h5>
+        <p class="text-secondary small mb-2">
+          Cidade limpa, segura e organizada é dever de todos: Sua denuncia faz diferença
+        </p>
+        <span class="small text-light" style="font-weight: bold; padding: 5px; border-radius: 15px; background-color: rgba(36, 129, 44, 0.5);">Denúncias públicas</span>
+      </div>
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">Para você</h5>
+
+        <ul class="list-unstyled">
+          <li><a href="<?= $raiz ?>login" class="link-light small">Já tem uma conta?</a></li>
+          <li><a href="<?= $raiz ?>cadastro" class="link-light small">Cadastre-se</a></li>
+          <li><a href="<?= $raiz ?>cadastro/municipe" class="link-light small">Sou um denunciante</a></li>
+          <li><a href="<?= $raiz ?>cadastro/representante" class="link-light small">Sou um representante</a></li>
+        </ul>
+        
+      </div>
+
+      <div class="col-md-3">
+        <h5 style="font-weight: bold;">Denúncias</h5>
+
+        <ul class="list-unstyled">
+          <li><a href="<?= $raiz ?>home" class="link-light small">Início</a></li>
+          <li><a href="<?= $raiz ?>denuncia/mural" class="link-light small">Mural de denúncias</a></li>
+          <li><a href="<?= $raiz ?>denuncia/criar" class="link-light small">Registrar denúncia</a></li>
+          <li><a href="<?= $raiz ?>user/perfil" class="link-light small">Meu perfil</a></li>
+        </ul>
+
+      </div>
+
+      <div class="col-md-2">
+        <h5 style="font-weight: bold;">
+          Contato
+        </h5>
+
+        <ul class="list-unstyled">
+        <li>
+          <a href="#" class="link-light small">Fale Conosco</a>
+        </li>
+
+        <li>
+          <a href="<?= $raiz ?>teste/informacoes" class="link-light small">Privacidade e termos de uso</a>
+        </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </div>
+         
+  <hr>
+
+    <div class="container py-3 d-flex flex-wrap justify-content-between gap-2">
+      <span class="text-secondary small">
+        ©2026 RelateSBC
+      </span>
+
+      <div class="d-flex gap-3">
+        <a href="#" class="link-secondary small">
+          Privacidade e termos de uso
+        </a>
+      </div>
+
+    </div>
+</footer>
+    
+    <script src="<?= $raiz ?>app/view/scripts/navbar.js"></script>
+    <script src="<?= $raiz ?>app/view/scripts/paginacao.js"></script>
+    <script type="module" src="<?= $raiz ?>app/view/scripts/perfil.js"></script>
+    <script type="module" src="<?= $raiz ?>app/view/scripts/start-app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+/* Painel de representantes RelateSBC. Mantém o verde da navegação e o tema escuro existente. */
+#tela-painel { max-width: 1220px; padding-bottom: 70px; }
+.painel-escopo { display: inline-block; font-weight: 700; color: #166534 !important; margin: 0 !important; }
+.painel-aviso { padding: 11px 16px; margin: 12px 0 18px; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 9px; color: #1e3a8a; }
+.painel-aviso[hidden] { display: none; }
+.painel-aviso.painel-erro { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+.painel-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin: 20px 0 24px; }
+.painel-metrica { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 5px rgba(15,23,42,.04); }
+.painel-metrica span { display: block; color: #64748b; font-size: 12px; min-height: 36px; font-weight: 600; }
+.painel-metrica strong { display: block; color: #166534; font-size: 29px; line-height: 1.3; }
+.painel-categoria-card, .painel-denuncia { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+.painel-categoria-card h3, .painel-linha-cabecalho h3 { font-size: 19px; font-weight: 700; color: #0f172a; }
+.painel-categorias { display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: 12px 20px; margin-top: 14px; }
+.painel-categoria-linha span { font-size: 12px; font-weight: 650; color: #475569; }
+.painel-categoria-trilho { height: 9px; width: 100%; margin-top: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+.painel-categoria-progresso { height: 100%; background: #16a34a; border-radius: 99px; }
+.painel-linha-cabecalho { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 22px 0 12px; }
+.painel-acoes-gerais { display: flex; flex-wrap: wrap; gap: 8px; }
+.painel-filtros { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.painel-filtros label, .painel-edicao label { font-size: 12px; color: #475569; display: flex; flex-direction: column; gap: 6px; font-weight: 650; }
+.painel-filtros input, .painel-filtros select, .painel-edicao select, .painel-edicao textarea { background: #fff; width: 100%; padding: 9px 10px; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 7px; font: inherit; font-size: 14px; }
+.painel-denuncia { padding: 16px; }
+.painel-denuncia-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.painel-denuncia h4 { font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+.painel-denuncia p { color: #64748b; font-size: 13px; margin-bottom: 12px; }
+.painel-status { white-space: nowrap; background: #dcfce7; color: #166534; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 750; }
+.painel-botoes { display: flex; flex-wrap: wrap; gap: 8px; margin: 5px 0 14px; }
+.painel-botoes .btn-acao, .painel-acoes-gerais .btn-acao, .painel-edicao .btn-acao { border-radius: 8px; padding: 8px 12px; }
+.painel-edicao { display: grid; grid-template-columns: 190px minmax(190px,1fr) auto; align-items: end; gap: 12px; padding-top: 13px; border-top: 1px solid #e2e8f0; }
+.painel-edicao textarea { resize: vertical; min-height: 50px; }
+.painel-historico { margin: 12px 0; padding: 12px; border-radius: 8px; background: #f8fafc; font-size: 13px; color: #334155; }
+.painel-historico[hidden] { display: none; }
+.painel-historico ul { margin: 0; padding-left: 18px; }
+.painel-historico li + li { margin-top: 7px; }
+#paginacao-painel { padding: 12px 0 40px; }
+html[data-tema="escuro"] .painel-metrica, html[data-tema="escuro"] .painel-categoria-card,
+html[data-tema="escuro"] .painel-denuncia { background: #1e293b; border-color: #334155; }
+html[data-tema="escuro"] .painel-metrica span, html[data-tema="escuro"] .painel-denuncia p,
+html[data-tema="escuro"] .painel-filtros label, html[data-tema="escuro"] .painel-edicao label,
+html[data-tema="escuro"] .painel-categoria-linha span { color: #cbd5e1; }
+html[data-tema="escuro"] .painel-categoria-card h3, html[data-tema="escuro"] .painel-linha-cabecalho h3,
+html[data-tema="escuro"] .painel-denuncia h4 { color: #f8fafc; }
+html[data-tema="escuro"] .painel-metrica strong, html[data-tema="escuro"] .painel-escopo { color: #4ade80 !important; }
+html[data-tema="escuro"] .painel-filtros input, html[data-tema="escuro"] .painel-filtros select,
+html[data-tema="escuro"] .painel-edicao select, html[data-tema="escuro"] .painel-edicao textarea { background: #0f172a; color: #f8fafc; border-color: #475569; }
+html[data-tema="escuro"] .painel-historico { background: #0f172a; color: #e2e8f0; }
+@media (max-width: 900px) { .painel-edicao { grid-template-columns: 1fr 1fr; } .painel-edicao .btn-acao { grid-column: 1 / -1; } }
+@media (max-width: 620px) { .painel-filtros, .painel-edicao { grid-template-columns: 1fr; } .painel-edicao .btn-acao { grid-column: auto; } .painel-resumo { grid-template-columns: 1fr 1fr; } .painel-denuncia-topo { flex-direction: column; } }
