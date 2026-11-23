@@ -24,6 +24,16 @@
 .admin-representante p { overflow-wrap: anywhere; font-size: .9rem; margin: 7px 0; }
 .admin-situacao { background: #fdf0cc; color: #604713; padding: 4px 8px; border-radius: 6px; white-space: nowrap; font-size: .78rem; }
 .admin-situacao.ok { background: #ddf4e3; color: #136137; }
+.admin-lista { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.admin-representante { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: 1px solid #c4dfd3; border-left: 4px solid #e0b43c; border-radius: 12px; background: #f5faf7; transition: border-color .15s, box-shadow .15s; }
+.admin-representante:hover { box-shadow: 0 2px 8px #0a704e1f; }
+.admin-representante header { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.admin-representante h4 { margin: 0; font-size: 1.08rem; font-weight: 700; }
+.admin-representante p { overflow-wrap: anywhere; font-size: .9rem; margin: 0; opacity: .85; }
+.admin-representante p + p { margin-top: 6px; padding-top: 8px; border-top: 1px dashed #b5d8c9; font-weight: 600; opacity: 1; color: #0a704e; }
+.admin-representante button { align-self: flex-end; margin-top: 10px; padding: 9px 18px; }
+.admin-situacao { background: #fdf0cc; color: #604713; padding: 5px 11px; border-radius: 999px; white-space: nowrap; font-size: .78rem; font-weight: 700; }
+.admin-situacao.ok { background: #ddf4e3; color: #136137; }
 .admin-paginacao { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px; }
 .admin-status-linha, .admin-auditoria-item, .admin-denuncia-item { padding: 9px 0; border-bottom: 1px solid #d2e6de; font-size: .92rem; overflow-wrap: anywhere; }
 .admin-status-linha { display: flex; align-items: center; justify-content: space-between; }
@@ -31,7 +41,9 @@
 html[data-tema="escuro"] .admin-metrica, html[data-tema="escuro"] .admin-card, html[data-tema="escuro"] .admin-filtros input, html[data-tema="escuro"] .admin-filtros select { background: #172b2a; color: #f1f4f3; }
 html[data-tema="escuro"] .admin-metrica strong { color: #70d0a5; }
 html[data-tema="escuro"] .admin-card button { background: #244539; color: #f7faf8; }
+html[data-tema="escuro"] .admin-representante { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: 1px solid #c4dfd3; border-radius: 12px; background: #f5faf7; transition: border-color .15s, box-shadow .15s; }
+html[data-tema="escuro"] .admin-representante p + p { border-top-color: #2f5148; color: #70d0a5; }
 html[data-tema="escuro"] .admin-situacao { color: #604713; }
 html[data-tema="escuro"] .admin-situacao.ok { color: #136137; }
 @media(max-width: 980px) { .admin-cards { grid-template-columns: 1fr; } }
-@media(max-width: 580px) { #tela-admin { padding: 0; } .admin-card { padding: 13px; } .admin-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); } .admin-filtros { display: grid; grid-template-columns: 1fr; } .admin-card-top { flex-wrap: wrap; } }
+@media(max-width: 580px) {.admin-representante header { flex-wrap: wrap; } .admin-representante button { align-self: stretch; } #tela-admin { padding: 0; } .admin-card { padding: 13px; } .admin-metricas { grid-template-columns: repeat(2, minmax(0, 1fr)); } .admin-filtros { display: grid; grid-template-columns: 1fr; } .admin-card-top { flex-wrap: wrap; } }

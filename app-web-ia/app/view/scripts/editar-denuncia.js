@@ -61,6 +61,7 @@
     const inputData   = document.getElementById('data-denuncia');
     const inputUf     = document.getElementById('estado-denuncia');
     const inputCidade = document.getElementById('cidade-denuncia');
+    const listaCidades = document.getElementById('lista-cidades-denuncia');   // NOVA
     const inputCep    = document.getElementById('cep-denuncia');
     const inputRua    = document.getElementById('rua-denuncia');
     const inputNumero = document.getElementById('numero-denuncia');
@@ -166,10 +167,89 @@
         String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
         String(hoje.getDate()).padStart(2, '0');
 
-    // UF: só letras, em maiúsculas
-    inputUf.addEventListener('input', function () {
-        inputUf.value = inputUf.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+   /* ---------- Estado e cidade (sugestões do IBGE) ---------- */
+
+const ESTADOS = {
+    AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia', CE: 'Ceará',
+    DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão',
+    MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais', PA: 'Pará',
+    PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí', RJ: 'Rio de Janeiro',
+    RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul', RO: 'Rondônia', RR: 'Roraima',
+    SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe', TO: 'Tocantins'
+};
+
+function configurarCidadesIBGE(selectEstado, inputCidade, listaCidades) {
+    let cidades = [];
+    const cache = {};
+    let sequenciaCarregamento = 0;
+
+    function semAcento(texto) {
+        return String(texto).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    // monta as opções do estado (mantém a opção vazia no início)
+    selectEstado.replaceChildren(new Option('Escolha um estado', '', true, true));
+    selectEstado.options[0].disabled = true;
+    Object.keys(ESTADOS).forEach(function (uf) {
+        selectEstado.add(new Option(uf + ' - ' + ESTADOS[uf], uf));
     });
+
+    function aplicar(nomes) {
+        cidades = nomes;
+        listaCidades.replaceChildren(...nomes.map(nome => new Option(nome)));
+    }
+
+    async function carregar(uf) {
+        const requisicao = ++sequenciaCarregamento;
+        if (!uf) return aplicar([]);
+        if (cache[uf]) return aplicar(cache[uf]);
+        try {
+            const resposta = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + encodeURIComponent(uf) + '/municipios?orderBy=nome', {
+                credentials: 'omit'
+            });
+            if (!resposta.ok) throw new Error('IBGE indisponível');
+            const dados = await resposta.json();
+            if (!Array.isArray(dados) || !dados.every(c => c && typeof c.nome === 'string')) {
+                throw new Error('Resposta inválida do IBGE');
+            }
+            const nomes = dados.map(c => c.nome);
+            cache[uf] = nomes;
+            if (requisicao !== sequenciaCarregamento || selectEstado.value !== uf) return;
+            aplicar(nomes);
+        } catch (e) {
+            if (requisicao === sequenciaCarregamento && selectEstado.value === uf) aplicar([]);
+        }
+    }
+
+    selectEstado.addEventListener('change', function () {
+        inputCidade.value = '';
+        carregar(selectEstado.value);
+    });
+
+    aplicar([]);
+
+    return {
+        // define estado e cidade (usado ao preencher uma denúncia já gravada)
+        definir: function (uf, cidade) {
+            const sigla = String(uf || '').toUpperCase();
+            selectEstado.value = ESTADOS[sigla] ? sigla : '';
+            inputCidade.value = cidade || '';
+            return carregar(selectEstado.value);
+        },
+
+        // devolve o nome oficial da cidade, ou null se não estiver na lista
+        validar: function () {
+            const digitada = inputCidade.value.trim();
+            if (!digitada) return null;
+            if (!cidades.length) return digitada; // IBGE fora do ar: aceita texto livre
+            const achada = cidades.find(nome => semAcento(nome) === semAcento(digitada));
+            if (achada) inputCidade.value = achada;
+            return achada || null;
+        }
+    };
+}
+
+const cidadesIBGE = configurarCidadesIBGE(inputUf, inputCidade, listaCidades);
 
     // CEP: só números, no formato 00000-000
     inputCep.addEventListener('input', function () {
@@ -233,8 +313,7 @@
         inputTitulo.value = denuncia.titulo || '';
         inputDescr.value  = denuncia.descricao || '';
         inputData.value   = denuncia.data || '';
-        inputUf.value     = denuncia.estado || '';
-        inputCidade.value = denuncia.cidade || '';
+        cidadesIBGE.definir(denuncia.estado, denuncia.cidade);
         inputRua.value    = denuncia.rua || '';
         inputNumero.value = denuncia.numero || '';
         inputCompl.value  = denuncia.complemento || '';
@@ -313,6 +392,12 @@
     form.addEventListener('submit', async function (evento) {
         evento.preventDefault();
         limparMensagem();
+
+        if (!cidadesIBGE.validar()) {
+            mostrarMensagem('Escolha uma cidade da lista sugerida para o estado selecionado.', 'danger');
+            inputCidade.focus();
+            return;
+}
 
         const dados = new FormData(form); // já leva o id-denuncia (campo oculto) e a foto, se escolhida
         dados.append('metodo', 'POST'); // o roteador exige essa chave

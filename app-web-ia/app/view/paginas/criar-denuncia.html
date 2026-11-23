@@ -20,6 +20,7 @@ $raiz = $GLOBALS['raiz-app'];
     </script>
 
     <script src="<?= $raiz ?>app/view/scripts/tema.js"></script>
+    <link rel="icon" type="image/png" href="<?= $raiz ?>app/recursos/imagens/icone-relate.png">
     <link rel="stylesheet" href="<?= $raiz ?>app/recursos/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/geral.css">
     <link rel="stylesheet" href="<?= $raiz ?>app/view/estilo/criar-denuncia.css">
@@ -109,16 +110,9 @@ $raiz = $GLOBALS['raiz-app'];
                 <div class="campo-denuncia">
                     <label for="estado-denuncia">Estado (UF)</label>
 
-                    <input
-                        type="text"
-                        id="estado-denuncia"
-                        name="estado-denuncia"
-                        placeholder="Ex: SP"
-                        maxlength="2"
-                        pattern="[A-Za-z]{2}"
-                        title="Informe a sigla do estado com 2 letras, por exemplo SP"
-                        required
-                    >
+                    <select id="estado-denuncia" name="estado-denuncia" required>
+                        <option value="" selected disabled>Escolha um estado</option>
+                    </select>
                 </div>
             
                 <div class="campo-denuncia">
@@ -128,10 +122,11 @@ $raiz = $GLOBALS['raiz-app'];
                         type="text"
                         id="cidade-denuncia"
                         name="cidade-denuncia"
-                        placeholder="Digite a cidade do local.."
+                        placeholder="Escolha o estado e digite a cidade" list="lista-cidades-denuncia" autocomplete="off"
                         maxlength="50"
                         required
                     >
+                    <datalist id="lista-cidades-denuncia"></datalist>
                 </div>
             </div>
 
