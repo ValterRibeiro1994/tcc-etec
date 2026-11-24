@@ -80,6 +80,7 @@
             if (el) el.style.display = visivel ? '' : 'none';
         };
         mostrar('#link-admin', administrador);
+        mostrar('#link-admin-usuarios', administrador);
         mostrar('#link-painel', representante);
         mostrar('#link-recebidas', representante);
         mostrar('#link-notificacoes', !!lerToken());
@@ -180,6 +181,7 @@
         if (representante && ['mural', 'denuncias', 'criar-denuncia'].includes(pagina)) pagina = 'painel';
         if (!representante && ['recebidas', 'painel'].includes(pagina)) pagina = administrador ? 'admin' : 'mural';
         if (!administrador && pagina === 'admin') pagina = representante ? 'painel' : 'mural';
+        if (!administrador && pagina === 'admin-usuarios') pagina = representante ? 'painel' : 'mural';
         if (!lerToken() && ['notificacoes', 'mensagens'].includes(pagina)) pagina = 'mural';
         
         if (pagina === 'criar-denuncia') { abrirFormularioDenuncia(); return; }
@@ -194,7 +196,7 @@
         telaSelecionada.classList.add('ativa');
         // Atualiza também o título da barra mobile conforme a seção aberta.
         const tituloMobile = document.getElementById('titulo-pagina-mobile');
-        const nomes = { admin: 'Administração geral', painel: 'Painel do representante', recebidas: 'Denúncias recebidas',
+        const nomes = { admin: 'Administração geral', 'admin-usuarios': 'Usuários e funções',
             mural: 'Mural de denúncias', denuncias: 'Minhas denúncias',
             notificacoes: 'Notificações', mensagens: 'Mensagens',
             configuracoes: 'Configurações', 'central-de-ajuda': 'Central de ajuda',

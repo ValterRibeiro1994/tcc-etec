@@ -171,4 +171,121 @@ class AdminRepositorio {
             return RespostaProcesso::resposta('Não foi possível concluir a ação. Confira as migrações.');
         }
     }
+
+    // Contas por função (munícipe, representante ou administrador), com busca e paginação.
+    // A contagem por função respeita a busca, para os filtros mostrarem quantos resultados há em cada um.
+    public function usuarios(int $idAdmin, int $pagina, string $busca, string $perfil): array {
+        try {
+            $db = (new Conexao())->getConexao();
+            $filtro = '1 = 1';
+            $args = [];
+            if ($busca !== '') {
+                $filtro = "(CONCAT(u.nome_usuario, ' ', u.sobrenome_usuario) LIKE :completo"
+                        . ' OR u.email_usuario LIKE :email OR u.cidade_usuario LIKE :cidade)';
+                $termo = '%' . addcslashes($busca, '\\%_') . '%';
+                $args = [':completo' => $termo, ':email' => $termo, ':cidade' => $termo];
+            }
+            $resumo = ['municipe' => 0, 'representante' => 0, 'administrador' => 0];
+            $contagem = $this->consulta($db,
+                'SELECT u.perfil_usuario AS perfil, COUNT(*) AS quantidade
+                 FROM tb_usuario u WHERE ' . $filtro . ' GROUP BY u.perfil_usuario', $args);
+            foreach ($contagem->fetchAll(PDO::FETCH_ASSOC) as $linha) {
+                if (array_key_exists($linha['perfil'], $resumo)) {
+                    $resumo[$linha['perfil']] = (int)$linha['quantidade'];
+                }
+            }
+            if (!array_key_exists($perfil, $resumo)) $perfil = 'municipe';
+            $total = $resumo[$perfil];
+            $porPagina = 10;
+            $totalPaginas = max(1, (int)ceil($total / $porPagina));
+            $pagina = min($pagina, $totalPaginas);
+            $args[':perfil'] = $perfil;
+            $args[':eu'] = $idAdmin;
+            $args[':limite'] = $porPagina;
+            $args[':inicio'] = ($pagina - 1) * $porPagina;
+            $dados = $this->consulta($db,
+                'SELECT u.id_usuario AS id, u.nome_usuario AS nome,
+                        u.sobrenome_usuario AS sobrenome, u.email_usuario AS email,
+                        u.cidade_usuario AS cidade, u.estado_usuario AS estado,
+                        u.perfil_usuario AS perfil, u.area_atuacao_usuario AS area,
+                        u.orgao_usuario AS orgao, u.cargo_usuario AS cargo,
+                        a.aprovado_em AS aprovado_em, (u.id_usuario = :eu) AS voce
+                 FROM tb_usuario u
+                 LEFT JOIN tb_representante_aprovado a ON a.id_usuario = u.id_usuario
+                 WHERE u.perfil_usuario = :perfil AND ' . $filtro
+                . ' ORDER BY u.nome_usuario ASC, u.sobrenome_usuario ASC, u.id_usuario ASC'
+                . ' LIMIT :limite OFFSET :inicio', $args)->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($dados as &$item) {
+                $item['id'] = (int)$item['id'];
+                $item['voce'] = (int)$item['voce'] === 1;
+            }
+            unset($item);
+            $resposta = RespostaProcesso::resposta('Usuários encontrados', true, $dados);
+            $resposta['paginacao'] = ['pagina' => $pagina, 'total' => $total,
+                'por_pagina' => $porPagina, 'total_paginas' => $totalPaginas];
+            $resposta['resumo'] = $resumo;
+            return $resposta;
+        } catch (PDOException $erro) {
+            error_log('Admin usuarios: ' . $erro->getMessage());
+            return RespostaProcesso::resposta('Não foi possível consultar os usuários. Confira as migrações (detalhes no log de erros do PHP).');
+        }
+    }
+
+    // Troca a função de uma conta. Tudo acontece em uma transação e a permissão do
+    // administrador é conferida de novo lá dentro.
+    public function alterarFuncao(int $idAdmin, int $idUsuario, string $novaFuncao): array {
+        $nomes = ['municipe' => 'munícipe', 'representante' => 'representante', 'administrador' => 'administrador'];
+        if (!array_key_exists($novaFuncao, $nomes)) return RespostaProcesso::resposta('Função inválida.');
+        if ($idAdmin === $idUsuario) {
+            return RespostaProcesso::resposta('Você não pode alterar a sua própria função.');
+        }
+        $db = null;
+        try {
+            $db = (new Conexao())->getConexao();
+            $db->beginTransaction();
+            $admin = $this->consulta($db,
+                "SELECT id_usuario FROM tb_usuario WHERE id_usuario = :id AND perfil_usuario = 'administrador' FOR UPDATE",
+                [':id' => $idAdmin])->fetchColumn();
+            if ($admin === false) {
+                $db->rollBack();
+                return RespostaProcesso::resposta('Sua permissão administrativa foi revogada.');
+            }
+            $atual = $this->consulta($db,
+                'SELECT perfil_usuario FROM tb_usuario WHERE id_usuario = :id FOR UPDATE',
+                [':id' => $idUsuario])->fetchColumn();
+            if ($atual === false) {
+                $db->rollBack();
+                return RespostaProcesso::resposta('Usuário não encontrado.');
+            }
+            if ($atual === $novaFuncao) {
+                $db->rollBack();
+                return RespostaProcesso::resposta('Esse usuário já possui essa função.');
+            }
+            $this->consulta($db,
+                'UPDATE tb_usuario SET perfil_usuario = :perfil WHERE id_usuario = :id',
+                [':perfil' => $novaFuncao, ':id' => $idUsuario]);
+            // A aprovação só faz sentido para representante: remove para não "voltar" aprovado depois.
+            if ($novaFuncao !== 'representante') {
+                $this->consulta($db,
+                    'DELETE FROM tb_representante_aprovado WHERE id_usuario = :id',
+                    [':id' => $idUsuario]);
+            }
+            $this->consulta($db,
+                'INSERT INTO tb_admin_auditoria (id_administrador, id_representante, acao)
+                 VALUES (:admin, :usuario, :acao)',
+                [':admin' => $idAdmin, ':usuario' => $idUsuario, ':acao' => 'tornar_' . $novaFuncao]);
+            $aviso = 'Sua conta agora é de ' . $nomes[$novaFuncao] . '. Saia e entre novamente para atualizar o seu acesso.';
+            if ($novaFuncao === 'representante') {
+                $aviso = 'Sua conta agora é de representante. O acesso ao painel depende da aprovação da administração. Saia e entre novamente.';
+            }
+            NotificacoesRepositorio::registrar($db, $idUsuario, null, 'sistema', 'Função da conta alterada', $aviso);
+            $db->commit();
+            return RespostaProcesso::resposta('Função alterada para ' . $nomes[$novaFuncao] . '.', true);
+        } catch (Throwable $erro) {
+            if ($db && $db->inTransaction()) $db->rollBack();
+            error_log('Admin alterarFuncao: ' . $erro->getMessage());
+            return RespostaProcesso::resposta('Não foi possível alterar a função. Execute doc/migracao-admin.sql (detalhes no log de erros do PHP).');
+        }
+    }
+
 }

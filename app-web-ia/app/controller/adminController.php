@@ -45,4 +45,28 @@ class AdminController {
         }
         return (new AdminRepositorio())->decidir((int)$login['dados']['id'], (int)$id, $acao);
     }
+
+
+        public function usuarios(array $requisicao): array {
+        $login = $this->autenticar($requisicao, 'GET');
+        if (!$login['resposta']) return $login;
+        $pagina = max(1, min(10000, (int)($requisicao['pagina'] ?? 1)));
+        $busca = mb_substr(trim((string)($requisicao['busca'] ?? '')), 0, 100);
+        $perfil = (string)($requisicao['perfil'] ?? 'municipe');
+        if (!in_array($perfil, ['municipe', 'representante', 'administrador'], true)) $perfil = 'municipe';
+        return (new AdminRepositorio())->usuarios((int)$login['dados']['id'], $pagina, $busca, $perfil);
+    }
+
+    public function alterarFuncao(array $requisicao): array {
+        $login = $this->autenticar($requisicao, 'POST');
+        if (!$login['resposta']) return $login;
+        $id = filter_var($requisicao['id'] ?? null, FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1]]);
+        if (!$id) return RespostaProcesso::resposta('ID do usuário inválido.');
+        $funcao = (string)($requisicao['funcao'] ?? '');
+        if (!in_array($funcao, ['municipe', 'representante', 'administrador'], true)) {
+            return RespostaProcesso::resposta('Função inválida.');
+        }
+        return (new AdminRepositorio())->alterarFuncao((int)$login['dados']['id'], (int)$id, $funcao);
+    }
 }

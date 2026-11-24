@@ -1,5 +1,5 @@
 window.RelatePaginacao = {
-    mostrar(id, info, irPara) {
+        mostrar(id, info, irPara, rotulo = 'denúncias') {
         const area = document.getElementById(id);
         if (!area) return;
 
@@ -17,7 +17,7 @@ window.RelatePaginacao = {
         const resumo = document.createElement('span');
         resumo.className = 'paginacao-resumo';
         resumo.textContent =
-            `Exibindo ${inicio}–${fim} de ${total} denúncias`;
+        `Exibindo ${inicio}–${fim} de ${total} ${rotulo}`;
 
         area.appendChild(resumo);
 

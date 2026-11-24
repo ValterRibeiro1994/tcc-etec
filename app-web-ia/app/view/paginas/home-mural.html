@@ -136,6 +136,12 @@ $raiz = $GLOBALS['raiz-app'];
                     Administração geral
                 </a>
 
+                                <!-- Apenas o administrador: lista de contas e alteração de função. -->
+                <a href="#" class="menu-lateral-link" data-pagina="admin-usuarios" id="link-admin-usuarios" style="display:none;">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Usuários e funções
+                </a>
+
                 <!-- Painel administrativo: só aparece para representantes autenticados. -->
                 <a href="#" class="menu-lateral-link" data-pagina="painel" id="link-painel" style="display: none;">
                     <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -375,6 +381,49 @@ $raiz = $GLOBALS['raiz-app'];
                 <div id="admin-recentes" class="admin-recentes"></div>
             </section>
         </div>
+    </section>
+
+        <!-- Usuários e funções: exclusivo do administrador-geral (o PHP também confirma a permissão). -->
+    <section id="tela-admin-usuarios" class="tela" aria-labelledby="admin-usuarios-titulo">
+        <div class="mural-descricao">
+            <h2 id="admin-usuarios-titulo">Usuários e funções</h2>
+            <p>Consulte as contas do RelateSBC e altere a função de cada pessoa.</p>
+        </div>
+        <p id="usuarios-aviso" class="admin-aviso" role="status" hidden></p>
+
+        <!-- PESQUISA -->
+        <div class="bg-white p-3 rounded-4 shadow-sm border mb-4">
+            <div class="input-group pesquisa-grupo bg-light border rounded-3">
+                <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input type="search" id="usuarios-busca" class="form-control bg-transparent border-0 shadow-none py-2" maxlength="100" placeholder="Pesquisar usuários" aria-label="Pesquisar por nome, e-mail ou cidade">
+            </div>
+        </div>
+
+        <!-- FILTROS (classe notif-chip: o "filtro-chip" é controlado pelo JS de Minhas denúncias) -->
+        <div class="filtro-status" id="usuarios-filtros">
+            <button type="button" class="notif-chip ativo" data-filtro="municipe">Usuários <span class="usuarios-contagem" data-contagem="municipe">0</span></button>
+            <button type="button" class="notif-chip" data-filtro="representante">Representantes <span class="usuarios-contagem" data-contagem="representante">0</span></button>
+            <button type="button" class="notif-chip" data-filtro="administrador">Administradores <span class="usuarios-contagem" data-contagem="administrador">0</span></button>
+        </div>
+
+        <p id="usuarios-mensagem" class="text-secondary text-center my-4" style="display: none;"></p>
+        <div class="lista-usuarios" id="lista-usuarios" aria-live="polite"></div>
+        <nav id="paginacao-usuarios" class="paginacao-relate" aria-label="Paginação dos usuários"></nav>
+
+        <dialog id="modal-funcao" class="modal-funcao" aria-labelledby="modal-funcao-titulo">
+            <form id="form-funcao" method="dialog">
+                <h3 id="modal-funcao-titulo">Alterar função</h3>
+                <p id="modal-funcao-pessoa" class="modal-funcao-pessoa"></p>
+                <div id="modal-funcao-opcoes" class="modal-funcao-opcoes" role="radiogroup" aria-label="Nova função"></div>
+                <p id="modal-funcao-aviso" class="modal-funcao-aviso" role="status"></p>
+                <div class="modal-funcao-acoes">
+                    <button type="button" class="btn-acao" id="modal-funcao-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-acao btn-acao-principal" id="modal-funcao-confirmar" disabled>Confirmar alteração</button>
+                </div>
+            </form>
+        </dialog>
     </section>
 
     <section id="tela-painel" class="tela" aria-labelledby="painel-titulo">
