@@ -751,7 +751,7 @@ $raiz = $GLOBALS['raiz-app'];
             </div>
         </div>
 
-            <h3 class="ajuda-titulo">Dúvidas frequentes</h3>
+            <h3 class="ajuda-titulo">Dúvidas frequentes - Usuário</h3>
         <div class="ajuda-faq">
 
             <details class="ajuda-item">
@@ -804,6 +804,132 @@ $raiz = $GLOBALS['raiz-app'];
                 <p>Sim, o seu nome aparece junto da denúncia no mural.</p>
             </details>
         </div>
+        <br>
+
+        <!-- AJUDA: representante -->
+<div class="ajuda-perfil" data-ajuda-perfil="representante" hidden>
+
+    <h3 class="ajuda-titulo">Como funciona</h3>
+    <div class="ajuda-passos">
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">1</span>
+            <strong>Tenha a conta aprovada</strong>
+            <p>Depois do cadastro, o administrador precisa aprovar a sua conta. Somente contas aprovadas podem alterar o status das denúncias.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">2</span>
+            <strong>Veja o panorama</strong>
+            <p>No "Painel do representante" você acompanha os totais por status, as denúncias paradas há mais de 7 dias e as categorias mais frequentes.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">3</span>
+            <strong>Atenda as denúncias</strong>
+            <p>Em "Denúncias recebidas" ficam as denúncias da sua cidade. Abra a denúncia, atualize o status e responda o morador.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">4</span>
+            <strong>Justifique cada mudança</strong>
+            <p>Toda alteração de status exige uma justificativa e fica registrada no histórico da denúncia.</p>
+        </div>
+    </div>
+
+    <h3 class="ajuda-titulo">Dúvidas frequentes - Representante</h3>
+    <div class="ajuda-faq">
+        <details class="ajuda-item">
+            <summary>Por que não consigo alterar o status de uma denúncia?</summary>
+            <p>Somente representantes aprovados pelo administrador podem alterar status. Se o seu cadastro ainda não foi aprovado, ou se a autorização foi revogada, entre em contato com a equipe.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Quais denúncias eu vejo?</summary>
+            <p>As da cidade e da área (categoria) informadas no seu cadastro. Se a sua área for "Todas as categorias", você vê todos os tipos de problema da sua cidade.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Como altero o status de uma denúncia?</summary>
+            <p>No "Painel do representante", em "Gerenciar denúncias", escolha o novo status, escreva a justificativa (de 5 a 350 caracteres) e clique em "Atualizar status".</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>O que significa cada status?</summary>
+            <ul>
+                <li><span class="badge rounded-pill text-bg-danger">Pendente</span> A denúncia foi registrada e ainda não foi vista.</li>
+                <li><span class="badge rounded-pill text-bg-primary">Em análise</span> A prefeitura está avaliando o caso.</li>
+                <li><span class="badge rounded-pill text-bg-warning">Em andamento</span> O problema está sendo resolvido.</li>
+                <li><span class="badge rounded-pill text-bg-success">Concluída</span> O problema foi resolvido.</li>
+            </ul>
+        </details>
+        <details class="ajuda-item">
+            <summary>Como vejo o histórico de uma denúncia?</summary>
+            <p>Em "Gerenciar denúncias", clique em "Ver histórico". Cada mudança mostra quem alterou e a justificativa informada.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Como falo com quem registrou a denúncia?</summary>
+            <p>Clique em "Responder no chat" na denúncia. A conversa fica disponível na aba "Mensagens", e o morador é avisado por notificação.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Como exporto os dados das denúncias?</summary>
+            <p>No painel, em "Gerenciar denúncias", use o botão "Exportar CSV". O arquivo respeita os filtros de busca, status e categoria que estiverem aplicados e abre no Excel.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Posso registrar denúncias ou ver o mural público?</summary>
+            <p>Não. O perfil de representante é voltado ao atendimento das denúncias recebidas; por isso o mural e o botão "Nova denúncia" não aparecem para você.</p>
+        </details>
+    </div>
+</div>
+
+<!-- AJUDA: administrador -->
+<div class="ajuda-perfil" data-ajuda-perfil="administrador" hidden>
+
+    <h3 class="ajuda-titulo">Como funciona</h3>
+    <div class="ajuda-passos">
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">1</span>
+            <strong>Veja a visão geral</strong>
+            <p>Em "Administração geral" estão os totais de munícipes, representantes, contas aguardando aprovação, denúncias cadastradas e concluídas.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">2</span>
+            <strong>Analise os representantes</strong>
+            <p>Cada cadastro mostra nome, e-mail, cidade/estado, área, órgão e cargo, para você conferir antes de decidir.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">3</span>
+            <strong>Aprove ou revogue</strong>
+            <p>Aprovar libera o representante a administrar as denúncias da região e da área cadastradas. Revogar retira esse acesso.</p>
+        </div>
+        <div class="ajuda-passo">
+            <span class="ajuda-numero">4</span>
+            <strong>Acompanhe o sistema</strong>
+            <p>Veja as denúncias por status, as atividades administrativas recentes e as últimas denúncias registradas.</p>
+        </div>
+    </div>
+
+    <h3 class="ajuda-titulo">Dúvidas frequentes - Administrador</h3>
+    <div class="ajuda-faq">
+        <details class="ajuda-item">
+            <summary>Como aprovo um representante?</summary>
+            <p>Em "Administração geral", na lista "Representantes", localize a conta e clique em "Aprovar representante". Confirme na janela que aparece. A partir daí ele pode alterar o status das denúncias da região e da área dele.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>O que acontece quando revogo uma autorização?</summary>
+            <p>O representante perde o acesso administrativo e deixa de poder alterar o status das denúncias. A conta continua existindo, e você pode aprovar de novo quando quiser.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Como encontro um representante específico?</summary>
+            <p>Use o campo de busca por nome, e-mail ou cidade e o filtro de situação (Todos, Aguardando ou Aprovados). A lista é paginada, com os botões "Anterior" e "Próxima".</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>O que devo conferir antes de aprovar?</summary>
+            <p>Veja se o órgão, o cargo, a cidade e a área do cadastro fazem sentido para o acesso que será liberado, pois é com base neles que o representante verá as denúncias.</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Onde vejo o que foi feito no sistema?</summary>
+            <p>Em "Atividades administrativas recentes", na própria tela de Administração geral. Para ver os números atualizados, use o botão "Atualizar".</p>
+        </details>
+        <details class="ajuda-item">
+            <summary>Posso registrar denúncias ou usar o chat?</summary>
+            <p>Não. O perfil de administrador é voltado à gestão geral: o mural, "Minhas denúncias", "Nova denúncia" e "Mensagens" não aparecem para você. As notificações continuam disponíveis.</p>
+        </details>
+    </div>
+</div>
 
         <div class="ajuda-contato">
             <div>

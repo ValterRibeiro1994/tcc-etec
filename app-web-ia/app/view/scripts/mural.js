@@ -90,6 +90,16 @@
         mostrar('#btn-nova-denuncia-lateral', !representante && !administrador);
     }
 
+    // Central de ajuda: mostra só o conteúdo do perfil de quem está logado
+    // (visitante e munícipe veem o de "municipe")
+    function ajustarAjudaPorPerfil() {
+        const perfil = perfilLogado();
+        const alvo = (perfil === 'representante' || perfil === 'administrador') ? perfil : 'municipe';
+        document.querySelectorAll('#tela-central-de-ajuda [data-ajuda-perfil]').forEach(bloco => {
+            bloco.hidden = bloco.dataset.ajudaPerfil !== alvo;
+        });
+    }
+
     // Busca um JSON no servidor (com o token, quando a rota exige login)
     async function buscarJson(rota, token) {
         const opcoes = { method: 'GET', credentials: 'same-origin' };
@@ -431,6 +441,7 @@
             if(painelExtras)painelExtras.classList.toggle('d-none',!retorno.filtrosExtras);
         }
                 ajustarMenuPorPerfil();
+                ajustarAjudaPorPerfil();
         const representante = perfilLogado() === 'representante';
         const administrador = perfilLogado() === 'administrador';
         mostrarPagina(retorno?.pagina || (administrador ? 'admin' : representante ? 'painel' : 'mural'));
