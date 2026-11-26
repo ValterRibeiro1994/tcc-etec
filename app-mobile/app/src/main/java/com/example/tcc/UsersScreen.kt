@@ -139,32 +139,39 @@ class UsersScreen : AppCompatActivity() {
         }
 
 
+        atualizarTextoBotaoTema()
+
         binding.btnDarkMode.setOnClickListener {
 
+            val novoModo = !TemaApp.modoEscuroAtivo(this)
+
+            TemaApp.salvarModoEscuro(this, novoModo)
+
+            // Recria as telas abertas com as cores de values-night/ (ou values/)
+            TemaApp.aplicarTema(novoModo)
         }
     }
 
+    private fun atualizarTextoBotaoTema() {
+        binding.btnDarkMode.text =
+            if (TemaApp.modoEscuroAtivo(this)) "☀   Modo claro"
+            else "☾   Modo escuro"
+    }
+
     private fun carregarEstatisticas() {
+        ItemRepository.buscarMinhas(
+            sucesso = { denuncias ->
+                if (isFinishing || isDestroyed) return@buscarMinhas
+                val total = denuncias.size
+                val resolvidas = denuncias.count { it.status.equals("resolvida", ignoreCase = true) }
+                val andamento = total - resolvidas
 
-        val denuncias =
-            ItemRepository.buscarTodos(this)
-
-        val total =
-            denuncias.size
-
-        val resolvidas = 0
-
-        val andamento = total
-
-
-        binding.txtSolicitacoes.text =
-            total.toString()
-
-        binding.txtResolvidas.text =
-            resolvidas.toString()
-
-        binding.txtAndamento.text =
-            andamento.toString()
+                binding.txtSolicitacoes.text = total.toString()
+                binding.txtResolvidas.text = resolvidas.toString()
+                binding.txtAndamento.text = andamento.toString()
+            },
+            erro = { _ -> }
+        )
     }
 
     override fun onResume() {

@@ -1,10 +1,9 @@
 package com.example.tcc
 
-import android.os.Bundle
-import android.widget.Button
 import android.content.Intent
+import android.os.Bundle
+import android.text.InputFilter
 import android.widget.Toast
-import android.content.Context
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,30 +26,67 @@ class RegisterScreen : AppCompatActivity() {
             insets
         }
 
+        // mesmos limites das colunas de tb_usuario
+        binding.edtName.filters = arrayOf(InputFilter.LengthFilter(20))
+        binding.edtSobrenome.filters = arrayOf(InputFilter.LengthFilter(60))
+        binding.edtCpf.filters = arrayOf(InputFilter.LengthFilter(14))
+        binding.edtCidade.filters = arrayOf(InputFilter.LengthFilter(Regras.CIDADE_MAX))
+        binding.edtEstado.filters = arrayOf(InputFilter.LengthFilter(2))
+
+        val usuarioRepository = UsuarioRepository()
+
         binding.button.setOnClickListener {
-            val Nome_atual = binding.edtName.text.toString()
-            val Email_atual = binding.edtEmail.text.toString()
-            val Senha_atual = binding.edtPassword.text.toString()
+            val perfil = PerfilUsuario(
+                nome = binding.edtName.text.toString().trim(),
+                sobrenome = binding.edtSobrenome.text.toString().trim(),
+                cpf = binding.edtCpf.text.toString(),
+                cidade = binding.edtCidade.text.toString().trim(),
+                estado = binding.edtEstado.text.toString().trim().uppercase()
+            )
+            val email = binding.edtEmail.text.toString().trim()
+            val senha = binding.edtPassword.text.toString()
 
-            if (Nome_atual.isNotEmpty() && Email_atual.isNotEmpty() && Senha_atual.isNotEmpty()) {
-                val sharedPref = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-
-                editor.putString("Nome_salvo", Nome_atual)
-                editor.putString("email_salvo", Email_atual)
-                val intent = Intent(this, LoginScreen::class.java).apply {
-                    editor.putString("senha_salva", Senha_atual)
+            when {
+                !Regras.nomeValido(perfil.nome) -> {
+                    binding.edtName.error = "Nome deve ter de 3 a 20 caracteres"; return@setOnClickListener
                 }
-
-                editor.apply()
-                startActivity(intent)
-                finish()
-
-            } else {
-                // Exibe uma mensagem de aviso caso algum campo esteja em branco
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                !Regras.sobrenomeValido(perfil.sobrenome) -> {
+                    binding.edtSobrenome.error = "Sobrenome deve ter de 3 a 60 caracteres"; return@setOnClickListener
+                }
+                !Regras.cpfValido(perfil.cpf) -> {
+                    binding.edtCpf.error = "CPF inválido"; return@setOnClickListener
+                }
+                perfil.cidade.isBlank() -> {
+                    binding.edtCidade.error = "Digite sua cidade"; return@setOnClickListener
+                }
+                perfil.estado !in Regras.UFS -> {
+                    binding.edtEstado.error = "Use a sigla com 2 letras (ex.: SP)"; return@setOnClickListener
+                }
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.length > 120 -> {
+                    binding.edtEmail.error = "E-mail inválido"; return@setOnClickListener
+                }
+                senha.length < 6 -> {
+                    binding.edtPassword.error = "A senha deve ter pelo menos 6 caracteres"
+                    return@setOnClickListener
+                }
             }
-        }
 
+            binding.button.isEnabled = false
+
+            usuarioRepository.cadastrar(
+                perfil = perfil,
+                email = email,
+                senha = senha,
+                sucesso = {
+                    Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                },
+                erro = { mensagem ->
+                    binding.button.isEnabled = true
+                    Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show()
+                }
+            )
+        }
     }
 }

@@ -2,4 +2,42 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- ===== PALETA DO APP (modo claro) =====
+         Os valores claros são os mesmos que as telas Mural, Perfil e o cartão da denúncia já usam.
+         O modo escuro fica em values-night/colors.xml, com os MESMOS nomes. -->
+    <color name="sbc_fundo">#F7F7F7</color>
+    <color name="sbc_filtros">#E7ECE8</color>
+    <color name="sbc_card">#FFFFFF</color>
+    <color name="sbc_texto">#111111</color>
+    <color name="sbc_texto_secundario">#555555</color>
+    <color name="sbc_borda">#222222</color>
+    <color name="sbc_borda_campo">#444444</color>
+    <color name="sbc_acento">#264D26</color>            <!-- texto/contorno verde sobre a superfície -->
+    <color name="sbc_acento_suave">#E3EADB</color>      <!-- faixa verde clara -->
+    <color name="sbc_botao_principal">#264D26</color>   <!-- botão grande (fundo); texto sempre branco -->
+    <color name="sbc_botao_secundario">#A3AC8A</color>  <!-- botões "Selecionar foto", filtros -->
+    <color name="sbc_texto_sobre_secundario">#111111</color>
+    <color name="sbc_botao_header">#82936A</color>
+    <color name="sbc_barra">#4D7048</color>
+    <color name="sbc_icone_barra">#000000</color>
+    <color name="sbc_foto_vazia">#DDDDDD</color>
+    <color name="sbc_avatar">#F3A24F</color>           <!-- círculo laranja da inicial no Perfil -->
+    <color name="sbc_circulo_stat">#AAB590</color>     <!-- círculos das estatísticas no Perfil -->
+    <color name="sbc_contorno">#000000</color>         <!-- contorno grosso dos círculos -->
+    <color name="sbc_categoria">#667257</color>        <!-- categoria no cartão do Mural -->
+
+    <!-- Nomes antigos usados pela tela de denúncia (apontam para a paleta acima) -->
+    <color name="fundo_denuncia">@color/sbc_fundo</color>
+    <color name="fundo_card">@color/sbc_card</color>
+    <color name="texto_principal">@color/sbc_texto</color>
+    <color name="borda_campo">@color/sbc_borda_campo</color>
+    <color name="barra_navegacao">@color/sbc_barra</color>
+    <color name="icone_navegacao">@color/sbc_icone_barra</color>
+    <color name="fundo_foto">@color/sbc_foto_vazia</color>
+    <color name="fundo_botao_header">@color/sbc_botao_header</color>
+    <color name="dn_verde">@color/sbc_acento</color>
+    <color name="dn_verde_suave">@color/sbc_acento_suave</color>
+    <color name="dn_texto_suave">@color/sbc_texto_secundario</color>
+    <color name="dn_borda">@color/sbc_borda</color>
 </resources>

@@ -4,16 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.tcc.databinding.ActivityMainBinding
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +27,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemAdapter: ItemAdapter
 
     private var listaCompleta: List<Item> = emptyList()
+
+    private var botoesFiltro: Map<String, MaterialButton> = emptyMap()
+    private var categoriaAtual = TODOS
+
+    companion object {
+        private const val TODOS = "Todos"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,11 +178,15 @@ class MainActivity : AppCompatActivity() {
     // =====================================
 
     private fun carregarDenuncias() {
-
-        listaCompleta =
-            ItemRepository.buscarTodos(this)
-
-        filtrar("Todos")
+        ItemRepository.buscarTodos(
+            sucesso = { lista ->
+                if (isFinishing || isDestroyed) return@buscarTodos
+                listaCompleta = lista
+                // Mantém o filtro que o usuário escolheu ao voltar para a tela
+                filtrar(categoriaAtual)
+            },
+            erro = { _ -> }
+        )
     }
 
 
@@ -182,44 +196,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun configurarFiltros() {
 
-        val btnTodos =
-            findViewById<Button>(R.id.btnTodos)
+        // Cada botão aponta para o MESMO texto que a denúncia grava
+        // (Regras.CATEGORIAS), senão o filtro nunca encontra nada.
+        botoesFiltro = mapOf(
+            TODOS to findViewById(R.id.btnTodos),
+            Regras.CATEGORIAS[0] to findViewById(R.id.btnIluminacao),
+            Regras.CATEGORIAS[1] to findViewById(R.id.btnInfraestrutura),
+            Regras.CATEGORIAS[2] to findViewById(R.id.btnSaneamento)
+        )
 
-        val btnLixo =
-            findViewById<Button>(R.id.btnLixo)
-
-        val btnIluminacao =
-            findViewById<Button>(R.id.btnIluminacao)
-
-        val btnPavimentacao =
-            findViewById<Button>(R.id.btnPavimentacao)
-
-        val btnOutros =
-            findViewById<Button>(R.id.btnOutros)
-
-
-        btnTodos.setOnClickListener {
-            filtrar("Todos")
+        botoesFiltro.forEach { (categoria, botao) ->
+            botao.setOnClickListener { filtrar(categoria) }
         }
+    }
 
 
-        btnLixo.setOnClickListener {
-            filtrar("Lixo")
-        }
+    // =====================================
+    // DESTACAR O FILTRO SELECIONADO
+    // =====================================
 
+    private fun destacarFiltro(categoria: String) {
 
-        btnIluminacao.setOnClickListener {
-            filtrar("Iluminação")
-        }
+        val corSelecionado = ContextCompat.getColorStateList(this, R.color.sbc_botao_principal)
+        val corNormal = ContextCompat.getColorStateList(this, R.color.sbc_circulo_stat)
+        val textoSelecionado = ContextCompat.getColorStateList(this, R.color.white)
+        val textoNormal = ContextCompat.getColorStateList(this, R.color.sbc_texto)
 
-
-        btnPavimentacao.setOnClickListener {
-            filtrar("Pavimentação")
-        }
-
-
-        btnOutros.setOnClickListener {
-            filtrar("Outros")
+        botoesFiltro.forEach { (cat, botao) ->
+            val ativo = cat == categoria
+            botao.backgroundTintList = if (ativo) corSelecionado else corNormal
+            botao.setTextColor(if (ativo) textoSelecionado else textoNormal)
         }
     }
 
@@ -230,8 +236,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun filtrar(categoria: String) {
 
+        categoriaAtual = categoria
+        destacarFiltro(categoria)
+
         val listaFiltrada =
-            if (categoria == "Todos") {
+            if (categoria == TODOS) {
 
                 listaCompleta
 

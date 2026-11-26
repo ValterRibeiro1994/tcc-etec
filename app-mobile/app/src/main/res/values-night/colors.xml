@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modo escuro: mesmos nomes da paleta clara, verdes escurecidos e texto claro. -->
+    <color name="sbc_fundo">#101510</color>
+    <color name="sbc_filtros">#18211A</color>
+    <color name="sbc_card">#1D281D</color>
+    <color name="sbc_texto">#F1F4EF</color>
+    <color name="sbc_texto_secundario">#AAB7A6</color>
+    <color name="sbc_borda">#56654F</color>
+    <color name="sbc_borda_campo">#6E7E68</color>
+    <color name="sbc_acento">#A9D6A0</color>
+    <color name="sbc_acento_suave">#26332A</color>
+    <color name="sbc_botao_principal">#3F7A3C</color>
+    <color name="sbc_botao_secundario">#5D6B49</color>
+    <color name="sbc_texto_sobre_secundario">#FFFFFF</color>
+    <color name="sbc_botao_header">#5F7048</color>
+    <color name="sbc_barra">#2A4026</color>
+    <color name="sbc_icone_barra">#F1F4EF</color>
+    <color name="sbc_foto_vazia">#27312A</color>
+    <color name="sbc_avatar">#D08A40</color>
+    <color name="sbc_circulo_stat">#4A5838</color>
+    <color name="sbc_contorno">#6E7E68</color>
+    <color name="sbc_categoria">#A9C79E</color>
+</resources>

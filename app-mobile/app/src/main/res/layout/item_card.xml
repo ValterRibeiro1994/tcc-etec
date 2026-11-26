@@ -8,10 +8,10 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
 
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="@color/sbc_card"
     app:cardCornerRadius="14dp"
     app:cardElevation="0dp"
-    app:strokeColor="#222222"
+    app:strokeColor="@color/sbc_borda"
     app:strokeWidth="1dp">
 
 
@@ -27,7 +27,7 @@
             android:id="@+id/cardFoto"
             android:layout_width="match_parent"
             android:layout_height="210dp"
-            android:background="#DDDDDD"
+            android:background="@color/sbc_foto_vazia"
             android:contentDescription="Foto da denúncia"
             android:scaleType="centerCrop" />
 
@@ -60,7 +60,7 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="6dp"
                     android:text="Em andamento"
-                    android:textColor="#111111"
+                    android:textColor="@color/sbc_texto"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="agora"
-                    android:textColor="#333333"
+                    android:textColor="@color/sbc_texto"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="Buraco na rua"
-                android:textColor="#111111"
+                android:textColor="@color/sbc_texto"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Pavimentação"
-                android:textColor="#667257"
+                android:textColor="@color/sbc_categoria"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Tampa de bueiro quebrada podendo causar acidentes."
-                android:textColor="#222222"
+                android:textColor="@color/sbc_texto"
                 android:textSize="16sp" />
 
 
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="⌖"
-                    android:textColor="#111111"
+                    android:textColor="@color/sbc_texto"
                     android:textSize="28sp" />
 
 
@@ -145,7 +145,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="Rua relateSBC 203"
-                    android:textColor="#222222"
+                    android:textColor="@color/sbc_texto"
                     android:textSize="16sp" />
 
             </LinearLayout>

@@ -20,6 +20,8 @@ import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class LoginScreen : AppCompatActivity() {
@@ -51,41 +53,50 @@ class LoginScreen : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         credentialManager = CredentialManager.create(this)
 
-        // LOGIN ATUAL POR EMAIL E SENHA
+
+
+
         binding.btn.setOnClickListener {
 
-            val sharedPref = getSharedPreferences(
-                "DadosDoUsuario",
-                Context.MODE_PRIVATE
-            )
+            val email = binding.edtEmailLogin.text
+                .toString().trim()
 
-            val emailCadastrado =
-                sharedPref.getString("email_salvo", "") ?: ""
+            val senha = binding.edtPasswordLogin.text
+                .toString()
 
-            val senhaCadastrada =
-                sharedPref.getString("senha_salva", "") ?: ""
-
-            val emailLogin =
-                binding.edtEmailLogin.text.toString().trim()
-
-            val senhaLogin =
-                binding.edtPasswordLogin.text.toString()
-
-            if (
-                emailLogin.isNotEmpty() &&
-                senhaLogin.isNotEmpty() &&
-                emailLogin == emailCadastrado &&
-                senhaLogin == senhaCadastrada
-            ) {
-                abrirMain()
-            } else {
+            if (email.isBlank() || senha.isBlank()) {
                 Toast.makeText(
                     this,
-                    "Senha ou e-mail estão errados",
+                    "Preencha e-mail e senha",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                return@setOnClickListener
             }
+
+            binding.btn.isEnabled = false
+
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnSuccessListener {
+
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                    )
+
+                    finish()
+                }
+                .addOnFailureListener {
+
+                    binding.btn.isEnabled = true
+
+                    Toast.makeText(
+                        this,
+                        "Não foi possível entrar. Verifique seus dados.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
         }
+
 
         // TELA DE CADASTRO
         binding.btnRegister.setOnClickListener {
@@ -163,10 +174,12 @@ class LoginScreen : AppCompatActivity() {
 
                 if (task.isSuccessful) {
 
-                    val usuario = auth.currentUser
+                    val usuario = auth.currentUser ?: return@addOnCompleteListener
 
-                    val nome = usuario?.displayName ?: "Usuário"
-                    val email = usuario?.email ?: ""
+                    val nome = usuario.displayName ?: "Usuário"
+                    val email = usuario.email ?: ""
+
+                    criarPerfilSeNaoExiste(usuario.uid, nome, email)
 
                     val sharedPref = getSharedPreferences(
                         "DadosDoUsuario",
@@ -210,5 +223,34 @@ class LoginScreen : AppCompatActivity() {
 
         startActivity(intent)
         finish()
+    }
+}
+
+/**
+ * Cria o perfil do Google só se ele ainda não existir. Antes, cada login com o Google
+ * regravava sobrenome/cidade/estado como vazios e apagava o que o usuário já tinha preenchido.
+ */
+private fun criarPerfilSeNaoExiste(uid: String, nomeCompleto: String, email: String) {
+    val ref = FirebaseFirestore.getInstance().collection("usuarios").document(uid)
+    ref.get().addOnSuccessListener { doc ->
+        if (doc.exists()) return@addOnSuccessListener
+        val partes = nomeCompleto.trim().split(Regex("\\s+"), limit = 2)
+        ref.set(
+            mapOf(
+                "uid" to uid,
+                "nome" to partes[0].take(20),
+                "sobrenome" to (partes.getOrNull(1) ?: "").take(60),
+                "email" to email,
+                "perfil" to "municipe",
+                "cidade" to "",
+                "estado" to "",
+                "orgao" to "",
+                "cargo" to "",
+                "areaAtuacao" to "",
+                "avisosEmail" to false,
+                "telefone" to "",
+                "criadoEm" to FieldValue.serverTimestamp()
+            )
+        )
     }
 }
