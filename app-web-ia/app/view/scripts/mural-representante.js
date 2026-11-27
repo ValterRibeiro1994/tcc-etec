@@ -137,7 +137,7 @@
             atualizarResumo(json.resumo);
 
             definirTexto('recebidas-descricao', json.area
-            ? 'Denúncias de ' + json.area + ' da sua cidade. Responda os moradores.'
+            ? 'Denúncias de ' + json.area.split(',').join(', ') + ' da sua cidade. Responda os moradores.'
             : 'Acompanhe as denúncias da sua cidade e responda os moradores.');
 
             lista.replaceChildren();

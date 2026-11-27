@@ -54,7 +54,7 @@ body:not(:has(.menu-lateral)) {
 }
  
 
-@media (min-width: 992px) and (min-height: 640px) {
+@media (min-width: 992px) and (min-height: 860px) {
     html,
     body {
         height: 100vh;
@@ -308,3 +308,160 @@ body:not(:has(.menu-lateral)) {
     font-family: inherit;
 }
 
+/* =====================================================
+   APRESENTAÇÃO DO REPRESENTANTE (card escuro, texto branco)
+   ===================================================== */
+.cadastro-brand .cadastro-brand-card {
+    padding: clamp(20px, 3.2vh, 32px) clamp(20px, 2.4vw, 32px);
+    background-color: var(--cad-botao);      /* verde-escuro: destaca do verde da faixa */
+    border-radius: 20px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+}
+
+.cadastro-brand-selo {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cad-texto);
+    background-color: #c9f0cb;
+    border-radius: 999px;
+}
+
+.cadastro-brand .cadastro-brand-card h1 {
+    color: #ffffff;
+}
+
+.cadastro-brand .cadastro-brand-card .lead {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #e6f4e7 !important;
+}
+
+.cadastro-brand-lista {
+    display: grid;
+    gap: 0.55rem;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+.cadastro-brand-lista li {
+    position: relative;
+    padding-left: 1.8rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #e6f4e7;
+}
+
+.cadastro-brand-lista li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--cad-texto);
+    background-color: #86efac;
+    border-radius: 50%;
+}
+
+/* Árvore dentro de um círculo: não fica mais "flutuando" no verde */
+.cadastro-brand-arvore {
+    display: grid;
+    place-items: center;
+    width: clamp(88px, 12vh, 112px);
+    aspect-ratio: 1;
+    margin: 1.3rem auto 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.cadastro-arvore-svg {
+    width: 72%;
+    height: auto;
+}
+
+@media (min-width: 992px) {
+    .cadastro-brand-arvore { margin-left: 0; }
+}
+
+@media (max-width: 575px) {
+    .cadastro-brand-lista { display: none; }   /* no celular, o foco é o formulário */
+    .cadastro-brand-arvore { width: 76px; margin-top: 1rem; }
+}
+
+/* =====================================================
+   ÁREAS DE ATUAÇÃO (chips de seleção múltipla)
+   ===================================================== */
+.area-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.area-chips-aviso {
+    font-size: 0.82rem;
+    color: #6b6b72;
+}
+
+.cadastro-card .area-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--cad-texto);
+    background-color: #ffffff;
+    border: 1.5px solid #cfd8cf;
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cadastro-card .area-chip:hover {
+    border-color: var(--cad-faixa);
+}
+
+.cadastro-card .area-chip:focus-visible {
+    outline: 3px solid rgba(79, 174, 82, 0.45);
+    outline-offset: 2px;
+}
+
+/* "+" quando desligado, "✓" quando ligado */
+.area-chip-marca {
+    width: 14px;
+    text-align: center;
+    font-weight: 800;
+}
+.area-chip-marca::before { content: "+"; }
+
+.cadastro-card .area-chip[aria-pressed="true"] {
+    color: #ffffff;
+    background-color: var(--cad-botao);
+    border-color: var(--cad-botao);
+}
+.area-chip[aria-pressed="true"] .area-chip-marca::before { content: "✓"; }
+
+/* Celular: alvo de toque maior e chips ocupando a linha */
+@media (max-width: 575px) {
+    .cadastro-card .area-chip {
+        flex: 1 1 auto;
+        justify-content: center;
+        min-height: 44px;
+        font-size: 0.88rem;
+    }
+}

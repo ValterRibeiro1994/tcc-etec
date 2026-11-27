@@ -159,22 +159,32 @@ class CadastroController {
             }
 
             // representante: precisa dizer qual categoria de denúncia ele atende
+                        // ALTERADO: representante escolhe uma ou mais categorias de denúncia que atende
             if ($dados['perfil'] === "representante") {
-                $area = trim((string) ($dados['area'] ?? ''));
-                if ($area === '') {
+                // o formulário manda as áreas separadas por vírgula: "Infraestrutura,Saneamento"
+                $areas_enviadas = array_unique(
+                    array_filter(array_map('trim', explode(',', (string) ($dados['area'] ?? ''))), 'strlen')
+                );
+                if (count($areas_enviadas) === 0) {
                     return RespostaProcesso::resposta(
-                        mensagem: "Cliente: Informe a área de atuação", resposta: false,
+                        mensagem: "Cliente: Informe pelo menos uma área de atuação", resposta: false,
                         dados: [], formato: "json"
                     );
                 }
-                $nome_categoria = (new UsuarioRepositorio(new Conexao()))->obterNomeCategoria($area);
-                if ($nome_categoria === null) {
-                    return RespostaProcesso::resposta(
-                        mensagem: "Cliente: Área de atuação inválida", resposta: false,
-                        dados: [], formato: "json"
-                    );
+
+                $repositorio_categoria = new UsuarioRepositorio(new Conexao());
+                $areas_validas = [];
+                foreach ($areas_enviadas as $area) {
+                    $nome_categoria = $repositorio_categoria->obterNomeCategoria($area);
+                    if ($nome_categoria === null) {
+                        return RespostaProcesso::resposta(
+                            mensagem: "Cliente: Área de atuação inválida", resposta: false,
+                            dados: [], formato: "json"
+                        );
+                    }
+                    $areas_validas[] = $nome_categoria;  // nome exatamente como está na tabela de categorias
                 }
-                $dados['area'] = $nome_categoria;  // grava exatamente como está na tabela de categorias
+                $dados['area'] = implode(',', array_unique($areas_validas));
             }
 
             $cpf = new Cpf($dados['cpf']);

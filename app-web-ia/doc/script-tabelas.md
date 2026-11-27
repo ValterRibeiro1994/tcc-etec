@@ -1,10 +1,4 @@
--- Esquema completo para criação de um banco novo. Para bancos existentes,
--- aplique somente as migrações aditivas listadas no final deste arquivo.
-CREATE DATABASE IF NOT EXISTS relate_sbc
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
-
-USE relate_sbc;
+SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE IF NOT EXISTS tb_usuario (
     id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -18,15 +12,14 @@ CREATE TABLE IF NOT EXISTS tb_usuario (
     estado_usuario CHAR(2) NOT NULL,
     orgao_usuario VARCHAR(120) DEFAULT NULL,
     cargo_usuario VARCHAR(120) DEFAULT NULL,
+    area_atuacao_usuario VARCHAR(255) DEFAULT NULL,
     avisos_email TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE TABLE IF NOT EXISTS tb_categoria (
     id_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nome_categoria VARCHAR(30) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE TABLE IF NOT EXISTS tb_denuncia (
     id_denuncia INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -34,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tb_denuncia (
     titulo_denuncia VARCHAR(60) NOT NULL,
     data_denuncia DATETIME NOT NULL,
     descricao_denuncia TEXT NOT NULL,
-    imagem_denuncia BLOB,
+    imagem_denuncia LONGBLOB,
     nome_categoria VARCHAR(30) NOT NULL,
     cidade_denuncia VARCHAR(50) NOT NULL,
     estado_denuncia CHAR(2) NOT NULL,
@@ -55,14 +48,11 @@ CREATE TABLE IF NOT EXISTS tb_denuncia (
     complemento_denuncia VARCHAR(100) DEFAULT NULL,
     anonima_denuncia TINYINT(1) NOT NULL DEFAULT 0,
 
-    FOREIGN KEY (id_usuario)
+    CONSTRAINT fk_denuncia_usuario FOREIGN KEY (id_usuario)
         REFERENCES tb_usuario(id_usuario),
-
-    FOREIGN KEY (nome_categoria)
+    CONSTRAINT fk_denuncia_categoria FOREIGN KEY (nome_categoria)
         REFERENCES tb_categoria(nome_categoria)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE TABLE IF NOT EXISTS tb_resposta (
     id_resposta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -71,19 +61,11 @@ CREATE TABLE IF NOT EXISTS tb_resposta (
     descricao_resposta TEXT NOT NULL,
     criada_em DATETIME NOT NULL,
 
-    FOREIGN KEY (id_usuario)
+    CONSTRAINT fk_resposta_usuario FOREIGN KEY (id_usuario)
         REFERENCES tb_usuario(id_usuario),
-
-    FOREIGN KEY (id_denuncia)
+    CONSTRAINT fk_resposta_denuncia FOREIGN KEY (id_denuncia)
         REFERENCES tb_denuncia(id_denuncia)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-ALTER TABLE tb_usuario
-    ADD COLUMN area_atuacao_usuario VARCHAR(30) DEFAULT NULL AFTER cargo_usuario,
-    ADD CONSTRAINT fk_usuario_area_atuacao
-        FOREIGN KEY (area_atuacao_usuario) REFERENCES tb_categoria(nome_categoria);
-
 
 CREATE TABLE IF NOT EXISTS tb_conversa (
     id_conversa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -94,17 +76,13 @@ CREATE TABLE IF NOT EXISTS tb_conversa (
     criada_em DATETIME NOT NULL,
     encerrada_em DATETIME DEFAULT NULL,
 
-    FOREIGN KEY (id_denuncia)
+    CONSTRAINT fk_conversa_denuncia FOREIGN KEY (id_denuncia)
         REFERENCES tb_denuncia(id_denuncia),
-
-    FOREIGN KEY (id_representante)
+    CONSTRAINT fk_conversa_representante FOREIGN KEY (id_representante)
         REFERENCES tb_usuario(id_usuario),
-
-    FOREIGN KEY (id_denunciante)
+    CONSTRAINT fk_conversa_denunciante FOREIGN KEY (id_denunciante)
         REFERENCES tb_usuario(id_usuario)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 CREATE TABLE IF NOT EXISTS tb_mensagem (
     id_mensagem INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -116,21 +94,12 @@ CREATE TABLE IF NOT EXISTS tb_mensagem (
 
     INDEX idx_mensagem_conversa (id_conversa, id_mensagem),
 
-    FOREIGN KEY (id_conversa)
+    CONSTRAINT fk_mensagem_conversa FOREIGN KEY (id_conversa)
         REFERENCES tb_conversa(id_conversa),
-
-    FOREIGN KEY (id_autor)
+    CONSTRAINT fk_mensagem_autor FOREIGN KEY (id_autor)
         REFERENCES tb_usuario(id_usuario)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabelas acrescentadas para notificações e painel do representante
--- EXECUTE UMA VEZ na aba SQL do phpMyAdmin, com o banco relate_sbc selecionado.
--- Não apaga usuários, denúncias, comentários ou mensagens existentes.
-
-
--- Aprovação administrativa MANUAL: criar conta "representante" no cadastro não concede permissão de gestão.
--- O cadastro só vira autorizado quando seu id existir nesta tabela.
 CREATE TABLE IF NOT EXISTS tb_representante_aprovado (
     id_usuario INT NOT NULL PRIMARY KEY,
     aprovado_em DATETIME NOT NULL,
@@ -150,11 +119,6 @@ CREATE TABLE IF NOT EXISTS tb_admin_auditoria (
     CONSTRAINT fk_admin_auditoria_representante FOREIGN KEY (id_representante)
         REFERENCES tb_usuario (id_usuario) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- EXEMPLO DE APROVAÇÃO PELO RESPONSÁVEL PELO BANCO (preencha o e-mail real e execute separadamente):
--- INSERT IGNORE INTO tb_representante_aprovado (id_usuario, aprovado_em)
--- SELECT id_usuario, NOW() FROM tb_usuario
--- WHERE email_usuario = 'representante-de-teste@example.com' AND perfil_usuario = 'representante';
 
 CREATE TABLE IF NOT EXISTS tb_notificacao (
     id_notificacao INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -188,10 +152,19 @@ CREATE TABLE IF NOT EXISTS tb_historico_status (
         REFERENCES tb_usuario (id_usuario) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT IGNORE INTO tb_categoria(nome_categoria) VALUES ('Infraestrutura'), ('Iluminação Publica'), ('Saneamento');
-
--- Para bancos criados antes da inclusão da área de atuação ou sem categorias,
--- execute uma vez doc/migracao-cadastro-area.sql.
--- Para bancos legados sem chat/notificações, execute doc/migracao-chat-notificacoes.sql
--- e depois doc/migracao-admin.sql. A migração de perfil é doc/migracao-perfil-denuncias.sql.
+-- Categorias de Zeladoria Urbana
+INSERT IGNORE INTO `tb_categoria` (`nome_categoria`) VALUES
+('Iluminação Pública'),
+('Buracos e Pavimentação'),
+('Coleta de Lixo e Entulho'),
+('Poda de Árvores e Mato'),
+('Limpeza de Bueiros e Bocas'),
+('Sinalização e Trânsito'),
+('Vazamento de Água e Esgoto'),
+('Calçadas e Acessibilidade'),
+('Manutenção de Praças'),
+('Infraestrutura'),
+('Saneamento'),
+('Outros Serviços Urbanos');

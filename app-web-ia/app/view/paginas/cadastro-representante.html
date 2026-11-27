@@ -85,19 +85,34 @@ $raiz = $GLOBALS['raiz-app'];
 
                 <!-- APRESENTAÇÃO -->
                 <section class="cadastro-brand col-12 col-lg-5 text-center text-lg-start">
-                    <h1 class="display-5 fw-bold">
-                        Ajude a melhorar nossa cidade.
-                    </h1>
+                    <div class="cadastro-brand-card" id="apresentacao-representante">
 
-                    <p class="lead text-secondary">
-                        Cadastre-se no RelateSBC para acompanhar suas denúncias e fazer a diferença na sua cidade.
-                    </p>
+                        <span class="cadastro-brand-selo" id="selo-representante">Área do representante</span>
 
-                    <div class="d-flex justify-content-center justify-content-lg-start mt-4">
-                        <svg class="cadastro-arvore" viewBox="0 0 64 80" fill="currentColor" aria-hidden="true">
-                            <path d="M32 2 L50 26 H41 L56 46 H44 L60 66 H4 L20 46 H8 L23 26 H14 Z"/>
-                            <rect x="28" y="66" width="8" height="12" rx="2"/>
-                        </svg>
+                        <h1 class="display-5 fw-bold" id="titulo-representante">
+                            Ajude a melhorar nossa cidade.
+                        </h1>
+
+                        <p class="lead" id="texto-representante">
+                            Cadastre-se como representante do seu órgão para receber as denúncias
+                            da sua cidade, responder os moradores e acompanhar cada solução.
+                        </p>
+
+                        <ul class="cadastro-brand-lista" id="lista-beneficios-representante">
+                            <li>Receba as denúncias das áreas que você atende</li>
+                            <li>Converse com quem denunciou e atualize o status</li>
+                            <li>Acompanhe prazos e histórico no seu painel</li>
+                        </ul>
+
+                        <div class="cadastro-brand-arvore" id="arvore-representante" aria-hidden="true">
+                            <svg class="cadastro-arvore-svg" viewBox="0 0 96 96" focusable="false">
+                                <ellipse cx="48" cy="89" rx="28" ry="5" fill="#0b1d0f" opacity="0.45"/>   <!-- sombra no chão -->
+                                <rect x="42" y="72" width="12" height="17" rx="3" fill="#b08a62"/>         <!-- tronco -->
+                                <path d="M48 6 L66 30 H57 L74 52 H61 L82 74 H14 L35 52 H22 L39 30 H30 Z" fill="#7bd97f"/> <!-- copa clara -->
+                                <path d="M48 6 L66 30 H57 L74 52 H61 L82 74 H48 Z" fill="#4fae52"/>        <!-- lado em sombra -->
+                            </svg>
+                        </div>
+
                     </div>
                 </section>
 
@@ -202,9 +217,9 @@ $raiz = $GLOBALS['raiz-app'];
 
                                     <!-- PREFEITURA -->
                                     <div class="col-12">
-                                        <label for="orgao" class="form-label">Prefeitura</label>
+                                        <label for="orgao" class="form-label">Órgão</label>
                                         <div class="campo">
-                                            <input type="text" class="form-control" name="orgao" id="orgao" placeholder="Informe o nome da Prefeitura que voce trabalha" required>
+                                            <input type="text" class="form-control" name="orgao" id="orgao" placeholder="Informe o nome da empresa/órgão que voce trabalha" required>
                                             <svg class="campo-icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>
                                         </div>
                                     </div>
@@ -219,12 +234,20 @@ $raiz = $GLOBALS['raiz-app'];
                                     </div>
 
                                     <!-- ÁREA DE ATUAÇÃO (categoria de denúncia que o representante atende) -->
-                                    <div class="col-12">
-                                        <label for="area" class="form-label">Área de atuação</label>
-                                        <select id="area" name="area" class="form-select" required>
-                                            <option value="" selected disabled>Carregando áreas...</option>
-                                        </select>
-                                        <div class="form-text">Você só verá as denúncias dessa categoria.</div>
+                                                                        <!-- ALTERADO: área de atuação com seleção múltipla (chips no lugar do <select>) -->
+                                    <div class="col-12" id="bloco-area">
+                                        <span class="form-label d-block" id="rotulo-area">Áreas de atuação</span>
+
+                                        <div id="area-chips" class="area-chips" role="group" aria-labelledby="rotulo-area">
+                                            <span class="area-chips-aviso">Carregando áreas...</span>
+                                        </div>
+
+                                        <!-- valor enviado ao PHP: nomes marcados, separados por vírgula (preenchido pelo JS) -->
+                                        <input type="hidden" id="area" name="area" value="">
+
+                                        <div class="form-text" id="ajuda-area">
+                                            Toque para escolher uma ou mais áreas. Você só verá as denúncias delas.
+                                        </div>
                                     </div>
 
                                     <!-- SENHA -->

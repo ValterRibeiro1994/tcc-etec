@@ -28,7 +28,7 @@ class NotificacoesRepositorio {
              WHERE u.perfil_usuario = 'representante'
                AND u.cidade_usuario = d.cidade_denuncia
                AND u.estado_usuario = d.estado_denuncia
-               AND (u.area_atuacao_usuario IS NULL OR u.area_atuacao_usuario = '' OR u.area_atuacao_usuario = d.nome_categoria)
+               AND (u.area_atuacao_usuario IS NULL OR u.area_atuacao_usuario = '' OR FIND_IN_SET(d.nome_categoria, u.area_atuacao_usuario) > 0)
                AND u.id_usuario <> :autor"
         );
         $sql->execute([':denuncia' => $denuncia, ':autor' => $autorEvento]);
@@ -52,7 +52,7 @@ class NotificacoesRepositorio {
              JOIN tb_denuncia d ON d.id_denuncia = :denuncia
              WHERE u.perfil_usuario = 'representante'
                AND u.cidade_usuario = d.cidade_denuncia AND u.estado_usuario = d.estado_denuncia
-               AND (u.area_atuacao_usuario IS NULL OR u.area_atuacao_usuario = '' OR u.area_atuacao_usuario = d.nome_categoria)
+               AND (u.area_atuacao_usuario IS NULL OR u.area_atuacao_usuario = '' OR FIND_IN_SET(d.nome_categoria, u.area_atuacao_usuario) > 0)
                AND u.id_usuario <> :evento AND u.id_usuario <> :dono"
         );
         $sql->execute([':denuncia' => $denuncia, ':evento' => $autorEvento, ':dono' => $autorDenuncia]);

@@ -46,7 +46,7 @@
         const json = await buscarJson('painel/resumo', lerToken());
         if (!json.resposta) throw new Error(json.mensagem);
         const dados = json.dados;
-        elementos.escopo.textContent = dados.cidade + ' · ' + dados.area;
+        elementos.escopo.textContent = dados.cidade + ' · ' + String(dados.area).split(',').join(', ');
         valor('total', dados.contagens.total); valor('pendente', dados.contagens.pendente);
         valor('analise', dados.contagens['em analise']); valor('andamento', dados.contagens['em andamento']);
         valor('concluida', dados.contagens.concluida);

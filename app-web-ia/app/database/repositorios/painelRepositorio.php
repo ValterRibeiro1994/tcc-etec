@@ -31,7 +31,7 @@ class PainelRepositorio {
         $where = 'd.cidade_denuncia = :cidade AND d.estado_denuncia = :uf';
         $args = [':cidade' => $representante['cidade_usuario'], ':uf' => $representante['estado_usuario']];
         if (!empty($representante['area_atuacao_usuario'])) {
-            $where .= ' AND d.nome_categoria = :area';
+            $where .= ' AND FIND_IN_SET(d.nome_categoria, :area) > 0';
             $args[':area'] = $representante['area_atuacao_usuario'];
         }
         return [$where, $args];

@@ -67,6 +67,15 @@ const cidadesIBGE = configurarCidadesIBGE(
 form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
+    if (!campoArea.value) {
+        const avisoArea = document.getElementById("respostaProcesso");
+        avisoArea.textContent = "Escolha pelo menos uma área de atuação.";
+        avisoArea.classList.remove("alert-success");
+        avisoArea.classList.add("alert", "alert-warning");
+        areaChips.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+    }
+
     if (!cidadesIBGE.validar()) {
     let aviso = document.getElementById("respostaProcesso");
     aviso.textContent = "Escolha uma cidade da lista sugerida.";
@@ -122,8 +131,42 @@ if (resultado.resposta){
 })
 
 // Área de atuação: usa as categorias de denúncia cadastradas no banco
-const selectArea = document.getElementById("area");
+const areaChips = document.getElementById("area-chips");
+const campoArea = document.getElementById("area"); // input hidden que vai para o PHP
 
+// guarda no input hidden os nomes marcados, separados por vírgula
+function atualizarAreasSelecionadas() {
+    const marcadas = [...areaChips.querySelectorAll('.area-chip[aria-pressed="true"]')]
+        .map(chip => chip.dataset.valor);
+    campoArea.value = marcadas.join(",");
+}
+
+function criarChip(nome) {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "area-chip";
+    chip.dataset.valor = nome;
+    chip.setAttribute("aria-pressed", "false");
+
+    const marca = document.createElement("span");   // "+" desligado, "✓" ligado (via CSS)
+    marca.className = "area-chip-marca";
+    marca.setAttribute("aria-hidden", "true");
+
+    const texto = document.createElement("span");
+    texto.textContent = nome;
+
+    chip.append(marca, texto);
+
+    chip.addEventListener("click", function () {
+        const ligado = chip.getAttribute("aria-pressed") === "true";
+        chip.setAttribute("aria-pressed", ligado ? "false" : "true");
+        atualizarAreasSelecionadas();
+    });
+
+    return chip;
+}
+
+// usa as categorias de denúncia cadastradas no banco
 async function carregarAreas() {
     try {
         const resposta = await fetch("../categoria/categorias", {
@@ -135,19 +178,14 @@ async function carregarAreas() {
         const categorias = Array.isArray(json.dados) ? json.dados : [];
 
         if (!json.resposta || categorias.length === 0) {
-            selectArea.replaceChildren(new Option('Nenhuma área disponível', '', true, true));
+            areaChips.textContent = "Nenhuma área disponível.";
             return;
         }
 
-        const padrao = new Option("Escolha a área que você atende", "", true, true);
-        padrao.disabled = true;
-        selectArea.replaceChildren(padrao);
-        categorias.forEach(function (categoria) {
-            selectArea.add(new Option(categoria.nome_categoria, categoria.nome_categoria));
-        });
+        areaChips.replaceChildren(...categorias.map(c => criarChip(c.nome_categoria)));
     } catch (erro) {
         console.error('Falha ao carregar categorias do cadastro:', erro.name, erro.message);
-        selectArea.replaceChildren(new Option('Erro ao carregar áreas', '', true, true));
+        areaChips.textContent = "Erro ao carregar áreas. Recarregue a página.";
     }
 }
 

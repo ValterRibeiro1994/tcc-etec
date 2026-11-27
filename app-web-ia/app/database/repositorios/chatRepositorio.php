@@ -102,7 +102,7 @@ class ChatRepositorio {
                 ':estado' => $rep['estado_usuario']
             ];
             if (!empty($rep['area_atuacao_usuario'])) {
-                $where .= ' AND nome_categoria = :area';
+                $where .= ' AND FIND_IN_SET(nome_categoria, :area) > 0';
                 $params[':area'] = $rep['area_atuacao_usuario'];
             }
 

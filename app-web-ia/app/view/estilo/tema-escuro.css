@@ -436,3 +436,8 @@ html[data-tema="escuro"] .chat-aviso-encerrada { background-color: #1e293b; bord
 html[data-tema="escuro"] .chat-vazio { color: #94a3b8; }
 html[data-tema="escuro"] .chat-vazio strong { color: #f1f5f9; }
  
+/* ----- Cadastro do representante: áreas de atuação (chips) ----- */
+html[data-tema="escuro"] .area-chips-aviso { color: #94a3b8; }
+html[data-tema="escuro"] .cadastro-card .area-chip { background-color: #0f172a; border-color: #334155; color: #e2e8f0; }
+html[data-tema="escuro"] .cadastro-card .area-chip:hover { border-color: #4ade80; }
+html[data-tema="escuro"] .cadastro-card .area-chip[aria-pressed="true"] { background-color: #4ade80; border-color: #4ade80; color: #052e16; }

@@ -747,7 +747,7 @@ class DenunciasRepositorio {
             // se o representante escolheu uma área no cadastro, só enxerga essa categoria
             $area = $representante['area_atuacao_usuario'] ?? null;
             if ($area !== null && $area !== '') {
-                $escopo .= ' AND d.nome_categoria = :area';
+                $escopo .= ' AND FIND_IN_SET(d.nome_categoria, :area) > 0';
                 $paramsEscopo[':area'] = $area;
             }
 

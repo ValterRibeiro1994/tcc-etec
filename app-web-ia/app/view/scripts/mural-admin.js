@@ -82,7 +82,7 @@
         situacao.textContent = d.aprovado_em ? 'Aprovado' : 'Pendente';
         topo.append(nome, situacao);
         const local = document.createElement('p');
-        local.textContent = `${d.email} · ${d.cidade}/${d.estado} · ${d.area || 'Todas as categorias'}`;
+        local.textContent = `${d.email} · ${d.cidade}/${d.estado} · ${(d.area || 'Todas as categorias').split(',').join(', ')}`;
         const detalhes = document.createElement('p');
         detalhes.textContent = `${d.orgao || 'Órgão não informado'} · ${d.cargo || 'Cargo não informado'}`;
         const botao = document.createElement('button');
